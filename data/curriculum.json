@@ -1,0 +1,158 @@
+{
+  "version": "2.0-blueprint-1",
+  "description": "Broad cross-specialty starter blueprint. Validate and extend against the learner's national syllabus, college curriculum, and local exam blueprint before claiming complete coverage.",
+  "specialties": [
+    {"id":"internal-medicine","title":"Internal Medicine","domains":[
+      {"id":"cardiology","title":"Cardiology","topics":[
+        {"id":"acs","title":"Acute coronary syndromes","exam_weight":"high","tags":["emergency","ECG"],"objectives":[{"id":"acs-1","text":"Recognize STEMI, NSTEMI, and unstable angina patterns.","level":"apply"},{"id":"acs-2","text":"Outline immediate assessment, risk stratification, and time-critical management.","level":"apply"}]},
+        {"id":"heart-failure","title":"Heart failure","exam_weight":"high","objectives":[{"id":"hf-1","text":"Classify heart failure and interpret key investigations.","level":"understand"},{"id":"hf-2","text":"Construct an evidence-based chronic and acute management plan.","level":"apply"}]},
+        {"id":"arrhythmias","title":"Arrhythmias and conduction disorders","exam_weight":"high","objectives":[{"id":"arr-1","text":"Interpret common tachyarrhythmias and bradyarrhythmias on ECG.","level":"apply"}]}
+      ]},
+      {"id":"respiratory","title":"Respiratory Medicine","topics":[
+        {"id":"asthma","title":"Asthma","exam_weight":"high","objectives":[{"id":"asth-1","text":"Assess severity and manage acute exacerbations.","level":"apply"},{"id":"asth-2","text":"Develop an appropriate long-term control and monitoring plan.","level":"apply"}]},
+        {"id":"copd","title":"COPD","exam_weight":"high","objectives":[{"id":"copd-1","text":"Diagnose and stage COPD using clinical assessment and spirometry.","level":"apply"}]},
+        {"id":"pneumonia","title":"Community- and hospital-acquired pneumonia","exam_weight":"high","objectives":[{"id":"pna-1","text":"Assess severity, select investigations, and choose empiric treatment using local guidance.","level":"apply"}]}
+      ]},
+      {"id":"endocrinology","title":"Endocrinology and Metabolism","topics":[
+        {"id":"diabetes","title":"Diabetes mellitus and complications","exam_weight":"high","objectives":[{"id":"dm-1","text":"Diagnose diabetes and distinguish acute metabolic emergencies.","level":"apply"},{"id":"dm-2","text":"Screen for and manage microvascular and macrovascular complications.","level":"apply"}]},
+        {"id":"thyroid","title":"Thyroid disorders","exam_weight":"medium","objectives":[{"id":"thy-1","text":"Evaluate thyroid function tests and manage common thyroid presentations.","level":"apply"}]}
+      ]},
+      {"id":"gastroenterology","title":"Gastroenterology and Hepatology","topics":[
+        {"id":"gi-bleed","title":"Upper and lower gastrointestinal bleeding","exam_weight":"high","objectives":[{"id":"gib-1","text":"Stabilize, risk-stratify, investigate, and manage GI bleeding.","level":"apply"}]},
+        {"id":"cirrhosis","title":"Cirrhosis and portal hypertension","exam_weight":"high","objectives":[{"id":"cir-1","text":"Recognize decompensation and manage common complications.","level":"apply"}]}
+      ]},
+      {"id":"renal","title":"Nephrology","topics":[
+        {"id":"aki","title":"Acute kidney injury","exam_weight":"high","objectives":[{"id":"aki-1","text":"Classify AKI, identify reversible causes, and initiate safe management.","level":"apply"}]},
+        {"id":"ckd","title":"Chronic kidney disease","exam_weight":"medium","objectives":[{"id":"ckd-1","text":"Stage CKD and plan monitoring, risk reduction, and referral.","level":"apply"}]}
+      ]},
+      {"id":"infectious","title":"Infectious Diseases","topics":[
+        {"id":"sepsis","title":"Sepsis and septic shock","exam_weight":"high","objectives":[{"id":"sep-1","text":"Recognize sepsis, initiate time-critical resuscitation, and reassess response.","level":"perform"}]},
+        {"id":"antimicrobials","title":"Antimicrobial stewardship","exam_weight":"medium","objectives":[{"id":"abx-1","text":"Choose empiric antimicrobials and de-escalate using cultures and local resistance data.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"general-surgery","title":"General Surgery","domains":[
+      {"id":"acute-care","title":"Acute Care and Emergency Surgery","topics":[
+        {"id":"acute-abdomen","title":"Acute abdomen","exam_weight":"high","objectives":[{"id":"abd-1","text":"Assess an acute abdomen and identify indications for urgent surgery.","level":"apply"}]},
+        {"id":"bowel-obstruction","title":"Intestinal obstruction","exam_weight":"high","objectives":[{"id":"ob-1","text":"Differentiate obstruction causes and plan resuscitation, imaging, and intervention.","level":"apply"}]},
+        {"id":"trauma","title":"Trauma and ATLS approach","exam_weight":"high","objectives":[{"id":"tra-1","text":"Perform a structured primary and secondary survey.","level":"perform"}]}
+      ]},
+      {"id":"hernia","title":"Hernia Surgery","topics":[
+        {"id":"groin-hernia","title":"Inguinal and femoral hernias","exam_weight":"high","objectives":[{"id":"her-1","text":"Differentiate groin hernias clinically and identify strangulation.","level":"apply"}]}
+      ]},
+      {"id":"breast","title":"Breast Surgery","topics":[
+        {"id":"breast-lump","title":"Breast lump assessment and triple assessment","exam_weight":"high","objectives":[{"id":"br-1","text":"Perform clinical assessment and explain imaging and tissue diagnosis.","level":"perform"}]}
+      ]}
+    ]},
+    {"id":"urology","title":"Urology","domains":[
+      {"id":"obstruction","title":"Urinary Tract Obstruction","topics":[
+        {"id":"pujo","title":"Pelviureteric junction obstruction","exam_weight":"high","tags":["pediatric-urology"],"objectives":[{"id":"pujo-1","text":"Recognize antenatal and symptomatic presentations and interpret ultrasound findings.","level":"apply"},{"id":"pujo-2","text":"Select functional imaging and explain indications for intervention.","level":"apply"}]},
+        {"id":"puv","title":"Posterior urethral valves","exam_weight":"high","tags":["pediatric-urology"],"objectives":[{"id":"puv-1","text":"Recognize the infant boy with bladder outlet obstruction and assess renal risk.","level":"apply"}]},
+        {"id":"retention","title":"Acute urinary retention","exam_weight":"high","objectives":[{"id":"ret-1","text":"Perform safe initial assessment, bladder decompression, and identify causes and complications.","level":"perform"}]}
+      ]},
+      {"id":"uro-oncology","title":"Uro-oncology","topics":[
+        {"id":"rcc","title":"Renal cell carcinoma","exam_weight":"high","objectives":[{"id":"rcc-1","text":"Evaluate hematuria and renal masses and describe staging investigations.","level":"apply"}]},
+        {"id":"bladder-cancer","title":"Bladder cancer and hematuria","exam_weight":"high","objectives":[{"id":"bc-1","text":"Risk-stratify hematuria and outline cystoscopy and upper-tract evaluation.","level":"apply"}]},
+        {"id":"prostate-cancer","title":"Prostate cancer","exam_weight":"high","objectives":[{"id":"pc-1","text":"Interpret PSA in context and outline diagnostic and staging pathways.","level":"apply"}]}
+      ]},
+      {"id":"stones","title":"Stone Disease","topics":[
+        {"id":"renal-colic","title":"Renal and ureteric calculi","exam_weight":"high","objectives":[{"id":"stone-1","text":"Assess renal colic, detect infected obstruction, and choose imaging and treatment.","level":"apply"}]}
+      ]},
+      {"id":"functional","title":"Functional and Reconstructive Urology","topics":[
+        {"id":"v ur","title":"Vesicoureteral reflux","exam_weight":"medium","objectives":[{"id":"vur-1","text":"Grade reflux and discuss infection prevention, follow-up, and intervention.","level":"understand"}]},
+        {"id":"incontinence","title":"Urinary incontinence","exam_weight":"medium","objectives":[{"id":"inc-1","text":"Classify incontinence and plan initial evaluation and treatment.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"obgyn","title":"Obstetrics and Gynaecology","domains":[
+      {"id":"obstetrics","title":"Obstetrics","topics":[
+        {"id":"preeclampsia","title":"Hypertensive disorders of pregnancy","exam_weight":"high","objectives":[{"id":"pre-1","text":"Recognize pre-eclampsia severity and plan maternal-fetal assessment and management.","level":"apply"}]},
+        {"id":"postpartum-hemorrhage","title":"Postpartum hemorrhage","exam_weight":"high","objectives":[{"id":"pph-1","text":"Perform systematic PPH response and identify the four Ts.","level":"perform"}]}
+      ]},
+      {"id":"gynaecology","title":"Gynaecology","topics":[
+        {"id":"abnormal-bleeding","title":"Abnormal uterine bleeding","exam_weight":"medium","objectives":[{"id":"aub-1","text":"Assess abnormal bleeding and select investigations based on age and risk.","level":"apply"}]},
+        {"id":"gynae-oncology","title":"Gynaecological malignancy","exam_weight":"high","objectives":[{"id":"gyn-1","text":"Recognize red flags and outline referral and diagnostic pathways.","level":"understand"}]}
+      ]}
+    ]},
+    {"id":"paediatrics","title":"Paediatrics","domains":[
+      {"id":"neonatology","title":"Neonatology","topics":[
+        {"id":"neonatal-resuscitation","title":"Neonatal resuscitation","exam_weight":"high","objectives":[{"id":"nr-1","text":"Describe initial newborn assessment and resuscitation sequence.","level":"perform"}]},
+        {"id":"neonatal-jaundice","title":"Neonatal jaundice","exam_weight":"high","objectives":[{"id":"nj-1","text":"Differentiate physiologic and pathologic jaundice and use age-specific thresholds.","level":"apply"}]}
+      ]},
+      {"id":"acute-paediatrics","title":"Acute Paediatrics","topics":[
+        {"id":"dehydration","title":"Dehydration and fluid therapy","exam_weight":"high","objectives":[{"id":"deh-1","text":"Assess dehydration and prescribe safe age-appropriate fluid replacement.","level":"apply"}]},
+        {"id":"febrile-child","title":"Fever and the unwell child","exam_weight":"high","objectives":[{"id":"fev-1","text":"Identify red flags and assess risk of serious bacterial infection.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"orthopaedics","title":"Orthopaedics","domains":[
+      {"id":"trauma-ortho","title":"Orthopaedic Trauma","topics":[
+        {"id":"fractures","title":"Fracture assessment and healing","exam_weight":"high","objectives":[{"id":"fx-1","text":"Assess fractures including neurovascular status and compartment syndrome risk.","level":"perform"}]},
+        {"id":"dislocations","title":"Joint dislocations","exam_weight":"medium","objectives":[{"id":"dis-1","text":"Recognize and initially manage common joint dislocations.","level":"apply"}]}
+      ]},
+      {"id":"musculoskeletal","title":"Musculoskeletal Disease","topics":[
+        {"id":"osteoarthritis","title":"Osteoarthritis","exam_weight":"medium","objectives":[{"id":"oa-1","text":"Diagnose and stage osteoarthritis and discuss conservative and operative options.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"neurology-neurosurgery","title":"Neurology and Neurosurgery","domains":[
+      {"id":"stroke","title":"Stroke and Cerebrovascular Disease","topics":[
+        {"id":"ischemic-stroke","title":"Acute ischemic stroke","exam_weight":"high","objectives":[{"id":"stroke-1","text":"Recognize stroke, establish last-known-well, and outline emergency imaging and reperfusion assessment.","level":"apply"}]},
+        {"id":"sah","title":"Subarachnoid hemorrhage","exam_weight":"high","objectives":[{"id":"sah-1","text":"Recognize SAH and describe diagnostic and early management priorities.","level":"apply"}]}
+      ]},
+      {"id":"neuro-emergency","title":"Neurosurgical Emergencies","topics":[
+        {"id":"raised-icp","title":"Raised intracranial pressure","exam_weight":"high","objectives":[{"id":"icp-1","text":"Recognize clinical deterioration and outline immediate stabilization and escalation.","level":"perform"}]},
+        {"id":"spinal-abscess","title":"Spinal epidural abscess","exam_weight":"medium","objectives":[{"id":"sea-1","text":"Recognize red flags and urgent imaging and treatment requirements.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"vascular-surgery","title":"Vascular Surgery","domains":[
+      {"id":"arterial","title":"Arterial Disease","topics":[
+        {"id":"pad","title":"Peripheral arterial disease and acute limb ischemia","exam_weight":"high","objectives":[{"id":"pad-1","text":"Assess limb perfusion, interpret ABI, and recognize acute limb threat.","level":"apply"}]},
+        {"id":"aaa","title":"Aortic aneurysm","exam_weight":"high","objectives":[{"id":"aaa-1","text":"Recognize ruptured AAA and outline emergency management.","level":"apply"}]}
+      ]},
+      {"id":"venous","title":"Venous Disease","topics":[
+        {"id":"dvt","title":"Deep vein thrombosis","exam_weight":"high","objectives":[{"id":"dvt-1","text":"Assess VTE probability and select diagnostic and anticoagulation pathways.","level":"apply"}]},
+        {"id":"chronic-venous","title":"Chronic venous insufficiency","exam_weight":"medium","objectives":[{"id":"cvi-1","text":"Classify chronic venous disease and outline compression and intervention options.","level":"apply"}]}
+      ]}
+    ]},
+    {"id":"anaesthesia-critical-care","title":"Anaesthesia and Critical Care","domains":[
+      {"id":"airway","title":"Airway and Perioperative Care","topics":[
+        {"id":"airway-management","title":"Airway assessment and management","exam_weight":"high","objectives":[{"id":"air-1","text":"Assess airway risk and describe a structured airway management plan.","level":"perform"}]},
+        {"id":"perioperative-risk","title":"Preoperative assessment and optimization","exam_weight":"medium","objectives":[{"id":"peri-1","text":"Assess perioperative risk and optimize comorbidities and medications.","level":"apply"}]}
+      ]},
+      {"id":"critical-care","title":"Critical Care","topics":[
+        {"id":"shock","title":"Shock and hemodynamic support","exam_weight":"high","objectives":[{"id":"shock-1","text":"Differentiate shock states and guide initial resuscitation and reassessment.","level":"apply"}]},
+        {"id":"ventilation","title":"Mechanical ventilation","exam_weight":"medium","objectives":[{"id":"vent-1","text":"Interpret basic ventilator parameters and recognize common complications.","level":"understand"}]}
+      ]}
+    ]},
+    {"id":"ophthalmology","title":"Ophthalmology","domains":[
+      {"id":"anterior-segment","title":"Anterior Segment","topics":[
+        {"id":"red-eye","title":"Red eye and acute visual loss","exam_weight":"high","objectives":[{"id":"red-1","text":"Differentiate sight-threatening red eye and arrange urgent referral.","level":"apply"}]},
+        {"id":"glaucoma","title":"Glaucoma","exam_weight":"high","objectives":[{"id":"gl-1","text":"Recognize acute angle closure and outline glaucoma assessment.","level":"apply"}]}
+      ]},
+      {"id":"posterior-segment","title":"Posterior Segment","topics":[
+        {"id":"diabetic-retinopathy","title":"Diabetic retinopathy","exam_weight":"medium","objectives":[{"id":"dr-1","text":"Classify diabetic retinopathy and explain screening and referral.","level":"understand"}]}
+      ]}
+    ]},
+    {"id":"ent","title":"Otolaryngology (ENT)","domains":[
+      {"id":"otology","title":"Otology","topics":[
+        {"id":"hearing-loss","title":"Hearing loss and audiology","exam_weight":"medium","objectives":[{"id":"hear-1","text":"Differentiate conductive and sensorineural hearing loss using bedside tests and audiometry.","level":"apply"}]}
+      ]},
+      {"id":"head-neck","title":"Head and Neck","topics":[
+        {"id":"epistaxis","title":"Epistaxis","exam_weight":"high","objectives":[{"id":"epi-1","text":"Stabilize and manage epistaxis using a stepwise approach.","level":"perform"}]},
+        {"id":"airway-ent","title":"Upper airway obstruction","exam_weight":"high","objectives":[{"id":"ua-1","text":"Recognize threatened airway and coordinate urgent airway support.","level":"perform"}]}
+      ]}
+    ]},
+    {"id":"dermatology","title":"Dermatology","domains":[
+      {"id":"inflammatory-skin","title":"Inflammatory Skin Disease","topics":[
+        {"id":"eczema","title":"Eczema and dermatitis","exam_weight":"medium","objectives":[{"id":"ecz-1","text":"Recognize common eczema patterns and select stepwise treatment.","level":"apply"}]},
+        {"id":"psoriasis","title":"Psoriasis","exam_weight":"medium","objectives":[{"id":"ps-1","text":"Assess psoriasis severity and recognize systemic associations.","level":"understand"}]}
+      ]}
+    ]},
+    {"id":"psychiatry","title":"Psychiatry","domains":[
+      {"id":"mood","title":"Mood Disorders","topics":[
+        {"id":"depression","title":"Depressive disorders and suicide risk","exam_weight":"high","objectives":[{"id":"dep-1","text":"Assess depressive symptoms, functional impact, and immediate safety risk.","level":"apply"}]},
+        {"id":"bipolar","title":"Bipolar disorder","exam_weight":"medium","objectives":[{"id":"bi-1","text":"Recognize mania and hypomania and outline safe assessment and referral.","level":"apply"}]}
+      ]},
+      {"id":"acute-psychiatry","title":"Psychiatric Emergencies","topics":[
+        {"id":"agitation","title":"Agitation and acute behavioral disturbance","exam_weight":"high","objectives":[{"id":"ag-1","text":"Assess medical causes and manage immediate safety with de-escalation principles.","level":"perform"}]}
+      ]}
+    ]}
+  ]
+}
