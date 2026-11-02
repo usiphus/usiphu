@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Query
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
+from usiphu.validation import validate_content
 
 app = FastAPI(title="Usiphu 2.0 API", version="2.0.0",
               description="Medical learning curriculum, practice, and resource discovery API.")
@@ -49,3 +50,9 @@ def resources(topic: str = Query(min_length=2), specialty: str | None = None) ->
     if len(topic) > 160 or (specialty and len(specialty) > 100):
         raise HTTPException(status_code=422, detail="Search terms are too long")
     return discover_resources(topic, specialty)
+
+
+@app.get("/content/validation")
+def content_validation() -> dict:
+    """Return editorial coverage counts and fail fast on broken content references."""
+    return validate_content()
