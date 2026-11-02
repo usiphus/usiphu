@@ -20,6 +20,9 @@ class Topic(BaseModel):
     exam_weight: Literal["low", "medium", "high", "unknown"] = "unknown"
     coverage_status: CoverageStatus = "mapped"
     source_refs: list[str] = Field(default_factory=list)
+    reviewed_by: str | None = None
+    reviewed_at: str | None = None
+    syllabus_refs: list[str] = Field(default_factory=list)
 
 
 class Domain(BaseModel):
@@ -37,6 +40,9 @@ class Specialty(BaseModel):
 class Curriculum(BaseModel):
     version: str
     description: str
+    target_syllabus: str | None = None
+    jurisdiction: str | None = None
+    syllabus_version: str | None = None
     specialties: list[Specialty]
 
 
