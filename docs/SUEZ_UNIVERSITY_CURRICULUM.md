@@ -54,10 +54,11 @@ The machine-readable file assigns the existing 62 Usiphu topics to the explicit 
 - Urology topics → Urinary System (US 1.2.9) and Surgery I (SI 2.4.2); the bylaw explicitly lists urology within Surgery I.
 - General surgery topics → Surgery I (SI 2.4.2).
 - Paediatrics → PHC/ped 2.3.1.
-- Obstetrics and gynaecology → PHC/Obs 2.3.2.
-- Internal medicine topics → Medicine I (MI 2.4.1), with the bylaw's named medicine domains.
-- Neurology, dermatology and psychiatry → Medicine II (MII 2.5.1).
-- ENT, ophthalmology and orthopaedics → Surgery II (SII 2.5.2).
+- Obstetrics and gynaecology → Reproductive system (RS 1.2.11) and PHC/Obs 2.3.2.
+- Internal medicine topics → the matching early system module where applicable (cardiovascular CS1.1.4; respiratory RS 1.1.3; gastrointestinal GS 1.2.6; endocrine EM 1.2.10; urinary US 1.2.9) plus Medicine I (MI 2.4.1).
+- Neurology topics → CNS (NS 1.2.7) and Medicine II (MII 2.5.1); neurosurgical topics also link to Surgery I (SI 2.4.2).
+- Dermatology and psychiatry → Medicine II (MII 2.5.1).
+- ENT, ophthalmology and orthopaedics → Special Senses (SS 1.2.8) or Musculoskeletal System (MS 1.1.2), respectively, plus Surgery II (SII 2.5.2).
 - Vascular surgery is treated as a related department alignment under Surgery I/general surgery, not as a separately coded block.
 - Anaesthesia/critical-care topics are **not** assigned an invented standalone module: the department appears in the faculty department list, but the course table does not give it a separate code.
 
