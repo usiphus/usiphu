@@ -2,7 +2,7 @@
 
 A medical learning workspace for specialty-wide curriculum mapping, resource discovery, question practice, OSCE/viva cases, spaced repetition, and learner progress.
 
-> **Curriculum status:** the starter blueprint is being cross-referenced to Suez University Faculty of Human Medicine (جامعة السويس), not Suez Canal University. The institutional crosswalk is provisional because the detailed bylaw PDF currently redirects to a Microsoft sign-in page. It is not an official or complete syllabus mapping. Starter questions and cases remain editorial drafts.
+> **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. The repository now contains a bylaw-based module-level crosswalk; individual course outcomes and internship rotations remain unverified. It is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ streamlit run app/Home.py
 
 ## Curriculum target
 
-See [Suez University crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md) and machine-readable [institutional profile](data/suez_university_curriculum.json). The university's official site describes a 5+2 programme, integrated/community-oriented learning, early clinical exposure, self-directed learning, clinical skills, and ethics. Course codes, year/semester allocation, and detailed official outcomes remain unverified pending access to the current bylaw and course specifications.
+See [Suez University crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md) and machine-readable [institutional profile](data/suez_university_curriculum.json). The uploaded bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. It does not specify internship duration or detailed module-level learning outcomes; obtain current course specifications and confirm the bylaw's applicability to the learner's cohort.
 
 ## Features
 
