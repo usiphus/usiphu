@@ -36,6 +36,8 @@ Docker Compose requires OIDC and persists SQLite in a named volume. SQLite is a 
 
 ## Project map
 
+Curriculum status and syllabus mapping: [docs/CURRICULUM_SCOPE.md](docs/CURRICULUM_SCOPE.md). Resource quality, source licensing, and challenge links: [docs/CONTENT_SOURCES.md](docs/CONTENT_SOURCES.md). Deployment and OIDC setup: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+
 `app/` UI · `usiphu/` domain logic/API/storage · `data/` versioned learning content · `tests/` automated checks · `docs/` product, source, and deployment governance.
 
 ## Source and safety policy
