@@ -74,6 +74,8 @@ def test_resource_discovery_has_general_and_specialty_sources():
     assert "acute+urinary+retention" in pubmed["url"] and "full text is not guaranteed" in pubmed["note"]
     assert any(item["id"] == "guideline-urology" for item in results)
     assert any(item["id"] == "acp-doctors-dilemma" for item in results)
+    doctorde = next(item for item in results if item["id"] == "doctorde")
+    assert "DoctorDE" in doctorde["url"]
     assert any(item["id"] == "doctors-challenge" and "play.google.com" in item["url"]
                for item in results)
     assert any(item["id"] == "geeky-medics" and "geekymedics.com" in item["url"]
