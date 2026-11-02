@@ -43,5 +43,11 @@ Do not convert a search result into an answer key without editorial review. Sear
 - ACP Doctor's Dilemma: https://ddm.acponline.org/help
 - Doctors Challenge app listing: https://play.google.com/store/apps/details?id=com.mahmoudhssn.doctorschallenge
 - Doximity clinical case challenge library: https://blog.doximity.com/articles/compete-learn-and-grow-with-our-clinical-case-challenge-library
+- Geeky Medics free question bank: https://geekymedics.com/free-medical-question-bank/
+- Geeky Medics free question platform: https://support.geekymedics.com/en/article/introduction-to-our-question-platform-pqhcm0/
+- TeachMeSurgery: https://teachmesurgery.com/
+- TeachMePaediatrics: https://teachmepaediatrics.com/
+- SURGhub: https://www.surghub.org/about
+- TeachMeAnatomy: https://teachmeanatomy.info/
 - Cureus copyright and licensing: https://health_policy.cureus.com/author_guide/policies-and-procedures/copyright-and-licensing
 - Streamlit authentication guide: https://docs.streamlit.io/develop/concepts/connections/authentication
