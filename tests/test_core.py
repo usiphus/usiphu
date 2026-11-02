@@ -110,10 +110,14 @@ def test_learner_data_isolation(tmp_path: Path):
     card = {"id": "shared-id", "specialty_id": "urology", "topic_id": "retention",
             "prompt": "Front", "answer": "Back", "source_url": None}
     save_flashcard(card, db, learner_id="learner-a")
-    with pytest.raises(ValueError, match="already owned"):
-        save_flashcard(card, db, learner_id="learner-b")
-    assert len(due_cards(db, learner_id="learner-a")) == 1
-    assert due_cards(db, learner_id="learner-b") == []
+    save_flashcard(card, db, learner_id="learner-b")
+    cards_a = due_cards(db, learner_id="learner-a")
+    cards_b = due_cards(db, learner_id="learner-b")
+    assert len(cards_a) == len(cards_b) == 1
+    assert cards_a[0]["id"] != cards_b[0]["id"]
+    with pytest.raises(KeyError, match="Unknown flashcard"):
+        state = ReviewState(card_id=cards_a[0]["id"], due_date=date.today().isoformat())
+        record_review(cards_a[0]["id"], 5, state, db, learner_id="learner-b")
     set_topic_progress("retention", "mastered", 5, db, learner_id="learner-a")
     set_topic_progress("retention", "learning", 2, db, learner_id="learner-b")
     assert topic_progress(db, learner_id="learner-a")[0]["status"] == "mastered"
