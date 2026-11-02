@@ -1,0 +1,48 @@
+[
+  {
+    "id": "case-uro-001",
+    "specialty_id": "urology",
+    "topic_id": "rcc",
+    "title": "Visible haematuria with clot retention",
+    "scenario": "A 64-year-old heavy smoker presents with visible haematuria and inability to void. He is taking an antiplatelet agent after coronary stenting. He is uncomfortable, with a palpable bladder. No trauma is reported.",
+    "tasks": [
+      "State the immediate priorities and how you would relieve clot retention safely.",
+      "List the key history, examination findings, and initial investigations.",
+      "Construct the differential diagnosis and explain why urothelial malignancy and renal malignancy require evaluation.",
+      "Explain how you would coordinate antiplatelet decisions with cardiology rather than stopping treatment reflexively."
+    ],
+    "discussion_points": [
+      "Assess haemodynamic stability, blood loss, pain, urine output, and renal function.",
+      "Urgent urological assessment; large-bore three-way catheter and irrigation may be needed when appropriate and safe, with escalation if drainage fails.",
+      "Visible haematuria warrants evaluation of both lower and upper urinary tracts; antiplatelet therapy does not remove the need to investigate the cause.",
+      "Recent coronary stenting makes interruption of antiplatelet therapy a high-risk multidisciplinary decision."
+    ],
+    "source_url": "https://www.nice.org.uk/guidance/ng12",
+    "source_title": "NICE guideline NG12: Suspected cancer recognition and referral",
+    "jurisdiction": "United Kingdom",
+    "review_status": "draft"
+  },
+  {
+    "id": "case-uro-002",
+    "specialty_id": "urology",
+    "topic_id": "puv",
+    "title": "Antenatal hydronephrosis in a newborn boy",
+    "scenario": "A male neonate is noted to have bilateral hydroureteronephrosis on antenatal and postnatal ultrasound. The bladder appears thick-walled and the urinary stream is poor.",
+    "tasks": [
+      "Give the most important diagnosis and two alternatives.",
+      "Describe immediate assessment of renal function, urine output, infection, and bladder drainage.",
+      "Explain the role of ultrasound and voiding cystourethrography in the work-up.",
+      "Outline the principles of definitive management and long-term renal follow-up."
+    ],
+    "discussion_points": [
+      "Posterior urethral valves are a key diagnosis in a boy with bilateral upper-tract dilatation and bladder outlet features.",
+      "Stabilize the infant and involve pediatric urology early; assess renal function and urinary infection.",
+      "Imaging choice and timing should follow specialist assessment and local pediatric pathways.",
+      "Long-term follow-up is important because renal and bladder dysfunction may persist after valve ablation."
+    ],
+    "source_url": "https://uroweb.org/guidelines/paediatric-urology",
+    "source_title": "EAU Guidelines on Paediatric Urology",
+    "jurisdiction": "European Association of Urology",
+    "review_status": "draft"
+  }
+]
