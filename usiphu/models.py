@@ -1,7 +1,11 @@
-"""Typed domain models."""
+"""Typed domain models with explicit curriculum and clinical review states."""
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
+
+
+ReviewStatus = Literal["draft", "clinically_reviewed", "exam_validated", "retired"]
+CoverageStatus = Literal["planned", "mapped", "sourced", "reviewed", "exam_validated"]
 
 
 class Objective(BaseModel):
@@ -16,6 +20,8 @@ class Topic(BaseModel):
     objectives: list[Objective] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
     exam_weight: Literal["low", "medium", "high", "unknown"] = "unknown"
+    coverage_status: CoverageStatus = "mapped"
+    source_refs: list[str] = Field(default_factory=list)
 
 
 class Domain(BaseModel):
@@ -50,6 +56,12 @@ class MCQ(BaseModel):
     correct_option_id: str
     explanation: str
     source_url: str | None = None
+    source_title: str | None = None
+    source_date: str | None = None
+    jurisdiction: str | None = None
+    reviewed_by: str | None = None
+    reviewed_at: str | None = None
+    review_status: ReviewStatus = "draft"
     difficulty: Literal["easy", "moderate", "hard"] = "moderate"
 
     @field_validator("options")
@@ -78,3 +90,9 @@ class ClinicalCase(BaseModel):
     tasks: list[str]
     discussion_points: list[str] = Field(default_factory=list)
     source_url: str | None = None
+    source_title: str | None = None
+    source_date: str | None = None
+    jurisdiction: str | None = None
+    reviewed_by: str | None = None
+    reviewed_at: str | None = None
+    review_status: ReviewStatus = "draft"
