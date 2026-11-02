@@ -9,6 +9,12 @@ from usiphu.models import ReviewState
 DEFAULT_DB = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
 
 
+def _scoped_card_id(card_id: str, learner_id: str) -> str:
+    if learner_id == "local" or card_id.startswith(f"{learner_id}:"):
+        return card_id
+    return f"{learner_id}:{card_id}"
+
+
 def connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
     path.parent.mkdir(parents=True, exist_ok=True)
     db = sqlite3.connect(path)
@@ -62,6 +68,7 @@ def initialize(path: Path = DEFAULT_DB) -> None:
 
 def save_flashcard(card: dict, path: Path = DEFAULT_DB, learner_id: str = "local") -> None:
     initialize(path)
+    stored_card = {**card, "id": _scoped_card_id(card["id"], learner_id)}
     with connect(path) as db:
         cursor = db.execute("""
             INSERT INTO flashcards
@@ -70,12 +77,12 @@ def save_flashcard(card: dict, path: Path = DEFAULT_DB, learner_id: str = "local
             ON CONFLICT(id) DO UPDATE SET
                 prompt=excluded.prompt, answer=excluded.answer, source_url=excluded.source_url
             WHERE flashcards.owner_id=excluded.owner_id
-        """, {**card, "owner_id": learner_id})
+        """, {**stored_card, "owner_id": learner_id})
         if cursor.rowcount != 1:
             raise ValueError("This flashcard ID is already owned by another learner")
         db.execute(
             "INSERT OR IGNORE INTO review_states(card_id,due_date) VALUES(?,?)",
-            (card["id"], date.today().isoformat()),
+            (stored_card["id"], date.today().isoformat()),
         )
 
 
@@ -99,6 +106,8 @@ def record_review(
 ) -> None:
     if not 0 <= grade <= 5:
         raise ValueError("grade must be between 0 and 5")
+    initialize(path)
+    card_id = _scoped_card_id(card_id, learner_id)
     with connect(path) as db:
         changed = db.execute("""
             UPDATE review_states SET repetitions=?,interval_days=?,ease_factor=?,due_date=?
