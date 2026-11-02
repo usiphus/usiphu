@@ -58,7 +58,7 @@
         {"id":"renal-colic","title":"Renal and ureteric calculi","exam_weight":"high","objectives":[{"id":"stone-1","text":"Assess renal colic, detect infected obstruction, and choose imaging and treatment.","level":"apply"}]}
       ]},
       {"id":"functional","title":"Functional and Reconstructive Urology","topics":[
-        {"id":"v ur","title":"Vesicoureteral reflux","exam_weight":"medium","objectives":[{"id":"vur-1","text":"Grade reflux and discuss infection prevention, follow-up, and intervention.","level":"understand"}]},
+        {"id":"vur","title":"Vesicoureteral reflux","exam_weight":"medium","objectives":[{"id":"vur-1","text":"Grade reflux and discuss infection prevention, follow-up, and intervention.","level":"understand"}]},
         {"id":"incontinence","title":"Urinary incontinence","exam_weight":"medium","objectives":[{"id":"inc-1","text":"Classify incontinence and plan initial evaluation and treatment.","level":"apply"}]}
       ]}
     ]},
