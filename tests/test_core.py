@@ -76,6 +76,10 @@ def test_resource_discovery_has_general_and_specialty_sources():
     assert any(item["id"] == "acp-doctors-dilemma" for item in results)
     assert any(item["id"] == "doctors-challenge" and "play.google.com" in item["url"]
                for item in results)
+    assert any(item["id"] == "geeky-medics" and "geekymedics.com" in item["url"]
+               for item in results)
+    assert any(item["id"] == "surghub" and "surghub.org" in item["url"]
+               for item in results)
 
 
 def test_scheduler_pass_and_fail():
