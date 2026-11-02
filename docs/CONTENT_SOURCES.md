@@ -40,5 +40,8 @@ Do not convert a search result into an answer key without editorial review. Sear
 - PubMed overview: https://pubmed.ncbi.nlm.nih.gov/about/
 - NLM full-text explanation: https://support.nlm.nih.gov/kbArticle/?pn=KA-03304
 - Anki shared-deck instructions: https://docs.ankiweb.net/getting-started.html
+- ACP Doctor's Dilemma: https://ddm.acponline.org/help
+- Doctors Challenge app listing: https://play.google.com/store/apps/details?id=com.mahmoudhssn.doctorschallenge
+- Doximity clinical case challenge library: https://blog.doximity.com/articles/compete-learn-and-grow-with-our-clinical-case-challenge-library
 - Cureus copyright and licensing: https://health_policy.cureus.com/author_guide/policies-and-procedures/copyright-and-licensing
 - Streamlit authentication guide: https://docs.streamlit.io/develop/concepts/connections/authentication
