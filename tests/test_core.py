@@ -72,6 +72,9 @@ def test_resource_discovery_has_general_and_specialty_sources():
     pubmed = next(item for item in results if item["id"] == "pubmed")
     assert "acute+urinary+retention" in pubmed["url"] and "full text is not guaranteed" in pubmed["note"]
     assert any(item["id"] == "guideline-urology" for item in results)
+    assert any(item["id"] == "acp-doctors-dilemma" for item in results)
+    assert any(item["id"] == "doctors-challenge" and "play.google.com" in item["url"]
+               for item in results)
 
 
 def test_scheduler_pass_and_fail():
