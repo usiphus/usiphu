@@ -1,4 +1,4 @@
-"""SQLite persistence for learner flashcards and review activity."""
+"""SQLite persistence for learner flashcards, reviews, and topic mastery."""
 import os
 import sqlite3
 from datetime import date
@@ -62,6 +62,8 @@ def due_cards(path: Path = DEFAULT_DB, on_date: date | None = None) -> list[dict
 
 
 def record_review(card_id: str, grade: int, state: ReviewState, path: Path = DEFAULT_DB) -> None:
+    if not 0 <= grade <= 5:
+        raise ValueError("grade must be between 0 and 5")
     with connect(path) as db:
         changed = db.execute("""UPDATE review_states SET repetitions=?,interval_days=?,
         ease_factor=?,due_date=? WHERE card_id=?""",
@@ -72,10 +74,33 @@ def record_review(card_id: str, grade: int, state: ReviewState, path: Path = DEF
                    (card_id, grade, state.due_date))
 
 
+def set_topic_progress(topic_id: str, status: str, confidence: int,
+                       path: Path = DEFAULT_DB) -> None:
+    if status not in {"not_started", "learning", "reviewing", "mastered"}:
+        raise ValueError("Invalid topic status")
+    if not 0 <= confidence <= 5:
+        raise ValueError("confidence must be between 0 and 5")
+    initialize(path)
+    with connect(path) as db:
+        db.execute("""INSERT INTO topic_progress(topic_id,status,confidence) VALUES(?,?,?)
+        ON CONFLICT(topic_id) DO UPDATE SET status=excluded.status,
+        confidence=excluded.confidence,updated_at=CURRENT_TIMESTAMP""",
+        (topic_id, status, confidence))
+
+
+def topic_progress(path: Path = DEFAULT_DB) -> list[dict]:
+    initialize(path)
+    with connect(path) as db:
+        return [dict(row) for row in db.execute(
+            "SELECT topic_id,status,confidence,updated_at FROM topic_progress ORDER BY topic_id")]
+
+
 def dashboard_stats(path: Path = DEFAULT_DB) -> dict[str, int]:
     initialize(path)
     with connect(path) as db:
         return {"flashcards": db.execute("SELECT COUNT(*) FROM flashcards").fetchone()[0],
                 "due_cards": db.execute("SELECT COUNT(*) FROM review_states WHERE due_date<=?",
                                         (date.today().isoformat(),)).fetchone()[0],
-                "reviews_completed": db.execute("SELECT COUNT(*) FROM review_events").fetchone()[0]}
+                "reviews_completed": db.execute("SELECT COUNT(*) FROM review_events").fetchone()[0],
+                "topics_tracked": db.execute("SELECT COUNT(*) FROM topic_progress").fetchone()[0],
+                "topics_mastered": db.execute("SELECT COUNT(*) FROM topic_progress WHERE status='mastered'").fetchone()[0]}

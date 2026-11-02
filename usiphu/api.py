@@ -1,10 +1,11 @@
-"""Read-oriented FastAPI endpoints for curriculum and resource discovery."""
+"""FastAPI endpoints for curriculum, practice banks, and resource discovery."""
 from fastapi import FastAPI, HTTPException, Query
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
+from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 
 app = FastAPI(title="Usiphu 2.0 API", version="2.0.0",
-              description="Medical learning curriculum and resource discovery API.")
+              description="Medical learning curriculum, practice, and resource discovery API.")
 
 
 @app.get("/health")
@@ -27,6 +28,19 @@ def curriculum_topics(q: str | None = Query(default=None, min_length=1)) -> list
     rows = flatten_topics(load_curriculum())
     return [row for row in rows if not q or q.casefold() in
             (row["specialty"] + " " + row["domain"] + " " + row["topic"]).casefold()]
+
+
+@app.get("/practice/questions")
+def questions(specialty: str | None = None, topic: str | None = None) -> list[dict]:
+    rows = [item.model_dump() for item in load_questions()]
+    return [row for row in rows if (not specialty or row["specialty_id"] == specialty)
+            and (not topic or row["topic_id"] == topic)]
+
+
+@app.get("/practice/cases")
+def cases(specialty: str | None = None) -> list[dict]:
+    rows = [item.model_dump() for item in load_cases()]
+    return [row for row in rows if not specialty or row["specialty_id"] == specialty]
 
 
 @app.get("/resources")

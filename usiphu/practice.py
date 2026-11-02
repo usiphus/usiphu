@@ -1,0 +1,16 @@
+"""Load and validate authored practice banks from versioned JSON files."""
+import json
+from pathlib import Path
+from usiphu.models import ClinicalCase, MCQ
+
+DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
+
+def load_questions(path: Path = DATA_DIR / "questions.json") -> list[MCQ]:
+    with path.open(encoding="utf-8") as stream:
+        return [MCQ.model_validate(item) for item in json.load(stream)]
+
+
+def load_cases(path: Path = DATA_DIR / "cases.json") -> list[ClinicalCase]:
+    with path.open(encoding="utf-8") as stream:
+        return [ClinicalCase.model_validate(item) for item in json.load(stream)]

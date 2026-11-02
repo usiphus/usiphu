@@ -19,6 +19,10 @@ def test_curriculum_coverage_and_search():
     assert any("retention" in row["topic"].lower() for row in topics.json())
 
 
-def test_resources_reject_short_query():
+def test_practice_banks_and_resources():
+    questions = client.get("/practice/questions")
+    cases = client.get("/practice/cases")
+    assert questions.status_code == 200 and len(questions.json()) >= 3
+    assert cases.status_code == 200 and len(cases.json()) >= 2
     assert client.get("/resources", params={"topic":"x"}).status_code == 422
     assert client.get("/resources", params={"topic":"renal colic","specialty":"Urology"}).status_code == 200
