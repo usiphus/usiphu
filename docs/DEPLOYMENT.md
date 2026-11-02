@@ -20,7 +20,7 @@ Usiphu delegates sign-in to an OIDC provider (Google, Microsoft Entra ID, Okta, 
 3. Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml`.
 4. Set `redirect_uri`, a strong random `cookie_secret`, `client_id`, `client_secret`, and `server_metadata_url`.
 5. Set `USIPHU_AUTH_REQUIRED=true`.
-6. Ensure the identity provider emits a stable OIDC `sub` claim. Learner records are scoped by this subject, not by display name or email.
+6. Ensure the identity provider emits a stable OIDC `sub` claim. Learner records are scoped by the issuer and subject pair, not by display name or email.
 7. Keep secrets out of Git and backups; rotate credentials if exposed.
 
 The example file is a template only. Never commit real credentials. Existing data from the original single-user database is migrated into the `local` namespace; it is not automatically assigned to an OIDC account. Export or migrate it deliberately after verifying the account identity.
