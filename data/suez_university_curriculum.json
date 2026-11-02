@@ -9,112 +9,130 @@
   },
   "programme": {
     "degree": "Bachelor of Medicine and Surgery",
-    "structure_years": {
-      "academic_programme": 5,
-      "mandatory_internship": 2
-    },
-    "curriculum_approach": [
-      "integrated",
-      "community-oriented",
-      "early_clinical_exposure",
-      "self-directed_learning",
-      "team-based_learning",
-      "small-group_learning",
-      "problem-based_learning",
-      "clinical_skills",
-      "professional_ethics"
+    "academic_programme_years": 5,
+    "internship": "Not specified in the uploaded bylaw; no internship duration or rotation schedule is asserted from this source.",
+    "phases": [
+      {
+        "phase": 1,
+        "label": "The Basics",
+        "years": [
+          1,
+          2
+        ],
+        "semesters": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      {
+        "phase": 2,
+        "label": "Clinical phase",
+        "years": [
+          3,
+          4,
+          5
+        ],
+        "semesters": [
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      }
     ],
+    "credit_framework": "European Credit Transfer and Accumulation System (ECTS), as stated in the bylaw.",
+    "curriculum_approach": [
+      "integrated basic and clinical sciences",
+      "community-oriented and community-based learning",
+      "problem-based learning",
+      "self-directed learning",
+      "early clinical exposure",
+      "team-based learning",
+      "clinical skills",
+      "comprehensive assessment",
+      "evidence-based medicine"
+    ],
+    "bylaw_document": "Uploaded internal bylaw: Integrated Medicine and Surgery Programme, Faculty of Medicine, Suez University.",
     "source_verified": true,
-    "academic_year_sequence": null,
-    "semester_map": null
+    "current_validity": "The uploaded copy is the source used for this mapping; its current applicability to the user's cohort should be confirmed with Faculty/Student Affairs."
   },
   "graduate_competency_strands": [
     {
-      "id": "scientific_foundations",
-      "label": "Scientific foundations of medicine",
-      "basis": "Broad educational alignment; detailed Suez course outcome not publicly accessible in the retrieved bylaw."
+      "id": "healthcare_provider",
+      "label": "Graduate as a healthcare provider",
+      "source_basis": "Bylaw competency section 5.1: data gathering, informed diagnostic and therapeutic decisions, treatment plans with patients, common procedures, counselling, IT-supported care, prevention, teamwork."
     },
     {
-      "id": "clinical_assessment",
-      "label": "History, examination and clinical assessment",
-      "basis": "Early clinical exposure and clinical-skills emphasis."
+      "id": "healthcare_developer_advocate",
+      "label": "Graduate as a healthcare developer and advocate",
+      "source_basis": "Bylaw competency section 5.2: determinants of health, social/economic/cultural factors, nutrition, occupational/environmental risks, prevention, epidemiology, infection control, vulnerable groups, community empowerment."
     },
     {
-      "id": "diagnostic_reasoning",
-      "label": "Diagnostic reasoning and interpretation",
-      "basis": "Provisional crosswalk for clinical learning topics."
-    },
-    {
-      "id": "patient_management",
-      "label": "Safe patient management",
-      "basis": "Provisional crosswalk for clinical learning topics."
-    },
-    {
-      "id": "emergency_recognition",
-      "label": "Recognition and initial response to emergencies",
-      "basis": "Provisional crosswalk; local clinical protocols must be supplied."
-    },
-    {
-      "id": "prevention_and_community_health",
-      "label": "Prevention, community health and population context",
-      "basis": "Community-oriented programme emphasis."
-    },
-    {
-      "id": "communication_and_teamwork",
-      "label": "Communication and collaborative practice",
-      "basis": "Team-based and small-group learning emphasis."
+      "id": "basic_medical_knowledge",
+      "label": "Basic medical knowledge and information",
+      "source_basis": "Bylaw competency section 5.3: anatomy, physiology, molecular/biochemical mechanisms, pathology, causes of disease, diagnostic tests, epidemiology, research literacy."
     },
     {
       "id": "professionalism_ethics",
-      "label": "Professionalism, ethics and patient-centred conduct",
-      "basis": "Explicit ethical integrity and conduct emphasis."
+      "label": "Professional ethics and professionalism",
+      "source_basis": "Bylaw competency section 5.4: confidentiality, consent, respect, compassion, integrity, accountability, cultural sensitivity."
     },
     {
-      "id": "self_directed_learning_and_evidence",
-      "label": "Self-directed, lifelong and evidence-informed learning",
-      "basis": "Self-directed learning and continuous updating emphasis."
+      "id": "healthcare_team_system",
+      "label": "Member of the healthcare team and health system",
+      "source_basis": "Bylaw competency section 5.5: teamwork and leadership, interprofessional collaboration, quality, health-system navigation, cost-effective resource use."
+    },
+    {
+      "id": "evidence_lifelong_learning",
+      "label": "Evidence-based practice and lifelong learning",
+      "source_basis": "Bylaw competency section 5.6: evidence appraisal, research methods, statistics, clinical decisions, information resources and lifelong learning."
     }
   ],
   "sources": [
+    {
+      "id": "suez-bylaw-upload",
+      "title": "Suez University Faculty of Medicine – Internal Bylaw for the Integrated Medicine and Surgery Programme (uploaded 44-page PDF)",
+      "source_type": "user_supplied_official_bylaw_copy",
+      "supports": [
+        "five-year programme and two phases",
+        "module names, codes, years, semesters, durations, credits, hours and marks as printed",
+        "graduate competency framework",
+        "teaching and learning strategies",
+        "assessment structure",
+        "attendance and progression rules",
+        "elective requirements"
+      ],
+      "file_reference": "turn407file0",
+      "url": null
+    },
     {
       "id": "suez-fom-overview",
       "title": "Suez University Faculty of Human Medicine – Dean's introduction / educational approach",
       "url": "https://suezuni.edu.eg/Med/StaticContent/Index/18",
       "source_type": "official_institutional_webpage",
       "supports": [
-        "5+2 structure",
-        "integrated community-oriented curriculum",
-        "self-directed learning",
-        "early clinical exposure",
-        "clinical skills",
-        "ethics",
-        "team-based, small-group and problem-based learning"
+        "faculty educational approach and programme overview"
       ]
-    },
-    {
-      "id": "suez-fom-bylaw",
-      "title": "Suez University Faculty of Human Medicine – Faculty bylaw (لائحة الكلية)",
-      "url": "https://suezuni.edu.eg/Med/StaticContent/Index/42",
-      "source_type": "official_institutional_bylaw_landing_page",
-      "supports": [
-        "official bylaw exists"
-      ],
-      "access_note": "The official landing page links to a SharePoint-hosted PDF, but the document redirected to Microsoft sign-in during retrieval. Detailed course specifications and year/semester allocations could not be independently read."
     }
   ],
   "mapping_rules": {
-    "status": "provisional_framework_alignment",
-    "meaning": "Existing Usiphu topics and objectives are cross-referenced to the institution's publicly described educational approach and broad medical graduate competencies. This is not a claim that the topic is an official Suez course, nor that the official course outcome has been verified.",
+    "status": "bylaw_module_alignment_not_outcome_validated",
+    "meaning": "Existing Usiphu topics are associated with the Suez University bylaw's explicit module titles and specialty groupings where supported. This is module-level alignment only; individual official course learning outcomes are not provided in the uploaded bylaw and are not claimed as mapped.",
     "prohibited_claims": [
-      "officially syllabus-mapped",
-      "complete Suez University syllabus coverage",
-      "exam validated"
+      "officially approved curriculum mapping",
+      "complete course-outcome coverage",
+      "exam validated",
+      "internship mapped"
     ],
     "required_to_upgrade": [
-      "Obtain the current Suez University Faculty of Medicine bylaw PDF and course specifications from the faculty/portal",
-      "Extract course codes, years, semesters, module outcomes, contact hours and assessment methods",
-      "Map every official outcome to one or more Usiphu objectives",
-      "Have the Faculty of Medicine curriculum committee or designated clinical educators approve the crosswalk"
+      "Obtain current course specifications for each module from Faculty/Student Affairs",
+      "Extract module-level outcomes, clinical skills, hours, assessments and internship outcomes if applicable",
+      "Map every course outcome to Usiphu topic/objective IDs and identify gaps",
+      "Have the relevant departments/curriculum committee review and approve the crosswalk"
     ]
   },
   "topics": [
@@ -135,11 +153,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -158,11 +178,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -180,11 +202,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -203,11 +227,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -225,11 +251,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -247,11 +275,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -270,11 +300,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -292,11 +324,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -314,11 +348,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -336,11 +372,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -358,11 +396,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -380,11 +420,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -402,11 +444,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "internal-medicine",
@@ -424,11 +468,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MI 2.4.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "general-surgery",
@@ -446,11 +492,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "general-surgery",
@@ -468,11 +516,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "general-surgery",
@@ -490,11 +540,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "general-surgery",
@@ -512,11 +564,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "general-surgery",
@@ -534,11 +588,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -557,11 +613,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -579,11 +638,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -601,11 +663,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -623,11 +688,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -645,11 +713,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -667,11 +738,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -689,11 +763,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -711,11 +788,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "urology",
@@ -733,11 +813,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "US 1.2.9",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "obgyn",
@@ -758,11 +841,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/Obs 2.3.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "obgyn",
@@ -783,11 +868,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/Obs 2.3.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "obgyn",
@@ -808,11 +895,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/Obs 2.3.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "obgyn",
@@ -833,11 +922,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/Obs 2.3.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "paediatrics",
@@ -855,11 +946,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/ped 2.3.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "paediatrics",
@@ -877,11 +970,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/ped 2.3.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "paediatrics",
@@ -899,11 +994,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/ped 2.3.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "paediatrics",
@@ -921,11 +1018,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "PHC/ped 2.3.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "orthopaedics",
@@ -942,11 +1041,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "orthopaedics",
@@ -963,11 +1064,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "orthopaedics",
@@ -984,11 +1087,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "neurology-neurosurgery",
@@ -1005,11 +1110,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "neurology-neurosurgery",
@@ -1026,11 +1133,13 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "neurology-neurosurgery",
@@ -1047,11 +1156,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "neurology-neurosurgery",
@@ -1068,11 +1180,14 @@
         "self_directed_learning_and_evidence"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1",
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "vascular-surgery",
@@ -1089,11 +1204,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "related_department_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "vascular-surgery",
@@ -1110,11 +1227,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "related_department_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "vascular-surgery",
@@ -1131,11 +1250,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "related_department_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "vascular-surgery",
@@ -1152,11 +1273,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SI 2.4.2"
+      ],
+      "bylaw_mapping_status": "related_department_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "anaesthesia-critical-care",
@@ -1173,11 +1296,11 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [],
+      "bylaw_mapping_status": "not_separately_timetabled_in_module_table",
+      "mapping_note": "The bylaw lists the relevant department/discipline but does not give it a separately coded module in the course table."
     },
     {
       "specialty_id": "anaesthesia-critical-care",
@@ -1194,11 +1317,11 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [],
+      "bylaw_mapping_status": "not_separately_timetabled_in_module_table",
+      "mapping_note": "The bylaw lists the relevant department/discipline but does not give it a separately coded module in the course table."
     },
     {
       "specialty_id": "anaesthesia-critical-care",
@@ -1215,11 +1338,11 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [],
+      "bylaw_mapping_status": "not_separately_timetabled_in_module_table",
+      "mapping_note": "The bylaw lists the relevant department/discipline but does not give it a separately coded module in the course table."
     },
     {
       "specialty_id": "anaesthesia-critical-care",
@@ -1236,11 +1359,11 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [],
+      "bylaw_mapping_status": "not_separately_timetabled_in_module_table",
+      "mapping_note": "The bylaw lists the relevant department/discipline but does not give it a separately coded module in the course table."
     },
     {
       "specialty_id": "ophthalmology",
@@ -1257,11 +1380,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "ophthalmology",
@@ -1278,11 +1403,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "ophthalmology",
@@ -1299,11 +1426,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "ent",
@@ -1320,11 +1449,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "ent",
@@ -1341,11 +1472,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "ent",
@@ -1362,11 +1495,13 @@
         "communication_and_teamwork"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "SII 2.5.2"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "dermatology",
@@ -1382,11 +1517,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "dermatology",
@@ -1402,11 +1539,13 @@
         "prevention_and_community_health"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "psychiatry",
@@ -1424,11 +1563,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "psychiatry",
@@ -1446,11 +1587,13 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     },
     {
       "specialty_id": "psychiatry",
@@ -1468,11 +1611,381 @@
         "professionalism_ethics"
       ],
       "mapping_status": "provisional_framework_alignment",
-      "official_course_code": null,
-      "official_year": null,
-      "official_semester": null,
       "official_outcome_reference": null,
-      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
+      "bylaw_module_codes": [
+        "MII 2.5.1"
+      ],
+      "bylaw_mapping_status": "bylaw_module_alignment",
+      "mapping_note": "Mapped to the bylaw's named module(s)/listed specialty grouping only; this does not establish a course-level learning-outcome match."
     }
-  ]
+  ],
+  "official_curriculum": {
+    "source_document": "Uploaded PDF: لأحة السويس.pdf (44 pages), internal bylaw for the integrated Medicine and Surgery programme, Faculty of Medicine, Suez University.",
+    "modules": [
+      {
+        "code": "FBS1.1.1",
+        "name": "Foundation for basic sciences",
+        "year": 1,
+        "semester": 1,
+        "duration_weeks": 16,
+        "credits": 24,
+        "hours": 720,
+        "marks": 480,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "QC",
+        "name": "Quality course",
+        "year": 1,
+        "semester": 1,
+        "duration_weeks": 15,
+        "weekly_hours": 2,
+        "credits": 1,
+        "hours": 30,
+        "marks": 20,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "EC",
+        "name": "English course",
+        "year": 1,
+        "semester": 1,
+        "duration_weeks": 15,
+        "weekly_hours": 4,
+        "credits": 2,
+        "hours": 60,
+        "marks": 40,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "MS 1.1.2",
+        "name": "The Musculoskeletal System",
+        "year": 1,
+        "semester": 2,
+        "duration_weeks": 7,
+        "credits": 10.5,
+        "hours": 315,
+        "marks": 210,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "RS 1.1.3",
+        "name": "Respiratory System",
+        "year": 1,
+        "semester": 2,
+        "duration_weeks": 5,
+        "credits": 7.5,
+        "hours": 225,
+        "marks": 150,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "CS1.1.4",
+        "name": "Cardiovascular system",
+        "year": 1,
+        "semester": 2,
+        "duration_weeks": 6,
+        "credits": 9,
+        "hours": 270,
+        "marks": 180,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "HR",
+        "name": "Human rights",
+        "year": 1,
+        "semester": 2,
+        "duration_weeks": 15,
+        "weekly_hours": 2,
+        "credits": 1,
+        "hours": 30,
+        "marks": 20,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "CS",
+        "name": "Computer science",
+        "year": 1,
+        "semester": 2,
+        "duration_weeks": 15,
+        "weekly_hours": 2,
+        "credits": 1,
+        "hours": 30,
+        "marks": 20,
+        "phase": 1,
+        "source_page": 25
+      },
+      {
+        "code": "BL 1.2.5",
+        "name": "Blood and Lymph",
+        "year": 2,
+        "semester": 3,
+        "duration_weeks": 4,
+        "credits": 6,
+        "hours": 180,
+        "marks": 120,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "GS 1.2.6",
+        "name": "Gastrointestinal system",
+        "year": 2,
+        "semester": 3,
+        "duration_weeks": 7,
+        "credits": 10.5,
+        "hours": 315,
+        "marks": 210,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "NS 1.2.7",
+        "name": "CNS",
+        "year": 2,
+        "semester": 3,
+        "duration_weeks": 7,
+        "credits": 10.5,
+        "hours": 315,
+        "marks": 210,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "SS 1.2.8",
+        "name": "Special Senses",
+        "year": 2,
+        "semester": 3,
+        "duration_weeks": 4,
+        "credits": 6,
+        "hours": 180,
+        "marks": 120,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "US 1.2.9",
+        "name": "Urinary System",
+        "year": 2,
+        "semester": 4,
+        "duration_weeks": 4,
+        "credits": 6,
+        "hours": 180,
+        "marks": 120,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "EM 1.2.10",
+        "name": "Endocrine and Metabolism",
+        "year": 2,
+        "semester": 4,
+        "duration_weeks": 5,
+        "credits": 7.5,
+        "hours": 225,
+        "marks": 150,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "RS 1.2.11",
+        "name": "Reproductive system",
+        "year": 2,
+        "semester": 4,
+        "duration_weeks": 5,
+        "credits": 7.5,
+        "hours": 225,
+        "marks": 150,
+        "phase": 1,
+        "source_page": 26
+      },
+      {
+        "code": "PHC/ped 2.3.1",
+        "name": "Primary & secondary care (pediatrics, family medicine and community)",
+        "year": 3,
+        "semester": 5,
+        "duration_weeks": 18,
+        "credits": 27,
+        "hours": 810,
+        "marks": 540,
+        "phase": 2,
+        "source_page": 28
+      },
+      {
+        "code": "PHC/Obs 2.3.2",
+        "name": "Primary & secondary care (Obstetrics/Gynaecology, family medicine and occupational)",
+        "year": 3,
+        "semester": 6,
+        "duration_weeks": 18,
+        "credits": 27,
+        "hours": 810,
+        "marks": 540,
+        "phase": 2,
+        "source_page": 28
+      },
+      {
+        "code": "MI 2.4.1",
+        "name": "Medicine I (endemic hepatology and GIT, infectious diseases, endocrinology, nephrology, clinical pathology, cardiology, radiology, chest, oncology)",
+        "year": 4,
+        "semester": 7,
+        "duration_weeks": 18,
+        "credits": 27,
+        "hours": 810,
+        "marks": 540,
+        "phase": 2,
+        "source_page": 28
+      },
+      {
+        "code": "SI 2.4.2",
+        "name": "Surgery I (general surgery, cardiothoracic, urology, neurosurgery)",
+        "year": 4,
+        "semester": 8,
+        "duration_weeks": 18,
+        "credits": 27,
+        "hours": 810,
+        "marks": 540,
+        "phase": 2,
+        "source_page": 28
+      },
+      {
+        "code": "MII 2.5.1",
+        "name": "Medicine II (neurology, rheumatology, dermatology, psychiatry)",
+        "year": 5,
+        "semester": 9,
+        "duration_weeks": 6,
+        "credits": 9,
+        "hours": 270,
+        "marks": 180,
+        "phase": 2,
+        "source_page": 29
+      },
+      {
+        "code": "SII 2.5.2",
+        "name": "Surgery II (ENT, ophthalmology, orthopaedics)",
+        "year": 5,
+        "semester": 9,
+        "duration_weeks": 6,
+        "credits": 9,
+        "hours": 270,
+        "marks": 180,
+        "phase": 2,
+        "source_page": 29
+      },
+      {
+        "code": "E&MR 2.5.3",
+        "name": "Emergencies and medical reporting",
+        "year": 5,
+        "semester": 9,
+        "duration_weeks": 6,
+        "credits": 9,
+        "hours": 270,
+        "marks": 180,
+        "phase": 2,
+        "source_page": 29
+      },
+      {
+        "code": "CCP2.5.5",
+        "name": "Core clinical problem (module I)",
+        "year": 5,
+        "semester": 10,
+        "duration_weeks": 9,
+        "credits": 13.5,
+        "hours": 405,
+        "marks": 270,
+        "phase": 2,
+        "source_page": 29
+      },
+      {
+        "code": "CCP2.5.6",
+        "name": "Core clinical problem (module II)",
+        "year": 5,
+        "semester": 10,
+        "duration_weeks": 9,
+        "credits": 13.5,
+        "hours": 405,
+        "marks": 270,
+        "phase": 2,
+        "source_page": 29
+      }
+    ],
+    "longitudinal_components": [
+      {
+        "code": "RP I / RP II",
+        "name": "Research project I and II",
+        "phase": 1,
+        "delivery": "2 hours/week for 30 weeks, taught within each educational block"
+      },
+      {
+        "code": "FT I / FT II",
+        "name": "Field training I and II",
+        "phase": 1,
+        "delivery": "4 hours/week for 30 weeks, taught within each educational block"
+      },
+      {
+        "code": "PCS I / PCS II",
+        "name": "Professional and communication skills I and II",
+        "phase": 1,
+        "delivery": "2 hours/week for 30 weeks, taught within each educational block"
+      },
+      {
+        "code": "Research project III / IV",
+        "name": "Research project III and IV",
+        "phase": 2,
+        "delivery": "2 hours/week for 30 weeks, taught within each educational block"
+      }
+    ],
+    "electives": {
+      "required_modules": 4,
+      "phase_1_modules": 2,
+      "phase_2_modules": 2,
+      "credits_total": 28,
+      "assessment": "Pass/fail by portfolio and objective examination; completion required before progression.",
+      "source_page": 31
+    },
+    "assessment": {
+      "formative": "Weekly formative feedback in study sessions, skills laboratory and field work; not included in marks.",
+      "summative_periodic_weight_percent": 75,
+      "summative_final_phase_weight_percent": 25,
+      "periodic_components": {
+        "continuous_portfolio_percent": 20,
+        "end_of_semester_assessment_percent": 80
+      },
+      "phase_1_end_of_semester_assessment": {
+        "practical_integrated_OSPE_percent": 60,
+        "written_percent": 40,
+        "written_question_mix": "MCQ and problem-solving/MEQ; the bylaw's diagram/text gives the proportions."
+      },
+      "phase_2_end_of_group_assessment": {
+        "clinical_OSCE_or_lab_percent": 60,
+        "written_MCQ_percent": 40
+      },
+      "final_phase_2_exam": {
+        "written_percent": 40,
+        "clinical_stations_percent": 60,
+        "written_component": "Clinical problem-solving (MEQ) and competency assessment including research critique and management skills."
+      },
+      "attendance_minimum_percent": 75,
+      "progression": "Phase progression requires successful completion of required educational units/groups; see bylaw attendance and progression rules."
+    },
+    "credit_and_workload": {
+      "framework": "ECTS",
+      "credit_hours_per_credit": 30,
+      "weekly_study_hours": 50,
+      "note": "The bylaw contains totals and table entries that should be preserved as printed rather than recalculated from inconsistent OCR/table totals."
+    },
+    "limitations": [
+      "The bylaw provides module titles, codes and broad groupings, but not detailed course-specification learning outcomes for every module.",
+      "No internship duration, rotation sequence or internship competency sign-off schedule is specified in this uploaded document.",
+      "Several departments listed in the faculty's department catalogue are not shown as separately coded modules in the course table; do not infer a standalone block for them.",
+      "This document's current applicability to the user's cohort has not been independently confirmed."
+    ]
+  }
 }
