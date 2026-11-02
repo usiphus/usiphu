@@ -1,5 +1,6 @@
 """FastAPI endpoints for curriculum, practice banks, and resource discovery."""
 from fastapi import FastAPI, HTTPException, Query
+
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
