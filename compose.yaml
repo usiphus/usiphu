@@ -1,0 +1,18 @@
+services:
+  usiphu:
+    build: .
+    ports:
+      - "8501:8501"
+    environment:
+      USIPHU_DB_PATH: /data/usiphu.sqlite3
+      USIPHU_AUTH_REQUIRED: "true"
+    volumes:
+      - usiphu-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  usiphu-data:
