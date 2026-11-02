@@ -14,7 +14,7 @@ PROVIDERS = [
      "https://ankiweb.net/shared/decks?search=",
      "User-contributed decks; independently verify accuracy and licensing before reuse."),
     ("doctorde", "DoctorDE (web search)", "Medical challenge discovery",
-     "https://www.google.com/search?q=",
+     "https://www.google.com/search?q=DoctorDE+",
      "Search route only: a stable official DoctorDE endpoint has not been verified."),
     ("who", "WHO publications", "International guidance",
      "https://www.who.int/publications/i?search=",
