@@ -9,16 +9,12 @@ services:
     volumes:
       - usiphu-data:/data
       - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
-    expose:
-      - "8501"
+    expose: ["8501"]
     restart: unless-stopped
     init: true
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - ALL
-    tmpfs:
-      - /tmp:size=64m,noexec,nosuid
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    tmpfs: [/tmp:size=64m,noexec,nosuid]
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3)"]
       interval: 30s
@@ -33,10 +29,8 @@ services:
     image: caddy:2.10-alpine
     environment:
       USIPHU_DOMAIN: ${USIPHU_DOMAIN:?Set USIPHU_DOMAIN in .env}
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in .env}
+    ports: ["80:80", "443:443", "443:443/udp"]
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
@@ -45,8 +39,7 @@ services:
       app:
         condition: service_healthy
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
+    security_opt: [no-new-privileges:true]
     networks: [private]
     mem_limit: 256m
     cpus: 0.5
@@ -70,7 +63,6 @@ volumes:
   usiphu-backups:
   caddy-data:
   caddy-config:
-
 networks:
   private:
     driver: bridge
