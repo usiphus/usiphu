@@ -1,10 +1,12 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
 import streamlit as st
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
+from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
-from usiphu.storage import (dashboard_stats, due_cards, initialize, save_flashcard,
-                            set_topic_progress, topic_progress)
+from usiphu.scheduler import schedule_review
+from usiphu.storage import (dashboard_stats, due_cards, initialize, record_review,
+                            save_flashcard, set_topic_progress, topic_progress)
 
 st.set_page_config(page_title="Usiphu 2.0", page_icon="🩺", layout="wide")
 initialize()
@@ -58,8 +60,10 @@ with tab3:
                           key=f"answer-{selected.id}")
         if st.button("Check answer", key=f"check-{selected.id}"):
             st.session_state[f"checked-{selected.id}"] = True
+            st.session_state[f"chosen-{selected.id}"] = answer.id
         if st.session_state.get(f"checked-{selected.id}", False):
-            correct = answer.id == selected.correct_option_id
+            chosen = st.session_state.get(f"chosen-{selected.id}")
+            correct = chosen == selected.correct_option_id
             st.success("Correct") if correct else st.error("Not quite — review the explanation.")
             st.markdown("**Explanation**")
             st.write(selected.explanation)
@@ -96,10 +100,24 @@ with tab4:
                             "answer": answer_text.strip(), "source_url": source_url.strip() or None})
             st.success("Flashcard saved. It is now in your review queue.")
     st.metric("Cards due today", stats["due_cards"])
-    for card in due_cards():
+    cards = due_cards()
+    if not cards:
+        st.info("No cards due. Add a card above to start a review habit.")
+    for card in cards:
         with st.expander(card["prompt"]):
             st.write(card["answer"])
             st.caption(f"Topic: {card['topic_id']} · Due: {card['due_date']}")
+            grade = st.select_slider("Recall quality (0 = forgot, 5 = effortless)",
+                                     options=[0, 1, 2, 3, 4, 5], value=3,
+                                     key=f"grade-{card['id']}")
+            if st.button("Record review", key=f"review-{card['id']}"):
+                state = ReviewState(card_id=card["id"], repetitions=card["repetitions"],
+                                    interval_days=card["interval_days"],
+                                    ease_factor=card["ease_factor"], due_date=card["due_date"])
+                updated = schedule_review(state, grade)
+                record_review(card["id"], grade, updated)
+                st.success(f"Review saved. Next due: {updated.due_date}")
+                st.rerun()
 with tab5:
     st.subheader("Learner progress")
     p1, p2, p3 = st.columns(3)
