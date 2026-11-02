@@ -2,6 +2,7 @@
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
+
 ReviewStatus = Literal["draft", "clinically_reviewed", "exam_validated", "retired"]
 CoverageStatus = Literal["planned", "mapped", "sourced", "reviewed", "exam_validated"]
 
