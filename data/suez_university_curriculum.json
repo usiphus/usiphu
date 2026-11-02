@@ -1,0 +1,1478 @@
+{
+  "schema_version": "1.0",
+  "institution": {
+    "name_en": "Suez University",
+    "name_ar": "جامعة السويس",
+    "faculty_en": "Faculty of Human Medicine",
+    "faculty_ar": "كلية الطب البشري",
+    "explicit_exclusion": "Suez Canal University (جامعة قناة السويس) is a different institution and is not the target."
+  },
+  "programme": {
+    "degree": "Bachelor of Medicine and Surgery",
+    "structure_years": {
+      "academic_programme": 5,
+      "mandatory_internship": 2
+    },
+    "curriculum_approach": [
+      "integrated",
+      "community-oriented",
+      "early_clinical_exposure",
+      "self-directed_learning",
+      "team-based_learning",
+      "small-group_learning",
+      "problem-based_learning",
+      "clinical_skills",
+      "professional_ethics"
+    ],
+    "source_verified": true,
+    "academic_year_sequence": null,
+    "semester_map": null
+  },
+  "graduate_competency_strands": [
+    {
+      "id": "scientific_foundations",
+      "label": "Scientific foundations of medicine",
+      "basis": "Broad educational alignment; detailed Suez course outcome not publicly accessible in the retrieved bylaw."
+    },
+    {
+      "id": "clinical_assessment",
+      "label": "History, examination and clinical assessment",
+      "basis": "Early clinical exposure and clinical-skills emphasis."
+    },
+    {
+      "id": "diagnostic_reasoning",
+      "label": "Diagnostic reasoning and interpretation",
+      "basis": "Provisional crosswalk for clinical learning topics."
+    },
+    {
+      "id": "patient_management",
+      "label": "Safe patient management",
+      "basis": "Provisional crosswalk for clinical learning topics."
+    },
+    {
+      "id": "emergency_recognition",
+      "label": "Recognition and initial response to emergencies",
+      "basis": "Provisional crosswalk; local clinical protocols must be supplied."
+    },
+    {
+      "id": "prevention_and_community_health",
+      "label": "Prevention, community health and population context",
+      "basis": "Community-oriented programme emphasis."
+    },
+    {
+      "id": "communication_and_teamwork",
+      "label": "Communication and collaborative practice",
+      "basis": "Team-based and small-group learning emphasis."
+    },
+    {
+      "id": "professionalism_ethics",
+      "label": "Professionalism, ethics and patient-centred conduct",
+      "basis": "Explicit ethical integrity and conduct emphasis."
+    },
+    {
+      "id": "self_directed_learning_and_evidence",
+      "label": "Self-directed, lifelong and evidence-informed learning",
+      "basis": "Self-directed learning and continuous updating emphasis."
+    }
+  ],
+  "sources": [
+    {
+      "id": "suez-fom-overview",
+      "title": "Suez University Faculty of Human Medicine – Dean's introduction / educational approach",
+      "url": "https://suezuni.edu.eg/Med/StaticContent/Index/18",
+      "source_type": "official_institutional_webpage",
+      "supports": [
+        "5+2 structure",
+        "integrated community-oriented curriculum",
+        "self-directed learning",
+        "early clinical exposure",
+        "clinical skills",
+        "ethics",
+        "team-based, small-group and problem-based learning"
+      ]
+    },
+    {
+      "id": "suez-fom-bylaw",
+      "title": "Suez University Faculty of Human Medicine – Faculty bylaw (لائحة الكلية)",
+      "url": "https://suezuni.edu.eg/Med/StaticContent/Index/42",
+      "source_type": "official_institutional_bylaw_landing_page",
+      "supports": [
+        "official bylaw exists"
+      ],
+      "access_note": "The official landing page links to a SharePoint-hosted PDF, but the document redirected to Microsoft sign-in during retrieval. Detailed course specifications and year/semester allocations could not be independently read."
+    }
+  ],
+  "mapping_rules": {
+    "status": "provisional_framework_alignment",
+    "meaning": "Existing Usiphu topics and objectives are cross-referenced to the institution's publicly described educational approach and broad medical graduate competencies. This is not a claim that the topic is an official Suez course, nor that the official course outcome has been verified.",
+    "prohibited_claims": [
+      "officially syllabus-mapped",
+      "complete Suez University syllabus coverage",
+      "exam validated"
+    ],
+    "required_to_upgrade": [
+      "Obtain the current Suez University Faculty of Medicine bylaw PDF and course specifications from the faculty/portal",
+      "Extract course codes, years, semesters, module outcomes, contact hours and assessment methods",
+      "Map every official outcome to one or more Usiphu objectives",
+      "Have the Faculty of Medicine curriculum committee or designated clinical educators approve the crosswalk"
+    ]
+  },
+  "topics": [
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "cardiology",
+      "topic_id": "acs",
+      "objective_ids": [
+        "acs-1",
+        "acs-2"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "cardiology",
+      "topic_id": "heart-failure",
+      "objective_ids": [
+        "hf-1",
+        "hf-2"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "cardiology",
+      "topic_id": "arrhythmias",
+      "objective_ids": [
+        "arr-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "respiratory",
+      "topic_id": "asthma",
+      "objective_ids": [
+        "asth-1",
+        "asth-2"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "respiratory",
+      "topic_id": "copd",
+      "objective_ids": [
+        "copd-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "respiratory",
+      "topic_id": "pneumonia",
+      "objective_ids": [
+        "pna-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "endocrinology",
+      "topic_id": "diabetes",
+      "objective_ids": [
+        "dm-1",
+        "dm-2"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "endocrinology",
+      "topic_id": "thyroid",
+      "objective_ids": [
+        "thy-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "gastroenterology",
+      "topic_id": "gi-bleed",
+      "objective_ids": [
+        "gib-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "gastroenterology",
+      "topic_id": "cirrhosis",
+      "objective_ids": [
+        "cir-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "renal",
+      "topic_id": "aki",
+      "objective_ids": [
+        "aki-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "renal",
+      "topic_id": "ckd",
+      "objective_ids": [
+        "ckd-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "infectious",
+      "topic_id": "sepsis",
+      "objective_ids": [
+        "sep-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "internal-medicine",
+      "domain_id": "infectious",
+      "topic_id": "antimicrobials",
+      "objective_ids": [
+        "abx-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "general-surgery",
+      "domain_id": "acute-care",
+      "topic_id": "acute-abdomen",
+      "objective_ids": [
+        "abd-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "general-surgery",
+      "domain_id": "acute-care",
+      "topic_id": "bowel-obstruction",
+      "objective_ids": [
+        "ob-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "general-surgery",
+      "domain_id": "acute-care",
+      "topic_id": "trauma",
+      "objective_ids": [
+        "tra-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "general-surgery",
+      "domain_id": "hernia",
+      "topic_id": "groin-hernia",
+      "objective_ids": [
+        "her-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "general-surgery",
+      "domain_id": "breast",
+      "topic_id": "breast-lump",
+      "objective_ids": [
+        "br-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "obstruction",
+      "topic_id": "pujo",
+      "objective_ids": [
+        "pujo-1",
+        "pujo-2"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "obstruction",
+      "topic_id": "puv",
+      "objective_ids": [
+        "puv-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "obstruction",
+      "topic_id": "retention",
+      "objective_ids": [
+        "ret-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "uro-oncology",
+      "topic_id": "rcc",
+      "objective_ids": [
+        "rcc-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "uro-oncology",
+      "topic_id": "bladder-cancer",
+      "objective_ids": [
+        "bc-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "uro-oncology",
+      "topic_id": "prostate-cancer",
+      "objective_ids": [
+        "pc-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "stones",
+      "topic_id": "renal-colic",
+      "objective_ids": [
+        "stone-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "functional",
+      "topic_id": "vur",
+      "objective_ids": [
+        "vur-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "urology",
+      "domain_id": "functional",
+      "topic_id": "incontinence",
+      "objective_ids": [
+        "inc-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "obgyn",
+      "domain_id": "obstetrics",
+      "topic_id": "preeclampsia",
+      "objective_ids": [
+        "pre-1"
+      ],
+      "provisional_competency_strands": [
+        "scientific_foundations",
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "obgyn",
+      "domain_id": "obstetrics",
+      "topic_id": "postpartum-hemorrhage",
+      "objective_ids": [
+        "pph-1"
+      ],
+      "provisional_competency_strands": [
+        "scientific_foundations",
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "obgyn",
+      "domain_id": "gynaecology",
+      "topic_id": "abnormal-bleeding",
+      "objective_ids": [
+        "aub-1"
+      ],
+      "provisional_competency_strands": [
+        "scientific_foundations",
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "obgyn",
+      "domain_id": "gynaecology",
+      "topic_id": "gynae-oncology",
+      "objective_ids": [
+        "gyn-1"
+      ],
+      "provisional_competency_strands": [
+        "scientific_foundations",
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork",
+        "professionalism_ethics",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "paediatrics",
+      "domain_id": "neonatology",
+      "topic_id": "neonatal-resuscitation",
+      "objective_ids": [
+        "nr-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "paediatrics",
+      "domain_id": "neonatology",
+      "topic_id": "neonatal-jaundice",
+      "objective_ids": [
+        "nj-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "paediatrics",
+      "domain_id": "acute-paediatrics",
+      "topic_id": "dehydration",
+      "objective_ids": [
+        "deh-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "paediatrics",
+      "domain_id": "acute-paediatrics",
+      "topic_id": "febrile-child",
+      "objective_ids": [
+        "fev-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "orthopaedics",
+      "domain_id": "trauma-ortho",
+      "topic_id": "fractures",
+      "objective_ids": [
+        "fx-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "orthopaedics",
+      "domain_id": "trauma-ortho",
+      "topic_id": "dislocations",
+      "objective_ids": [
+        "dis-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "orthopaedics",
+      "domain_id": "musculoskeletal",
+      "topic_id": "osteoarthritis",
+      "objective_ids": [
+        "oa-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "neurology-neurosurgery",
+      "domain_id": "stroke",
+      "topic_id": "ischemic-stroke",
+      "objective_ids": [
+        "stroke-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "neurology-neurosurgery",
+      "domain_id": "stroke",
+      "topic_id": "sah",
+      "objective_ids": [
+        "sah-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "neurology-neurosurgery",
+      "domain_id": "neuro-emergency",
+      "topic_id": "raised-icp",
+      "objective_ids": [
+        "icp-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "neurology-neurosurgery",
+      "domain_id": "neuro-emergency",
+      "topic_id": "spinal-abscess",
+      "objective_ids": [
+        "sea-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "self_directed_learning_and_evidence"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "vascular-surgery",
+      "domain_id": "arterial",
+      "topic_id": "pad",
+      "objective_ids": [
+        "pad-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "vascular-surgery",
+      "domain_id": "arterial",
+      "topic_id": "aaa",
+      "objective_ids": [
+        "aaa-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "vascular-surgery",
+      "domain_id": "venous",
+      "topic_id": "dvt",
+      "objective_ids": [
+        "dvt-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "vascular-surgery",
+      "domain_id": "venous",
+      "topic_id": "chronic-venous",
+      "objective_ids": [
+        "cvi-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "anaesthesia-critical-care",
+      "domain_id": "airway",
+      "topic_id": "airway-management",
+      "objective_ids": [
+        "air-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "anaesthesia-critical-care",
+      "domain_id": "airway",
+      "topic_id": "perioperative-risk",
+      "objective_ids": [
+        "peri-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "anaesthesia-critical-care",
+      "domain_id": "critical-care",
+      "topic_id": "shock",
+      "objective_ids": [
+        "shock-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "anaesthesia-critical-care",
+      "domain_id": "critical-care",
+      "topic_id": "ventilation",
+      "objective_ids": [
+        "vent-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ophthalmology",
+      "domain_id": "anterior-segment",
+      "topic_id": "red-eye",
+      "objective_ids": [
+        "red-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ophthalmology",
+      "domain_id": "anterior-segment",
+      "topic_id": "glaucoma",
+      "objective_ids": [
+        "gl-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ophthalmology",
+      "domain_id": "posterior-segment",
+      "topic_id": "diabetic-retinopathy",
+      "objective_ids": [
+        "dr-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ent",
+      "domain_id": "otology",
+      "topic_id": "hearing-loss",
+      "objective_ids": [
+        "hear-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ent",
+      "domain_id": "head-neck",
+      "topic_id": "epistaxis",
+      "objective_ids": [
+        "epi-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "ent",
+      "domain_id": "head-neck",
+      "topic_id": "airway-ent",
+      "objective_ids": [
+        "ua-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "dermatology",
+      "domain_id": "inflammatory-skin",
+      "topic_id": "eczema",
+      "objective_ids": [
+        "ecz-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "dermatology",
+      "domain_id": "inflammatory-skin",
+      "topic_id": "psoriasis",
+      "objective_ids": [
+        "ps-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "prevention_and_community_health"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "psychiatry",
+      "domain_id": "mood",
+      "topic_id": "depression",
+      "objective_ids": [
+        "dep-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "psychiatry",
+      "domain_id": "mood",
+      "topic_id": "bipolar",
+      "objective_ids": [
+        "bi-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    },
+    {
+      "specialty_id": "psychiatry",
+      "domain_id": "acute-psychiatry",
+      "topic_id": "agitation",
+      "objective_ids": [
+        "ag-1"
+      ],
+      "provisional_competency_strands": [
+        "clinical_assessment",
+        "diagnostic_reasoning",
+        "patient_management",
+        "emergency_recognition",
+        "communication_and_teamwork",
+        "professionalism_ethics"
+      ],
+      "mapping_status": "provisional_framework_alignment",
+      "official_course_code": null,
+      "official_year": null,
+      "official_semester": null,
+      "official_outcome_reference": null,
+      "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files."
+    }
+  ]
+}

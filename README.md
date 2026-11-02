@@ -1,52 +1,46 @@
 # Usiphu 2.0
 
-A local-first medical learning workspace combining specialty-wide curriculum mapping, resource discovery, question practice, OSCE/viva cases, spaced repetition, and learner progress.
+A medical learning workspace for specialty-wide curriculum mapping, resource discovery, question practice, OSCE/viva cases, spaced repetition, and learner progress.
 
-> **Foundation release.** The curriculum is a broad cross-specialty starter blueprint, not a claim that any national syllabus is complete. The included question and case banks are editorial drafts, not clinically validated assessment material. Verify clinical information against current guidelines and local protocols.
+> **Curriculum status:** the starter blueprint is being cross-referenced to Suez University Faculty of Human Medicine (جامعة السويس), not Suez Canal University. The institutional crosswalk is provisional because the detailed bylaw PDF currently redirects to a Microsoft sign-in page. It is not an official or complete syllabus mapping. Starter questions and cases remain editorial drafts.
 
-## Run locally (Python 3.11+)
+## Run locally
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -e ".[dev]"
 streamlit run app/Home.py
 ```
 
-Optional read-only content API: `uvicorn usiphu.api:app --reload`
+## Curriculum target
 
-Checks: `ruff check . && pytest -q`
+See [Suez University crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md) and machine-readable [institutional profile](data/suez_university_curriculum.json). The university's official site describes a 5+2 programme, integrated/community-oriented learning, early clinical exposure, self-directed learning, clinical skills, and ethics. Course codes, year/semester allocation, and detailed official outcomes remain unverified pending access to the current bylaw and course specifications.
 
 ## Features
 
-- Specialty → domain → topic → measurable learning objectives, with source and validation stages.
-- Topic-aware discovery links for PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE web search, WHO, NICE, Cochrane, and MedEdPORTAL.
-- Specialty guideline hubs including EAU, ESC, KDIGO, GINA, GOLD, IDSA, ACOG, AAP, AAO, SVS, ASA, AAN, AAD, and APA.
-- MCQ and structured clinical-case practice with explicit draft/review status.
-- Persistent flashcards with an SM-2-inspired scheduler.
-- Learner-isolated SQLite flashcards, review events, and topic mastery.
-- Optional OIDC authentication through Streamlit's native identity integration.
-- FastAPI read endpoints, Streamlit UI, tests, Dockerfile, and Compose deployment.
+- Specialty → domain → topic → measurable learning objectives.
+- Resource discovery across PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE search, guidelines, and medical challenge sites.
+- MCQ and structured clinical-case practice with explicit editorial status.
+- Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
+- Optional OIDC authentication; FastAPI read-only content endpoints.
+- Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
 
-## Accounts and deployment
+## Production
 
-The default local mode is for one learner on a trusted machine. To enable sign-in, configure an OIDC provider and set `USIPHU_AUTH_REQUIRED=true`. See [deployment instructions](docs/DEPLOYMENT.md) and copy the template at `.streamlit/secrets.toml.example` to your untracked `.streamlit/secrets.toml`.
+See [production deployment](docs/DEPLOYMENT.md). The production Compose setup is a single-replica deployment using persistent SQLite, OIDC, Caddy TLS, and verified online backups. **PostgreSQL is not yet connected to the application storage layer**; do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
 
-Docker Compose requires OIDC and persists SQLite in a named volume. SQLite is a single-node pilot store; migrate to managed PostgreSQL before multi-replica production use. Do not expose the app publicly without HTTPS, OIDC, and operational controls.
+## Checks
 
-## Project map
+```bash
+ruff check .
+pytest -q
+python -m usiphu.validation
+```
 
-Curriculum status and syllabus mapping: [docs/CURRICULUM_SCOPE.md](docs/CURRICULUM_SCOPE.md). Resource quality, source licensing, and challenge links: [docs/CONTENT_SOURCES.md](docs/CONTENT_SOURCES.md). Deployment and OIDC setup: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+## Release gates
 
-`app/` UI · `usiphu/` domain logic/API/storage · `data/` versioned learning content · `tests/` automated checks · `docs/` product, source, and deployment governance.
-
-## Source and safety policy
-
-The app links to external discovery services; it does not scrape, reproduce, or redistribute third-party decks or articles. Check licensing, authorship, publication date, and clinical applicability. PubMed is a citation/abstract index; PMC provides full text where available. AnkiWeb decks are community-contributed. DoctorDE is linked through a web-search route because a stable official endpoint has not been verified.
-
-## Release gates still requiring human sign-off
-
-- Map each specialty to a named Egyptian, institutional, or other target syllabus and review every learning objective for completeness.
-- Clinically review and exam-validate the authored MCQ and OSCE banks with qualified educators.
-- Perform a privacy/security review and configure a production identity provider, PostgreSQL, backups, and monitoring.
-- Conduct accessibility and user-acceptance testing on the intended deployment environment.
+- Obtain and map the complete Suez University bylaw/course specifications.
+- Have departmental educators review the outcome crosswalk and all clinical content.
+- Configure real OIDC secrets, domain/DNS, backups, monitoring, and privacy controls.
+- Complete security, accessibility, and user-acceptance testing.

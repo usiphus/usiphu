@@ -1,54 +1,47 @@
-# Deployment and identity setup
+# Production deployment (single-node pilot)
 
-## Local development
+This deployment hardens the existing Streamlit + SQLite application for a **single application replica** behind Caddy-managed HTTPS. It is suitable as a controlled initial deployment once real OIDC credentials, domain/DNS, backups, and institutional approval are configured. It is not a horizontally scalable multi-tenant platform.
 
-Install the project and run:
+## Architecture
 
-```bash
-pip install -e ".[dev]"
-streamlit run app/Home.py
-```
+- Caddy reverse proxy: public ports 80/443, automatic TLS, websocket proxying to Streamlit.
+- Usiphu app: private Docker network only; non-root image from Dockerfile; OIDC required.
+- SQLite: persistent named volume, one writer/application replica.
+- Backups: consistent SQLite online backup to a separate named volume using Python's SQLite backup API.
 
-Without OIDC configuration, the app uses the local learner namespace. This mode is intended for one learner on a trusted machine only.
+## Deploy
 
-## Enable accounts with OpenID Connect
+1. Point the chosen domain's DNS A/AAAA records to the host.
+2. Copy `.env.production.example` to `.env` and set `USIPHU_DOMAIN` and `TZ`.
+3. Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml`; configure a real OIDC provider, strong cookie secret, and redirect URI `https://YOUR-DOMAIN/oauth2callback`.
+4. Register the same exact redirect URI with the identity provider; enable MFA and restrict allowed users/groups where supported.
+5. Start: `docker compose -f compose.production.yaml up -d --build`.
+6. Verify `https://YOUR-DOMAIN/_stcore/health`, sign-in, sign-out, and learner isolation with two test identities.
 
-Usiphu delegates sign-in to an OIDC provider (Google, Microsoft Entra ID, Okta, Auth0, or another standards-compliant provider). It does not store user passwords.
+Do not commit `.env` or `.streamlit/secrets.toml`. Use a host secret manager for production secrets where available. Keep the host and Docker engine patched.
 
-1. Register the app with your identity provider.
-2. Set the redirect URI to `https://YOUR-DOMAIN/oauth2callback`.
-3. Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml`.
-4. Set `redirect_uri`, a strong random `cookie_secret`, `client_id`, `client_secret`, and `server_metadata_url`.
-5. Set `USIPHU_AUTH_REQUIRED=true`.
-6. Ensure the identity provider emits a stable OIDC `sub` claim. Learner records are scoped by the issuer and subject pair, not by display name or email.
-7. Keep secrets out of Git and backups; rotate credentials if exposed.
+## Backups and restore
 
-The example file is a template only. Never commit real credentials. Existing data from the original single-user database is migrated into the `local` namespace; it is not automatically assigned to an OIDC account. Export or migrate it deliberately after verifying the account identity.
-
-## Docker Compose
+Run a manual consistent backup:
 
 ```bash
-cp .streamlit/secrets.toml.example .streamlit/secrets.toml
-# Edit the file with your provider's real credentials and production redirect URI.
-docker compose up --build -d
-docker compose logs -f usiphu
+docker compose -f compose.production.yaml run --rm backup
 ```
 
-The compose service mounts a persistent named volume at `/data` and requires OIDC. Put the app behind a TLS-terminating reverse proxy; do not expose an unauthenticated Streamlit port directly to the public internet.
+Backups are written to the `usiphu-backups` volume; the script retains the most recent 30 daily files. Configure the host scheduler (cron/systemd timer or platform scheduler) to run the command daily, and copy encrypted backups off-host. Periodically test restore into a separate staging volume. A local backup volume on the same host is not disaster recovery.
 
-## Data and scale limits
+Restore procedure (maintenance window): stop the app, copy a selected backup to the data volume as `usiphu.sqlite3`, verify ownership/permissions, then restart. Never overwrite the live database while the app is running.
 
-- SQLite is suitable for a single-node pilot and is persisted in the named Docker volume.
-- Learner records are isolated by OIDC subject in the application data layer.
-- Before running multiple replicas or offering a multi-institution service, migrate storage to managed PostgreSQL, configure encrypted backups, retention/deletion policies, monitoring, and a documented incident-response process.
-- The optional FastAPI endpoints currently expose curriculum and practice content only. They do not expose learner records.
-- OIDC authenticates the learner; it does not by itself provide staff roles, institution-level authorization, or administrator permissions.
+## Operational controls
 
-## Operational checks before production
+- One app replica only while using SQLite. Do not scale the service horizontally or mount the same SQLite file across hosts.
+- Restrict host firewall to 80/443 and administrative SSH from trusted IPs. The app port is not published.
+- Enable host-level disk, CPU, memory, certificate-expiry, and container-restart monitoring.
+- Set log retention/rotation at the host/container runtime; avoid logging patient-identifiable data.
+- Define privacy notice, lawful basis, retention/deletion, incident response, access review, and backup retention before real learner data is collected.
+- Run dependency/security scanning and a restore drill before launch.
+- Clinical content must be reviewed by qualified educators; infrastructure readiness does not confer clinical validation.
 
-- Configure HTTPS and trusted proxy headers.
-- Restrict identity-provider redirect URIs and enable MFA where available.
-- Set database volume permissions and backup/restore procedures.
-- Pin dependencies and review automated vulnerability reports.
-- Review privacy notices, data retention, deletion, and applicable local law.
-- Have clinical educators validate learning content before it is used for assessment.
+## Multi-replica / institutional scale
+
+The current learner storage module is SQLite-specific. PostgreSQL is **not yet wired into the application data layer**. Before multi-replica deployment, implement and test a PostgreSQL storage adapter/migrations, use managed PostgreSQL with TLS and least-privilege credentials, add schema migration automation, connection pooling, encrypted backups/PITR, and test concurrent learner writes. Do not merely add a PostgreSQL container and assume the application is using it.
