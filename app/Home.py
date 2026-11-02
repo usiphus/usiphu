@@ -45,6 +45,12 @@ curriculum = load_curriculum()
 stats = dashboard_stats(learner_id=learner_id)
 coverage = coverage_summary(curriculum)
 
+st.caption(
+    f"Curriculum validation: {coverage['topics_sourced']} sourced · "
+    f"{coverage['topics_reviewed']} clinically reviewed · "
+    f"{coverage['topics_exam_validated']} exam validated. "
+    "Mapped topics are not automatically syllabus-complete."
+)
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Specialties mapped", coverage["specialties"])
 c2.metric("Curriculum topics", coverage["topics"])
@@ -83,8 +89,11 @@ with tab2:
 with tab3:
     st.subheader("Question practice")
     questions = load_questions()
+    draft_count = sum(question.review_status == "draft" for question in questions)
+    st.warning(f"{draft_count} sample questions are still editorial drafts and require clinical review.")
     if questions:
         selected = st.selectbox("Choose a question", questions, format_func=lambda question: question.stem)
+        st.caption(f"Content status: {selected.review_status.replace('_', ' ')}")
         answer = st.radio("Select your answer", selected.options, format_func=lambda option: option.text,
                           key=f"answer-{selected.id}")
         if st.button("Check answer", key=f"check-{selected.id}"):
@@ -103,6 +112,7 @@ with tab3:
     cases = load_cases()
     if cases:
         case = st.selectbox("Choose a case", cases, format_func=lambda item: item.title)
+        st.caption(f"Case content status: {case.review_status.replace('_', ' ')}")
         st.markdown(f"**Scenario**\n\n{case.scenario}")
         st.markdown("**Your tasks**")
         for task in case.tasks:
