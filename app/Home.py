@@ -27,10 +27,11 @@ if AUTH_REQUIRED:
         st.write("Sign in with your configured identity provider to access your learning workspace.")
         st.button("Sign in", on_click=st.login)
         st.stop()
-    learner_id = st.user.get("sub")
-    if not learner_id:
+    subject = st.user.get("sub")
+    if not subject:
         st.error("The identity provider did not return a stable subject identifier.")
         st.stop()
+    learner_id = f"{st.user.get('iss', 'oidc')}:{subject}"
     with st.sidebar:
         st.caption(f"Signed in: {st.user.get('email', 'learner')}")
         st.button("Sign out", on_click=st.logout)
