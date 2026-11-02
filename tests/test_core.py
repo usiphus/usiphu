@@ -11,7 +11,6 @@ from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.validation import validate_content
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -21,6 +20,7 @@ from usiphu.storage import (
     set_topic_progress,
     topic_progress,
 )
+from usiphu.validation import validate_content
 
 
 def test_curriculum_has_specialties_topics_and_objectives():
