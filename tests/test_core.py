@@ -1,5 +1,6 @@
 """Domain, content-integrity, and persistence regression tests."""
 import json
+import sqlite3
 from datetime import date
 from pathlib import Path
 
