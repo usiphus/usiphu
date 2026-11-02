@@ -1,12 +1,21 @@
+"""Domain and persistence regression tests."""
 from datetime import date
 from pathlib import Path
+
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.storage import (dashboard_stats, due_cards, initialize, record_review,
-                            save_flashcard, set_topic_progress, topic_progress)
+from usiphu.storage import (
+    dashboard_stats,
+    due_cards,
+    initialize,
+    record_review,
+    save_flashcard,
+    set_topic_progress,
+    topic_progress,
+)
 
 
 def test_curriculum_has_specialties_topics_and_objectives():
@@ -42,9 +51,14 @@ def test_scheduler_pass_and_fail():
 def test_sqlite_flashcard_and_progress_lifecycle(tmp_path: Path):
     db = tmp_path / "test.sqlite3"
     initialize(db)
-    card = {"id":"c1","specialty_id":"urology","topic_id":"retention",
-            "prompt":"Define acute urinary retention.","answer":"Inability to empty the bladder.",
-            "source_url":None}
+    card = {
+        "id": "c1",
+        "specialty_id": "urology",
+        "topic_id": "retention",
+        "prompt": "Define acute urinary retention.",
+        "answer": "Inability to empty the bladder.",
+        "source_url": None,
+    }
     save_flashcard(card, db)
     assert len(due_cards(db, date.today())) == 1
     state = schedule_review(ReviewState(card_id="c1", due_date=date.today().isoformat()), 5)
