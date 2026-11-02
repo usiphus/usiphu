@@ -46,7 +46,10 @@ def test_curriculum_ids_are_unique_and_every_topic_has_an_objective():
 def test_practice_banks_validate_and_answers_exist():
     questions = load_questions()
     assert len(questions) >= 3
-    assert len(load_cases()) >= 2
+    cases = load_cases()
+    assert len(cases) >= 2
+    assert all(question.review_status == "draft" for question in questions)
+    assert all(case.review_status == "draft" for case in cases)
     for question in questions:
         assert question.correct_option_id in {option.id for option in question.options}
 
