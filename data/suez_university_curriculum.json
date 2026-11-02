@@ -171,6 +171,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "CS1.1.4",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -197,6 +198,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "CS1.1.4",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -222,6 +224,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "CS1.1.4",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -248,6 +251,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.1.3",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -273,6 +277,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.1.3",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -298,6 +303,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.1.3",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -324,6 +330,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "EM 1.2.10",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -349,6 +356,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "EM 1.2.10",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -374,6 +382,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "GS 1.2.6",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -399,6 +408,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "GS 1.2.6",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -424,6 +434,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "US 1.2.9",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -449,6 +460,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "US 1.2.9",
         "MI 2.4.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -887,6 +899,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.2.11",
         "PHC/Obs 2.3.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -915,6 +928,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.2.11",
         "PHC/Obs 2.3.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -943,6 +957,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.2.11",
         "PHC/Obs 2.3.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -971,6 +986,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "RS 1.2.11",
         "PHC/Obs 2.3.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1095,6 +1111,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "MS 1.1.2",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1119,6 +1136,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "MS 1.1.2",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1143,6 +1161,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "MS 1.1.2",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1167,6 +1186,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "NS 1.2.7",
         "MII 2.5.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1191,6 +1211,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "NS 1.2.7",
         "MII 2.5.1"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1215,7 +1236,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
-        "MII 2.5.1",
+        "NS 1.2.7",
         "SI 2.4.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1240,7 +1261,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
-        "MII 2.5.1",
+        "NS 1.2.7",
         "SI 2.4.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1449,6 +1470,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1473,6 +1495,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1497,6 +1520,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1521,6 +1545,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1545,6 +1570,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
@@ -1569,6 +1595,7 @@
       "official_outcome_reference": null,
       "note": "Not verified against a published Suez University course specification; confirm with the faculty bylaw/course files.",
       "bylaw_module_codes": [
+        "SS 1.2.8",
         "SII 2.5.2"
       ],
       "bylaw_mapping_status": "bylaw_module_alignment",
