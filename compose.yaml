@@ -8,6 +8,7 @@ services:
       USIPHU_AUTH_REQUIRED: "true"
     volumes:
       - usiphu-data:/data
+      - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3)"]
