@@ -11,6 +11,7 @@ from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
+from usiphu.validation import validate_content
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -137,3 +138,13 @@ def test_existing_single_learner_database_migrates(tmp_path: Path):
         """)
     initialize(db)
     assert topic_progress(db, learner_id="local")[0]["topic_id"] == "old-topic"
+
+
+def test_content_validator_checks_complete_starter_dataset():
+    report = validate_content()
+    assert report["specialties"] == 13
+    assert report["topics"] == 62
+    assert report["questions"] == 3
+    assert report["cases"] == 2
+    assert report["topics_sourced"] == 0
+    assert report["topics_reviewed"] == 0
