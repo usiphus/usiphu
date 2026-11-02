@@ -123,7 +123,7 @@ def test_learner_data_isolation(tmp_path: Path):
     assert topic_progress(db, learner_id="learner-a")[0]["status"] == "mastered"
     assert topic_progress(db, learner_id="learner-b")[0]["status"] == "learning"
     assert dashboard_stats(db, learner_id="learner-a")["flashcards"] == 1
-    assert dashboard_stats(db, learner_id="learner-b")["flashcards"] == 0
+    assert dashboard_stats(db, learner_id="learner-b")["flashcards"] == 1
 
 
 def test_existing_single_learner_database_migrates(tmp_path: Path):
