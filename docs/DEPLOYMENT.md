@@ -23,7 +23,7 @@ Usiphu delegates sign-in to an OIDC provider (Google, Microsoft Entra ID, Okta, 
 6. Ensure the identity provider emits a stable OIDC `sub` claim. Learner records are scoped by this subject, not by display name or email.
 7. Keep secrets out of Git and backups; rotate credentials if exposed.
 
-The example file is a template only. Never commit real credentials.
+The example file is a template only. Never commit real credentials. Existing data from the original single-user database is migrated into the `local` namespace; it is not automatically assigned to an OIDC account. Export or migrate it deliberately after verifying the account identity.
 
 ## Docker Compose
 
