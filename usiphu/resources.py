@@ -31,9 +31,6 @@ PROVIDERS = [
     ("guidelines", "Guidelines search", "Guideline discovery",
      "https://www.google.com/search?q=",
      "Prefer current society or government guidelines; verify the issuing organization."),
-    ("doctors-challenge", "Doctors Challenge app", "Medical quiz app",
-     "https://play.google.com/store/apps/details?id=com.mahmoudhssn.doctorschallenge",
-     "External app listing; availability, privacy terms, ads, and content quality are controlled by its publisher."),
 ]
 
 
@@ -87,6 +84,10 @@ def discover_resources(topic: str, specialty: str | None = None) -> list[dict[st
          "kind": "Clinical case challenge library",
          "url": "https://blog.doximity.com/articles/compete-learn-and-grow-with-our-clinical-case-challenge-library",
          "note": "External case-challenge resource; access may require a Doximity account."},
+        {"id": "doctors-challenge", "name": "Doctors Challenge app",
+         "kind": "Medical quiz app",
+         "url": "https://play.google.com/store/apps/details?id=com.mahmoudhssn.doctorschallenge",
+         "note": "External app listing; availability, privacy terms, ads, and content quality are controlled by its publisher."},
     ])
     normalized = (specialty or "").casefold()
     for key, (name, url, note) in SPECIALTY_GUIDELINES.items():
