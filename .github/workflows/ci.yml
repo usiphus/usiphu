@@ -26,5 +26,6 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check .
       - run: python -m compileall -q usiphu app tests
+      - run: python -m usiphu.validation
       - run: python -c "import json, pathlib; [json.loads(p.read_text(encoding='utf-8')) for p in pathlib.Path('data').glob('*.json')]"
       - run: pytest -q
