@@ -31,6 +31,9 @@ PROVIDERS = [
     ("guidelines", "Guidelines search", "Guideline discovery",
      "https://www.google.com/search?q=",
      "Prefer current society or government guidelines; verify the issuing organization."),
+    ("doctors-challenge", "Doctors Challenge app", "Medical quiz app",
+     "https://play.google.com/store/apps/details?id=com.mahmoudhssn.doctorschallenge",
+     "External app listing; availability, privacy terms, ads, and content quality are controlled by its publisher."),
 ]
 
 
@@ -76,6 +79,15 @@ def discover_resources(topic: str, specialty: str | None = None) -> list[dict[st
          "note": note}
         for pid, name, kind, base, note in PROVIDERS
     ]
+    results.extend([
+        {"id": "acp-doctors-dilemma", "name": "ACP Doctor's Dilemma",
+         "kind": "Interactive medical quiz challenge", "url": "https://ddm.acponline.org/",
+         "note": "American College of Physicians quiz competition format; educational challenge, not a guideline."},
+        {"id": "doximity-case-challenges", "name": "Doximity Clinical Case Challenges",
+         "kind": "Clinical case challenge library",
+         "url": "https://blog.doximity.com/articles/compete-learn-and-grow-with-our-clinical-case-challenge-library",
+         "note": "External case-challenge resource; access may require a Doximity account."},
+    ])
     normalized = (specialty or "").casefold()
     for key, (name, url, note) in SPECIALTY_GUIDELINES.items():
         if key in normalized:
