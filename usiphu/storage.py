@@ -3,6 +3,7 @@ import os
 import sqlite3
 from datetime import date
 from pathlib import Path
+
 from usiphu.models import ReviewState
 
 DEFAULT_DB = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
@@ -98,9 +99,19 @@ def topic_progress(path: Path = DEFAULT_DB) -> list[dict]:
 def dashboard_stats(path: Path = DEFAULT_DB) -> dict[str, int]:
     initialize(path)
     with connect(path) as db:
-        return {"flashcards": db.execute("SELECT COUNT(*) FROM flashcards").fetchone()[0],
-                "due_cards": db.execute("SELECT COUNT(*) FROM review_states WHERE due_date<=?",
-                                        (date.today().isoformat(),)).fetchone()[0],
-                "reviews_completed": db.execute("SELECT COUNT(*) FROM review_events").fetchone()[0],
-                "topics_tracked": db.execute("SELECT COUNT(*) FROM topic_progress").fetchone()[0],
-                "topics_mastered": db.execute("SELECT COUNT(*) FROM topic_progress WHERE status='mastered'").fetchone()[0]}
+        return {
+            "flashcards": db.execute("SELECT COUNT(*) FROM flashcards").fetchone()[0],
+            "due_cards": db.execute(
+                "SELECT COUNT(*) FROM review_states WHERE due_date<=?",
+                (date.today().isoformat(),),
+            ).fetchone()[0],
+            "reviews_completed": db.execute(
+                "SELECT COUNT(*) FROM review_events"
+            ).fetchone()[0],
+            "topics_tracked": db.execute(
+                "SELECT COUNT(*) FROM topic_progress"
+            ).fetchone()[0],
+            "topics_mastered": db.execute(
+                "SELECT COUNT(*) FROM topic_progress WHERE status='mastered'"
+            ).fetchone()[0],
+        }
