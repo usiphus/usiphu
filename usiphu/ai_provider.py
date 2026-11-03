@@ -127,7 +127,10 @@ def _ollama_chat(prompt: str, model: str) -> str:
         ) from exc
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise ValueError("Ollama returned an invalid response") from exc
-    content = body.get("message", {}).get("content")
+    if not isinstance(body, dict):
+        raise ValueError("Ollama returned an invalid response object")
+    message = body.get("message")
+    content = message.get("content") if isinstance(message, dict) else None
     if not isinstance(content, str) or not content.strip():
         raise ValueError("Ollama returned an empty response")
     return content
@@ -137,6 +140,8 @@ def _author_one(
     brief: dict[str, Any], evidence: list[dict[str, Any]], model: str
 ) -> dict[str, Any]:
     result = json.loads(_ollama_chat(_card_prompt(brief, evidence), model))
+    if not isinstance(result, dict):
+        raise ValueError("Ollama output must be a JSON object")
     if result.get("needs_evidence_review"):
         return {
             "valid": False,
