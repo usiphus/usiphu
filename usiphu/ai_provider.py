@@ -95,9 +95,9 @@ Rules:
 """.strip()
 
 
-def _author_one(brief: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[str, Any]:
-    client = _openai_client()
-    model = os.getenv("USIPHU_OPENAI_MODEL", "gpt-4.1-mini")
+def _author_one(
+    brief: dict[str, Any], evidence: list[dict[str, Any]], client: Any, model: str
+) -> dict[str, Any]:
     response = client.chat.completions.create(
         model=model,
         temperature=0.2,
@@ -166,9 +166,7 @@ def _author_one(brief: dict[str, Any], evidence: list[dict[str, Any]]) -> dict[s
         "external_benchmark_only": (
             brief["course_outcome_mapping_status"] == "external_benchmark_only"
         ),
-        "official_suez_alignment": (
-            brief["course_outcome_mapping_status"] != "external_benchmark_only"
-        ),
+        "official_suez_alignment": bool(brief["official_suez_outcomes"]),
     }
     validation = validate_generated_card(card, brief)
     return {
@@ -192,8 +190,8 @@ def generate_topic_cards(
     briefs = build_generation_briefs(specialty_id=specialty_id, topic_id=topic_id)
     if not briefs:
         raise KeyError(f"No curriculum objectives found for {specialty_id}/{topic_id}")
-    client = _openai_client()
-    del client  # Fail early on missing configuration before making external retrieval calls.
+    client = _openai_client()  # Fail before retrieval if provider configuration is absent.
+    model = os.getenv("USIPHU_OPENAI_MODEL", "gpt-4.1-mini")
 
     results = []
     for brief in briefs:
@@ -209,7 +207,7 @@ def generate_topic_cards(
                 "card": None,
             })
             continue
-        results.append(_author_one(brief, evidence))
+        results.append(_author_one(brief, evidence, client, model))
 
     cards = [item["card"] for item in results if item.get("valid") and item.get("card")]
     return {
