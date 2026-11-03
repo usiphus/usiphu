@@ -27,6 +27,10 @@ See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [cour
 - Optional OIDC authentication; FastAPI read-only content endpoints.
 - Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
 
+## Evidence-grounded AI generation
+
+The generator can retrieve PubMed abstracts and use a server-configured OpenAI model to author evidence-linked draft cards. Configure `OPENAI_API_KEY` as a server secret; see [generator setup and safety](docs/GENERATOR_PIPELINE.md). Generated cards remain isolated drafts pending clinical review.
+
 ## Card generation
 
 See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime currently prepares evidence- and ILO-bound generation briefs and validates model-produced drafts; it does not yet call an LLM provider. Passing automated validation never means clinical approval.
