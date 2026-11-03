@@ -21,7 +21,7 @@ The ENT and ophthalmology teaching outlines are also catalogued as **teaching sc
 
 ## Outcome mapping
 
-The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
+The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Outcome statements are concise normalized paraphrases of the uploaded source ILOs, not verbatim transcriptions; source file, institution and module provenance are retained for traceability. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
 
 - `direct_course_outcome`: an explicit course outcome addresses the topic.
 - `partial_related_outcome`: the source supports a related but broader outcome.
