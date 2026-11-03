@@ -4,7 +4,6 @@ import os
 import streamlit as st
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
-from usiphu.generator import build_generation_briefs
 from usiphu.ai_provider import (
     GenerationNotConfigured, generate_topic_cards, provider_status,
 )
@@ -14,8 +13,8 @@ from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.storage import (
     dashboard_stats,
-    generated_drafts,
     due_cards,
+    generated_drafts,
     initialize,
     record_review,
     save_flashcard,
