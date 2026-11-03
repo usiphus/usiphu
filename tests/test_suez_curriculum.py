@@ -24,7 +24,7 @@ def test_programme_structure_matches_uploaded_bylaw():
     assert programme["phases"][1]["years"] == [3, 4, 5]
     assert "Not specified" in programme["internship"]
     assert len(profile["official_curriculum"]["modules"]) == 24
-    assert profile["mapping_rules"]["status"] == "bylaw_module_alignment_not_outcome_validated"
+    assert profile["mapping_rules"]["status"] == "course_outcome_catalog_ingested_partial_topic_mapping"
 
 
 def test_every_starter_topic_has_explicit_mapping_status_and_preserved_objectives():
@@ -43,7 +43,7 @@ def test_every_starter_topic_has_explicit_mapping_status_and_preserved_objective
     } for row in profile["topics"])
     assert all(row["competency_mapping_status"] == "provisional_framework_alignment"
                for row in profile["topics"])
-    assert all(row["official_outcome_reference"] is None for row in profile["topics"])
+    assert all("course_outcome_mapping_status" in row for row in profile["topics"])\n    assert all("course_outcome_refs" in row for row in profile["topics"])\n    assert all(row["official_outcome_reference"] is None or row["official_outcome_reference"] in row["course_outcome_refs"] for row in profile["topics"])
 
 
 def test_urology_is_mapped_to_the_bylaw_surgery_module():
