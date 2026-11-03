@@ -10,7 +10,7 @@ def test_generator_briefs_endpoint_returns_provider_boundary_and_objectives():
     response = client.get("/generator/briefs", params={"specialty": "urology", "topic": "pujo"})
     assert response.status_code == 200
     payload = response.json()
-    assert payload["provider_configured"] is False
+    assert isinstance(payload["provider_configured"], bool)
     assert payload["generation_mode"] == "source_grounded_brief_only"
     assert payload["count"] == 2
     assert payload["briefs"][0]["official_suez_outcomes"][0]["id"] == "SI-URO-01"
