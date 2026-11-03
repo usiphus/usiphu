@@ -10,9 +10,9 @@ from usiphu.ai_provider import GenerationNotConfigured, generate_topic_cards
 class FakeCompletions:
     def create(self, **kwargs):
         prompt = kwargs["messages"][1]["content"]
-        refs_json = prompt.split("PERMITTED COURSE OUTCOME REFERENCES:\\n", 1)[1].split(
-            "\\n\\nRETRIEVED PUBMED EVIDENCE", 1
-        )[0]
+        refs_json = prompt.split("PERMITTED COURSE OUTCOME REFERENCES:", 1)[1].split(
+            "RETRIEVED PUBMED EVIDENCE", 1
+        )[0].strip()
         permitted_refs = json.loads(refs_json)
         content = {
             "card_type": "mcq",
