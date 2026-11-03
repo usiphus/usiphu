@@ -5,16 +5,21 @@ import streamlit as st
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.generator import build_generation_briefs
+from usiphu.ai_provider import (
+    GenerationNotConfigured, generate_topic_cards, provider_status,
+)
 from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.storage import (
     dashboard_stats,
+    generated_drafts,
     due_cards,
     initialize,
     record_review,
     save_flashcard,
+    save_generated_drafts,
     set_topic_progress,
     topic_progress,
 )
@@ -59,7 +64,7 @@ c2.metric("Curriculum topics", coverage["topics"])
 c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs(
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
     ["Curriculum", "Find resources", "Practice", "Flashcards", "Progress", "Generator"])
 with tab1:
     st.subheader("Specialty curriculum")
