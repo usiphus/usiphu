@@ -93,3 +93,22 @@ def test_batch_rejects_duplicate_prompts_and_unknown_briefs():
     assert result["accepted_as_draft"] == 1
     assert result["rejected"] == 2
     assert result["clinical_approval_granted"] is False
+
+
+
+def test_generated_card_rejects_evidence_sources_outside_retrieved_packet():
+    brief = build_generation_briefs(specialty_id="urology", topic_id="pujo")[0]
+    card = valid_mcq(brief)
+    card["evidence_sources"] = [{
+        "source_id": "PMID:111",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/111/",
+    }]
+    card["source_url"] = "https://example.org/not-retrieved"
+    card["evidence_claims"] = [{
+        "claim": "An unsupported claim.",
+        "source_id": "PMID:222",
+        "source_url": "https://example.org/not-retrieved",
+    }]
+    result = validate_generated_card(card, brief)
+    assert not result["valid"]
+    assert any("retrieved evidence packet" in error for error in result["errors"])
