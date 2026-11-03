@@ -173,8 +173,9 @@ def validate_generated_card(
         )
     }
     refs = card.get("course_outcome_refs")
-    if not isinstance(refs, list) or any(ref not in allowed_refs for ref in refs):
-        errors.append("course_outcome_refs must be drawn only from this brief's permitted outcome set")
+    if (not isinstance(refs, list) or (allowed_refs and not refs)
+            or any(ref not in allowed_refs for ref in refs)):
+        errors.append("course_outcome_refs must include only permitted outcomes and cannot be empty when mapped")
     if brief["course_outcome_mapping_status"] == "external_benchmark_only":
         if card.get("official_suez_alignment") not in (None, False):
             errors.append("External benchmark content cannot claim official Suez alignment")
