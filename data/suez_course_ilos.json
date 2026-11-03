@@ -288,6 +288,24 @@
           "domain": "Neurosurgery",
           "kind": "clinical_skill",
           "text": "Apply and interpret neurological examination and interpret plain skull/spine X-rays, CT and MRI of skull and spine."
+        },
+        {
+          "id": "SI-GEN-10",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Define and classify hernias; discuss clinical presentations and complications and outline principles of management of different hernia types."
+        },
+        {
+          "id": "SI-GEN-11",
+          "domain": "General Surgery",
+          "kind": "clinical_skill",
+          "text": "Perform and interpret breast examination; formulate differential diagnosis of breast masses and nipple discharge and explain management approaches."
+        },
+        {
+          "id": "SI-PBL-01",
+          "domain": "Surgery PBL",
+          "kind": "clinical_reasoning",
+          "text": "Explain management of metastatic prostatic carcinoma and design guidelines for care of a bedridden patient with complicated pressure sores."
         }
       ],
       "assessment": [
@@ -377,6 +395,48 @@
           "domain": "Clinical skills",
           "kind": "clinical_skill",
           "text": "Take complete and focused histories; perform age-, gender- and presentation-appropriate general and systemic examinations; measure vital signs; use instruments; maintain dignity, empathy and professional conduct; interpret investigations."
+        },
+        {
+          "id": "MI-CARD-01",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe congenital heart disease, hypertension and hypertensive emergencies; classify congenital heart disease and hypertension; explain pathogenesis, clinical pictures, complications and diagnostic approach."
+        },
+        {
+          "id": "MI-CARD-02",
+          "domain": "Cardiology",
+          "kind": "knowledge_and_clinical_reasoning",
+          "text": "Outline diagnostic approach to chest pain; describe ischemic heart disease syndromes, angina, myocardial infarction pathogenesis and clinical picture, MI types/complications, and effects of thrombolysis and reperfusion."
+        },
+        {
+          "id": "MI-CARD-03",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe heart failure and cardiomyopathy in terms of definition, classification, causes, clinical manifestations and consequences; compare right- and left-sided heart failure."
+        },
+        {
+          "id": "MI-CARD-04",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe arrhythmias in terms of definition, classification, causes, clinical manifestations, ECG changes and complications."
+        },
+        {
+          "id": "MI-CHEST-01",
+          "domain": "Chest",
+          "kind": "knowledge_and_management",
+          "text": "Describe clinical features, definition, pathogenesis and classification/types of COPD, chronic bronchitis, emphysema, asthma, interstitial lung disease/IPF, pleural effusion, tuberculosis and respiratory tract infections/pneumonia; discuss presentation, diagnostic approach and management of pneumonia and COPD."
+        },
+        {
+          "id": "MI-RAD-01",
+          "domain": "Radiology",
+          "kind": "clinical_skill",
+          "text": "Recognize indications and preparation for imaging; interpret basic imaging; identify radiological modalities and contraindications; select appropriate investigations; recognize alarming signs requiring urgent intervention and identify FAST scan in trauma."
+        },
+        {
+          "id": "MI-INF-03",
+          "domain": "Infectious diseases",
+          "kind": "pharmacology",
+          "text": "Describe antimicrobial and antiparasitic agents by classification, mechanism of action, indications, adverse effects, drug interactions and contraindications."
         }
       ],
       "assessment": [
@@ -708,46 +768,44 @@
     {
       "topic_id": "acs",
       "outcome_refs": [
-        "MI-INF-01",
-        "MI-GEN-SK-01"
+        "MI-CARD-02"
       ],
-      "status": "partial_related_outcome"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "heart-failure",
       "outcome_refs": [
-        "MI-GEN-SK-01"
+        "MI-CARD-03"
       ],
-      "status": "module_only_no_specific_cardio_ilo_in_uploaded_excerpt"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "arrhythmias",
       "outcome_refs": [
-        "MI-GEN-SK-01"
+        "MI-CARD-04"
       ],
-      "status": "module_only_no_specific_arrhythmia_ilo_in_uploaded_excerpt"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "asthma",
       "outcome_refs": [
-        "MI-GEN-SK-01"
+        "MI-CHEST-01"
       ],
-      "status": "module_only_no_specific_asthma_ilo_in_uploaded_excerpt"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "copd",
       "outcome_refs": [
-        "MI-GEN-SK-01"
+        "MI-CHEST-01"
       ],
-      "status": "module_only_no_specific_copd_ilo_in_uploaded_excerpt"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "pneumonia",
       "outcome_refs": [
-        "MI-INF-01",
-        "MI-GEN-SK-01"
+        "MI-CHEST-01"
       ],
-      "status": "partial_related_outcome"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "diabetes",
@@ -804,9 +862,9 @@
     {
       "topic_id": "antimicrobials",
       "outcome_refs": [
-        "MI-INF-01"
+        "MI-INF-03"
       ],
-      "status": "partial_related_outcome"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "acute-abdomen",
@@ -834,16 +892,16 @@
     {
       "topic_id": "groin-hernia",
       "outcome_refs": [
-        "SI-GEN-05"
+        "SI-GEN-10"
       ],
-      "status": "partial_related_outcome"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "breast-lump",
       "outcome_refs": [
-        "SI-GEN-06"
+        "SI-GEN-11"
       ],
-      "status": "partial_related_outcome"
+      "status": "direct_course_outcome"
     },
     {
       "topic_id": "pujo",
@@ -885,7 +943,7 @@
       "topic_id": "prostate-cancer",
       "outcome_refs": [
         "SI-URO-05",
-        "SI-NS-01"
+        "SI-PBL-01"
       ],
       "status": "direct_course_outcome"
     },
@@ -1019,10 +1077,8 @@
     },
     {
       "topic_id": "spinal-abscess",
-      "outcome_refs": [
-        "MII-NEU-02"
-      ],
-      "status": "partial_related_outcome"
+      "outcome_refs": [],
+      "status": "module_only_no_specific_ilo"
     },
     {
       "topic_id": "pad",
@@ -1034,11 +1090,8 @@
     },
     {
       "topic_id": "aaa",
-      "outcome_refs": [
-        "SI-VASC-01",
-        "SI-GEN-07"
-      ],
-      "status": "partial_related_outcome"
+      "outcome_refs": [],
+      "status": "module_only_no_specific_ilo"
     },
     {
       "topic_id": "dvt",
