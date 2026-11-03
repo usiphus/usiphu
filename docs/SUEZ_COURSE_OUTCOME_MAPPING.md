@@ -21,7 +21,7 @@ The ENT and ophthalmology teaching outlines are also catalogued as **teaching sc
 
 ## Outcome mapping
 
-The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Outcome statements are concise normalized paraphrases of the uploaded source ILOs, not verbatim transcriptions; source file, institution and module provenance are retained for traceability. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
+The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Outcome statements are concise normalized paraphrases of the uploaded source ILOs, not verbatim transcriptions; source file, institution and module provenance are retained for traceability. The 73 official Suez outcome records are a first-pass grouped catalog: some closely related source bullets have been combined. This is not yet a line-by-line exhaustive transcription of every individual ILO in every supplied course specification; complete outcome-by-outcome extraction and mapping remains a follow-up. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
 
 - `direct_course_outcome`: an explicit course outcome addresses the topic.
 - `partial_related_outcome`: the source supports a related but broader outcome.
