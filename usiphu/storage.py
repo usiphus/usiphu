@@ -1,4 +1,5 @@
 """SQLite persistence for isolated learner flashcards, reviews, and topic mastery."""
+import json
 import os
 import sqlite3
 from datetime import date
