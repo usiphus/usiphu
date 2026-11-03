@@ -125,6 +125,17 @@
       "year": 5,
       "semester": null,
       "notes": "Public undergraduate course specification: 260 teaching hours (105 lecture, 155 practical/clinical). Different university and year-level; benchmark only, not Suez University ILOs."
+    },
+    {
+      "id": "aswan-pediatrics-benchmark",
+      "title": "Pediatrics Course Specification – Fifth Year M.B.B.Ch., 2017–2018",
+      "institution": "Aswan University, Faculty of Medicine",
+      "source_type": "external_public_benchmark_not_suez_official",
+      "url": "https://med.aswu.edu.eg/wp-content/uploads/PDF/CourseSpecification/5/course-specification-pediatrics.pdf",
+      "academic_year": "2017-2018",
+      "module_code": "AMED 019",
+      "year": 5,
+      "notes": "Public undergraduate course specification, revised 2017; 240 hours (108 lecture, 132 tutorial/practical). Old-regulation fifth-year benchmark, not equivalent to Suez PHC/ped 2.3.1."
     }
   ],
   "modules": [
@@ -762,6 +773,65 @@
         "Radiology"
       ],
       "mapping_policy": "Benchmark-only. Do not set Suez official_outcome_reference to these external outcome IDs. Use only to identify candidate missing topics/skills pending confirmation against Suez University PHC/ped 2.3.1 course specification."
+    },
+    {
+      "source_id": "aswan-pediatrics-benchmark",
+      "target_module_alignment": "PHC/ped 2.3.1 (Suez bylaw module-level alignment only; external outcomes are not Suez outcomes)",
+      "course_scope": "Fifth-year M.B.B.Ch. Pediatrics course, 2017-2018, 240 hours (108 lecture, 132 tutorial/practical), Aswan University old regulation",
+      "outcome_groups": [
+        {
+          "id": "EXT-ASW-PED-K-01",
+          "category": "knowledge",
+          "text": "Describe normal growth and development, management of growth/development abnormalities, pediatric nutritional requirements/disorders, immunization indications/contraindications/administration/precautions, behavioral issues, and congenital/inherited disease impact."
+        },
+        {
+          "id": "EXT-ASW-PED-K-02",
+          "category": "knowledge",
+          "text": "Define priorities for neonatal/pediatric emergencies; identify causes and pathogenesis of important neonatal/pediatric diseases, therapeutic lines, health promotion and prevention of disease/injury."
+        },
+        {
+          "id": "EXT-ASW-PED-I-01",
+          "category": "intellectual_skills",
+          "text": "Interpret pediatric symptoms/signs; apply management plans and problem-solving judgment; assess X-rays and laboratory reports; recognize neonatal and pediatric emergencies."
+        },
+        {
+          "id": "EXT-ASW-PED-P-01",
+          "category": "professional_skills",
+          "text": "Obtain pediatric history; assess vital signs and physical/mental development; perform clinical and anthropometric nutrition assessments and age-appropriate examinations."
+        },
+        {
+          "id": "EXT-ASW-PED-P-02",
+          "category": "professional_skills",
+          "text": "Manage neonatal care and neonatal resuscitation; provide inhalation therapy, IM injections, nasogastric tube insertion and pediatric BLS; assemble patient data; examine common neonatal, nutritional, gastrointestinal, respiratory, cardiac, hematologic, renal, genetic and neurologic cases; interpret specified radiology."
+        },
+        {
+          "id": "EXT-ASW-PED-G-01",
+          "category": "general_skills",
+          "text": "Use community resources and needs-assessment models; communicate effectively with children, adolescents and families; demonstrate professional attitudes and respectful counseling."
+        }
+      ],
+      "topic_domains": [
+        "General pediatrics",
+        "Vaccination",
+        "Growth and development",
+        "Nutritional disorders and infant feeding",
+        "Neonatology",
+        "Genetics",
+        "Nephrology",
+        "Cardiovascular",
+        "Respiratory",
+        "Hematology",
+        "Infectious diseases",
+        "Endocrinology",
+        "Neuromuscular disorders",
+        "Gastroenterology and hepatology",
+        "Pediatric emergencies and poisoning",
+        "Behavioral pediatrics",
+        "Rheumatology",
+        "IMCI",
+        "Practical procedures"
+      ],
+      "mapping_policy": "Benchmark-only. Old-regulation fifth-year specification; do not treat as official Suez PHC/ped 2.3.1 outcomes. Use for candidate gap analysis and procedural coverage only pending Suez course specification."
     }
   ],
   "topic_crosswalk": [
@@ -999,7 +1069,9 @@
     {
       "topic_id": "neonatal-resuscitation",
       "outcome_refs": [
-        "EXT-PED-K-02"
+        "EXT-PED-K-02",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
       ],
       "status": "external_benchmark_only"
     },
@@ -1007,7 +1079,9 @@
       "topic_id": "neonatal-jaundice",
       "outcome_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
       ],
       "status": "external_benchmark_only"
     },
@@ -1015,7 +1089,10 @@
       "topic_id": "dehydration",
       "outcome_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01",
+        "EXT-ASW-PED-P-02"
       ],
       "status": "external_benchmark_only"
     },
@@ -1023,7 +1100,9 @@
       "topic_id": "febrile-child",
       "outcome_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01"
       ],
       "status": "external_benchmark_only"
     },
