@@ -1,6 +1,8 @@
 """Tests for source-grounded generator briefs and strict draft validation."""
 from usiphu.generator import (
-    build_generation_briefs, validate_generated_card, validate_generation_batch,
+    build_generation_briefs,
+    validate_generated_card,
+    validate_generation_batch,
 )
 
 
