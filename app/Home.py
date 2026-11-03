@@ -4,6 +4,7 @@ import os
 import streamlit as st
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
+from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
@@ -59,7 +60,7 @@ c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs(
-    ["Curriculum", "Find resources", "Practice", "Flashcards", "Progress"])
+    ["Curriculum", "Find resources", "Practice", "Flashcards", "Progress", "Generator"])
 with tab1:
     st.subheader("Specialty curriculum")
     st.write(f"{coverage['domains']} domains · {coverage['topics']} topics · {coverage['objectives']} learning objectives")
@@ -186,3 +187,46 @@ with tab5:
         st.dataframe(progress_rows, use_container_width=True, hide_index=True)
 st.divider()
 st.caption("Educational use only. Verify clinical information against current guidelines and local protocols.")
+
+
+with tab6:
+    st.subheader("Source-grounded exam-card generator")
+    st.warning(
+        "The generator currently prepares traceable briefs and validates proposed drafts. "
+        "No AI provider is configured; automated checks do not establish clinical correctness."
+    )
+    topic_choices = [
+        (row["specialty_id"], row["topic_id"], row["specialty"], row["topic"])
+        for row in flatten_topics(curriculum)
+    ]
+    selected_topic = st.selectbox(
+        "Choose a curriculum topic",
+        topic_choices,
+        format_func=lambda item: f"{item[2]} · {item[3]}",
+        key="generator-topic",
+    )
+    if st.button("Build generation brief", key="build-generation-brief"):
+        try:
+            briefs = build_generation_briefs(
+                specialty_id=selected_topic[0], topic_id=selected_topic[1]
+            )
+            st.session_state["generation_briefs"] = briefs
+            st.success(f"Prepared {len(briefs)} objective-level brief(s).")
+        except (KeyError, ValueError) as exc:
+            st.error(str(exc))
+    for brief in st.session_state.get("generation_briefs", []):
+        with st.expander(f"{brief['objective_id']} · {brief['objective']}", expanded=True):
+            st.caption(
+                f"Mapping: {brief['course_outcome_mapping_status']} · "
+                f"Status: {brief['generation_status']}"
+            )
+            if brief["official_suez_outcomes"]:
+                st.markdown("**Official Suez course outcomes**")
+                for outcome in brief["official_suez_outcomes"]:
+                    st.write(f"{outcome['id']} — {outcome['text']}")
+            if brief["external_benchmark_outcomes"]:
+                st.markdown("**External benchmark outcomes — not official Suez ILOs**")
+                for outcome in brief["external_benchmark_outcomes"]:
+                    st.write(f"{outcome['id']} — {outcome['text']}")
+            st.markdown("**Generation brief payload**")
+            st.json(brief)
