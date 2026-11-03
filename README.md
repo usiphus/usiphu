@@ -22,9 +22,14 @@ See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [cour
 - Specialty → domain → topic → measurable learning objectives.
 - Resource discovery across PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE search, guidelines, and medical challenge sites.
 - MCQ and structured clinical-case practice with explicit editorial status.
+- Source-grounded exam-card generation briefs, Suez ILO traceability, external-benchmark separation, and strict draft validation (provider adapter not yet configured).
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI read-only content endpoints.
 - Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
+
+## Card generation
+
+See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime currently prepares evidence- and ILO-bound generation briefs and validates model-produced drafts; it does not yet call an LLM provider. Passing automated validation never means clinical approval.
 
 ## Production
 
