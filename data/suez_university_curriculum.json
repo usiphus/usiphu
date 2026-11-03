@@ -1189,7 +1189,9 @@
       "course_outcome_refs": [],
       "course_outcome_mapping_status": "external_benchmark_only",
       "external_benchmark_refs": [
-        "EXT-PED-K-02"
+        "EXT-PED-K-02",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
       ]
     },
     {
@@ -1220,7 +1222,9 @@
       "course_outcome_mapping_status": "external_benchmark_only",
       "external_benchmark_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
       ]
     },
     {
@@ -1251,7 +1255,10 @@
       "course_outcome_mapping_status": "external_benchmark_only",
       "external_benchmark_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01",
+        "EXT-ASW-PED-P-02"
       ]
     },
     {
@@ -1282,7 +1289,9 @@
       "course_outcome_mapping_status": "external_benchmark_only",
       "external_benchmark_refs": [
         "EXT-PED-K-02",
-        "EXT-PED-I-01"
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01"
       ]
     },
     {
