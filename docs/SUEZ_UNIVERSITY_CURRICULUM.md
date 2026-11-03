@@ -99,3 +99,10 @@ The bylaw defines six graduate competency areas:
 ## Next source required for full outcome-level mapping
 
 Obtain the current course specifications for each module (and separate internship regulations if internship is to be represented). Then map every official outcome, skill and assessment item to Usiphu objective IDs, preserving uncovered official outcomes as explicit gaps. Departmental/curriculum committee review is required before describing the crosswalk as officially approved.
+
+
+## Course specifications and outcome-level mapping update
+
+Additional Suez University course specifications and teaching guides have since been supplied. Their outcomes and provenance are catalogued in [SUEZ_COURSE_OUTCOME_MAPPING.md](SUEZ_COURSE_OUTCOME_MAPPING.md) and [data/suez_course_ilos.json](../data/suez_course_ilos.json). The existing starter topics now carry explicit outcome references where supported.
+
+The official Suez University Pediatrics course specification for PHC/ped 2.3.1 remains unavailable. The supplied third-year guide is PHC/Obs 2.3.2 (Obstetrics/Gynaecology, Family Medicine and Occupational Medicine), not Pediatrics. A public Al-Azhar Damietta undergraduate Pediatrics course specification is included separately as an external benchmark only; it is not represented as Suez University curriculum. The mapping remains provisional pending official Pediatrics ILOs, cohort/version confirmation and faculty/clinical review.
