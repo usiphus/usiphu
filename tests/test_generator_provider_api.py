@@ -1,4 +1,4 @@
-"""Tests for provider readiness and generation API safety boundaries."""
+"""Tests for local provider readiness and generation API safety boundaries."""
 from fastapi.testclient import TestClient
 
 from usiphu.api import app
@@ -6,22 +6,25 @@ from usiphu.api import app
 client = TestClient(app)
 
 
-def test_generator_status_never_exposes_secret(monkeypatch):
-    monkeypatch.setenv("OPENAI_API_KEY", "test-secret-do-not-return")
+def test_generator_status_never_exposes_secrets(monkeypatch):
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
     response = client.get("/generator/status")
     assert response.status_code == 200
-    assert response.json()["configured"] is True
-    assert "test-secret-do-not-return" not in response.text
+    payload = response.json()
+    assert payload["configured"] is True
+    assert payload["provider"] == "ollama"
+    assert "api_key" not in response.text.lower()
 
 
-def test_generate_endpoint_requires_server_side_api_key(monkeypatch):
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+def test_generate_endpoint_requires_configured_ollama(monkeypatch):
+    monkeypatch.setenv("OLLAMA_BASE_URL", "")
     response = client.post(
         "/generator/generate",
         json={"specialty_id": "urology", "topic_id": "pujo"},
     )
     assert response.status_code == 503
-    assert "OPENAI_API_KEY" in response.json()["detail"]
+    assert "OLLAMA_BASE_URL" in response.json()["detail"]
 
 
 def test_generate_endpoint_validates_evidence_limit():
