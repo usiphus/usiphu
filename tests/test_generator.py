@@ -11,7 +11,7 @@ def test_briefs_bind_objectives_to_official_suez_outcomes():
     assert brief["course_outcome_mapping_status"] == "direct_course_outcome"
     assert [row["id"] for row in brief["official_suez_outcomes"]] == ["SI-URO-01"]
     assert not brief["external_benchmark_outcomes"]
-    assert brief["generation_status"] == "brief_ready_provider_not_configured"
+    assert brief["generation_status"] == "brief_ready"
 
 
 def test_pediatrics_briefs_preserve_external_only_provenance():
