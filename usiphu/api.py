@@ -2,7 +2,9 @@
 from fastapi import FastAPI, HTTPException, Query
 
 from usiphu.ai_provider import (
-    GenerationNotConfigured, generate_topic_cards, provider_status,
+    GenerationNotConfigured,
+    generate_topic_cards,
+    provider_status,
 )
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
