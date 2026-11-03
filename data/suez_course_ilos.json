@@ -1300,5 +1300,7 @@
       "status": "partial_related_outcome"
     }
   ],
-  "outcome_text_policy": "Outcome text is a concise normalized paraphrase of the supplied source ILOs, not a verbatim transcription. Original document names, institution, module code and provenance are retained for traceability."
+  "outcome_text_policy": "Outcome text is a concise normalized paraphrase of the supplied source ILOs, not a verbatim transcription. Original document names, institution, module code and provenance are retained for traceability.",
+  "extraction_status": "first_pass_grouped_outcome_catalog_not_exhaustive_verbatim_transcription",
+  "completeness_note": "The 73 official Suez outcome records are normalized grouped summaries. Some related source bullets have been combined; this is not yet a line-by-line transcription of every individual ILO in every supplied course specification. Complete outcome-by-outcome extraction and mapping remains a follow-up task."
 }
