@@ -10,10 +10,6 @@ from usiphu.ai_provider import GenerationNotConfigured, generate_topic_cards
 class FakeCompletions:
     def create(self, **kwargs):
         prompt = kwargs["messages"][1]["content"]
-        brief_json = prompt.split("CURRICULUM BRIEF:\\n", 1)[1].split(
-            "\\n\\nPERMITTED COURSE OUTCOME REFERENCES:", 1
-        )[0]
-        brief = json.loads(brief_json)
         refs_json = prompt.split("PERMITTED COURSE OUTCOME REFERENCES:\\n", 1)[1].split(
             "\\n\\nRETRIEVED PUBMED EVIDENCE", 1
         )[0]
