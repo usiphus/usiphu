@@ -71,8 +71,10 @@ def generator_briefs(specialty: str | None = None, topic: str | None = None) -> 
         briefs = build_generation_briefs(specialty_id=specialty, topic_id=topic)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    status = provider_status()
     return {
-        "provider_configured": False,
+        "provider_configured": status["configured"],
+        "provider": status,
         "generation_mode": "source_grounded_brief_only",
         "count": len(briefs),
         "briefs": briefs,
