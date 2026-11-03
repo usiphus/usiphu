@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import re
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -50,17 +51,22 @@ def _publication_date(article: ET.Element) -> str:
     return "date not supplied by PubMed"
 
 
-def _evidence_tier(publication_types: list[str]) -> str:
+def _evidence_tier(publication_types: list[str]) -> tuple[str, int]:
     text = " ".join(publication_types).casefold()
     if any(term in text for term in ("practice guideline", "guideline", "consensus")):
-        return "guideline_or_consensus"
+        return "guideline_or_consensus", 1
     if any(term in text for term in ("systematic review", "meta-analysis")):
-        return "systematic_review_or_meta_analysis"
+        return "systematic_review_or_meta_analysis", 2
     if "randomized controlled trial" in text:
-        return "randomized_trial"
+        return "randomized_trial", 3
     if "review" in text:
-        return "review"
-    return "primary_or_other_study"
+        return "review", 4
+    return "primary_or_other_study", 5
+
+
+def _publication_year(value: str) -> int:
+    match = re.search(r"\b(19|20)\d{2}\b", value)
+    return int(match.group(0)) if match else 0
 
 
 def retrieve_pubmed_evidence(query: str, max_results: int = 5) -> list[dict[str, Any]]:
@@ -116,6 +122,7 @@ def retrieve_pubmed_evidence(query: str, max_results: int = 5) -> list[dict[str,
             if identifier.attrib.get("IdType") == "doi":
                 doi = _text(identifier)
                 break
+        evidence_tier, evidence_rank = _evidence_tier(publication_types)
         records.append({
             "source_id": f"PMID:{pmid}",
             "source_title": title,
@@ -124,7 +131,8 @@ def retrieve_pubmed_evidence(query: str, max_results: int = 5) -> list[dict[str,
             "journal": journal,
             "doi": doi or None,
             "publication_types": publication_types,
-            "evidence_tier": _evidence_tier(publication_types),
+            "evidence_tier": evidence_tier,
+            "evidence_rank": evidence_rank,
             "abstract": abstract[:9000],
             "retrieved_at": date.today().isoformat(),
             "source_database": "PubMed",
@@ -133,4 +141,8 @@ def retrieve_pubmed_evidence(query: str, max_results: int = 5) -> list[dict[str,
                 "publication status, guideline currency, and applicability before approval."
             ),
         })
+    # Prefer guideline/systematic-review publication types, then newer records.
+    records.sort(
+        key=lambda item: (item["evidence_rank"], -_publication_year(item["source_date"]))
+    )
     return records
