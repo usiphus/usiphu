@@ -43,7 +43,13 @@ def test_every_starter_topic_has_explicit_mapping_status_and_preserved_objective
     } for row in profile["topics"])
     assert all(row["competency_mapping_status"] == "provisional_framework_alignment"
                for row in profile["topics"])
-    assert all("course_outcome_mapping_status" in row for row in profile["topics"])\n    assert all("course_outcome_refs" in row for row in profile["topics"])\n    assert all(row["official_outcome_reference"] is None or row["official_outcome_reference"] in row["course_outcome_refs"] for row in profile["topics"])
+    assert all("course_outcome_mapping_status" in row for row in profile["topics"])
+    assert all("course_outcome_refs" in row for row in profile["topics"])
+    assert all(
+        row["official_outcome_reference"] is None
+        or row["official_outcome_reference"] in row["course_outcome_refs"]
+        for row in profile["topics"]
+    )
 
 
 def test_urology_is_mapped_to_the_bylaw_surgery_module():
