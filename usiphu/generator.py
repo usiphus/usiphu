@@ -97,7 +97,7 @@ def build_generation_briefs(
                         "course_outcome_mapping_status": status,
                         "official_suez_outcomes": outcomes if not is_external else [],
                         "external_benchmark_outcomes": outcomes if is_external else [],
-                        "generation_status": "brief_ready_provider_not_configured",
+                        "generation_status": "brief_ready",
                         "output_contract": {
                             "allowed_card_types": ["mcq", "short_answer", "clinical_case"],
                             "required_review_status": "draft",
@@ -148,6 +148,24 @@ def validate_generated_card(
     elif any(not isinstance(claim, dict) or not claim.get("claim") or
              not claim.get("source_url") for claim in card["evidence_claims"]):
         errors.append("Each evidence_claim needs claim and source_url")
+    evidence_sources = card.get("evidence_sources")
+    if evidence_sources is not None:
+        if not isinstance(evidence_sources, list) or not evidence_sources:
+            errors.append("evidence_sources must be a non-empty list when supplied")
+        else:
+            source_urls = {item.get("source_url") for item in evidence_sources
+                           if isinstance(item, dict) and item.get("source_id")}
+            source_ids = {item.get("source_id") for item in evidence_sources
+                          if isinstance(item, dict) and item.get("source_id")}
+            if card.get("source_url") not in source_urls:
+                errors.append("Primary source URL must come from the retrieved evidence packet")
+            for claim in card.get("evidence_claims", []):
+                if isinstance(claim, dict) and (
+                    claim.get("source_url") not in source_urls or
+                    claim.get("source_id") not in source_ids
+                ):
+                    errors.append("Evidence claim references a source outside the retrieved packet")
+                    break
     allowed_refs = {
         item["id"] for item in (
             brief["external_benchmark_outcomes"] if brief["course_outcome_mapping_status"] ==
