@@ -1,0 +1,1306 @@
+{
+  "schema_version": "1.0",
+  "institution": {
+    "name_en": "Suez University",
+    "name_ar": "جامعة السويس",
+    "faculty": "Faculty of Medicine",
+    "exclusion": "Suez Canal University is a different institution and is not used as a Suez University source."
+  },
+  "interpretation_rules": [
+    "User-uploaded Suez University course specifications are the primary authority for official course ILOs.",
+    "A course topic or lecture schedule is not automatically an intended learning outcome.",
+    "External Pediatrics outcomes are retained only as a clearly labelled benchmark; they are not official Suez University ILOs and must not be represented as faculty-approved.",
+    "A topic is outcome-mapped only where the course specification explicitly supports the relationship. Module alignment alone remains module-level.",
+    "The 2020-2021 PHC/Obs guide is not a Pediatrics course specification and must not be used as a substitute for PHC/ped 2.3.1."
+  ],
+  "sources": [
+    {
+      "id": "suez-si-2022-23",
+      "title": "Surgery I Course Specifications – Fourth Year Students",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_specification",
+      "file": "Surgery course last 2023.pdf",
+      "academic_year": "2022-2023",
+      "module_code": "SI 2.4.2",
+      "year": 4,
+      "semester": 8,
+      "notes": "Includes General Surgery (including Plastic, Vascular and Pediatric surgeries), Cardiothoracic, Urology and Neurosurgery."
+    },
+    {
+      "id": "suez-sii-course",
+      "title": "Surgery II Course Specifications – Fifth Year Students",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_specification",
+      "file": "Surgery II guide last edition.docx",
+      "module_code": "SII 2.5.2",
+      "year": 5,
+      "semester": 9,
+      "notes": "Includes ENT, Ophthalmology and Orthopedics."
+    },
+    {
+      "id": "suez-mii-course",
+      "title": "Medicine II Course Specifications – Fifth Year Students",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_specification",
+      "file": "Medicine II Course last.docx",
+      "module_code": "MII 2.5.1",
+      "year": 5,
+      "semester": 9,
+      "notes": "Includes Neurology, Rheumatology, Dermatology and Psychiatry."
+    },
+    {
+      "id": "suez-mi-2021-22",
+      "title": "Medicine I Study Guide – Fourth Year Students",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_specification",
+      "file": "Medicine-1-study-guide.pdf",
+      "academic_year": "2021-2022",
+      "module_code": "MI 2.4.1",
+      "year": 4,
+      "semester": 7,
+      "notes": "Includes endemic hepatology/GIT, infectious diseases, endocrinology, nephrology, clinical pathology, cardiology, radiology, chest and oncology."
+    },
+    {
+      "id": "suez-emergency-guide",
+      "title": "Emergency Course – Guide",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_guide",
+      "file": "Emergency Course - Guide.pdf",
+      "module_code": "E&MR 2.5.3",
+      "year": 5,
+      "semester": 9,
+      "notes": "Emergency medicine guide and learning/assessment structure."
+    },
+    {
+      "id": "suez-medical-reporting-ilos",
+      "title": "Medical Reporting and Emergency Module – Proposal (ILOs)",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_ilo_proposal",
+      "file": "Proposal - Medical Reporting and Emergency Module - ILOs.pdf",
+      "module_code": "E&MR 2.5.3",
+      "year": 5,
+      "semester": 9,
+      "notes": "Detailed medical-reporting and toxicology outcomes; gastric-lavage skill lab is listed but separate procedural ILOs are not stated."
+    },
+    {
+      "id": "suez-phc-obs-2020-21",
+      "title": "Primary & Secondary Care (Obs/Gyn, Family Medicine and Occupational Medicine) Study Guide",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_course_guide",
+      "file": "3rd year-study-guide-2nd.pdf",
+      "academic_year": "2020-2021",
+      "module_code": "PHC/Obs 2.3.2",
+      "year": 3,
+      "semester": 6,
+      "notes": "This is the Obstetrics/Gynaecology, Family Medicine and Occupational Medicine module, not the Pediatrics module."
+    },
+    {
+      "id": "suez-ent-schedule-2022-23",
+      "title": "Otorhinolaryngology Teaching Outlines",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_teaching_schedule",
+      "file": "تم Otorhinolaryngoloy Teaching Outlines 2022-2023.pdf",
+      "academic_year": "2022-2023",
+      "module_code": "SII 2.5.2",
+      "notes": "Clinical demonstrations, bedside teaching, TBL core topics and interactive lecture schedule; not a separate formal ILO specification."
+    },
+    {
+      "id": "suez-ophth-schedule-2022-23",
+      "title": "Ophthalmology Lectures 2022-2023",
+      "institution": "Suez University, Faculty of Medicine",
+      "source_type": "user_supplied_teaching_schedule",
+      "file": "تمophthalmology lecturs 2022-2023.pdf",
+      "academic_year": "2022-2023",
+      "module_code": "SII 2.5.2",
+      "notes": "Lecture schedule for introduction, cataract, cornea, eyelids, glaucoma, strabismus, retinal vascular disease and uveitis; not a separate formal ILO specification."
+    },
+    {
+      "id": "azhar-damietta-pediatrics-benchmark",
+      "title": "Pediatric Course Specification – M.B.B.Ch Pediatric Program, Fifth Year",
+      "institution": "Al-Azhar University, Damietta Faculty of Medicine",
+      "source_type": "external_public_benchmark_not_suez_official",
+      "url": "https://domazhermedicine.edu.eg/اقسام-الكلية/الأقسام-الإكلينيكية/طب-الأطفال/الابحاث-العلمية-للقسم/",
+      "academic_year": null,
+      "module_code": null,
+      "year": 5,
+      "semester": null,
+      "notes": "Public undergraduate course specification: 260 teaching hours (105 lecture, 155 practical/clinical). Different university and year-level; benchmark only, not Suez University ILOs."
+    },
+    {
+      "id": "aswan-pediatrics-benchmark",
+      "title": "Pediatrics Course Specification – Fifth Year M.B.B.Ch., 2017–2018",
+      "institution": "Aswan University, Faculty of Medicine",
+      "source_type": "external_public_benchmark_not_suez_official",
+      "url": "https://med.aswu.edu.eg/wp-content/uploads/PDF/CourseSpecification/5/course-specification-pediatrics.pdf",
+      "academic_year": "2017-2018",
+      "module_code": "AMED 019",
+      "year": 5,
+      "notes": "Public undergraduate course specification, revised 2017; 240 hours (108 lecture, 132 tutorial/practical). Old-regulation fifth-year benchmark, not equivalent to Suez PHC/ped 2.3.1."
+    }
+  ],
+  "modules": [
+    {
+      "module_code": "SI 2.4.2",
+      "source_id": "suez-si-2022-23",
+      "year": 4,
+      "semester": 8,
+      "duration": "16 weeks + 2 assessment weeks",
+      "credits": 27,
+      "hours": 810,
+      "domains": [
+        "General Surgery",
+        "Plastic and reconstructive surgery",
+        "Vascular surgery",
+        "Cardiothoracic surgery",
+        "Urology",
+        "Neurosurgery"
+      ],
+      "outcomes": [
+        {
+          "id": "SI-GEN-01",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Define shock, classify shock, describe clinical presentations, causes, pathogenesis, diagnosis, management, complications and irreversible shock."
+        },
+        {
+          "id": "SI-GEN-02",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Explain hemostasis; causes, pathogenesis, types and management of hemorrhage; common coagulopathies; and indications, precautions and complications of blood transfusion."
+        },
+        {
+          "id": "SI-GEN-03",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Discuss fluid/electrolyte and acid-base balance and imbalance; surgical nutrition, enteral/parenteral nutrition and short bowel syndrome."
+        },
+        {
+          "id": "SI-GEN-04",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Classify surgical infections and explain presentation, diagnosis, management, antibiotic principles and antimicrobial resistance."
+        },
+        {
+          "id": "SI-GEN-05",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Formulate differential diagnosis and management plans for acute abdomen, gastrointestinal bleeding and gastrointestinal obstruction."
+        },
+        {
+          "id": "SI-GEN-06",
+          "domain": "General Surgery",
+          "kind": "clinical_skill",
+          "text": "Take and record a structured patient-centred history; perform and present systematic abdominal examination and interpret per-rectal examination."
+        },
+        {
+          "id": "SI-GEN-07",
+          "domain": "General Surgery",
+          "kind": "clinical_skill",
+          "text": "Assess swellings systematically; recognize and manage life-threatening trauma, multiple trauma, crush syndrome and compartment syndrome."
+        },
+        {
+          "id": "SI-GEN-08",
+          "domain": "General Surgery",
+          "kind": "clinical_skill",
+          "text": "Discuss peri-operative preparation, informed consent, DVT prophylaxis, intra-operative precautions and postoperative complications."
+        },
+        {
+          "id": "SI-GEN-09",
+          "domain": "General Surgery",
+          "kind": "procedural_skill",
+          "text": "Identify common surgical instruments, tubes and drains and apply common suturing techniques."
+        },
+        {
+          "id": "SI-VASC-01",
+          "domain": "Vascular Surgery",
+          "kind": "knowledge_and_skill",
+          "text": "Examine distal pulsations; describe acute/chronic ischemia, varicose veins, DVT and post-phlebitic limb; explain gangrene, amputation indications and complications."
+        },
+        {
+          "id": "SI-VASC-02",
+          "domain": "Vascular Surgery",
+          "kind": "knowledge_and_skill",
+          "text": "Describe vascular access indications, performance and complications; explain angiography, angioplasty and selective embolization and interpret arterial and venous angiographic images."
+        },
+        {
+          "id": "SI-VASC-03",
+          "domain": "Vascular Surgery",
+          "kind": "knowledge",
+          "text": "Identify diabetic foot and outline causes and management of diabetic-foot infection, including multidisciplinary care; list indications and techniques of sympathectomy."
+        },
+        {
+          "id": "SI-URO-01",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Discuss etiology, clinical presentation, diagnosis and management of renal agenesis, pelvi-ureteric junction obstruction, vesicoureteral reflux, duplication, ectopic ureter, ureterocele, undescended testis, hypospadias, posterior urethral valve and exstrophy-epispadias complex."
+        },
+        {
+          "id": "SI-URO-02",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Explain mechanisms, clinical presentation, diagnostic approach and management of urinary trauma, testicular torsion, penile fracture, priapism, obstructive uropathy, urinary retention, anuria and hematuria."
+        },
+        {
+          "id": "SI-URO-03",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Explain pathogenesis, clinical presentations, diagnosis and management of pyelonephritis, renal abscess, cystitis, prostatitis and sexually transmitted diseases."
+        },
+        {
+          "id": "SI-URO-04",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Discuss incidence, risk factors, causes, diagnosis and management of renal tumors and bladder cancer."
+        },
+        {
+          "id": "SI-URO-05",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Explain theories, clinical presentation, diagnosis and management of benign prostatic hyperplasia; discuss incidence, risk factors, causes, diagnosis and management of prostate cancer."
+        },
+        {
+          "id": "SI-URO-06",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Describe voiding dysfunction, neurological bladder control, micturition cycle, voiding-disorder classification, incontinence and nocturnal enuresis."
+        },
+        {
+          "id": "SI-URO-07",
+          "domain": "Urology",
+          "kind": "knowledge",
+          "text": "Explain urinary-stone etiology and theories of formation, stone composition, clinical presentation, management options and recurrence prevention."
+        },
+        {
+          "id": "SI-URO-SK-01",
+          "domain": "Urology",
+          "kind": "procedural_skill",
+          "text": "Categorize urological complaints and investigations; perform male and female urinary catheterization; explain indications/complications of catheterization and indications/techniques of suprapubic catheter and nephrostomy tube."
+        },
+        {
+          "id": "SI-URO-SK-02",
+          "domain": "Urology",
+          "kind": "procedural_skill",
+          "text": "Outline principles, indications and techniques of circumcision and post-circumcision complications; explain medico-legal aspects of female circumcision."
+        },
+        {
+          "id": "SI-CT-01",
+          "domain": "Cardiothoracic Surgery",
+          "kind": "knowledge_and_skill",
+          "text": "Explain mechanisms and types of chest trauma, clinical/radiological presentation, and diagnostic and management plans; discuss indications and complications of chest-tube insertion and perform chest-tube insertion."
+        },
+        {
+          "id": "SI-NS-01",
+          "domain": "Neurosurgery",
+          "kind": "knowledge",
+          "text": "Outline incidence, causes, presentation, diagnosis and management of congenital abnormalities, craniosynostosis, cranial/spinal trauma, brain and spinal tumors, stroke, intracerebral/subarachnoid hemorrhage, venous sinus thrombosis, cerebral aneurysms and hydrocephalus."
+        },
+        {
+          "id": "SI-NS-SK-01",
+          "domain": "Neurosurgery",
+          "kind": "clinical_skill",
+          "text": "Apply and interpret neurological examination and interpret plain skull/spine X-rays, CT and MRI of skull and spine."
+        },
+        {
+          "id": "SI-GEN-10",
+          "domain": "General Surgery",
+          "kind": "knowledge",
+          "text": "Define and classify hernias; discuss clinical presentations and complications and outline principles of management of different hernia types."
+        },
+        {
+          "id": "SI-GEN-11",
+          "domain": "General Surgery",
+          "kind": "clinical_skill",
+          "text": "Perform and interpret breast examination; formulate differential diagnosis of breast masses and nipple discharge and explain management approaches."
+        },
+        {
+          "id": "SI-PBL-01",
+          "domain": "Surgery PBL",
+          "kind": "clinical_reasoning",
+          "text": "Explain management of metastatic prostatic carcinoma and design guidelines for care of a bedridden patient with complicated pressure sores."
+        }
+      ],
+      "assessment": [
+        "OSCE",
+        "MCQ",
+        "MEQ",
+        "Portfolio",
+        "Research"
+      ]
+    },
+    {
+      "module_code": "MI 2.4.1",
+      "source_id": "suez-mi-2021-22",
+      "year": 4,
+      "semester": 7,
+      "duration": "18 weeks",
+      "credits": 27,
+      "hours": 810,
+      "domains": [
+        "Infectious diseases",
+        "Hepatology and GIT",
+        "Endocrinology",
+        "Nephrology",
+        "Clinical pathology",
+        "Cardiology",
+        "Radiology",
+        "Chest",
+        "Oncology"
+      ],
+      "outcomes": [
+        {
+          "id": "MI-INF-01",
+          "domain": "Infectious diseases",
+          "kind": "knowledge",
+          "text": "Discuss emerging and re-emerging infections, fever with rash, CNS infection, rabies, foodborne infection, sepsis and complications, HIV/AIDS, parasitic infestations, antiparasitic drugs and prevention."
+        },
+        {
+          "id": "MI-INF-02",
+          "domain": "Infectious diseases",
+          "kind": "clinical_reasoning",
+          "text": "Discuss diagnostic and management approaches to pyrexia of unknown origin, fever with rash, hepatosplenomegaly and fever with generalized lymphadenopathy."
+        },
+        {
+          "id": "MI-GIT-01",
+          "domain": "Hepatology and GIT",
+          "kind": "knowledge",
+          "text": "Describe causes/pathogenesis and diagnostic approaches for dyspepsia, jaundice, hepatitis, chronic liver disease, portal hypertension, hepatic encephalopathy and hepatocellular carcinoma."
+        },
+        {
+          "id": "MI-GIT-02",
+          "domain": "Hepatology and GIT",
+          "kind": "clinical_reasoning",
+          "text": "Differentiate diagnostic approaches for inflammatory bowel disease, acute/chronic diarrhea, dysentery, malabsorption, GIT bleeding, dysphagia/esophageal disorders, gallbladder disease, pancreatitis, functional GIT disorders and common GIT malignancies."
+        },
+        {
+          "id": "MI-GIT-03",
+          "domain": "Hepatology and GIT",
+          "kind": "management",
+          "text": "Explain management plans for jaundice, inflammatory bowel disease, hepatosplenomegaly, cirrhosis, hepatic encephalopathy and listed gastrointestinal/hepatic conditions."
+        },
+        {
+          "id": "MI-ENDO-01",
+          "domain": "Endocrinology",
+          "kind": "knowledge_and_management",
+          "text": "For thyroid, adrenal, glucose-tolerance, parathyroid and pituitary disorders, describe causes, classification, pathogenesis, complications, emergency states and management plans."
+        },
+        {
+          "id": "MI-REN-01",
+          "domain": "Nephrology",
+          "kind": "knowledge",
+          "text": "Describe clinical features of acute/chronic renal failure, nephrotic/nephritic syndrome, electrolyte imbalance and acid-base disturbances; outline diagnosis and management."
+        },
+        {
+          "id": "MI-REN-02",
+          "domain": "Nephrology",
+          "kind": "knowledge",
+          "text": "Describe principles of renal replacement therapy, including dialysis and renal transplantation."
+        },
+        {
+          "id": "MI-ONC-01",
+          "domain": "Oncology",
+          "kind": "clinical_skill",
+          "text": "Take focused oncological history and examination, assess metastatic spinal cord compression, provide symptom relief/palliative care, recognize radiation-protection principles and communicate bad news/shared decisions."
+        },
+        {
+          "id": "MI-GEN-SK-01",
+          "domain": "Clinical skills",
+          "kind": "clinical_skill",
+          "text": "Take complete and focused histories; perform age-, gender- and presentation-appropriate general and systemic examinations; measure vital signs; use instruments; maintain dignity, empathy and professional conduct; interpret investigations."
+        },
+        {
+          "id": "MI-CARD-01",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe congenital heart disease, hypertension and hypertensive emergencies; classify congenital heart disease and hypertension; explain pathogenesis, clinical pictures, complications and diagnostic approach."
+        },
+        {
+          "id": "MI-CARD-02",
+          "domain": "Cardiology",
+          "kind": "knowledge_and_clinical_reasoning",
+          "text": "Outline diagnostic approach to chest pain; describe ischemic heart disease syndromes, angina, myocardial infarction pathogenesis and clinical picture, MI types/complications, and effects of thrombolysis and reperfusion."
+        },
+        {
+          "id": "MI-CARD-03",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe heart failure and cardiomyopathy in terms of definition, classification, causes, clinical manifestations and consequences; compare right- and left-sided heart failure."
+        },
+        {
+          "id": "MI-CARD-04",
+          "domain": "Cardiology",
+          "kind": "knowledge",
+          "text": "Describe arrhythmias in terms of definition, classification, causes, clinical manifestations, ECG changes and complications."
+        },
+        {
+          "id": "MI-CHEST-01",
+          "domain": "Chest",
+          "kind": "knowledge_and_management",
+          "text": "Describe clinical features, definition, pathogenesis and classification/types of COPD, chronic bronchitis, emphysema, asthma, interstitial lung disease/IPF, pleural effusion, tuberculosis and respiratory tract infections/pneumonia; discuss presentation, diagnostic approach and management of pneumonia and COPD."
+        },
+        {
+          "id": "MI-RAD-01",
+          "domain": "Radiology",
+          "kind": "clinical_skill",
+          "text": "Recognize indications and preparation for imaging; interpret basic imaging; identify radiological modalities and contraindications; select appropriate investigations; recognize alarming signs requiring urgent intervention and identify FAST scan in trauma."
+        },
+        {
+          "id": "MI-INF-03",
+          "domain": "Infectious diseases",
+          "kind": "pharmacology",
+          "text": "Describe antimicrobial and antiparasitic agents by classification, mechanism of action, indications, adverse effects, drug interactions and contraindications."
+        }
+      ],
+      "assessment": [
+        "Written MCQ",
+        "MEQ",
+        "Clinical sessions"
+      ]
+    },
+    {
+      "module_code": "MII 2.5.1",
+      "source_id": "suez-mii-course",
+      "year": 5,
+      "semester": 9,
+      "duration": "6 weeks",
+      "credits": 9,
+      "hours": 270,
+      "domains": [
+        "Neurology",
+        "Psychiatry",
+        "Rheumatology",
+        "Dermatology and Andrology"
+      ],
+      "outcomes": [
+        {
+          "id": "MII-NEU-01",
+          "domain": "Neurology",
+          "kind": "knowledge",
+          "text": "Describe hemiplegia, cerebrovascular stroke/TIA, convulsions/epilepsy, Parkinson disease, multiple sclerosis, motor-neuron disease, myopathy, myasthenia and movement disorders/ataxia in terms of definition, classification, causes, pathogenesis, clinical picture and outline management."
+        },
+        {
+          "id": "MII-NEU-02",
+          "domain": "Neurology",
+          "kind": "clinical_reasoning",
+          "text": "Identify diagnostic approaches for coma/confusion/delirium, peripheral neuropathy/Guillain-Barré syndrome, spinal-cord compression/acute paraplegia, raised intracranial tension, subarachnoid hemorrhage and cerebral sinus thrombosis; describe headache approach and differential diagnosis of paraplegia and low-back pain."
+        },
+        {
+          "id": "MII-PSY-01",
+          "domain": "Psychiatry",
+          "kind": "knowledge_and_management",
+          "text": "Describe mental/psychiatric-status assessment, psychiatric emergencies, high-risk groups, psychoses, personality disorders, substance abuse, liaison psychiatry and suicide; outline emergency management and therapeutic approaches."
+        },
+        {
+          "id": "MII-PSY-02",
+          "domain": "Psychiatry",
+          "kind": "knowledge",
+          "text": "Explain mood, adjustment, somatoform, anxiety, schizophrenic-spectrum and organic mental disorders in terms of pathogenesis, clinical presentation and management."
+        },
+        {
+          "id": "MII-RHE-01",
+          "domain": "Rheumatology",
+          "kind": "knowledge",
+          "text": "Describe types, pathogenesis, clinical picture and outcomes of rheumatoid arthritis, lupus, osteoporosis, osteoarthritis and low-back pain; approach mechanical/inflammatory back pain and mono-/polyarthritis."
+        },
+        {
+          "id": "MII-RHE-02",
+          "domain": "Rheumatology",
+          "kind": "clinical_reasoning",
+          "text": "Identify diagnostic approaches for vasculitis, systemic sclerosis/scleroderma, Sjogren syndrome, seronegative diseases, crystal arthropathies, soft-tissue rheumatism and metabolic/nutritional bone disease."
+        },
+        {
+          "id": "MII-RHE-03",
+          "domain": "Rheumatology",
+          "kind": "pharmacology",
+          "text": "Describe mechanisms, indications, contraindications and adverse effects of conventional and biological DMARDs, NSAIDs and corticosteroids; outline rehabilitation and management plans."
+        },
+        {
+          "id": "MII-DERM-01",
+          "domain": "Dermatology",
+          "kind": "clinical_skill",
+          "text": "Take focused dermatological history; describe skin lesions; demonstrate use/indications of Wood's light, skin biopsy, cryotherapy, electrocautery, intralesional injections, phototherapy and KOH examination; interpret semen analysis."
+        },
+        {
+          "id": "MII-DERM-02",
+          "domain": "Dermatology",
+          "kind": "knowledge",
+          "text": "Describe etiology, pathogenesis, clinical features and diagnosis of common bacterial, viral, fungal and parasitic skin infections, dermatitis, urticaria/angioedema/anaphylaxis, papulosquamous disease, vitiligo, skin cancer, hair disorders and acne."
+        },
+        {
+          "id": "MII-DERM-03",
+          "domain": "Dermatology",
+          "kind": "management",
+          "text": "Discuss management of common skin infections, leprosy, eczema, psoriasis, urticaria/angioedema/anaphylaxis, severe drug reactions, vitiligo, skin cancers, alopecia, acne, STIs, male infertility and erectile dysfunction."
+        },
+        {
+          "id": "MII-GEN-SK-01",
+          "domain": "Clinical skills",
+          "kind": "clinical_skill",
+          "text": "Take focused histories and perform relevant examinations; communicate systematically and compassionately; present findings, formulate next steps and respect patient/family cultural context."
+        }
+      ],
+      "assessment": [
+        "OSCE",
+        "MCQ",
+        "MEQ",
+        "Portfolio",
+        "Research"
+      ]
+    },
+    {
+      "module_code": "SII 2.5.2",
+      "source_id": "suez-sii-course",
+      "year": 5,
+      "semester": 9,
+      "duration": "6 weeks",
+      "credits": 9,
+      "hours": 270,
+      "domains": [
+        "ENT",
+        "Ophthalmology",
+        "Orthopedics"
+      ],
+      "outcomes": [
+        {
+          "id": "SII-ENT-01",
+          "domain": "ENT",
+          "kind": "knowledge",
+          "text": "Describe causes, pathogenesis, clinical presentation and management of otitis externa/media, otosclerosis, rhinosinusitis, chronic rhinitis, tonsillitis, laryngeal carcinoma, neck swellings and facial nerve paralysis; outline common ENT emergencies."
+        },
+        {
+          "id": "SII-ENT-02",
+          "domain": "ENT",
+          "kind": "clinical_skill",
+          "text": "Perform oropharyngeal examination, otoscopy, anterior rhinoscopy, neonatal hearing-screening attendance/registration and tuning-fork tests; solve ENT cases and interpret history, examination and investigations."
+        },
+        {
+          "id": "SII-OPH-01",
+          "domain": "Ophthalmology",
+          "kind": "knowledge",
+          "text": "Describe eye structure/function, red-reflex testing, fundus examination, aqueous-humour circulation, glaucoma, ocular alignment/amblyopia, congenital glaucoma, nasolacrimal obstruction, red eye, keratitis, cataract, dry eye and uveitis."
+        },
+        {
+          "id": "SII-OPH-02",
+          "domain": "Ophthalmology",
+          "kind": "clinical_skill",
+          "text": "Measure visual acuity; assess pupils, ocular motility, visual fields, intraocular pressure, red reflex and fundus; use direct ophthalmoscope and penlight; evert eyelid; perform Hirschberg and relevant pediatric eye tests; recognize urgent referral signs."
+        },
+        {
+          "id": "SII-ORTH-01",
+          "domain": "Orthopedics",
+          "kind": "knowledge",
+          "text": "Describe bone/cartilage histology, normal gait, limb/spine anatomy, investigation and imaging of fractures/dislocations, tendon/peripheral nerve injuries, swollen joint, osteomyelitis, septic arthritis and common bone tumors."
+        },
+        {
+          "id": "SII-ORTH-02",
+          "domain": "Orthopedics",
+          "kind": "clinical_skill",
+          "text": "Take focused musculoskeletal and injury histories; perform GALS and joint/spine examinations, focused neurological examination, interpret deformities and examination findings, and recognize orthopedic emergencies."
+        }
+      ],
+      "assessment": [
+        "OSCE",
+        "MCQ",
+        "MEQ",
+        "Portfolio",
+        "Research"
+      ]
+    },
+    {
+      "module_code": "E&MR 2.5.3",
+      "source_id": "suez-emergency-guide",
+      "year": 5,
+      "semester": 9,
+      "duration": "6 weeks",
+      "credits": 9,
+      "hours": 270,
+      "domains": [
+        "Emergency medicine",
+        "Medical reporting",
+        "Clinical toxicology"
+      ],
+      "outcomes": [
+        {
+          "id": "EMR-EM-01",
+          "domain": "Emergency medicine",
+          "kind": "clinical_reasoning",
+          "text": "Recognize and prioritize common life-threatening emergencies; assess and initiate management of shock, sepsis, hemorrhage, trauma, respiratory and cardiovascular emergencies, neurological emergencies and poisoning as specified in the emergency guide."
+        },
+        {
+          "id": "EMR-EM-02",
+          "domain": "Emergency medicine",
+          "kind": "clinical_skill",
+          "text": "Perform structured emergency assessment, interpret ECG/radiology and clinical investigations, and demonstrate resuscitation and emergency-care skills as specified in the guide."
+        },
+        {
+          "id": "EMR-MR-01",
+          "domain": "Medical reporting",
+          "kind": "knowledge_and_skill",
+          "text": "Identify injury types and causative instruments; describe the pillars/template of a primary medicolegal report, consequences of an unsound report and components of a death certificate; write and edit a medicolegal report."
+        },
+        {
+          "id": "EMR-TOX-01",
+          "domain": "Clinical toxicology",
+          "kind": "knowledge",
+          "text": "Define assessment steps for acute intoxication; list toxidromes, household poisoning, life-saving measures, ICU admission criteria, antidotes, elimination methods and common treatment errors."
+        },
+        {
+          "id": "EMR-TOX-02",
+          "domain": "Clinical toxicology",
+          "kind": "clinical_reasoning",
+          "text": "Illustrate treatment of acute intoxication and differentiate gastrointestinal, topical and respiratory decontamination."
+        },
+        {
+          "id": "EMR-DRUG-01",
+          "domain": "Drug abuse",
+          "kind": "knowledge_and_reasoning",
+          "text": "List common drugs of abuse; describe clinical presentations and detection periods; identify threshold concentrations; investigate and treat drug abuse; differentiate tolerance, psychological dependence and physical dependence."
+        },
+        {
+          "id": "EMR-MR-02",
+          "domain": "Medical reporting",
+          "kind": "clinical_skill",
+          "text": "Identify common errors in medicolegal reports and death certificates and demonstrate editing of both documents; complete the specified four-week logbook/portfolio activity."
+        }
+      ],
+      "assessment": [
+        "Portfolio",
+        "Written MCQ/MEQ",
+        "OSCE",
+        "Final paper and clinical examination"
+      ]
+    },
+    {
+      "module_code": "PHC/Obs 2.3.2",
+      "source_id": "suez-phc-obs-2020-21",
+      "year": 3,
+      "semester": 6,
+      "duration": "18 weeks",
+      "credits": 27,
+      "hours": 810,
+      "domains": [
+        "Obstetrics and Gynaecology",
+        "Family Medicine",
+        "Occupational Medicine"
+      ],
+      "outcomes": [
+        {
+          "id": "PHCO-OBS-01",
+          "domain": "Obstetrics and Gynaecology",
+          "kind": "knowledge",
+          "text": "Describe diagnosis and management of early/late pregnancy bleeding, miscarriage, ectopic/molar pregnancy, hypertensive and diabetic disorders of pregnancy, maternal infection, fetal growth and wellbeing, normal/abnormal labour, cesarean section and puerperium."
+        },
+        {
+          "id": "PHCO-OBS-02",
+          "domain": "Obstetrics and Gynaecology",
+          "kind": "knowledge",
+          "text": "Describe puberty, amenorrhea, menstrual disorders, infertility, PCOS, endometriosis, genital infections/STIs, female genital tract tumors, urinary incontinence, pelvic organ prolapse and contraception."
+        },
+        {
+          "id": "PHCO-FM-01",
+          "domain": "Family Medicine",
+          "kind": "knowledge_and_communication",
+          "text": "Describe family-physician roles in preconception, antenatal, postpartum, family-planning and women's health; explain breaking bad news, family crises, vaginitis, breast problems and menopause."
+        },
+        {
+          "id": "PHCO-OCC-01",
+          "domain": "Occupational Medicine",
+          "kind": "knowledge",
+          "text": "Take occupational/environmental history; assess workplace exposures; describe physical, chemical, biological, ergonomic and psychosocial hazards, occupational lung disease, prevention, industrial hygiene and occupational-health standards."
+        },
+        {
+          "id": "PHCO-SK-01",
+          "domain": "Clinical skills",
+          "kind": "clinical_skill",
+          "text": "Take obstetric/gynaecologic histories; examine pregnant, infertile and menopausal patients; perform general/systemic and focused gynecological examinations; interpret antenatal findings and screening tests."
+        }
+      ],
+      "assessment": [
+        "Written MCQ",
+        "Practical assessment"
+      ]
+    }
+  ],
+  "external_benchmarks": [
+    {
+      "source_id": "azhar-damietta-pediatrics-benchmark",
+      "target_module_alignment": "PHC/ped 2.3.1 (Suez bylaw module-level alignment only; external outcomes are not Suez outcomes)",
+      "course_scope": "Fifth-year M.B.B.Ch Pediatric Program, 260 hours (105 lecture, 155 practical/clinical)",
+      "outcome_groups": [
+        {
+          "id": "EXT-PED-K-01",
+          "category": "knowledge",
+          "text": "Describe normal and abnormal growth/development; genetic diseases; nutritional and micronutrient requirements/disorders and management; childhood immunization indications, contraindications, administration and precautions."
+        },
+        {
+          "id": "EXT-PED-K-02",
+          "category": "knowledge",
+          "text": "Describe priorities, causes, pathogenesis, clinical signs/symptoms, diagnostic tools, interpretation, therapeutic lines and important drug indications/doses/adverse effects for neonatal and pediatric problems and emergencies."
+        },
+        {
+          "id": "EXT-PED-I-01",
+          "category": "intellectual_skills",
+          "text": "Interpret pediatric symptoms/signs and history, examination and investigations; solve and prioritize common clinical problems; select and interpret X-rays and laboratory reports; recognize danger signs and need for referral; formulate investigation and treatment plans."
+        },
+        {
+          "id": "EXT-PED-P-01",
+          "category": "professional_skills",
+          "text": "Collect structured pediatric history; perform age-appropriate general and local examinations; assess growth/nutrition anthropometrically; interpret pediatric symptoms/signs and formulate management plans."
+        },
+        {
+          "id": "EXT-PED-G-01",
+          "category": "general_skills",
+          "text": "Respect the healthcare team; demonstrate professional conduct; communicate with children, families and colleagues; respect cultural beliefs and values."
+        }
+      ],
+      "topic_domains": [
+        "Growth and development",
+        "Nutrition and infant feeding",
+        "Neonatology",
+        "Social and preventive pediatrics",
+        "Genetics and dysmorphology",
+        "Nephrology",
+        "Cardiovascular system",
+        "Respiratory system",
+        "Hematology/oncology",
+        "Infection and parasitic infection",
+        "Endocrinology and metabolism",
+        "Musculoskeletal system",
+        "Central nervous system",
+        "Gastroenterology/hepatobiliary",
+        "Collagen disorders",
+        "Pediatric emergencies and environmental hazards",
+        "Behavioral pediatrics",
+        "Radiology"
+      ],
+      "mapping_policy": "Benchmark-only. Do not set Suez official_outcome_reference to these external outcome IDs. Use only to identify candidate missing topics/skills pending confirmation against Suez University PHC/ped 2.3.1 course specification."
+    },
+    {
+      "source_id": "aswan-pediatrics-benchmark",
+      "target_module_alignment": "PHC/ped 2.3.1 (Suez bylaw module-level alignment only; external outcomes are not Suez outcomes)",
+      "course_scope": "Fifth-year M.B.B.Ch. Pediatrics course, 2017-2018, 240 hours (108 lecture, 132 tutorial/practical), Aswan University old regulation",
+      "outcome_groups": [
+        {
+          "id": "EXT-ASW-PED-K-01",
+          "category": "knowledge",
+          "text": "Describe normal growth and development, management of growth/development abnormalities, pediatric nutritional requirements/disorders, immunization indications/contraindications/administration/precautions, behavioral issues, and congenital/inherited disease impact."
+        },
+        {
+          "id": "EXT-ASW-PED-K-02",
+          "category": "knowledge",
+          "text": "Define priorities for neonatal/pediatric emergencies; identify causes and pathogenesis of important neonatal/pediatric diseases, therapeutic lines, health promotion and prevention of disease/injury."
+        },
+        {
+          "id": "EXT-ASW-PED-I-01",
+          "category": "intellectual_skills",
+          "text": "Interpret pediatric symptoms/signs; apply management plans and problem-solving judgment; assess X-rays and laboratory reports; recognize neonatal and pediatric emergencies."
+        },
+        {
+          "id": "EXT-ASW-PED-P-01",
+          "category": "professional_skills",
+          "text": "Obtain pediatric history; assess vital signs and physical/mental development; perform clinical and anthropometric nutrition assessments and age-appropriate examinations."
+        },
+        {
+          "id": "EXT-ASW-PED-P-02",
+          "category": "professional_skills",
+          "text": "Manage neonatal care and neonatal resuscitation; provide inhalation therapy, IM injections, nasogastric tube insertion and pediatric BLS; assemble patient data; examine common neonatal, nutritional, gastrointestinal, respiratory, cardiac, hematologic, renal, genetic and neurologic cases; interpret specified radiology."
+        },
+        {
+          "id": "EXT-ASW-PED-G-01",
+          "category": "general_skills",
+          "text": "Use community resources and needs-assessment models; communicate effectively with children, adolescents and families; demonstrate professional attitudes and respectful counseling."
+        }
+      ],
+      "topic_domains": [
+        "General pediatrics",
+        "Vaccination",
+        "Growth and development",
+        "Nutritional disorders and infant feeding",
+        "Neonatology",
+        "Genetics",
+        "Nephrology",
+        "Cardiovascular",
+        "Respiratory",
+        "Hematology",
+        "Infectious diseases",
+        "Endocrinology",
+        "Neuromuscular disorders",
+        "Gastroenterology and hepatology",
+        "Pediatric emergencies and poisoning",
+        "Behavioral pediatrics",
+        "Rheumatology",
+        "IMCI",
+        "Practical procedures"
+      ],
+      "mapping_policy": "Benchmark-only. Old-regulation fifth-year specification; do not treat as official Suez PHC/ped 2.3.1 outcomes. Use for candidate gap analysis and procedural coverage only pending Suez course specification."
+    }
+  ],
+  "topic_crosswalk": [
+    {
+      "topic_id": "acs",
+      "outcome_refs": [
+        "MI-CARD-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "heart-failure",
+      "outcome_refs": [
+        "MI-CARD-03"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "arrhythmias",
+      "outcome_refs": [
+        "MI-CARD-04"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "asthma",
+      "outcome_refs": [
+        "MI-CHEST-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "copd",
+      "outcome_refs": [
+        "MI-CHEST-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "pneumonia",
+      "outcome_refs": [
+        "MI-CHEST-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "diabetes",
+      "outcome_refs": [
+        "MI-ENDO-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "thyroid",
+      "outcome_refs": [
+        "MI-ENDO-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "gi-bleed",
+      "outcome_refs": [
+        "MI-GIT-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "cirrhosis",
+      "outcome_refs": [
+        "MI-GIT-01",
+        "MI-GIT-03"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "aki",
+      "outcome_refs": [
+        "MI-REN-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "ckd",
+      "outcome_refs": [
+        "MI-REN-01",
+        "MI-REN-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "sepsis",
+      "outcome_refs": [
+        "MI-INF-01",
+        "EMR-EM-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "antimicrobials",
+      "outcome_refs": [
+        "MI-INF-03"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "acute-abdomen",
+      "outcome_refs": [
+        "SI-GEN-05"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "bowel-obstruction",
+      "outcome_refs": [
+        "SI-GEN-05"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "trauma",
+      "outcome_refs": [
+        "SI-GEN-07",
+        "SI-CT-01",
+        "EMR-EM-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "groin-hernia",
+      "outcome_refs": [
+        "SI-GEN-10"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "breast-lump",
+      "outcome_refs": [
+        "SI-GEN-11"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "pujo",
+      "outcome_refs": [
+        "SI-URO-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "puv",
+      "outcome_refs": [
+        "SI-URO-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "retention",
+      "outcome_refs": [
+        "SI-URO-02",
+        "SI-URO-SK-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "rcc",
+      "outcome_refs": [
+        "SI-URO-04"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "bladder-cancer",
+      "outcome_refs": [
+        "SI-URO-04"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "prostate-cancer",
+      "outcome_refs": [
+        "SI-URO-05",
+        "SI-PBL-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "renal-colic",
+      "outcome_refs": [
+        "SI-URO-07"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "vur",
+      "outcome_refs": [
+        "SI-URO-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "incontinence",
+      "outcome_refs": [
+        "SI-URO-06"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "preeclampsia",
+      "outcome_refs": [
+        "PHCO-OBS-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "postpartum-hemorrhage",
+      "outcome_refs": [
+        "PHCO-OBS-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "abnormal-bleeding",
+      "outcome_refs": [
+        "PHCO-OBS-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "gynae-oncology",
+      "outcome_refs": [
+        "PHCO-OBS-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "neonatal-resuscitation",
+      "outcome_refs": [
+        "EXT-PED-K-02",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
+      ],
+      "status": "external_benchmark_only"
+    },
+    {
+      "topic_id": "neonatal-jaundice",
+      "outcome_refs": [
+        "EXT-PED-K-02",
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-P-02"
+      ],
+      "status": "external_benchmark_only"
+    },
+    {
+      "topic_id": "dehydration",
+      "outcome_refs": [
+        "EXT-PED-K-02",
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01",
+        "EXT-ASW-PED-P-02"
+      ],
+      "status": "external_benchmark_only"
+    },
+    {
+      "topic_id": "febrile-child",
+      "outcome_refs": [
+        "EXT-PED-K-02",
+        "EXT-PED-I-01",
+        "EXT-ASW-PED-K-02",
+        "EXT-ASW-PED-I-01"
+      ],
+      "status": "external_benchmark_only"
+    },
+    {
+      "topic_id": "fractures",
+      "outcome_refs": [
+        "SII-ORTH-01",
+        "SII-ORTH-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "dislocations",
+      "outcome_refs": [
+        "SII-ORTH-01",
+        "SII-ORTH-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "osteoarthritis",
+      "outcome_refs": [
+        "MII-RHE-01",
+        "SII-ORTH-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "ischemic-stroke",
+      "outcome_refs": [
+        "MII-NEU-01",
+        "MII-NEU-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "sah",
+      "outcome_refs": [
+        "MII-NEU-02",
+        "SI-NS-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "raised-icp",
+      "outcome_refs": [
+        "MII-NEU-02",
+        "SI-NS-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "spinal-abscess",
+      "outcome_refs": [],
+      "status": "module_only_no_specific_ilo"
+    },
+    {
+      "topic_id": "pad",
+      "outcome_refs": [
+        "SI-VASC-01",
+        "SI-VASC-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "aaa",
+      "outcome_refs": [],
+      "status": "module_only_no_specific_ilo"
+    },
+    {
+      "topic_id": "dvt",
+      "outcome_refs": [
+        "SI-VASC-01",
+        "SI-GEN-08"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "chronic-venous",
+      "outcome_refs": [
+        "SI-VASC-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "airway-management",
+      "outcome_refs": [
+        "EMR-EM-02"
+      ],
+      "status": "partial_related_outcome"
+    },
+    {
+      "topic_id": "perioperative-risk",
+      "outcome_refs": [
+        "SI-GEN-08"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "shock",
+      "outcome_refs": [
+        "SI-GEN-01",
+        "EMR-EM-01"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "ventilation",
+      "outcome_refs": [
+        "EMR-EM-02"
+      ],
+      "status": "partial_related_outcome"
+    },
+    {
+      "topic_id": "red-eye",
+      "outcome_refs": [
+        "SII-OPH-01",
+        "SII-OPH-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "glaucoma",
+      "outcome_refs": [
+        "SII-OPH-01",
+        "SII-OPH-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "diabetic-retinopathy",
+      "outcome_refs": [
+        "SII-OPH-01"
+      ],
+      "status": "partial_related_outcome"
+    },
+    {
+      "topic_id": "hearing-loss",
+      "outcome_refs": [
+        "SII-ENT-01",
+        "SII-ENT-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "epistaxis",
+      "outcome_refs": [
+        "SII-ENT-01",
+        "SII-ENT-02"
+      ],
+      "status": "partial_related_outcome"
+    },
+    {
+      "topic_id": "airway-ent",
+      "outcome_refs": [
+        "SII-ENT-01"
+      ],
+      "status": "partial_related_outcome"
+    },
+    {
+      "topic_id": "eczema",
+      "outcome_refs": [
+        "MII-DERM-02",
+        "MII-DERM-03"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "psoriasis",
+      "outcome_refs": [
+        "MII-DERM-02",
+        "MII-DERM-03"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "depression",
+      "outcome_refs": [
+        "MII-PSY-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "bipolar",
+      "outcome_refs": [
+        "MII-PSY-02"
+      ],
+      "status": "direct_course_outcome"
+    },
+    {
+      "topic_id": "agitation",
+      "outcome_refs": [
+        "MII-PSY-01"
+      ],
+      "status": "partial_related_outcome"
+    }
+  ],
+  "outcome_text_policy": "Outcome text is a concise normalized paraphrase of the supplied source ILOs, not a verbatim transcription. Original document names, institution, module code and provenance are retained for traceability.",
+  "extraction_status": "first_pass_grouped_outcome_catalog_not_exhaustive_verbatim_transcription",
+  "completeness_note": "The 73 official Suez outcome records are normalized grouped summaries. Some related source bullets have been combined; this is not yet a line-by-line transcription of every individual ILO in every supplied course specification. Complete outcome-by-outcome extraction and mapping remains a follow-up task."
+}

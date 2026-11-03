@@ -1,4 +1,5 @@
 """SQLite persistence for isolated learner flashcards, reviews, and topic mastery."""
+import json
 import os
 import sqlite3
 from datetime import date
@@ -32,6 +33,15 @@ def initialize(path: Path = DEFAULT_DB) -> None:
           specialty_id TEXT NOT NULL, topic_id TEXT NOT NULL,
           prompt TEXT NOT NULL, answer TEXT NOT NULL, source_url TEXT
         );
+        CREATE TABLE IF NOT EXISTS generated_drafts (
+          id TEXT PRIMARY KEY, owner_id TEXT NOT NULL,
+          specialty_id TEXT NOT NULL, topic_id TEXT NOT NULL,
+          payload_json TEXT NOT NULL, review_status TEXT NOT NULL DEFAULT 'draft'
+            CHECK(review_status='draft'),
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE INDEX IF NOT EXISTS idx_generated_drafts_owner
+          ON generated_drafts(owner_id, created_at);
         CREATE TABLE IF NOT EXISTS review_states (
           card_id TEXT PRIMARY KEY REFERENCES flashcards(id) ON DELETE CASCADE,
           repetitions INTEGER NOT NULL DEFAULT 0, interval_days INTEGER NOT NULL DEFAULT 0,
@@ -84,6 +94,56 @@ def save_flashcard(card: dict, path: Path = DEFAULT_DB, learner_id: str = "local
             "INSERT OR IGNORE INTO review_states(card_id,due_date) VALUES(?,?)",
             (stored_card["id"], date.today().isoformat()),
         )
+
+
+
+def save_generated_drafts(
+    cards: list[dict], path: Path = DEFAULT_DB, learner_id: str = "local"
+) -> int:
+    """Persist accepted cards in an isolated draft-only table, never the review queue."""
+    initialize(path)
+    saved = 0
+    with connect(path) as db:
+        for card in cards:
+            if card.get("review_status") != "draft":
+                raise ValueError("Only draft cards may be stored in generated_drafts")
+            draft_id = _scoped_card_id(card["id"], learner_id)
+            cursor = db.execute(
+                """
+                INSERT OR IGNORE INTO generated_drafts
+                    (id, owner_id, specialty_id, topic_id, payload_json, review_status)
+                VALUES (?, ?, ?, ?, ?, 'draft')
+                """,
+                (
+                    draft_id,
+                    learner_id,
+                    card["specialty_id"],
+                    card["topic_id"],
+                    json.dumps(card, ensure_ascii=False),
+                ),
+            )
+            saved += cursor.rowcount
+    return saved
+
+
+def generated_drafts(
+    path: Path = DEFAULT_DB, learner_id: str = "local"
+) -> list[dict]:
+    """List a learner's generated drafts; no approval or flashcard promotion occurs."""
+    initialize(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """
+            SELECT payload_json, review_status, created_at
+            FROM generated_drafts WHERE owner_id=? ORDER BY created_at DESC, id
+            """,
+            (learner_id,),
+        ).fetchall()
+    return [
+        {**json.loads(row["payload_json"]),
+         "review_status": row["review_status"], "created_at": row["created_at"]}
+        for row in rows
+    ]
 
 
 def due_cards(
