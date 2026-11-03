@@ -24,7 +24,7 @@ See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [cour
 - MCQ and structured clinical-case practice with explicit editorial status.
 - PubMed-grounded OpenAI card drafting with source traceability, Suez ILO safeguards, evidence-quality ranking, and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
-- Optional OIDC authentication; FastAPI read-only content endpoints.
+- Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
 - Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
 
 ## Evidence-grounded AI generation
