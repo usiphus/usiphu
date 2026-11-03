@@ -203,8 +203,8 @@ with tab6:
         st.success(f"AI authoring configured · {status['model']} · PubMed evidence retrieval")
     else:
         st.warning(
-            "AI authoring is not configured. Set OPENAI_API_KEY in the server environment "
-            "or deployment secret manager; never paste it into this page."
+            "Local Ollama authoring is not configured. Start Ollama and set OLLAMA_BASE_URL "
+            "and USIPHU_OLLAMA_MODEL in the server environment."
         )
     st.caption(
         "Generation retrieves PubMed abstracts and asks the configured model to draft cards. "
