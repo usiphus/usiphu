@@ -72,7 +72,7 @@ def test_generator_rejects_wrong_ilo_provenance_and_non_draft():
     card["review_status"] = "exam_validated"
     result = validate_generated_card(card, brief)
     assert not result["valid"]
-    assert any("permitted outcome set" in error for error in result["errors"])
+    assert any("permitted outcomes" in error for error in result["errors"])
     assert any("draft" in error for error in result["errors"])
 
 
