@@ -9,6 +9,15 @@ from usiphu.ai_provider import GenerationNotConfigured, generate_topic_cards
 
 class FakeCompletions:
     def create(self, **kwargs):
+        prompt = kwargs["messages"][1]["content"]
+        brief_json = prompt.split("CURRICULUM BRIEF:\\n", 1)[1].split(
+            "\\n\\nPERMITTED COURSE OUTCOME REFERENCES:", 1
+        )[0]
+        brief = json.loads(brief_json)
+        refs_json = prompt.split("PERMITTED COURSE OUTCOME REFERENCES:\\n", 1)[1].split(
+            "\\n\\nRETRIEVED PUBMED EVIDENCE", 1
+        )[0]
+        permitted_refs = json.loads(refs_json)
         content = {
             "card_type": "mcq",
             "prompt": "A child has unilateral hydroureteronephrosis. Which investigation best evaluates vesicoureteral reflux?",
@@ -21,7 +30,7 @@ class FakeCompletions:
                 {"id": "E", "text": "Uroflowmetry alone"},
             ],
             "correct_option_id": "B",
-            "course_outcome_refs": ["SI-URO-01"],
+            "course_outcome_refs": permitted_refs[:1],
             "evidence_claims": [
                 {"claim": "MCUG is used to assess vesicoureteral reflux.", "source_id": "PMID:12345"}
             ],
