@@ -34,15 +34,15 @@ A null `official_outcome_reference` is intentional when multiple outcomes apply 
 
 The Suez University bylaw identifies PHC/ped 2.3.1 in Year 3, Semester 5. The supplied third-year study guide is instead PHC/Obs 2.3.2 and covers Obstetrics/Gynaecology, Family Medicine and Occupational Medicine. It does not supply Pediatrics ILOs.
 
-A public undergraduate Pediatrics course specification was located on the Al-Azhar University, Damietta Faculty of Medicine website. It is a fifth-year course with 260 teaching hours (105 lecture and 155 practical/clinical) and contains knowledge, intellectual, professional and general-skill outcomes. Its subject areas include growth/development, nutrition, neonatology, preventive pediatrics, genetics, nephrology, cardiovascular and respiratory systems, hematology/oncology, infection, endocrinology, musculoskeletal, CNS, gastroenterology/hepatobiliary, collagen disorders, pediatric emergencies, behavioral pediatrics and radiology.
+A public undergraduate Pediatrics course specification was located on the Al-Azhar University, Damietta Faculty of Medicine website. It is a fifth-year course with 260 teaching hours (105 lecture and 155 practical/clinical). A second public undergraduate specification was located on the Aswan University Faculty of Medicine website: a fifth-year course, 2017–2018, with 240 hours (108 lecture and 132 tutorial/practical). Both provide knowledge, intellectual, professional/clinical and general-skill outcomes. Their topic coverage includes growth/development, nutrition, neonatology, preventive pediatrics, genetics, nephrology, cardiovascular and respiratory systems, hematology, infection, endocrinology, musculoskeletal/neuromuscular disorders, CNS, gastroenterology/hepatobiliary, pediatric emergencies/poisoning, behavioral pediatrics and radiology.
 
-This material is stored under `external_benchmarks` with source institution, URL and explicit non-Suez provenance. It may help identify candidate topic/skill gaps, but:
+Both sources are stored under `external_benchmarks` with institution, URL, course year and explicit non-Suez provenance. They may help identify candidate topic/skill gaps, but:
 - it is **not** a Suez University course specification;
-- it is fifth-year rather than the Suez bylaw's third-year PHC/ped placement;
+- both are fifth-year rather than the Suez bylaw's third-year PHC/ped placement;
 - its outcomes are not copied into `official_outcome_reference`;
 - pediatric topics remain externally benchmarked until the official Suez PHC/ped 2.3.1 course specification is obtained.
 
-Source: [Al-Azhar University, Damietta Faculty of Medicine – Pediatric Course Specification](https://domazhermedicine.edu.eg/اقسام-الكلية/الأقسام-الإكلينيكية/طب-الأطفال/الابحاث-العلمية-للقسم/).
+Sources: [Al-Azhar University, Damietta Faculty of Medicine – Pediatric Course Specification](https://domazhermedicine.edu.eg/اقسام-الكلية/الأقسام-الإكلينيكية/طب-الأطفال/الابحاث-العلمية-للقسم/) and [Aswan University, Faculty of Medicine – Pediatrics Course Specification (2017–2018)](https://med.aswu.edu.eg/wp-content/uploads/PDF/CourseSpecification/5/course-specification-pediatrics.pdf).
 
 ## Validation and remaining gaps
 
