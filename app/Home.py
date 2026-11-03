@@ -3,10 +3,10 @@ import os
 
 import streamlit as st
 
-from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.ai_provider import (
     GenerationNotConfigured, generate_topic_cards, provider_status,
 )
+from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
