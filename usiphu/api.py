@@ -2,6 +2,7 @@
 from fastapi import FastAPI, HTTPException, Query
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
+from usiphu.generator import build_generation_briefs, validate_generation_batch
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
@@ -56,3 +57,32 @@ def resources(topic: str = Query(min_length=2), specialty: str | None = None) ->
 def content_validation() -> dict:
     """Return editorial coverage counts and fail fast on broken content references."""
     return validate_content()
+
+
+
+@app.get("/generator/briefs")
+def generator_briefs(specialty: str | None = None, topic: str | None = None) -> dict:
+    """Return deterministic, source-linked generation jobs; no AI provider is implied."""
+    try:
+        briefs = build_generation_briefs(specialty_id=specialty, topic_id=topic)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    return {
+        "provider_configured": False,
+        "generation_mode": "source_grounded_brief_only",
+        "count": len(briefs),
+        "briefs": briefs,
+    }
+
+
+@app.post("/generator/validate")
+def generator_validate(payload: dict) -> dict:
+    """Validate proposed generated cards before they enter editorial draft review."""
+    cards = payload.get("cards")
+    if not isinstance(cards, list):
+        raise HTTPException(status_code=422, detail="cards must be a list")
+    try:
+        briefs = build_generation_briefs()
+        return validate_generation_batch(cards, briefs, payload.get("existing_cards", []))
+    except (KeyError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
