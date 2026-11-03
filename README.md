@@ -10,8 +10,26 @@ A medical learning workspace for specialty-wide curriculum mapping, resource dis
 python -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
-streamlit run app/Home.py
 ```
+
+Install and start [Ollama](https://ollama.com), then pull the default model:
+
+```bash
+ollama pull qwen2.5:7b
+OLLAMA_BASE_URL=http://localhost:11434 streamlit run app/Home.py
+```
+
+Set `USIPHU_OLLAMA_MODEL` to another locally installed Ollama model if needed. No OpenAI API key or paid model API is required. The first model download requires internet access and several GB of disk space; inference speed depends on available RAM/VRAM and hardware.
+
+## Docker Compose
+
+```bash
+cp .env.example .env
+docker compose up --build -d
+docker compose exec ollama ollama pull qwen2.5:7b
+```
+
+The app connects to the Compose Ollama service on the private Compose network. The Ollama host port is bound to `127.0.0.1`, not exposed to the LAN. Pull the model once after starting the stack; the named volume retains model files. To use a different model, change `USIPHU_OLLAMA_MODEL` in `.env` and pull that exact model tag in the Ollama container. For host-run Usiphu, set `OLLAMA_BASE_URL=http://localhost:11434`; inside a container, `localhost` refers to that container, not the host.
 
 ## Curriculum target
 
