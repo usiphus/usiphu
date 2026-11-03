@@ -2,7 +2,7 @@
 
 A medical learning workspace for specialty-wide curriculum mapping, resource discovery, question practice, OSCE/viva cases, spaced repetition, and learner progress.
 
-> **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. The repository now contains a bylaw-based module-level crosswalk; individual course outcomes and internship rotations remain unverified. It is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
+> **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. Course ILOs from the supplied Surgery I/II, Medicine I/II, Emergency/Medical Reporting and PHC/Obs documents are now catalogued with partial topic-level outcome references. Pediatrics currently has an external Al-Azhar Damietta benchmark only; it is not an official Suez University ILO source. This working crosswalk is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ streamlit run app/Home.py
 
 ## Curriculum target
 
-See [Suez University crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md) and machine-readable [institutional profile](data/suez_university_curriculum.json). The uploaded bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. It does not specify internship duration or detailed module-level learning outcomes; obtain current course specifications and confirm the bylaw's applicability to the learner's cohort.
+See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications now support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; the online pediatric material is explicitly external benchmark content. Internship duration and rotations remain unspecified in the uploaded bylaw.
 
 ## Features
 
@@ -40,7 +40,8 @@ python -m usiphu.validation
 
 ## Release gates
 
-- Obtain and map the complete Suez University bylaw/course specifications.
+- Obtain the official Suez University PHC/ped 2.3.1 course specification and any missing/current module specifications.
+- Confirm the uploaded specification versions apply to the target cohort.
 - Have departmental educators review the outcome crosswalk and all clinical content.
 - Configure real OIDC secrets, domain/DNS, backups, monitoring, and privacy controls.
 - Complete security, accessibility, and user-acceptance testing.
