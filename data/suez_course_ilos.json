@@ -1220,5 +1220,6 @@
       ],
       "status": "partial_related_outcome"
     }
-  ]
+  ],
+  "outcome_text_policy": "Outcome text is a concise normalized paraphrase of the supplied source ILOs, not a verbatim transcription. Original document names, institution, module code and provenance are retained for traceability."
 }
