@@ -36,7 +36,7 @@ def _openai_client():
         from openai import OpenAI
     except ImportError as exc:
         raise GenerationNotConfigured(
-            'Install the optional AI dependencies with: pip install -e ".[ai]"'
+            "Install the project dependencies with: pip install -e ."
         ) from exc
     return OpenAI(api_key=os.environ["OPENAI_API_KEY"], timeout=60.0, max_retries=2)
 
