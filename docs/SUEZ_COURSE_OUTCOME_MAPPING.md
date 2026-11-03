@@ -59,4 +59,4 @@ Remaining gates:
 - obtain missing/current specifications for any modules not represented;
 - complete outcome-to-topic coverage analysis and faculty/clinical educator review.
 
-This is a source-traceable working crosswalk, not faculty-approved curriculum mapping or exam validation.
+The catalog is currently a machine-readable source of truth; it is not yet wired into a card-generation runtime. Generator integration must consume these outcome references and preserve official-versus-external provenance. This is a source-traceable working crosswalk, not faculty-approved curriculum mapping or exam validation.
