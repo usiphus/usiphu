@@ -1,6 +1,8 @@
 """Tests for learner-isolated draft storage."""
 from usiphu.storage import (
-    due_cards, generated_drafts, save_generated_drafts,
+    due_cards,
+    generated_drafts,
+    save_generated_drafts,
 )
 
 
