@@ -22,18 +22,18 @@ See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [cour
 - Specialty → domain → topic → measurable learning objectives.
 - Resource discovery across PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE search, guidelines, and medical challenge sites.
 - MCQ and structured clinical-case practice with explicit editorial status.
-- PubMed-grounded OpenAI card drafting with source traceability, Suez ILO safeguards, evidence-quality ranking, and isolated draft review storage.
+- PubMed-grounded local Ollama card drafting with source traceability, Suez ILO safeguards, evidence-quality ranking, and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
 - Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
 
 ## Evidence-grounded AI generation
 
-The generator can retrieve PubMed abstracts and use a server-configured OpenAI model to author evidence-linked draft cards. Configure `OPENAI_API_KEY` as a server secret; see [generator setup and safety](docs/GENERATOR_PIPELINE.md). Generated cards remain isolated drafts pending clinical review.
+The generator retrieves PubMed abstracts and uses a locally hosted Ollama model to author evidence-linked draft cards. No paid model API key is needed. See [generator setup and safety](docs/GENERATOR_PIPELINE.md). Generated cards remain isolated drafts pending clinical review.
 
 ## Card generation
 
-See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls a server-configured OpenAI model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval.
+See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval.
 
 ## Production
 
