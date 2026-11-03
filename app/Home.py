@@ -194,11 +194,20 @@ st.divider()
 st.caption("Educational use only. Verify clinical information against current guidelines and local protocols.")
 
 
+
 with tab6:
-    st.subheader("Source-grounded exam-card generator")
-    st.warning(
-        "The generator currently prepares traceable briefs and validates proposed drafts. "
-        "No AI provider is configured; automated checks do not establish clinical correctness."
+    st.subheader("Evidence-grounded exam-card generator")
+    status = provider_status()
+    if status["configured"]:
+        st.success(f"AI authoring configured · {status['model']} · PubMed evidence retrieval")
+    else:
+        st.warning(
+            "AI authoring is not configured. Set OPENAI_API_KEY in the server environment "
+            "or deployment secret manager; never paste it into this page."
+        )
+    st.caption(
+        "Generation retrieves PubMed abstracts and asks the configured model to draft cards. "
+        "Every result remains a draft and must be checked against full sources and local protocols."
     )
     topic_choices = [
         (row["specialty_id"], row["topic_id"], row["specialty"], row["topic"])
@@ -210,28 +219,73 @@ with tab6:
         format_func=lambda item: f"{item[2]} · {item[3]}",
         key="generator-topic",
     )
-    if st.button("Build generation brief", key="build-generation-brief"):
+    evidence_limit = st.slider("PubMed records per learning objective", 1, 10, 5)
+    if st.button(
+        "Generate evidence-grounded draft cards",
+        key="generate-evidence-grounded-cards",
+        disabled=not status["configured"],
+    ):
         try:
-            briefs = build_generation_briefs(
-                specialty_id=selected_topic[0], topic_id=selected_topic[1]
-            )
-            st.session_state["generation_briefs"] = briefs
-            st.success(f"Prepared {len(briefs)} objective-level brief(s).")
-        except (KeyError, ValueError) as exc:
+            with st.spinner("Searching PubMed and drafting cards..."):
+                result = generate_topic_cards(
+                    selected_topic[0], selected_topic[1], evidence_limit=evidence_limit
+                )
+            st.session_state["generated_card_result"] = result
+        except GenerationNotConfigured as exc:
             st.error(str(exc))
-    for brief in st.session_state.get("generation_briefs", []):
-        with st.expander(f"{brief['objective_id']} · {brief['objective']}", expanded=True):
-            st.caption(
-                f"Mapping: {brief['course_outcome_mapping_status']} · "
-                f"Status: {brief['generation_status']}"
-            )
-            if brief["official_suez_outcomes"]:
-                st.markdown("**Official Suez course outcomes**")
-                for outcome in brief["official_suez_outcomes"]:
-                    st.write(f"{outcome['id']} — {outcome['text']}")
-            if brief["external_benchmark_outcomes"]:
-                st.markdown("**External benchmark outcomes — not official Suez ILOs**")
-                for outcome in brief["external_benchmark_outcomes"]:
-                    st.write(f"{outcome['id']} — {outcome['text']}")
-            st.markdown("**Generation brief payload**")
-            st.json(brief)
+        except KeyError as exc:
+            st.error(str(exc))
+        except Exception as exc:
+            st.error(f"Generation failed safely; no card was saved: {exc}")
+
+    generated = st.session_state.get("generated_card_result")
+    if generated:
+        st.write(
+            f"Objectives: {generated['total_objectives']} · "
+            f"Drafts passing automated checks: {generated['draft_cards']} · "
+            f"Evidence/quality gated: {generated['rejected_or_evidence_gated']}"
+        )
+        accepted = [
+            item["card"] for item in generated["results"]
+            if item.get("valid") and item.get("card")
+        ]
+        if accepted and st.button("Save accepted cards to draft review", key="save-generated-drafts"):
+            saved = save_generated_drafts(accepted, learner_id=learner_id)
+            st.success(f"Saved {saved} new draft(s). They are not in your flashcard review queue.")
+        for item in generated["results"]:
+            card = item.get("card")
+            heading = card["prompt"] if card else item.get("reason", item.get("status", "Generation result"))
+            with st.expander(f"{item.get('status', 'result')}: {heading}", expanded=bool(card)):
+                if card:
+                    st.write(card["answer"])
+                    st.caption(
+                        f"{card['card_type']} · {card.get('difficulty', 'difficulty not supplied')} · "
+                        "DRAFT — clinical and exam review required"
+                    )
+                    if card.get("options"):
+                        for option in card["options"]:
+                            prefix = "✓ " if option["id"] == card.get("correct_option_id") else "• "
+                            st.write(prefix + option["text"])
+                    st.markdown("**Evidence sources**")
+                    for source in card.get("evidence_sources", []):
+                        st.markdown(
+                            f"- [{source['source_title']}]({source['source_url']}) "
+                            f"({source['source_date']}; {source['evidence_tier']})"
+                        )
+                    for claim in card.get("evidence_claims", []):
+                        st.caption(f"Evidence claim: {claim['claim']}")
+                else:
+                    st.warning(item.get("reason", "; ".join(item.get("errors", []))))
+                    for source in item.get("evidence", []):
+                        st.markdown(f"- [{source['source_title']}]({source['source_url']})")
+
+    st.divider()
+    st.subheader("Saved generated drafts")
+    drafts = generated_drafts(learner_id=learner_id)
+    st.caption(f"{len(drafts)} draft(s) stored separately from the approved flashcard queue.")
+    for draft in drafts:
+        with st.expander(draft["prompt"]):
+            st.write(draft["answer"])
+            st.caption("DRAFT — not approved for learner flashcard review")
+            for source in draft.get("evidence_sources", []):
+                st.markdown(f"- [{source['source_title']}]({source['source_url']})")
