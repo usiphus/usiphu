@@ -1,12 +1,12 @@
 """FastAPI endpoints for curriculum, practice banks, and resource discovery."""
 from fastapi import FastAPI, HTTPException, Query
 
-from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
-from usiphu.generator import build_generation_briefs, validate_generation_batch
 from usiphu.ai_provider import (
     GenerationNotConfigured, generate_topic_cards, provider_status,
 )
+from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
+from usiphu.generator import build_generation_briefs, validate_generation_batch
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
