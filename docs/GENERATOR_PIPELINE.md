@@ -1,90 +1,101 @@
-# Exam-card generation pipeline
+# Evidence-grounded exam-card generation
 
-## Current integration boundary
+## End-to-end workflow
 
-The repository now includes a deterministic generation-brief builder and a strict
-card-output validator. This is **not an autonomous clinical authoring model**:
-no LLM/provider credentials or model adapter are configured in this project. The
-runtime compiles traceable jobs that a future provider can consume and validates
-its proposed output before editorial review.
+The generator now has a configurable authoring path:
 
-## Runtime
+1. Compile one brief per Suez curriculum learning objective, retaining specialty,
+   topic, objective level, exam weight, and ILO mapping provenance.
+2. Search PubMed E-utilities for relevant records and retrieve citation metadata,
+   publication types, dates, and abstracts.
+3. Send the objective and bounded evidence packet to the configured OpenAI model.
+4. Require claim-level PMID references and normalize all source URLs/titles/dates
+   from retrieved records; model-invented URLs are not accepted.
+5. Run the generated card through the structural, ILO, evidence-source, and
+   duplicate validation gates.
+6. Store accepted cards only in the learner-isolated `generated_drafts` table.
+   They are not placed in the flashcard review queue and cannot self-approve.
 
-- `usiphu.generator.build_generation_briefs()` creates one brief per curriculum
-  learning objective.
-- Each brief includes specialty/domain/topic IDs, objective text and level,
-  exam weight, Suez course-outcome mapping status, and the matching outcome text.
-- Official Suez outcomes and external pediatric benchmarks are separate fields.
-  External-only pediatric mappings cannot be promoted to official Suez alignment.
-- `validate_generated_card()` checks required fields, five-option MCQ structure,
-  answer-key integrity, evidence claims, HTTP(S) source URLs, allowed outcome IDs,
-  draft-only status, and duplicate prompts.
-- `validate_generation_batch()` checks a batch and duplicates against the
-  supplied existing bank.
-- FastAPI exposes `GET /generator/briefs` and `POST /generator/validate`.
+## Configuration
 
-## API examples
+The OpenAI key is a server-side secret. Never paste it into the Streamlit UI, a
+source file, a Docker image, or a committed `.env` file.
 
-```http
-GET /generator/briefs?specialty=urology&topic=pujo
-```
+For local Docker Compose:
 
-```json
-{
-  "cards": [
-    {
-      "brief_id": "urology:pujo:pujo-1",
-      "id": "uro-pujo-001",
-      "card_type": "mcq",
-      "specialty_id": "urology",
-      "topic_id": "pujo",
-      "prompt": "...",
-      "answer": "...",
-      "options": [
-        {"id": "a", "text": "..."},
-        {"id": "b", "text": "..."},
-        {"id": "c", "text": "..."},
-        {"id": "d", "text": "..."},
-        {"id": "e", "text": "..."}
-      ],
-      "correct_option_id": "b",
-      "source_title": "...",
-      "source_url": "https://...",
-      "source_date": "YYYY-MM-DD",
-      "course_outcome_refs": ["SI-URO-01"],
-      "evidence_claims": [
-        {"claim": "...", "source_url": "https://..."}
-      ],
-      "review_status": "draft"
-    }
-  ]
-}
-```
+1. Copy `.env.example` to `.env`.
+2. Set `OPENAI_API_KEY` in `.env`.
+3. Optionally set `USIPHU_OPENAI_MODEL` (defaults to `gpt-4.1-mini`).
+4. Optionally set `NCBI_EMAIL` and `NCBI_API_KEY` for PubMed E-utilities contact
+   and higher NCBI request limits.
+5. Start or rebuild with `docker compose up --build -d`.
 
-Submit that object to `POST /generator/validate`. The response reports accepted
-drafts and rejected outputs; it never grants clinical approval or exam validation.
+For production, inject `OPENAI_API_KEY` and optional NCBI settings using the
+deployment platform's secret manager/environment configuration. Do not mount
+the key into the browser or expose it through Streamlit configuration.
 
-## Quality and safety gates
+The OpenAI SDK is installed with the application dependencies. PubMed retrieval
+uses Python's standard library and requires outbound HTTPS access to
+`eutils.ncbi.nlm.nih.gov`.
 
-- Unknown topic/ILO references fail closed.
-- Each generated card must match its originating brief's specialty and topic.
-- Each card must cite a named, dated source and provide claim-level evidence links.
-- MCQs require exactly five options with unique IDs and a valid correct-option ID.
-- Duplicate normalized prompts are rejected within the batch and against supplied
-  existing cards.
-- External benchmark-only topics retain that status and cannot claim official
-  Suez outcome alignment.
-- No generated content can self-assign a clinically reviewed or exam-validated
-  status. Those statuses require the existing editorial workflow and metadata.
+## Runtime/API
 
-## Known limitations / next engineering gate
+- `GET /generator/status` reports whether the key is configured and which model
+  name is selected; it never returns the key.
+- `GET /generator/briefs?specialty=urology&topic=pujo` returns deterministic
+  objective-level briefs without calling a model.
+- `POST /generator/generate` accepts
+  `{"specialty_id":"urology","topic_id":"pujo","evidence_limit":5}`.
+  It retrieves PubMed records and returns generated draft cards plus evidence-gated
+  or quality-rejected objective results.
+- `POST /generator/validate` validates externally authored cards against briefs.
 
-1. Connect a selected LLM provider through a separately configured adapter; do not
-   embed API keys in source code or commit them.
-2. Add evidence retrieval and source-quality ranking before model generation.
-3. Add specialty-specific clinical validation rules, guideline-version checks,
-   contraindication/dose checks, and educator sign-off workflows.
-4. The current validator checks provenance structure, not the truth of clinical
-   claims. Passing validation is not proof of clinical correctness.
-5. Current Suez ILO extraction is grouped and non-exhaustive; pediatric outcomes
-   are external benchmarks only. Keep those limitations visible in generated cards.
+The Streamlit Generator tab offers the same flow and can persist accepted outputs
+as drafts. The app labels them as drafts and keeps them outside the approved
+flashcard queue.
+
+## Evidence handling
+
+- PubMed is the first retrieval adapter. Records without an abstract are excluded.
+- Each evidence record retains PMID, stable PubMed URL, title, journal, publication
+  date, DOI when available, publication types, and a conservative article-type tier.
+- The model receives abstracts, not verified full text. It must not infer details
+  unavailable in the abstract.
+- Each generated claim must cite a source ID from the retrieved packet. Source
+  titles, dates, and URLs are copied from the retrieved record, not model output.
+- No-result retrieval returns `needs_evidence_review`; it does not fabricate a card.
+- A PubMed record is not automatically a high-quality or current guideline. Check
+  publication status, methods, population, full text, currency, and applicability.
+
+## Curriculum alignment
+
+- Official Suez outcomes and external pediatric benchmarks remain separate.
+- External-only pediatric topics cannot claim official Suez alignment.
+- Topics with partial or module-only mappings retain those statuses.
+- The supplied ILO extraction is grouped and non-exhaustive. Generated cards must
+  not imply the catalog is a complete transcription of the official course files.
+
+## Review and safety
+
+All generated content is stored as `draft`. The automated validator checks format,
+source traceability, allowed ILO references, MCQ option/answer-key consistency,
+and duplicate prompts. It does **not** establish clinical truth, guideline
+currency, safe prescribing, or exam validity.
+
+A qualified clinical educator must verify every clinical claim against the full
+primary source/current guideline and local Suez/Egypt protocols before a card is
+promoted into the learner flashcard bank. This PR does not implement automated
+approval or a faculty sign-off workflow.
+
+## Known limitations / next quality gates
+
+1. PubMed abstracts only; add licensed/open full-text retrieval with license-aware
+   storage and source extraction where permitted.
+2. Add guideline-first retrieval and version/effective-date tracking for each
+   specialty, with local Egyptian protocol overrides.
+3. Add specialty-specific checks for medication doses, contraindications,
+   red flags, investigation thresholds, and emergency pathways.
+4. Add educator review queue, audit trail, and explicit role-based approval before
+   any generated draft is promoted to active learner content.
+5. Complete line-by-line official Suez ILO extraction and obtain the official
+   PHC/ped 2.3.1 Pediatrics outcomes.
