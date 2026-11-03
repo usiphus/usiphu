@@ -6,6 +6,10 @@ services:
     environment:
       USIPHU_DB_PATH: /data/usiphu.sqlite3
       USIPHU_AUTH_REQUIRED: "true"
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      USIPHU_OPENAI_MODEL: ${USIPHU_OPENAI_MODEL:-gpt-4.1-mini}
+      NCBI_EMAIL: ${NCBI_EMAIL:-}
+      NCBI_API_KEY: ${NCBI_API_KEY:-}
     volumes:
       - usiphu-data:/data
       - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
