@@ -8,9 +8,6 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import date
 from typing import Any
-
-
-
 EUTILS = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
 
