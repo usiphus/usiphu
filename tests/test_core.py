@@ -197,6 +197,7 @@ def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path):
     filtered = filter_questions(questions, specialty_id="urology", difficulty="easy")
     assert [item.id for item in filtered] == ["uro-001"]
     assert filter_questions(questions, review_status="exam_validated") == []
+    assert filter_questions(questions, bank_id="starter-medical-bank") == questions
 
     db = tmp_path / "question-bank.sqlite3"
     record_question_attempt("uro-001", "b", True, db, learner_id="learner-a")
@@ -210,3 +211,27 @@ def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path):
     assert stats_b["attempts"] == 1 and stats_b["accuracy_percent"] == 100.0
     assert len(question_attempt_history(db, learner_id="learner-a")) == 2
     assert len(question_attempt_history(db, learner_id="learner-b")) == 1
+
+
+
+def test_question_bank_loader_merges_installable_json_banks(tmp_path: Path):
+    bank = {
+        "bank_id": "urology-import",
+        "title": "Imported Urology Bank",
+        "questions": [{
+            "id": "uro-import-001",
+            "specialty_id": "urology",
+            "topic_id": "puv",
+            "stem": "Which diagnosis is associated with posterior urethral obstruction?",
+            "options": [{"id": "a", "text": "Posterior urethral valves"},
+                        {"id": "b", "text": "Varicocele"}],
+            "correct_option_id": "a",
+            "explanation": "Draft item for bank-loader integration testing.",
+            "review_status": "draft"
+        }]
+    }
+    (tmp_path / "urology.json").write_text(json.dumps(bank), encoding="utf-8")
+    questions = load_questions(bank_dir=tmp_path)
+    imported = next(item for item in questions if item.id == "uro-import-001")
+    assert imported.bank_id == "urology-import"
+    assert len(questions) == 4
