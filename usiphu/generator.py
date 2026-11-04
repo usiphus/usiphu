@@ -254,7 +254,9 @@ def validate_generated_card(
         )
     }
     refs = card.get("course_outcome_refs")
-    if (not isinstance(refs, list) or (isinstance(refs, list) and len(refs) != len(set(refs)))
+    if (not isinstance(refs, list)
+            or any(not isinstance(ref, str) for ref in refs)
+            or (isinstance(refs, list) and len(refs) != len(set(refs)))
             or (allowed_refs and not refs)
             or any(ref not in allowed_refs for ref in refs)):
         errors.append(
