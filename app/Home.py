@@ -12,6 +12,7 @@ from usiphu.ai_provider import (
     provider_status,
 )
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
+from usiphu.ai_answer_grader import AnswerGradingError, grade_assessment_answers
 from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
@@ -253,6 +254,7 @@ elif page == "Practice":
             if submitted_written:
                 result = check_assessment_answers(assessment, written_answers)
                 st.session_state["written-result-" + assessment["id"]] = result
+                st.session_state["written-answers-" + assessment["id"]] = written_answers
             result = st.session_state.get("written-result-" + assessment["id"])
             if result:
                 st.metric(
@@ -278,6 +280,49 @@ elif page == "Practice":
                             + "/" + str(point["marks_available"]) + ")"
                         )
                 st.caption("This score is a study aid, not an official examination mark.")
+
+            if st.button(
+                "AI-assisted rubric review",
+                key="ai-written-review-" + assessment["id"],
+                help="Ask the configured local Ollama model to assess clinical meaning against the fixed reviewer rubric.",
+            ):
+                try:
+                    ai_result = grade_assessment_answers(
+                        assessment,
+                        st.session_state.get("written-answers-" + assessment["id"], {}),
+                    )
+                    st.session_state["written-ai-result-" + assessment["id"]] = ai_result
+                except GenerationNotConfigured as exc:
+                    st.error(str(exc))
+                except (AnswerGradingError, ValueError) as exc:
+                    st.error("AI review could not be safely completed: " + str(exc))
+            ai_result = st.session_state.get("written-ai-result-" + assessment["id"])
+            if ai_result:
+                st.warning(ai_result["warning"])
+                st.metric(
+                    "AI-suggested marks — provisional",
+                    str(ai_result["marks_awarded"]) + " / " + str(ai_result["marks_available"]),
+                    str(ai_result["percentage"]) + "%",
+                )
+                for part_result in ai_result["parts"]:
+                    st.markdown("**" + part_result["prompt"] + "**")
+                    st.caption("Model confidence: " + part_result["confidence"])
+                    for uncertainty in part_result["uncertainties"]:
+                        st.write("Uncertainty: " + uncertainty)
+                    for point in part_result["points"]:
+                        st.write(
+                            str(point["marks_awarded"]) + "/" + str(point["marks_available"])
+                            + " · " + point["point"]
+                        )
+                        st.caption(point["reason"])
+                        if point["evidence_from_answer"]:
+                            st.caption("Answer evidence: " + point["evidence_from_answer"])
+                        if point["uncertainty"] != "none":
+                            st.warning("Uncertainty: " + point["uncertainty"])
+                st.caption(
+                    "AI suggestions are not saved as official grades. A human examiner must "
+                    "check the clinical reasoning and decide the final mark."
+                )
 elif page == "Flashcards":
     st.subheader("Create a flashcard")
     with st.form("new_card"):
