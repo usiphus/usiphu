@@ -20,6 +20,7 @@ from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
 from usiphu.practice import filter_questions, load_cases, load_questions
+from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
@@ -105,7 +106,7 @@ c4.metric("Your reviews", stats["reviews_completed"])
 
 page = st.sidebar.radio(
     "Workspace",
-    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank", "Review Editor"],
+    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank", "Review Editor", "Pilot Dashboard"],
     label_visibility="visible",
 )
 if page == "Learn":
@@ -528,6 +529,127 @@ elif page == "AI Studio":
             for source in draft.get("evidence_sources", []):
                 st.markdown(f"- [{source['source_title']}]({source['source_url']})")
 
+elif page == "Pilot Dashboard":
+    report = build_pilot_validation_report()
+    totals = report["totals"]
+    st.subheader("Past-paper pilot validation")
+    st.write(
+        "Measure what the extraction and review workflow actually achieves on uploaded papers. "
+        "Only saved human checks count as transcription validation; AI suggestions never count as verified answers."
+    )
+    st.caption("Pilot sample targets: 50 MCQs and 10 MEQ pages. These are review targets, not accuracy claims.")
+    k1, k2, k3, k4 = st.columns(4)
+    k1.metric("Source papers", totals["source_files"])
+    k2.metric("MCQ candidates", totals["mcq_candidates"])
+    k3.metric("MEQ pages", totals["meq_pages"])
+    k4.metric("AI evidence reviews", totals["ai_review_runs"])
+
+    mcq_target = report["targets"]["mcq_review_target"]
+    meq_target = report["targets"]["meq_review_target"]
+    p1, p2 = st.columns(2)
+    mcq_progress = min(1.0, totals["mcq_transcription_checked"] / mcq_target) if mcq_target else 0.0
+    meq_progress = min(1.0, totals["meq_transcription_checked"] / meq_target) if meq_target else 0.0
+    p1.progress(
+        mcq_progress,
+        text=f"MCQ source checks: {totals['mcq_transcription_checked']} / {mcq_target}",
+    )
+    p2.progress(
+        meq_progress,
+        text=f"MEQ page checks: {totals['meq_transcription_checked']} / {meq_target}",
+    )
+
+    st.markdown("#### Extraction transcription validation")
+    t1, t2, t3, t4 = st.columns(4)
+    transcription = report["transcription"]
+    t1.metric("MCQs checked", transcription["mcq_checked"])
+    t2.metric("MCQs confirmed unchanged", transcription["mcq_confirmed_as_extracted"])
+    t3.metric("MCQs corrected", transcription["mcq_corrected"])
+    t4.metric(
+        "MCQ unchanged rate",
+        f"{transcription['mcq_confirmation_rate_percent']}%"
+        if transcription["mcq_confirmation_rate_percent"] is not None else "Not measured",
+    )
+    w1, w2, w3 = st.columns(3)
+    w1.metric("Written items checked", transcription["written_checked"])
+    w2.metric("Written items corrected", transcription["written_corrected"])
+    w3.metric(
+        "Written unchanged rate",
+        f"{transcription['written_confirmation_rate_percent']}%"
+        if transcription["written_confirmation_rate_percent"] is not None else "Not measured",
+    )
+    st.caption(
+        "A saved unchanged transcription means a reviewer confirmed it against the original paper. "
+        "A correction means the reviewer changed the extracted text. Unreviewed candidates are excluded."
+    )
+
+    st.markdown("#### Answer-key review outcomes")
+    a1, a2, a3, a4 = st.columns(4)
+    a1.metric("Human-verified keys", totals["answer_verified"])
+    a2.metric("AI reviews contradicting existing key", totals["ai_key_contradictions"])
+    a3.metric("Reviewed, awaiting approval", totals["reviewed_pending_approval"])
+    a4.metric("Approved candidates", totals["approved_candidates"])
+    verdict_rows = [
+        {"AI evidence verdict": key.replace("_", " ").title(), "Reviews": value}
+        for key, value in report["ai_evidence_verdict_counts"].items()
+    ]
+    key_rows = [
+        {"Existing key assessment": key.replace("_", " ").title(), "Reviews": value}
+        for key, value in report["existing_key_assessment_counts"].items()
+    ]
+    if verdict_rows or key_rows:
+        v1, v2 = st.columns(2)
+        with v1:
+            st.markdown("**Online evidence verdicts**")
+            if verdict_rows:
+                st.dataframe(verdict_rows, use_container_width=True, hide_index=True)
+            else:
+                st.info("No AI evidence reviews recorded yet.")
+        with v2:
+            st.markdown("**Assessment of the existing paper key**")
+            if key_rows:
+                st.dataframe(key_rows, use_container_width=True, hide_index=True)
+            else:
+                st.info("No answer-key comparisons recorded yet.")
+    else:
+        st.info("Run the AI open-access evidence comparison in Review Editor to populate evidence metrics.")
+
+    st.markdown("#### Retrieved source coverage")
+    quality = report["evidence_quality"]
+    e1, e2, e3, e4 = st.columns(4)
+    e1.metric("Unique articles", quality["unique_articles"])
+    e2.metric("Full-text articles", quality["full_text_articles"])
+    e3.metric("Abstract-only articles", quality["abstract_only_articles"])
+    e4.metric(
+        "Full-text share",
+        f"{quality['full_text_percent']}%" if quality["full_text_percent"] is not None else "Not measured",
+    )
+    st.caption(quality["interpretation"])
+    st.write(
+        f"Metadata complete (title, URL, date and journal): {quality['metadata_complete_articles']} · "
+        f"Publication date available: {quality['dated_articles']} · "
+        f"Mean unique articles per AI review: {quality['mean_articles_per_ai_review']}"
+    )
+
+    st.markdown("#### Per-paper pilot results")
+    if report["source_rows"]:
+        st.dataframe(report["source_rows"], use_container_width=True, hide_index=True)
+    else:
+        st.info("No uploaded source papers have been extracted yet. Add the two pilot papers in Question Bank.")
+    with st.expander("How to interpret these metrics and current limitations"):
+        for limitation in report["limitations"]:
+            st.write("• " + limitation)
+        st.write(
+            "The dashboard does not score clinical evidence quality, independently determine the correct "
+            "medical answer, or validate segmentation automatically. It reports recorded workflow activity."
+        )
+    st.download_button(
+        "Download pilot validation report (JSON)",
+        data=json.dumps(report, ensure_ascii=False, indent=2),
+        file_name="usiphu-pilot-validation-report.json",
+        mime="application/json",
+        type="secondary",
+    )
+
 elif page == "Review Editor":
     st.subheader("Question review editor")
     st.write("A dedicated editorial workspace for extracted MCQs, short-answer questions and modified essay questions.")
@@ -647,6 +769,10 @@ elif page == "Review Editor":
                 ):
                     try:
                         st.session_state[ai_review_state_key] = review_mcq_candidate(selected)
+                        try:
+                            record_ai_review(selected_id, st.session_state[ai_review_state_key])
+                        except (OSError, ValueError, KeyError) as audit_error:
+                            st.warning("AI review completed but its audit record could not be saved: " + str(audit_error))
                     except GenerationNotConfigured as exc:
                         st.error(str(exc))
                     except (QuestionReviewError, ValueError) as exc:
