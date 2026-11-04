@@ -276,22 +276,35 @@ def record_question_attempt(
 def question_bank_stats(
     path: Path = DEFAULT_DB, learner_id: str = "local"
 ) -> dict[str, int | float]:
-    """Return learner-scoped question-bank activity and accuracy."""
+    """Return learner accuracy using only clinically reviewed or exam-validated keys."""
+    from usiphu.practice import load_questions
+
     initialize(path)
+    trusted_ids = {
+        question.id for question in load_questions()
+        if question.review_status in {"clinically_reviewed", "exam_validated"}
+    }
     with connect(path) as db:
-        row = db.execute(
-            """SELECT COUNT(*) AS attempts,
-                      SUM(is_correct) AS correct,
-                      COUNT(DISTINCT question_id) AS questions_attempted
-               FROM question_attempts WHERE owner_id=?""",
+        rows = db.execute(
+            """SELECT question_id, COUNT(*) AS attempted,
+                      SUM(is_correct) AS correct
+               FROM question_attempts WHERE owner_id=?
+               GROUP BY question_id""",
             (learner_id,),
-        ).fetchone()
-    attempts = int(row["attempts"] or 0)
-    correct = int(row["correct"] or 0)
+        ).fetchall()
+    attempts = 0
+    correct = 0
+    questions_attempted = 0
+    for row in rows:
+        if row["question_id"] not in trusted_ids:
+            continue
+        attempts += int(row["attempted"])
+        correct += int(row["correct"] or 0)
+        questions_attempted += 1
     return {
         "attempts": attempts,
         "correct": correct,
-        "questions_attempted": int(row["questions_attempted"] or 0),
+        "questions_attempted": questions_attempted,
         "accuracy_percent": round(correct / attempts * 100, 1) if attempts else 0.0,
     }
 
@@ -313,7 +326,9 @@ def question_topic_performance(
         ).fetchall()
 
     question_topics = {
-        question.id: question.topic_id for question in load_questions()
+        question.id: question.topic_id
+        for question in load_questions()
+        if question.review_status in {"clinically_reviewed", "exam_validated"}
     }
     totals: dict[str, dict[str, int]] = {}
     for row in rows:
