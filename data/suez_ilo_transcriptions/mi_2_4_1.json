@@ -1,0 +1,903 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "MI 2.4.1",
+  "academic_year": "2021-2022",
+  "source_id": "suez-mi-2021-22",
+  "source_file": "Medicine-1-study-guide.pdf",
+  "source_page_count": 28,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from the supplied PDF text layer. Wording is retained as supplied where practicable; obvious spacing/case normalization is limited and no clinical content has been added.",
+  "scope_note": "This is a granular transcription of the visible knowledge, clinical reasoning, management, clinical-skill, professional-skill, research and field-training outcomes on pages 6-26. It does not turn topic lists into outcomes. Several multi-part source bullets remain grouped where the source presents them as one outcome.",
+  "outcomes": [
+    {
+      "id": "mi-ilo-001",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Discuss emerging and re-emerging infectious diseases."
+    },
+    {
+      "id": "mi-ilo-002",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe the approach to a patient with fever and rash (including scarlet fever)."
+    },
+    {
+      "id": "mi-ilo-003",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe CNS infection and rabies."
+    },
+    {
+      "id": "mi-ilo-004",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe common foodborne infection."
+    },
+    {
+      "id": "mi-ilo-005",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe sepsis and its complication."
+    },
+    {
+      "id": "mi-ilo-006",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Give short notes on HIV & AIDS."
+    },
+    {
+      "id": "mi-ilo-007",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe parasitic infestations (helminths & non helminths)."
+    },
+    {
+      "id": "mi-ilo-008",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe anti-parasitic drugs."
+    },
+    {
+      "id": "mi-ilo-009",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe preventive measures of common infectious diseases."
+    },
+    {
+      "id": "mi-ilo-010",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe the approach to the causes of hepato-splenomegaly."
+    },
+    {
+      "id": "mi-ilo-011",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 6,
+      "verbatim_text": "Describe the approach to the causes of fever with generalized lymphadenopathy."
+    },
+    {
+      "id": "mi-ilo-012",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 6,
+      "verbatim_text": "Describe the definition and causes of jaundice."
+    },
+    {
+      "id": "mi-ilo-013",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 6,
+      "verbatim_text": "Describe causes of acute hepatitis (infectious and non-infectious causes)."
+    },
+    {
+      "id": "mi-ilo-014",
+      "kind": "clinical_reasoning",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 6,
+      "verbatim_text": "Describe the approach to chronic liver disease (viral, autoimmune & metabolic causes)."
+    },
+    {
+      "id": "mi-ilo-015",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 6,
+      "verbatim_text": "Describe sequelae of decompensated chronic liver disease: ascites, SBP, HE, PHT, HCC."
+    },
+    {
+      "id": "mi-ilo-016",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 6,
+      "verbatim_text": "Describe inflammatory bowel disease."
+    },
+    {
+      "id": "mi-ilo-017",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Describe the causes and pathogenesis of Dyspepsia."
+    },
+    {
+      "id": "mi-ilo-018",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Describe the causes and pathogenesis of Jaundice."
+    },
+    {
+      "id": "mi-ilo-019",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Describe the pathogenesis and presentation of Irritable bowel syndrome and other functional GIT disorders."
+    },
+    {
+      "id": "mi-ilo-020",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Identify the causes and clinical feaures of hepatosplenomegaly."
+    },
+    {
+      "id": "mi-ilo-021",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Explain inflammatory bowel disease in terms of pathogenesis, clinical features and complications."
+    },
+    {
+      "id": "mi-ilo-022",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "List causes of acute and chronic hepatitis."
+    },
+    {
+      "id": "mi-ilo-023",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Identify causes and pathogenesis of viral hepatitis."
+    },
+    {
+      "id": "mi-ilo-024",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Explain the meaning and importance of activity (grading and staging) in chronic hepatitis."
+    },
+    {
+      "id": "mi-ilo-025",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "List the possible outcomes and complications of each type of viral hepatitis."
+    },
+    {
+      "id": "mi-ilo-026",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Identify the causes, pathogenesis and the clinical manifestations of portal hypertension."
+    },
+    {
+      "id": "mi-ilo-027",
+      "kind": "knowledge",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 7,
+      "verbatim_text": "Explain hepatic encephalopathy in terms of: Definition and causes, pathogenesis and clinical picture."
+    },
+    {
+      "id": "mi-ilo-028",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 8,
+      "verbatim_text": "Describe diagnostic approach for a patient with prolonged unexplained pyrexia (PUP), fever and rash, and jaundice."
+    },
+    {
+      "id": "mi-ilo-029",
+      "kind": "management",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 8,
+      "verbatim_text": "Explain the management plan of chronic dyspepsia, jaundice, inflammatory bowel disease, hepatosplenomegaly, liver cirrhosis and hepatic encephalopathy."
+    },
+    {
+      "id": "mi-ilo-030",
+      "kind": "knowledge_and_management",
+      "domain": "pharmacology",
+      "source_page": 8,
+      "verbatim_text": "Describe antimicrobial agents and antiparasitic drugs in terms of classification, mode of action, indications, adverse effects, drug interaction and contraindications."
+    },
+    {
+      "id": "mi-ilo-031",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 8,
+      "verbatim_text": "Discuss diagnostic and management approach to Pyrexia of unknown origin."
+    },
+    {
+      "id": "mi-ilo-032",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 8,
+      "verbatim_text": "Discuss diagnostic and management approach to patient with fever and rash (including scarlet fever)."
+    },
+    {
+      "id": "mi-ilo-033",
+      "kind": "knowledge",
+      "domain": "infectious-disease",
+      "source_page": 8,
+      "verbatim_text": "Give short notes on HIV & AIDS."
+    },
+    {
+      "id": "mi-ilo-034",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 8,
+      "verbatim_text": "Discuss diagnostic and management approach to the causes of hepato-splenomegaly and fever with generalized lymphadenopathy."
+    },
+    {
+      "id": "mi-ilo-035",
+      "kind": "management",
+      "domain": "infectious-disease",
+      "source_page": 9,
+      "verbatim_text": "Outline the plan of management for CNS infection, rabies, enteric infection (including H.pylori), sepsis and its complication, common parasitic infestations, bilharziasis and malaria."
+    },
+    {
+      "id": "mi-ilo-036",
+      "kind": "management",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 9,
+      "verbatim_text": "Outline the plan of management for jaundice, acute hepatitis (infectious and non-infectious causes), chronic liver disease (viral, autoimmune & metabolic causes), and complications of chronic liver disease (ascites, SBP, HE, PHT, HCC)."
+    },
+    {
+      "id": "mi-ilo-037",
+      "kind": "management",
+      "domain": "hepatology-gastroenterology",
+      "source_page": 9,
+      "verbatim_text": "Outline the plan of management for inflammatory bowel disease, acute diarrhea and dysenteries, malabsorption, chronic diarrhea, upper and lower GIT bleeding, dysphagia and oesophageal disorders, gall bladder diseases (infection and malignancy), acute and chronic pancreatitis, functional GIT disorders (including GERD, IBS and constipation), and common GIT malignancies (cancer stomach, colon and pancreas)."
+    },
+    {
+      "id": "mi-ilo-038",
+      "kind": "diagnostic_investigations",
+      "domain": "clinical-pathology",
+      "source_page": 16,
+      "verbatim_text": "Select and interpret the appropriate investigations to diagnose anemia, thrombocytopenia, thrombocytosis, pancytopenia, acute leukemias, chronic lymphocytic disorders, chronic myeloproliferative neoplasms and lymphomas (Hodgkin and Non-Hodgkin)."
+    },
+    {
+      "id": "mi-ilo-039",
+      "kind": "diagnostic_investigations",
+      "domain": "clinical-pathology",
+      "source_page": 16,
+      "verbatim_text": "Select the required investigations for CNS infections, meningitis, pulmonary and extrapulmonary TB, acute respiratory infections, atypical pneumonias, enteric infections, acute diarrheas including dysenteries, chronic diarrhea and malabsorption, sepsis and gram-negative septicemia, streptococcal infections, rheumatic fever, post-streptococcal GN, scarlet fever, chronic hepatitis, laboratory diagnosis of MI, acquired immunodeficiency (HIV) and schistosomiasis."
+    },
+    {
+      "id": "mi-ilo-040",
+      "kind": "procedural_skill",
+      "domain": "clinical-pathology",
+      "source_page": 16,
+      "verbatim_text": "Perform/Order the following procedures and therapies for the purpose of assessment and/or management: blood products, recombinant factors."
+    },
+    {
+      "id": "mi-ilo-041",
+      "kind": "knowledge",
+      "domain": "clinical-pathology",
+      "source_page": 16,
+      "verbatim_text": "Identify classifications and pathogenesis of anemia, erythrocytosis, thrombocytopenia, thrombocytosis, pancytopenia, neutrophilia, neutropenia, lymphocytosis, lymphopenia, eosinophilia, acute leukemias, chronic lymphocytic disorders, chronic myeloproliferative neoplasms and lymphomas (Hodgkin and Non-Hodgkin)."
+    },
+    {
+      "id": "mi-ilo-042",
+      "kind": "clinical_reasoning",
+      "domain": "clinical-pathology",
+      "source_page": 16,
+      "verbatim_text": "Describe pathogenesis and diagnostic approach of ITP, haemophilias, DIC, thrombophilias, lymphadenopathy, splenomegaly and myelodysplastic syndromes."
+    },
+    {
+      "id": "mi-ilo-043",
+      "kind": "management",
+      "domain": "clinical-pathology",
+      "source_page": 17,
+      "verbatim_text": "Discuss the management plan of anemias (iron deficiency, hemolytic, aplastic), leukemias and lymphomas, myelodysplastic syndromes, chronic myeloproliferative neoplasms (CMN), coagulopathies (ITP, haemophilias, DIC) and thrombophilias."
+    },
+    {
+      "id": "mi-ilo-044",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Classify congenital heart diseases."
+    },
+    {
+      "id": "mi-ilo-045",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Describe the clinical picture of different congenital heart diseases."
+    },
+    {
+      "id": "mi-ilo-046",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Define and outline the classification of hypertension according to etiology and severity."
+    },
+    {
+      "id": "mi-ilo-047",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Explain the pathogenesis of hypertension."
+    },
+    {
+      "id": "mi-ilo-048",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Compare between cyanotic and acyanotic congenital heart diseases."
+    },
+    {
+      "id": "mi-ilo-049",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Enumerate the causes and the complications of hypertension."
+    },
+    {
+      "id": "mi-ilo-050",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 17,
+      "verbatim_text": "Describe the clinical picture of different hypertensive emergencies."
+    },
+    {
+      "id": "mi-ilo-051",
+      "kind": "clinical_reasoning",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Outline a diagnostic approach for a patient complaining of hypertension."
+    },
+    {
+      "id": "mi-ilo-052",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "List hypertensive emergencies and urgencies."
+    },
+    {
+      "id": "mi-ilo-053",
+      "kind": "clinical_reasoning",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Outline a diagnostic approach for a patient presenting with chest pain."
+    },
+    {
+      "id": "mi-ilo-054",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "List the clinical syndromes associated with ischemic heart disease."
+    },
+    {
+      "id": "mi-ilo-055",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Explain the pathogenesis of ischemic heart disease."
+    },
+    {
+      "id": "mi-ilo-056",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Define and list types of angina pectoris."
+    },
+    {
+      "id": "mi-ilo-057",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe the clinical picture of myocardial infarction."
+    },
+    {
+      "id": "mi-ilo-058",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Explain the pathogenesis of myocardial infarction."
+    },
+    {
+      "id": "mi-ilo-059",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Compare between transmural and subendocardial infarction."
+    },
+    {
+      "id": "mi-ilo-060",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Compare between pressure overload and volume overload."
+    },
+    {
+      "id": "mi-ilo-061",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "List types of myocardial infarction."
+    },
+    {
+      "id": "mi-ilo-062",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "List the complications of myocardial infarction according to their timing of occurrence."
+    },
+    {
+      "id": "mi-ilo-063",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe how an evolving myocardial infarction can be altered by thrombolysis and reperfusion."
+    },
+    {
+      "id": "mi-ilo-064",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe hemodynamic changes of different valvular lesions of the heart and their clinical pictures."
+    },
+    {
+      "id": "mi-ilo-065",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe valvular lesions of the heart in terms of classification and causes."
+    },
+    {
+      "id": "mi-ilo-066",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Compare between right- and left-sided heart failures."
+    },
+    {
+      "id": "mi-ilo-067",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe heart failure and cardiomyopathy in terms of definition, classification, causes, clinical manifestations and consequences."
+    },
+    {
+      "id": "mi-ilo-068",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe infective endocarditis and myocarditis in terms of definition, classification, causes, clinical manifestations and consequences."
+    },
+    {
+      "id": "mi-ilo-069",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe arrhythmias in terms of definition, classification, causes, clinical manifestations, ECG changes and complications."
+    },
+    {
+      "id": "mi-ilo-070",
+      "kind": "knowledge",
+      "domain": "cardiology",
+      "source_page": 18,
+      "verbatim_text": "Describe pericardial effusion in terms of definition, classification, causes, clinical manifestations, ECG changes and complications."
+    },
+    {
+      "id": "mi-ilo-071",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Recognize indications and preparatory requirements of imaging studies."
+    },
+    {
+      "id": "mi-ilo-072",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Interpret basic imaging studies."
+    },
+    {
+      "id": "mi-ilo-073",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Recognize basic principles of radiation protection."
+    },
+    {
+      "id": "mi-ilo-074",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Recognize common radiological modalities."
+    },
+    {
+      "id": "mi-ilo-075",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Identify indications and contraindications of each radiological modality."
+    },
+    {
+      "id": "mi-ilo-076",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Discuss general principles of contrast-based radiological modalities, their indications, contraindications and preparations before each modality."
+    },
+    {
+      "id": "mi-ilo-077",
+      "kind": "clinical_reasoning",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Identify which investigation method is the best to order in each pathology."
+    },
+    {
+      "id": "mi-ilo-078",
+      "kind": "clinical_reasoning",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Identify alarming radiological signs that need urgent intervention, e.g. pneumothorax, testicular torsion and intraperitoneal free fluid."
+    },
+    {
+      "id": "mi-ilo-079",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 19,
+      "verbatim_text": "Identify the FAST scan for any patient with trauma."
+    },
+    {
+      "id": "mi-ilo-080",
+      "kind": "knowledge",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Describe clinical features (definition, pathogenesis and classifications/types) of chronic bronchitis and emphysema, COPD, asthma, interstitial lung disease and IPF, pleural effusion, tuberculosis and respiratory tract infections (pneumonia)."
+    },
+    {
+      "id": "mi-ilo-081",
+      "kind": "knowledge",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Describe the clinical picture of pleuro-pulmonary malignancies."
+    },
+    {
+      "id": "mi-ilo-082",
+      "kind": "clinical_reasoning",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Discuss presentation of pulmonary and extrapulmonary TB, acute respiratory infections and atypical pneumonias."
+    },
+    {
+      "id": "mi-ilo-083",
+      "kind": "clinical_reasoning",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Discuss diagnostic approach to pulmonary and extrapulmonary TB, acute respiratory infections and atypical pneumonias."
+    },
+    {
+      "id": "mi-ilo-084",
+      "kind": "clinical_reasoning",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Differentiate the diagnostic approach for pneumothorax, adult respiratory distress syndrome, respiratory failure, bronchiectasis, lung abscess and empyema."
+    },
+    {
+      "id": "mi-ilo-085",
+      "kind": "management",
+      "domain": "chest",
+      "source_page": 20,
+      "verbatim_text": "Explain the management plan for COPD, tuberculosis, respiratory tract infections (pneumonia) and lung cancer."
+    },
+    {
+      "id": "mi-ilo-086",
+      "kind": "management",
+      "domain": "chest",
+      "source_page": 21,
+      "verbatim_text": "Outline the management plan for pulmonary and extrapulmonary TB, acute respiratory infection and atypical pneumonias."
+    },
+    {
+      "id": "mi-ilo-087",
+      "kind": "clinical_skill",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Undertake a focused oncological history focusing on common and red-flag symptoms."
+    },
+    {
+      "id": "mi-ilo-088",
+      "kind": "clinical_skill",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Undertake a focused oncological examination, e.g. assessment for metastatic spinal cord compression."
+    },
+    {
+      "id": "mi-ilo-089",
+      "kind": "professional_skill",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Provide relief from the symptoms and stress of illness for seriously ill/terminal oncology patients."
+    },
+    {
+      "id": "mi-ilo-090",
+      "kind": "knowledge",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Recognize basic principles of radiation protection."
+    },
+    {
+      "id": "mi-ilo-091",
+      "kind": "knowledge",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Describe the clinical picture of pleuro-pulmonary malignancies."
+    },
+    {
+      "id": "mi-ilo-092",
+      "kind": "clinical_reasoning",
+      "domain": "oncology",
+      "source_page": 21,
+      "verbatim_text": "Differentiate the diagnostic approach for cancer of the stomach and cancer of the colon."
+    },
+    {
+      "id": "mi-ilo-093",
+      "kind": "knowledge",
+      "domain": "oncology",
+      "source_page": 22,
+      "verbatim_text": "Describe causes and classification of hepatocellular carcinoma."
+    },
+    {
+      "id": "mi-ilo-094",
+      "kind": "management",
+      "domain": "oncology",
+      "source_page": 22,
+      "verbatim_text": "Explain the management plan for lung cancer."
+    },
+    {
+      "id": "mi-ilo-095",
+      "kind": "management",
+      "domain": "oncology",
+      "source_page": 22,
+      "verbatim_text": "Discuss the management plan of leukemias and lymphomas and myelodysplastic syndromes."
+    },
+    {
+      "id": "mi-ilo-096",
+      "kind": "professional_skill",
+      "domain": "oncology",
+      "source_page": 22,
+      "verbatim_text": "Demonstrate communication skills, e.g. principles of breaking bad news and shared decision-making with a patient."
+    },
+    {
+      "id": "mi-ilo-097",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Take a complete history for a given patient, eliciting presenting problems and relevant details, past medical/surgical history, family history, social history, medications and allergies."
+    },
+    {
+      "id": "mi-ilo-098",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Perform an appropriate review of systems to detect the patient's health problems."
+    },
+    {
+      "id": "mi-ilo-099",
+      "kind": "professional_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Establish a comfortable rapport with the patient."
+    },
+    {
+      "id": "mi-ilo-100",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Undertake a focused history focusing on common and red-flag symptoms."
+    },
+    {
+      "id": "mi-ilo-101",
+      "kind": "professional_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Exhibit empathy, tact and compassion during history taking and physical examination, maintaining a professional and ethical code of conduct."
+    },
+    {
+      "id": "mi-ilo-102",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Perform appropriately timed full physical examination of patients appropriate to age, gender and clinical presentation while being culturally sensitive."
+    },
+    {
+      "id": "mi-ilo-103",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Perform general and focused clinical examination for a given patient; measure and record vital signs adequately."
+    },
+    {
+      "id": "mi-ilo-104",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Perform examination, general and systemic, in logical sequence, focusing on particular systems when appropriate."
+    },
+    {
+      "id": "mi-ilo-105",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Conduct proper local examination of the chest and heart by inspection, palpation, percussion and auscultation to identify surface anatomy of internal organs and normal and abnormal physical signs."
+    },
+    {
+      "id": "mi-ilo-106",
+      "kind": "professional_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Show sensitivity and respect during physical examination, explaining procedures to the patient in understandable language."
+    },
+    {
+      "id": "mi-ilo-107",
+      "kind": "clinical_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Demonstrate proper use of medical instruments (e.g. stethoscope, sphygmomanometer)."
+    },
+    {
+      "id": "mi-ilo-108",
+      "kind": "professional_skill",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Demonstrate proper use of draping to position the patient for optimal exposure while maintaining patient dignity and privacy."
+    },
+    {
+      "id": "mi-ilo-109",
+      "kind": "clinical_reasoning",
+      "domain": "clinical-skills",
+      "source_page": 23,
+      "verbatim_text": "Prioritize issues to be addressed in a patient."
+    },
+    {
+      "id": "mi-ilo-110",
+      "kind": "clinical_skill",
+      "domain": "oncology",
+      "source_page": 23,
+      "verbatim_text": "Undertake a focused oncological examination, e.g. assessment for metastatic spinal cord compression."
+    },
+    {
+      "id": "mi-ilo-111",
+      "kind": "clinical_skill",
+      "domain": "clinical-pathology",
+      "source_page": 24,
+      "verbatim_text": "Interpret investigations that will help in diagnosis and management, including fundus examination, autoscopy, stool analysis, urine analysis, blood film for parasites and lumbar puncture."
+    },
+    {
+      "id": "mi-ilo-112",
+      "kind": "clinical_skill",
+      "domain": "clinical-pathology",
+      "source_page": 24,
+      "verbatim_text": "Interpret blood film, CBC, WBC identification, PT and PTT, and kidney function tests."
+    },
+    {
+      "id": "mi-ilo-113",
+      "kind": "clinical_reasoning",
+      "domain": "clinical-pathology",
+      "source_page": 24,
+      "verbatim_text": "Select and interpret hematological tests: CBC, blood film, reticulocyte count, prothrombin time, activated partial thromboplastin time and thrombophilia workup."
+    },
+    {
+      "id": "mi-ilo-114",
+      "kind": "clinical_reasoning",
+      "domain": "nephrology",
+      "source_page": 24,
+      "verbatim_text": "Identify the clinical usefulness of kidney function tests in different renal disorders, including serum creatinine, blood urea, creatinine clearance, urine analysis and estimated GFR."
+    },
+    {
+      "id": "mi-ilo-115",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 24,
+      "verbatim_text": "Interpret ultrasound, X-ray, CT and MRI."
+    },
+    {
+      "id": "mi-ilo-116",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 25,
+      "verbatim_text": "Describe the diagnostic approach for a patient with prolonged unexplained pyrexia (PUP)."
+    },
+    {
+      "id": "mi-ilo-117",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 25,
+      "verbatim_text": "Discuss diagnostic and management approach to pyrexia of unknown origin."
+    },
+    {
+      "id": "mi-ilo-118",
+      "kind": "clinical_reasoning",
+      "domain": "infectious-disease",
+      "source_page": 25,
+      "verbatim_text": "Describe the diagnostic approach for enteric infection (including H. pylori)."
+    },
+    {
+      "id": "mi-ilo-119",
+      "kind": "diagnostic_investigations",
+      "domain": "infectious-disease",
+      "source_page": 25,
+      "verbatim_text": "Select the required investigations for enteric infection (including H. pylori)."
+    },
+    {
+      "id": "mi-ilo-120",
+      "kind": "knowledge_and_management",
+      "domain": "pharmacology",
+      "source_page": 25,
+      "verbatim_text": "Describe antimicrobial agents and antiparasitic drugs in terms of classification, mode of action, indications, adverse effects, drug interaction and contraindications."
+    },
+    {
+      "id": "mi-ilo-121",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 26,
+      "verbatim_text": "Understand the scientific principles of research."
+    },
+    {
+      "id": "mi-ilo-122",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 26,
+      "verbatim_text": "Understand the ethical aspects of research."
+    },
+    {
+      "id": "mi-ilo-123",
+      "kind": "clinical_skill",
+      "domain": "field-training",
+      "source_page": 26,
+      "verbatim_text": "Apply the principles of physician–patient relationship in history taking."
+    },
+    {
+      "id": "mi-ilo-124",
+      "kind": "clinical_skill",
+      "domain": "field-training",
+      "source_page": 26,
+      "verbatim_text": "Perform general and local clinical examination on patients."
+    },
+    {
+      "id": "mi-ilo-125",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 26,
+      "verbatim_text": "Identify types of prevention (primary, secondary and tertiary)."
+    },
+    {
+      "id": "mi-ilo-126",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 26,
+      "verbatim_text": "Identify common health problems attending PHC."
+    },
+    {
+      "id": "mi-ilo-127",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 26,
+      "verbatim_text": "Identify most prevalent diseases."
+    }
+  ]
+}
