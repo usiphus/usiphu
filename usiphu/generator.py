@@ -75,7 +75,8 @@ def build_generation_briefs(
     coverage_register = load_coverage_register()
     coverage_topics = {
         (row["specialty_id"], row["topic_id"]): row for row in coverage_register["topics"]
-    }\n    exam_blueprints = _load_json(blueprint_path)
+    }
+    exam_blueprints = _load_json(blueprint_path)
     default_blueprint = exam_blueprints["default"]
     catalog = _load_json(catalog_path)
     official, external = _catalog_index(catalog)
