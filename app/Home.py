@@ -11,7 +11,7 @@ from usiphu.ai_provider import (
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
-from usiphu.practice import load_cases, load_questions
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.storage import (
@@ -19,6 +19,9 @@ from usiphu.storage import (
     due_cards,
     generated_drafts,
     initialize,
+    question_attempt_history,
+    question_bank_stats,
+    record_question_attempt,
     record_review,
     save_flashcard,
     save_generated_drafts,
@@ -409,11 +412,6 @@ with tab6:
 
 with tab7:
     st.subheader("Medical question bank")
-    from usiphu.practice import filter_questions
-    from usiphu.storage import (
-        question_attempt_history, question_bank_stats, record_question_attempt,
-    )
-
     bank_questions = load_questions()
     bank_stats = question_bank_stats(learner_id=learner_id)
     q1, q2, q3 = st.columns(3)
