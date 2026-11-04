@@ -1,6 +1,6 @@
 import hashlib
-import io
 import importlib.util
+import io
 import json
 import sqlite3
 import tarfile
@@ -161,10 +161,8 @@ def test_restore_rejects_path_traversal_even_with_valid_checksum(tmp_path):
         connection.execute("CREATE TABLE safe (id INTEGER)")
     archive = tmp_path / "unsafe.tar.gz"
     with tarfile.open(archive, "w:gz") as output:
-        import tarfile as tf
-
         payload = b"do not write outside"
-        member = tf.TarInfo("source_inbox/../../escaped.txt")
+        member = tarfile.TarInfo("source_inbox/../../escaped.txt")
         member.size = len(payload)
         output.addfile(member, io.BytesIO(payload))
     checksum = tmp_path / "unsafe.sha256"
