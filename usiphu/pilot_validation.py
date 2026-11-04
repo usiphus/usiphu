@@ -139,6 +139,22 @@ def build_pilot_validation_report(
         for event in ai_events
         if event.get("internet_evidence_review", {}).get("proposed_option_id")
     ]
+    reviewer_ai_comparisons = [
+        item["reviewer_ai_comparison"]
+        for item in mcqs
+        if isinstance(item.get("reviewer_ai_comparison"), dict)
+        and item["reviewer_ai_comparison"].get("reviewer_answer_verified")
+    ]
+    reviewer_ai_agreements = sum(
+        item.get("reviewer_matches_ai_proposal") is True for item in reviewer_ai_comparisons
+    )
+    reviewer_ai_disagreements = sum(
+        item.get("reviewer_matches_ai_proposal") is False for item in reviewer_ai_comparisons
+    )
+    evidence_references_count = sum(
+        len(event.get("internet_evidence_review", {}).get("sources", []))
+        for event in ai_events
+    )
     source_index: dict[str, dict[str, Any]] = {}
     for event in ai_events:
         evidence = event.get("internet_evidence_review", {})
@@ -220,6 +236,9 @@ def build_pilot_validation_report(
             "ai_review_runs": len(ai_events),
             "ai_candidates_reviewed": len(latest_reviews),
             "ai_key_contradictions": key_contradictions,
+            "reviewer_ai_comparisons": len(reviewer_ai_comparisons),
+            "reviewer_ai_agreements": reviewer_ai_agreements,
+            "reviewer_ai_disagreements": reviewer_ai_disagreements,
             "evidence_articles": len(evidence_sources),
             "full_text_articles": full_text_sources,
             "abstract_only_articles": abstract_only_sources,
@@ -247,7 +266,7 @@ def build_pilot_validation_report(
             "full_text_percent": round(100 * full_text_sources / len(evidence_sources), 1) if evidence_sources else None,
             "metadata_complete_articles": metadata_complete,
             "dated_articles": dated_sources,
-            "mean_articles_per_ai_review": round(len(evidence_sources) / len(ai_events), 2) if ai_events else 0,
+            "mean_articles_per_ai_review": round(evidence_references_count / len(ai_events), 2) if ai_events else 0,
             "interpretation": (
                 "Metadata and full-text availability indicators only; they do not establish study quality, "
                 "clinical relevance, guideline status or certainty of evidence."
