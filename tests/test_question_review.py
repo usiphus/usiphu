@@ -63,6 +63,10 @@ def test_review_draft_does_not_promote_question(tmp_path):
         source_dir=source_dir,
     )
     assert reviewed["review_state"] == "reviewed_pending_approval"
+    assert reviewed["original_extracted_stem"] == "Which diagnosis is most likely?"
+    assert reviewed["original_extracted_options"][0]["text"] == "Option one"
+    assert reviewed["transcription_status"] == "human_reviewed"
+    assert reviewed["answer_status"] == "human_verified"
     assert not (tmp_path / "bank.json").exists()
 
 
