@@ -57,7 +57,7 @@ if AUTH_REQUIRED:
         st.stop()
     learner_id = f"{st.user.get('iss', 'oidc')}:{subject}"
     reviewer_subjects = {value.strip() for value in os.getenv("USIPHU_REVIEWER_SUBJECTS", "").split(",") if value.strip()}
-    reviewer_access = subject in reviewer_subjects
+    reviewer_access = learner_id in reviewer_subjects
     with st.sidebar:
         st.caption(f"Signed in: {st.user.get('email', 'learner')}")
         st.button("Sign out", on_click=st.logout)
