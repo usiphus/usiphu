@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PROFILE_FILE = ROOT / "data" / "suez_university_curriculum.json"
 ILO_FILE = ROOT / "data" / "suez_course_ilos.json"
 EXAM_BLUEPRINT_FILE = ROOT / "data" / "specialty_exam_blueprints.json"
+REVIEW_RUBRIC_FILE = ROOT / "data" / "clinical_exam_review_rubric.json"
 EXAM_FORMATS = {
     "mixed": ["mcq", "short_answer", "clinical_case", "osce_station", "viva", "emq"],
     "mcq": ["mcq"],
@@ -142,6 +143,35 @@ def build_generation_briefs(
     return briefs
 
 
+def build_review_packet(card_type: str | None, brief: dict[str, Any]) -> dict[str, Any]:
+    """Build a human-review checklist; this is not an automated clinical approval."""
+    rubric = _load_json(REVIEW_RUBRIC_FILE)
+    specialty = brief.get("specialty_id", "")
+    specialty_blueprint = brief.get("specialty_exam_blueprint", {})
+    return {
+        "status": "human_review_required",
+        "automated_validation_scope": (
+            "Structure, required fields, permitted curriculum references, source-packet "
+            "traceability and duplicate prompts only."
+        ),
+        "not_automatically_assessed": [
+            "clinical truth or patient safety",
+            "guideline currency or local applicability",
+            "clinical ambiguity and distractor quality",
+            "validity for a specific faculty examination",
+        ],
+        "common_checks": rubric["common_checks"],
+        "format_checks": rubric["formats"].get(card_type or "", []),
+        "specialty_safety_checks": [
+            *rubric["specialty_review_requirements"].get(specialty, []),
+            *specialty_blueprint.get("safety_checks", []),
+        ],
+        "approval_gates": rubric["approval_gates"],
+        "required_reviewer_metadata": rubric["required_reviewer_metadata"],
+        "automatic_approval_prohibited": True,
+    }
+
+
 def validate_generated_card(
     card: dict[str, Any], brief: dict[str, Any], *,
     existing_cards: list[dict[str, Any]] | None = None,
@@ -150,7 +180,7 @@ def validate_generated_card(
     errors: list[str] = []
     required = {"id", "card_type", "specialty_id", "topic_id", "prompt", "answer",
                 "source_title", "source_url", "source_date", "course_outcome_refs",
-                "evidence_claims", "review_status"}
+                "evidence_claims", "evidence_sources", "learning_point", "difficulty", "review_status"}
     missing = sorted(required - card.keys())
     if missing:
         errors.append("Missing required fields: " + ", ".join(missing))
@@ -164,12 +194,12 @@ def validate_generated_card(
     if (card.get("card_type") not in SUPPORTED_CARD_TYPES
             or card.get("card_type") not in allowed_types):
         errors.append("card_type is unsupported or does not match the requested exam format")
-    for field in ("id", "prompt", "answer", "source_title", "source_url", "source_date"):
+    for field in ("id", "prompt", "answer", "source_title", "source_url", "source_date", "learning_point"):
         if not isinstance(card.get(field), str) or not card[field].strip():
             errors.append(f"{field} must be a non-empty string")
     if isinstance(card.get("source_url"), str) and not re.match(r"^https?://", card["source_url"]):
         errors.append("source_url must be an HTTP(S) URL")
-    if not isinstance(card.get("evidence_claims"), list) or not card.get("evidence_claims"):
+    if card.get("difficulty") not in {"basic", "intermediate", "advanced"}:\n        errors.append("difficulty must be basic, intermediate, or advanced")\n    if not isinstance(card.get("evidence_claims"), list) or not card.get("evidence_claims"):
         errors.append("At least one traceable evidence_claim is required")
     elif any(not isinstance(claim, dict) or not claim.get("claim") or
              not claim.get("source_url") for claim in card["evidence_claims"]):
