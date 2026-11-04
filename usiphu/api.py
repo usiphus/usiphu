@@ -67,12 +67,19 @@ def content_validation() -> dict:
 
 
 @app.get("/generator/briefs")
-def generator_briefs(specialty: str | None = None, topic: str | None = None) -> dict:
+def generator_briefs(
+    specialty: str | None = None, topic: str | None = None,
+    exam_format: str = "mixed",
+) -> dict:
     """Return deterministic, source-linked generation jobs; no AI provider is implied."""
     try:
-        briefs = build_generation_briefs(specialty_id=specialty, topic_id=topic)
+        briefs = build_generation_briefs(
+            specialty_id=specialty, topic_id=topic, exam_format=exam_format
+        )
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     status = provider_status()
     return {
         "provider_configured": status["configured"],
@@ -112,16 +119,23 @@ def generator_generate(payload: dict) -> dict:
         raise HTTPException(status_code=422, detail="specialty_id is required")
     if not isinstance(topic, str) or not topic.strip() or len(topic) > 160:
         raise HTTPException(status_code=422, detail="topic_id is required")
+    exam_format = payload.get("exam_format", "mixed")
+    if not isinstance(exam_format, str) or len(exam_format) > 40:
+        raise HTTPException(status_code=422, detail="exam_format must be a supported format")
     evidence_limit = payload.get("evidence_limit", 5)
     if not isinstance(evidence_limit, int) or not 1 <= evidence_limit <= 10:
         raise HTTPException(status_code=422, detail="evidence_limit must be between 1 and 10")
     try:
-        return generate_topic_cards(specialty.strip(), topic.strip(),
-                                    evidence_limit=evidence_limit)
+        return generate_topic_cards(
+            specialty.strip(), topic.strip(), evidence_limit=evidence_limit,
+            exam_format=exam_format,
+        )
     except GenerationNotConfigured as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except EvidenceRetrievalError as exc:
         raise HTTPException(status_code=502, detail="PubMed evidence retrieval failed") from exc
     except Exception as exc:
