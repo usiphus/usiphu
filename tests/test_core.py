@@ -205,6 +205,8 @@ def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path, mon
     assert filter_questions(questions, review_status="exam_validated") == []
     assert filter_questions(questions, bank_id="starter-medical-bank") == questions
 
+    # Restore the real draft bank before checking that draft attempts are unscored.
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: questions)
     db = tmp_path / "question-bank.sqlite3"
     record_question_attempt("uro-001", "b", True, db, learner_id="learner-a")
     record_question_attempt("uro-001", "a", False, db, learner_id="learner-a")
