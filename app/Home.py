@@ -31,12 +31,12 @@ from usiphu.storage import (
     topic_progress,
 )
 
-st.set_page_config(page_title="Usiphu 2.0", page_icon="🩺", layout="wide")
+st.set_page_config(page_title="USIPHU", page_icon="🩺", layout="wide")
 
 AUTH_REQUIRED = os.getenv("USIPHU_AUTH_REQUIRED", "false").lower() == "true"
 if AUTH_REQUIRED:
     if not st.user.is_logged_in:
-        st.title("🩺 Usiphu 2.0")
+        st.title("🩺 USIPHU")
         st.write("Sign in with your configured identity provider to access your learning workspace.")
         st.button("Sign in", on_click=st.login)
         st.stop()
@@ -72,7 +72,7 @@ div[data-testid="stAlert"] { border-radius: 12px; }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🩺 Usiphu")
+st.title("🩺 USIPHU")
 st.caption("Your medical learning workspace · Learn clearly. Practise deliberately. Track mastery.")
 
 curriculum = load_curriculum()
