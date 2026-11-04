@@ -549,13 +549,13 @@ elif page == "Generator":
     if generated:
         st.divider()
         st.subheader("Generation results")
-        r1, r2, r3 = st.columns(3)
+        r1, r2, r3, r4 = st.columns(4)
         r1.metric("Objectives processed", generated["total_objectives"])
         r2.metric("Drafts passed automated checks", generated["draft_cards"])
         r3.metric("Evidence / quality gated", generated["rejected_or_evidence_gated"])
         coverage_result = generated.get("objective_coverage", {})
-        st.metric(
-            "Objective coverage by valid drafts",
+        r4.metric(
+            "Objective coverage",
             f"{coverage_result.get('coverage_percent', 0)}%",
             f"{coverage_result.get('covered_by_valid_draft', 0)}/{coverage_result.get('requested', generated['total_objectives'])} objectives",
         )
