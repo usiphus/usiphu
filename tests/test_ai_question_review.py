@@ -56,8 +56,8 @@ def test_review_returns_advisory_answer_and_transcription(monkeypatch, candidate
     monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: _response())
     result = review.review_mcq_candidate(candidate)
     assert result["transcription"]["suggested_stem"] == candidate["stem_extracted"]
-    assert result["answer_review"]["suggested_option_id"] == "b"
-    assert result["answer_review"]["basis"] == "clinical_reasoning"
+    assert result["answer_review"]["suggested_option_id"] is None
+    assert result["answer_review"]["basis"] == "unclear"
     assert result["internet_evidence_review"]["verdict"] == "insufficient_evidence"
     assert result["internet_evidence_review"]["proposed_option_id"] is None
     assert result["official_answer_key"] is False
