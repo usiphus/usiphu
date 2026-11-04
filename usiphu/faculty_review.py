@@ -4,8 +4,6 @@ The authored JSON banks remain immutable source material. Decisions and immutabl
 review snapshots live in SQLite; load_questions overlays the current release state.
 """
 import json
-import os
-import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
