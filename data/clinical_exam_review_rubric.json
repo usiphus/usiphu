@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0",
+  "title": "Clinical and examination quality review rubric",
+  "status": "human_review_required",
+  "scope_note": "Automated validation checks structure and source traceability only. It cannot determine whether a medical claim is true, current, clinically safe, pedagogically sound, or valid for a local examination.",
+  "common_checks": [
+    "Verify every material clinical claim against the cited primary source or current authoritative guideline; check date, population, study design, limitations and conflicting evidence.",
+    "Confirm the content matches the named specialty, topic and learning objective at the stated cognitive level.",
+    "Check patient context and assumptions: age, sex where relevant, pregnancy, comorbidities, acuity, setting, resources and jurisdiction.",
+    "Check red flags, time-critical differentials, stabilization, escalation and referral priorities where clinically relevant.",
+    "Verify investigations, interpretation, thresholds and management against current authoritative guidance; confirm local availability and applicability.",
+    "Check all medication details, doses, routes, contraindications, interactions and monitoring against a current trusted formulary. Remove unsupported specifics.",
+    "Confirm the keyed answer is defensible, the explanation is accurate, and uncertainty is represented honestly.",
+    "Check clarity, terminology, absence of ambiguity, cultural/contextual appropriateness and absence of misleading cues.",
+    "Confirm the assessment actually tests the objective and is appropriate for the learner level and local course outcomes."
+  ],
+  "formats": {
+    "mcq": [
+      "Exactly one defensible best answer; all options are plausible, homogeneous, mutually exclusive and grammatically parallel.",
+      "Distractors represent realistic misconceptions without being partly correct or ambiguous.",
+      "No cueing, trick wording, unnecessary negative stems, or answer-length clues.",
+      "Rationale explains why the key is best and addresses the strongest distractor where appropriate."
+    ],
+    "short_answer": [
+      "Provide an explicit marking scheme with essential points, acceptable alternatives and partial-credit rules.",
+      "The expected answer is appropriately scoped and does not reward unsupported detail."
+    ],
+    "clinical_case": [
+      "Scenario is clinically coherent with a plausible timeline, relevant positives/negatives and sufficient data.",
+      "Tasks assess prioritization, differential diagnosis, interpretation and management at the intended level.",
+      "Expected actions include appropriate red flags, reassessment, escalation and safety-netting."
+    ],
+    "osce_station": [
+      "Station brief defines candidate role, setting, time, available equipment/data and candidate tasks.",
+      "Marking criteria are observable, specific and aligned to the tasks; critical safety actions are explicit.",
+      "Examiner prompts, expected findings and global performance criteria are internally consistent."
+    ],
+    "viva": [
+      "Questions progress logically from core knowledge to application and clinical reasoning.",
+      "Expected answers identify essential points, acceptable alternatives and critical safety issues."
+    ],
+    "emq": [
+      "Option list is homogeneous, clinically plausible and sufficiently broad; reuse rules are clear.",
+      "Each stem is independent, unambiguous and has one best keyed option; option keys are correct."
+    ]
+  },
+  "specialty_review_requirements": {
+    "paediatrics": [
+      "Verify age, weight, developmental stage and age-specific thresholds; never accept unsupported weight-based doses."
+    ],
+    "obgyn": [
+      "Verify gestational/postpartum context, maternal and fetal status, and time-critical obstetric escalation."
+    ],
+    "anaesthesia-critical-care": [
+      "Verify airway, ventilation, haemodynamic and resuscitation claims against current specialist guidance."
+    ],
+    "pharmacology": [
+      "Independently verify every drug dose, route, contraindication, interaction and monitoring instruction."
+    ],
+    "emergency-medicine": [
+      "Verify ABCDE priorities, time-critical actions, escalation and disposition against current protocols."
+    ],
+    "forensic-medicine": [
+      "Verify jurisdiction-specific legal duties, consent, documentation and chain-of-custody requirements."
+    ]
+  },
+  "approval_gates": {
+    "draft": "Generated and structurally checked; not clinically approved.",
+    "needs_revision": "Reviewer identified corrections; return to authoring.",
+    "clinically_reviewed": "Named qualified clinician has reviewed factual accuracy, safety and source currency.",
+    "exam_validated": "Relevant faculty/assessment lead has approved the item for a specified course, cohort, jurisdiction and examination blueprint."
+  },
+  "required_reviewer_metadata": [
+    "reviewer_name_or_id",
+    "reviewer_qualification_or_role",
+    "reviewed_at",
+    "specialty",
+    "target_course_or_syllabus",
+    "jurisdiction",
+    "decision",
+    "review_notes"
+  ],
+  "automatic_approval_prohibited": true
+}
