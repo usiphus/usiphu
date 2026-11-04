@@ -51,7 +51,7 @@ The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 lea
 - Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
-- Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite + Source Inbox backups.
+- Docker image and hardened single-node production Compose deployment with Caddy HTTPS, persistent SQLite and Source Inbox volumes, plus paired database/source backups.
 
 ## Evidence-grounded AI generation
 
@@ -63,13 +63,14 @@ See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubM
 
 ## Production
 
-See [production deployment](docs/DEPLOYMENT.md). The production Compose setup is a single-replica deployment using persistent SQLite and Source Inbox volumes, OIDC, Caddy TLS, and paired database/source backups. **PostgreSQL is not yet connected to the application storage layer**; do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
+See [production deployment](docs/DEPLOYMENT.md) for existing Source Inbox migration, paired backup/restore utilities, a restore-drill procedure and an isolated staging checklist. CI validates both Compose configurations and builds the Docker image. The production Compose setup remains a single-replica deployment using SQLite; **PostgreSQL is not yet connected to the application storage layer**. Do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
 
 ## Checks
 
 ```bash
 ruff check .
 pytest -q
+python -m compileall -q usiphu app tests scripts
 python -m usiphu.validation
 ```
 
