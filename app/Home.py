@@ -1,4 +1,5 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
+import json
 import os
 import random
 from datetime import UTC, datetime
@@ -16,6 +17,7 @@ from usiphu.models import ReviewState
 from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
+from usiphu.extraction import extract_source, load_extraction
 from usiphu.source_inbox import list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
@@ -663,12 +665,13 @@ elif page == "Question Bank":
     st.divider()
     st.subheader("Add examination papers and question sources")
     st.write(
-        "Upload past papers whenever you find them. USIPHU keeps the original file and its "
-        "source details in an inbox so it can be extracted into the question bank later."
+        "Upload past papers whenever you find them. USIPHU keeps the original file and "
+        "automatically extracts selectable text into a review queue when the format supports it."
     )
     st.caption(
         "Accepted: PDF, DOCX, DOC, TXT, PNG and JPG · Maximum 50 MB per file. "
-        "Uploads are stored on the server, not automatically converted into questions."
+        "PDF, DOCX and TXT files are extracted automatically when readable text is available. "
+        "Scanned PDFs and images need OCR/manual extraction. Extracted candidates are never auto-approved."
     )
     with st.form("question-source-upload"):
         source_files = st.file_uploader(
@@ -703,7 +706,18 @@ elif page == "Question Bank":
                     notes=source_notes,
                 )
                 saved_count += 1
-                st.success(f"Saved: {saved['original_filename']}")
+                try:
+                    extracted = extract_source(saved["source_id"])
+                    count = extracted["summary"]["question_candidates"] + extracted["summary"]["meq_page_candidates"]
+                    st.success(
+                        f"Saved and extracted {saved['original_filename']}: "
+                        f"{count} candidate(s) awaiting review."
+                    )
+                except Exception as exc:
+                    st.warning(
+                        f"Saved {saved['original_filename']}, but automatic extraction "
+                        f"needs attention: {exc}"
+                    )
             except ValueError as exc:
                 st.warning(f"{uploaded_file.name}: {exc}")
         if saved_count:
@@ -735,6 +749,48 @@ elif page == "Question Bank":
                 if item.get("notes"):
                     st.write(item["notes"])
                 st.caption(f"Source ID: {item['source_id']} · SHA-256: {item['sha256']}")
+                extraction = load_extraction(item["source_id"])
+                if extraction:
+                    summary = extraction["summary"]
+                    st.info(
+                        f"{summary['question_candidates']} question candidate(s) · "
+                        f"{summary['meq_page_candidates']} MEQ page(s) · "
+                        "all remain unreviewed"
+                    )
+                    st.download_button(
+                        "Download extracted candidates (JSON)",
+                        data=json.dumps(extraction, ensure_ascii=False, indent=2),
+                        file_name=f"{item['source_id']}-candidates.json",
+                        mime="application/json",
+                        key=f"download-extraction-{item['source_id']}",
+                    )
+                    candidates = [
+                        *extraction.get("mcq_candidates", []),
+                        *extraction.get("meq_page_candidates", []),
+                    ]
+                    for candidate in candidates[:10]:
+                        with st.expander(
+                            f"Page {candidate['source_page']} · "
+                            f"{candidate.get('question_type', 'MEQ').replace('_', ' ').title()} · "
+                            f"{candidate['candidate_id']}"
+                        ):
+                            st.text(candidate.get("raw_text", candidate.get("stem_extracted", "")))
+                            if candidate.get("options"):
+                                for option in candidate["options"]:
+                                    st.write(f"{option['id'].upper()}. {option['text']}")
+                    if len(candidates) > 10:
+                        st.caption(f"Previewing 10 of {len(candidates)} extracted candidates.")
+                if st.button("Run / retry extraction", key=f"extract-source-{item['source_id']}"):
+                    try:
+                        result = extract_source(item["source_id"])
+                        st.success(
+                            f"Extraction complete: "
+                            f"{result['summary']['question_candidates'] + result['summary']['meq_page_candidates']} "
+                            "candidate(s) awaiting review."
+                        )
+                        st.rerun()
+                    except Exception as exc:
+                        st.error(f"Extraction could not complete: {exc}")
     else:
         st.info("No source files yet. Upload your first paper above.")
 
