@@ -65,6 +65,16 @@ def test_explicit_source_key_requires_a_quote(monkeypatch, candidate):
     assert result["answer_review"]["source_evidence"] == "Answer: B"
 
 
+
+def test_claimed_printed_key_quote_must_exist_in_source(monkeypatch, candidate):
+    monkeypatch.setattr(review, "provider_status", lambda: {"configured": True, "model": "test-model"})
+    payload = json.loads(_response("b", "explicit_source_key"))
+    payload["answer_review"]["source_evidence"] = "The printed key says option B."
+    monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: json.dumps(payload))
+    result = review.review_mcq_candidate(candidate)
+    assert result["answer_review"]["basis"] == "unclear"
+    assert result["answer_review"]["suggested_option_id"] is None
+
 def test_unknown_option_ids_are_rejected(monkeypatch, candidate):
     payload = json.loads(_response())
     payload["transcription"]["suggested_options"][1]["id"] = "d"
