@@ -119,3 +119,38 @@ def test_approval_rejects_unverified_answer(tmp_path):
     )
     with pytest.raises(ValueError, match="independently verified"):
         approve_candidate("candidate-001", source_dir=source_dir, bank_path=tmp_path / "bank.json")
+
+
+def test_human_answer_decision_is_compared_with_latest_ai_suggestion(tmp_path):
+    source_dir = tmp_path / "inbox"
+    source, payload = _candidate_in_inbox(source_dir)
+    payload["mcq_candidates"][0]["ai_review_history"] = [{
+        "internet_evidence_review": {
+            "verdict": "supported",
+            "existing_key_assessment": "uncertain",
+            "proposed_option_id": "a",
+        }
+    }]
+    (source_dir / "extractions" / f"{source['source_id']}.json").write_text(
+        json.dumps(payload), encoding="utf-8"
+    )
+    reviewed = save_candidate_review(
+        "candidate-001",
+        stem="Which diagnosis is most likely?",
+        options=[
+            {"id": "a", "text": "Option one"},
+            {"id": "b", "text": "Option two"},
+            {"id": "c", "text": "Option three"},
+        ],
+        specialty_id="urology",
+        topic_id="rcc",
+        correct_option_id="b",
+        explanation="Independently checked rationale.",
+        reviewer="Reviewer A",
+        answer_verified=True,
+        source_dir=source_dir,
+    )
+    comparison = reviewed["reviewer_ai_comparison"]
+    assert comparison["ai_proposed_option_id"] == "a"
+    assert comparison["reviewer_selected_option_id"] == "b"
+    assert comparison["reviewer_matches_ai_proposal"] is False
