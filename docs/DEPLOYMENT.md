@@ -92,6 +92,12 @@ find restore-drill/source-inbox -type f -maxdepth 3 -print
 
 The restore utility verifies the SQLite integrity, verifies the archive SHA-256, rejects path traversal and symlink archive entries, and refuses to overwrite a database or non-empty Source Inbox target. Confirm that the restored manifest references existing original files, inspect representative extracted candidate JSON and review history, and open representative PDFs. Record the drill date, artifact timestamp, result and restore duration. Delete the local drill copy securely after review. Never use the live `restore` profile service against populated volumes; it is intended only for a deliberately empty target.
 
+## Automated disposable staging smoke test
+
+The GitHub Actions workflow `.github/workflows/staging-smoke.yml` builds the production Docker image and runs it with fresh, isolated Docker volumes. It checks the Streamlit HTTP health endpoint, writes a synthetic paper through the same Source Inbox and extraction modules, records synthetic learner activity in SQLite, restarts the app container, and verifies that the original file, extracted candidate JSON and learner attempt persist. It then creates the paired backup, restores into separate empty volumes, and repeats the persistence verification against the restored copy.
+
+This is an automated container/volume integration test, not a public staging deployment. It uses synthetic data and does not configure OIDC, DNS, TLS issuance, institutional accounts, or an external host. The workflow deliberately destroys its temporary volumes at the end. A real staging deployment still requires a staging host, domain, OIDC client credentials and operator-controlled deployment secrets.
+
 ## Staging deployment checklist
 
 Use a separate checkout/working directory with its own `.env`, `.streamlit/secrets.toml`, staging OIDC client and staging domain. Use a unique Compose project name so staging receives separate named volumes and does not share production data:
