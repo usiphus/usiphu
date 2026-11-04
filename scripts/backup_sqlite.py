@@ -27,6 +27,10 @@ def main() -> None:
     if not source_dir.exists() or not source_dir.is_dir():
         raise SystemExit(f"Source Inbox directory does not exist: {source_dir}")
 
+    for item in source_dir.rglob("*"):
+        if item.is_symlink() or not (item.is_dir() or item.is_file()):
+            raise RuntimeError(f"Unsupported Source Inbox filesystem entry: {item}")
+
     backup_dir.mkdir(parents=True, exist_ok=True)
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
     database_target = backup_dir / f"usiphu-{stamp}.sqlite3"
@@ -48,10 +52,11 @@ def main() -> None:
         with tarfile.open(archive_temporary, "r:gz") as check:
             members = check.getnames()
             if not members or not all(
-                name == "source_inbox" or name.startswith("source_inbox/")
-                for name in members
+                (member.name == "source_inbox" or member.name.startswith("source_inbox/"))
+                and (member.isdir() or member.isfile())
+                for member in check.getmembers()
             ):
-                raise RuntimeError("Source Inbox archive contains unexpected paths")
+                raise RuntimeError("Source Inbox archive contains unexpected paths or file types")
             manifest = source_dir / "sources.json"
             if manifest.exists() and "source_inbox/sources.json" not in members:
                 raise RuntimeError("Source Inbox manifest is missing from archive")
