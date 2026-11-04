@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "title": "Usiphu Medical Question Bank Registry",
+  "scope": "Medical education and clinical examination preparation only.",
+  "default_bank_id": "starter-medical-bank",
+  "loader_contract": {
+    "primary_file": "data/questions.json",
+    "additional_bank_directory": "data/question_banks/",
+    "accepted_formats": [
+      "A JSON array of MCQ objects",
+      "A JSON object with bank_id, title, and questions array"
+    ],
+    "globally_unique_question_ids": true,
+    "required_fields": [
+      "id",
+      "specialty_id",
+      "topic_id",
+      "stem",
+      "options",
+      "correct_option_id",
+      "explanation"
+    ],
+    "optional_metadata": [
+      "bank_id",
+      "question_type",
+      "module_code",
+      "tags",
+      "difficulty",
+      "source_url",
+      "source_title",
+      "source_date",
+      "jurisdiction",
+      "source_id",
+      "source_page",
+      "review_status",
+      "reviewed_by",
+      "reviewed_at"
+    ]
+  },
+  "supported_question_types": {
+    "single_best_answer": "Implemented in the current learner question-bank interface.",
+    "extended_matching": "Model type reserved; learner interaction still to be implemented.",
+    "short_answer": "Model type reserved; learner interaction still to be implemented."
+  },
+  "editorial_policy": {
+    "statuses": [
+      "draft",
+      "clinically_reviewed",
+      "exam_validated",
+      "retired"
+    ],
+    "default_status": "draft",
+    "publication_rule": "Only qualified human clinical review and local faculty/exam validation can promote items. Automated checks never approve clinical content.",
+    "provenance_rule": "Retain original author/source attribution and licence. Do not import copyrighted commercial question-bank dumps without permission.",
+    "explanation_required": true,
+    "source_required_for_approval": true
+  },
+  "current_content": {
+    "primary_file": "data/questions.json",
+    "question_count": 3,
+    "status": "draft_only",
+    "note": "Three starter SBA questions are included to exercise the workflow. They are not a comprehensive Suez University question bank and are not approved examination content."
+  }
+}
