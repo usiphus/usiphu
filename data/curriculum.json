@@ -1,6 +1,6 @@
 {
-  "version": "2.0-blueprint-1",
-  "description": "Broad cross-specialty starter blueprint. Validate and extend against the learner's national syllabus, college curriculum, and local exam blueprint before claiming complete coverage.",
+  "version": "2.1-medical-coverage-expansion",
+  "description": "Expanded cross-specialty medical curriculum blueprint. New topics are explicitly planned pending mapping to current official course outcomes, authoritative sources, and faculty review. This is not a claim of complete or approved syllabus coverage.",
   "specialties": [
     {
       "id": "internal-medicine",
@@ -1044,6 +1044,2722 @@
                   "id": "ag-1",
                   "text": "Assess medical causes and manage immediate safety with de-escalation principles.",
                   "level": "perform"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "anatomy",
+      "title": "Anatomy",
+      "domains": [
+        {
+          "id": "gross-anatomy",
+          "title": "Regional and Gross Anatomy",
+          "topics": [
+            {
+              "id": "upper-limb-anatomy",
+              "title": "Upper limb anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "upper-limb-anatomy-1",
+                  "text": "Relate brachial plexus, compartments, vessels and common injury patterns to clinical findings.",
+                  "level": "understand"
+                },
+                {
+                  "id": "upper-limb-anatomy-2",
+                  "text": "Identify surface landmarks and explain the anatomical basis of common upper-limb procedures.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "lower-limb-anatomy",
+              "title": "Lower limb anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "lower-limb-anatomy-1",
+                  "text": "Relate lumbosacral plexus, compartments, vessels and gait abnormalities to clinical findings.",
+                  "level": "understand"
+                },
+                {
+                  "id": "lower-limb-anatomy-2",
+                  "text": "Identify surface landmarks and explain the anatomical basis of common lower-limb procedures.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "thorax-anatomy",
+              "title": "Thoracic anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "thorax-anatomy-1",
+                  "text": "Explain pleural, pulmonary, mediastinal, cardiac and great-vessel relationships.",
+                  "level": "understand"
+                },
+                {
+                  "id": "thorax-anatomy-2",
+                  "text": "Apply thoracic anatomy to imaging, trauma and procedural approaches.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "abdomen-pelvis-anatomy",
+              "title": "Abdominal and pelvic anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "abdomen-pelvis-anatomy-1",
+                  "text": "Explain peritoneal spaces, abdominal viscera, pelvic organs and neurovascular relationships.",
+                  "level": "understand"
+                },
+                {
+                  "id": "abdomen-pelvis-anatomy-2",
+                  "text": "Apply anatomy to abdominal examination, hernias and pelvic procedures.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "neuroanatomy",
+          "title": "Neuroanatomy",
+          "topics": [
+            {
+              "id": "brainstem-neuroanatomy",
+              "title": "Brainstem and cranial nerve anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "brainstem-neuroanatomy-1",
+                  "text": "Localize brainstem lesions from cranial nerve and long-tract findings.",
+                  "level": "understand"
+                },
+                {
+                  "id": "brainstem-neuroanatomy-2",
+                  "text": "Relate cranial nerve pathways to common neurological presentations.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "spinal-cord-tracts",
+              "title": "Spinal cord and major tracts",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "spinal-cord-tracts-1",
+                  "text": "Trace major ascending and descending pathways and predict lesion patterns.",
+                  "level": "understand"
+                },
+                {
+                  "id": "spinal-cord-tracts-2",
+                  "text": "Localize spinal cord syndromes from motor, sensory and autonomic findings.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "cerebral-vascular-anatomy",
+              "title": "Cerebral vascular anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cerebral-vascular-anatomy-1",
+                  "text": "Describe arterial territories, venous drainage and circle of Willis relationships.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cerebral-vascular-anatomy-2",
+                  "text": "Correlate vascular territories with stroke syndromes and imaging.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "autonomic-anatomy",
+              "title": "Autonomic nervous system anatomy",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "autonomic-anatomy-1",
+                  "text": "Describe sympathetic and parasympathetic pathways and target-organ effects.",
+                  "level": "understand"
+                },
+                {
+                  "id": "autonomic-anatomy-2",
+                  "text": "Apply autonomic anatomy to clinical signs and pharmacological effects.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "physiology",
+      "title": "Physiology",
+      "domains": [
+        {
+          "id": "systems-physiology",
+          "title": "Integrated Systems Physiology",
+          "topics": [
+            {
+              "id": "cardiovascular-physiology",
+              "title": "Cardiovascular physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cardiovascular-physiology-1",
+                  "text": "Explain cardiac cycle, pressure-volume relationships, cardiac output and vascular regulation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cardiovascular-physiology-2",
+                  "text": "Predict physiological responses to altered preload, afterload and contractility.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "respiratory-physiology",
+              "title": "Respiratory physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "respiratory-physiology-1",
+                  "text": "Explain ventilation, perfusion, gas exchange, oxygen transport and acid-base relationships.",
+                  "level": "understand"
+                },
+                {
+                  "id": "respiratory-physiology-2",
+                  "text": "Interpret basic physiological patterns in hypoxemia and ventilatory failure.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "renal-physiology",
+              "title": "Renal physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "renal-physiology-1",
+                  "text": "Explain filtration, tubular transport, concentration and fluid-electrolyte regulation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "renal-physiology-2",
+                  "text": "Predict renal responses to volume, electrolyte and acid-base disturbances.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "endocrine-physiology",
+              "title": "Endocrine physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "endocrine-physiology-1",
+                  "text": "Explain hormone synthesis, feedback loops and target-organ responses.",
+                  "level": "understand"
+                },
+                {
+                  "id": "endocrine-physiology-2",
+                  "text": "Interpret physiological feedback patterns in common endocrine disorders.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "neuro-muscle-physiology",
+          "title": "Neurophysiology and Muscle",
+          "topics": [
+            {
+              "id": "synaptic-physiology",
+              "title": "Synaptic transmission",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "synaptic-physiology-1",
+                  "text": "Explain action potentials, synaptic transmission and neurotransmitter signaling.",
+                  "level": "understand"
+                },
+                {
+                  "id": "synaptic-physiology-2",
+                  "text": "Relate altered synaptic transmission to neurological and pharmacological effects.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "muscle-physiology",
+              "title": "Skeletal and smooth muscle physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "muscle-physiology-1",
+                  "text": "Compare excitation-contraction coupling in skeletal, cardiac and smooth muscle.",
+                  "level": "understand"
+                },
+                {
+                  "id": "muscle-physiology-2",
+                  "text": "Explain clinical effects of neuromuscular and smooth-muscle dysfunction.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "sensory-physiology",
+              "title": "Sensory physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "sensory-physiology-1",
+                  "text": "Explain sensory receptor function and major sensory pathways.",
+                  "level": "understand"
+                },
+                {
+                  "id": "sensory-physiology-2",
+                  "text": "Relate sensory pathway lesions to patterns of clinical deficit.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "autonomic-physiology",
+              "title": "Autonomic physiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "autonomic-physiology-1",
+                  "text": "Explain autonomic control of cardiovascular, respiratory and visceral function.",
+                  "level": "understand"
+                },
+                {
+                  "id": "autonomic-physiology-2",
+                  "text": "Predict autonomic responses to physiological stress and disease.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "biochemistry",
+      "title": "Biochemistry and Molecular Medicine",
+      "domains": [
+        {
+          "id": "metabolism",
+          "title": "Metabolism and Nutrition",
+          "topics": [
+            {
+              "id": "carbohydrate-metabolism",
+              "title": "Carbohydrate metabolism",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "carbohydrate-metabolism-1",
+                  "text": "Explain glycolysis, gluconeogenesis, glycogen metabolism and their regulation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "carbohydrate-metabolism-2",
+                  "text": "Relate metabolic pathway defects to clinical biochemical findings.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "lipid-metabolism",
+              "title": "Lipid metabolism",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "lipid-metabolism-1",
+                  "text": "Explain lipoprotein transport, fatty-acid oxidation and cholesterol synthesis.",
+                  "level": "understand"
+                },
+                {
+                  "id": "lipid-metabolism-2",
+                  "text": "Interpret dyslipidaemia patterns and connect them to metabolic risk.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "protein-metabolism",
+              "title": "Protein and amino-acid metabolism",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "protein-metabolism-1",
+                  "text": "Explain protein turnover, nitrogen balance and key amino-acid pathways.",
+                  "level": "understand"
+                },
+                {
+                  "id": "protein-metabolism-2",
+                  "text": "Relate selected metabolic defects to clinical presentations.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "vitamins-trace-elements",
+              "title": "Vitamins and trace elements",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "vitamins-trace-elements-1",
+                  "text": "Describe major vitamin and trace-element functions and deficiency states.",
+                  "level": "understand"
+                },
+                {
+                  "id": "vitamins-trace-elements-2",
+                  "text": "Recognize clinical patterns caused by common micronutrient deficiencies.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "molecular-genetics",
+          "title": "Molecular Biology and Genetics",
+          "topics": [
+            {
+              "id": "dna-rna",
+              "title": "DNA replication, transcription and translation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "dna-rna-1",
+                  "text": "Explain central-dogma processes and mechanisms of gene expression.",
+                  "level": "understand"
+                },
+                {
+                  "id": "dna-rna-2",
+                  "text": "Relate molecular defects to inherited and acquired disease.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "inheritance-patterns",
+              "title": "Patterns of inheritance",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "inheritance-patterns-1",
+                  "text": "Distinguish Mendelian, mitochondrial and multifactorial inheritance.",
+                  "level": "understand"
+                },
+                {
+                  "id": "inheritance-patterns-2",
+                  "text": "Interpret pedigrees and estimate recurrence patterns in clinical scenarios.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "molecular-diagnostics",
+              "title": "Molecular diagnostic methods",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "molecular-diagnostics-1",
+                  "text": "Describe PCR, sequencing and common molecular diagnostic approaches.",
+                  "level": "understand"
+                },
+                {
+                  "id": "molecular-diagnostics-2",
+                  "text": "Select and interpret molecular tests at an introductory clinical level.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "cancer-biology",
+              "title": "Molecular basis of cancer",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cancer-biology-1",
+                  "text": "Explain oncogenes, tumour suppressors, DNA repair and clonal evolution.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cancer-biology-2",
+                  "text": "Relate molecular mechanisms to targeted diagnosis and therapy concepts.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "histology-embryology",
+      "title": "Histology and Embryology",
+      "domains": [
+        {
+          "id": "general-histology",
+          "title": "General Histology",
+          "topics": [
+            {
+              "id": "epithelia-connective",
+              "title": "Epithelial and connective tissues",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "epithelia-connective-1",
+                  "text": "Identify major tissue classes and relate structure to function.",
+                  "level": "understand"
+                },
+                {
+                  "id": "epithelia-connective-2",
+                  "text": "Recognize common histological patterns in normal tissue.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "muscle-nerve-histology",
+              "title": "Muscle and nervous tissue",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "muscle-nerve-histology-1",
+                  "text": "Differentiate skeletal, cardiac and smooth muscle and major neural cell types.",
+                  "level": "understand"
+                },
+                {
+                  "id": "muscle-nerve-histology-2",
+                  "text": "Relate microscopic structure to tissue function.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "blood-lymphoid-histology",
+              "title": "Blood and lymphoid tissues",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "blood-lymphoid-histology-1",
+                  "text": "Identify formed blood elements and major lymphoid-organ architecture.",
+                  "level": "understand"
+                },
+                {
+                  "id": "blood-lymphoid-histology-2",
+                  "text": "Relate normal histology to common haematological and immune abnormalities.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "organ-histology",
+              "title": "Organ-system histology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "organ-histology-1",
+                  "text": "Identify defining microscopic features of major organ systems.",
+                  "level": "understand"
+                },
+                {
+                  "id": "organ-histology-2",
+                  "text": "Correlate tissue architecture with physiological function.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "embryology",
+          "title": "Developmental and Clinical Embryology",
+          "topics": [
+            {
+              "id": "cardiac-embryology",
+              "title": "Cardiovascular development",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cardiac-embryology-1",
+                  "text": "Describe heart-tube formation, septation and aortic-arch development.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cardiac-embryology-2",
+                  "text": "Explain the embryological basis of common congenital cardiovascular anomalies.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "neural-embryology",
+              "title": "Neural tube and CNS development",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "neural-embryology-1",
+                  "text": "Describe neurulation and major stages of brain development.",
+                  "level": "understand"
+                },
+                {
+                  "id": "neural-embryology-2",
+                  "text": "Explain the developmental basis of neural-tube and selected CNS abnormalities.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "urogenital-embryology",
+              "title": "Urogenital development",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "urogenital-embryology-1",
+                  "text": "Describe renal, genital and lower urinary tract development.",
+                  "level": "understand"
+                },
+                {
+                  "id": "urogenital-embryology-2",
+                  "text": "Explain the embryological basis of common congenital urogenital anomalies.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "gut-embryology",
+              "title": "Gastrointestinal development",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "gut-embryology-1",
+                  "text": "Describe gut rotation, partitioning and development of accessory organs.",
+                  "level": "understand"
+                },
+                {
+                  "id": "gut-embryology-2",
+                  "text": "Explain the embryological basis of common gastrointestinal congenital anomalies.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pathology",
+      "title": "Pathology",
+      "domains": [
+        {
+          "id": "general-pathology",
+          "title": "General Pathology",
+          "topics": [
+            {
+              "id": "cell-injury",
+              "title": "Cell injury, adaptation and death",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cell-injury-1",
+                  "text": "Explain mechanisms of reversible injury, necrosis and apoptosis.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cell-injury-2",
+                  "text": "Correlate cellular injury mechanisms with tissue-level disease.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "inflammation-repair",
+              "title": "Inflammation and tissue repair",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "inflammation-repair-1",
+                  "text": "Describe acute and chronic inflammation, healing and fibrosis.",
+                  "level": "understand"
+                },
+                {
+                  "id": "inflammation-repair-2",
+                  "text": "Interpret the pathological basis of common inflammatory and repair processes.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "haemodynamic-disorders",
+              "title": "Haemodynamic disorders",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "haemodynamic-disorders-1",
+                  "text": "Explain oedema, thrombosis, embolism, infarction and shock.",
+                  "level": "understand"
+                },
+                {
+                  "id": "haemodynamic-disorders-2",
+                  "text": "Relate vascular pathology to clinical complications.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "neoplasia",
+              "title": "Neoplasia and tumour biology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "neoplasia-1",
+                  "text": "Describe benign and malignant neoplasms, grading and staging principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "neoplasia-2",
+                  "text": "Interpret basic pathological features used in cancer diagnosis.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "systemic-pathology",
+          "title": "Systemic Pathology",
+          "topics": [
+            {
+              "id": "cardiovascular-pathology",
+              "title": "Cardiovascular pathology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cardiovascular-pathology-1",
+                  "text": "Describe pathological features of ischaemic, hypertensive and valvular heart disease.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cardiovascular-pathology-2",
+                  "text": "Correlate cardiovascular pathology with clinical and gross findings.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "respiratory-pathology",
+              "title": "Respiratory pathology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "respiratory-pathology-1",
+                  "text": "Describe obstructive, restrictive, infectious and neoplastic lung pathology.",
+                  "level": "understand"
+                },
+                {
+                  "id": "respiratory-pathology-2",
+                  "text": "Correlate respiratory tissue changes with clinical and imaging patterns.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "renal-pathology",
+              "title": "Renal pathology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "renal-pathology-1",
+                  "text": "Describe major glomerular, tubulointerstitial and vascular renal lesions.",
+                  "level": "understand"
+                },
+                {
+                  "id": "renal-pathology-2",
+                  "text": "Relate urinalysis and renal-function patterns to pathological processes.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "gi-pathology",
+              "title": "Gastrointestinal and liver pathology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "gi-pathology-1",
+                  "text": "Describe common inflammatory, metabolic and neoplastic GI and hepatic lesions.",
+                  "level": "understand"
+                },
+                {
+                  "id": "gi-pathology-2",
+                  "text": "Correlate tissue patterns with clinical presentation and laboratory findings.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pharmacology",
+      "title": "Pharmacology",
+      "domains": [
+        {
+          "id": "general-pharmacology",
+          "title": "General Pharmacology",
+          "topics": [
+            {
+              "id": "pharmacokinetics",
+              "title": "Pharmacokinetics",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "pharmacokinetics-1",
+                  "text": "Explain absorption, distribution, metabolism, elimination and dose-response relationships.",
+                  "level": "understand"
+                },
+                {
+                  "id": "pharmacokinetics-2",
+                  "text": "Apply pharmacokinetic principles to dosing intervals and altered organ function.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "pharmacodynamics",
+              "title": "Pharmacodynamics",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "pharmacodynamics-1",
+                  "text": "Explain receptor interactions, agonism, antagonism and therapeutic index.",
+                  "level": "understand"
+                },
+                {
+                  "id": "pharmacodynamics-2",
+                  "text": "Interpret dose-response curves and predict drug interactions at receptor level.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "adverse-drug-reactions",
+              "title": "Adverse drug reactions and interactions",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "adverse-drug-reactions-1",
+                  "text": "Classify adverse drug reactions and explain common interaction mechanisms.",
+                  "level": "understand"
+                },
+                {
+                  "id": "adverse-drug-reactions-2",
+                  "text": "Identify medication-safety risks and appropriate monitoring principles.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "prescribing-principles",
+              "title": "Safe prescribing principles",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "prescribing-principles-1",
+                  "text": "Describe medication reconciliation, contraindication checks and monitoring.",
+                  "level": "understand"
+                },
+                {
+                  "id": "prescribing-principles-2",
+                  "text": "Construct a safe, patient-specific prescription using an approved local reference.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "systemic-pharmacology",
+          "title": "Systemic Pharmacology",
+          "topics": [
+            {
+              "id": "cardiovascular-drugs",
+              "title": "Cardiovascular drugs",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cardiovascular-drugs-1",
+                  "text": "Compare major antihypertensive, antianginal, antithrombotic and heart-failure drug classes.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cardiovascular-drugs-2",
+                  "text": "Select drug classes for common cardiovascular indications using current guidance.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "antimicrobials-pharm",
+              "title": "Antimicrobial pharmacology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "antimicrobials-pharm-1",
+                  "text": "Explain major antibacterial, antiviral, antifungal and antiparasitic drug mechanisms.",
+                  "level": "understand"
+                },
+                {
+                  "id": "antimicrobials-pharm-2",
+                  "text": "Apply antimicrobial stewardship and local susceptibility guidance.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "cns-drugs",
+              "title": "Drugs acting on the nervous system",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cns-drugs-1",
+                  "text": "Compare major analgesic, anaesthetic, antiepileptic and psychotropic drug classes.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cns-drugs-2",
+                  "text": "Identify important contraindications, interactions and monitoring needs.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "endocrine-drugs",
+              "title": "Endocrine pharmacology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "endocrine-drugs-1",
+                  "text": "Explain major antidiabetic, thyroid, corticosteroid and reproductive drug classes.",
+                  "level": "understand"
+                },
+                {
+                  "id": "endocrine-drugs-2",
+                  "text": "Apply safe monitoring principles to endocrine pharmacotherapy.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microbiology-immunology",
+      "title": "Microbiology and Immunology",
+      "domains": [
+        {
+          "id": "medical-microbiology",
+          "title": "Medical Microbiology",
+          "topics": [
+            {
+              "id": "bacteriology",
+              "title": "Medical bacteriology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "bacteriology-1",
+                  "text": "Describe clinically important bacterial groups, virulence and transmission.",
+                  "level": "understand"
+                },
+                {
+                  "id": "bacteriology-2",
+                  "text": "Select appropriate specimen and interpret basic microbiological results.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "virology",
+              "title": "Medical virology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "virology-1",
+                  "text": "Describe major human viral families, transmission and disease mechanisms.",
+                  "level": "understand"
+                },
+                {
+                  "id": "virology-2",
+                  "text": "Relate viral testing approaches to clinical syndromes.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "mycology-parasitology",
+              "title": "Medical mycology and parasitology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "mycology-parasitology-1",
+                  "text": "Describe important fungal and parasitic pathogens and their clinical patterns.",
+                  "level": "understand"
+                },
+                {
+                  "id": "mycology-parasitology-2",
+                  "text": "Interpret common diagnostic methods for fungal and parasitic infection.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "infection-control",
+              "title": "Infection prevention and control",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "infection-control-1",
+                  "text": "Explain standard precautions, transmission-based precautions and sterilization.",
+                  "level": "understand"
+                },
+                {
+                  "id": "infection-control-2",
+                  "text": "Apply infection-control principles to healthcare scenarios.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "immunology",
+          "title": "Clinical Immunology",
+          "topics": [
+            {
+              "id": "innate-adaptive-immunity",
+              "title": "Innate and adaptive immunity",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "innate-adaptive-immunity-1",
+                  "text": "Explain immune-cell function, antigen presentation and humoral/cellular responses.",
+                  "level": "understand"
+                },
+                {
+                  "id": "innate-adaptive-immunity-2",
+                  "text": "Relate immune mechanisms to infection and vaccination.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "hypersensitivity",
+              "title": "Hypersensitivity reactions",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "hypersensitivity-1",
+                  "text": "Classify hypersensitivity mechanisms and common clinical examples.",
+                  "level": "understand"
+                },
+                {
+                  "id": "hypersensitivity-2",
+                  "text": "Explain the immunological basis of allergic and immune-mediated disease.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "autoimmunity",
+              "title": "Autoimmunity and immune deficiency",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "autoimmunity-1",
+                  "text": "Describe mechanisms of autoimmunity and primary/secondary immunodeficiency.",
+                  "level": "understand"
+                },
+                {
+                  "id": "autoimmunity-2",
+                  "text": "Recognize broad clinical patterns that warrant immune evaluation.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "transplant-immunity",
+              "title": "Transplantation immunology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "transplant-immunity-1",
+                  "text": "Explain allorecognition, rejection and immunosuppression principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "transplant-immunity-2",
+                  "text": "Describe major infection and rejection-monitoring considerations.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "radiology",
+      "title": "Radiology and Medical Imaging",
+      "domains": [
+        {
+          "id": "imaging-principles",
+          "title": "Imaging Principles",
+          "topics": [
+            {
+              "id": "xray-basics",
+              "title": "Plain radiography",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "xray-basics-1",
+                  "text": "Apply a systematic approach to image quality and interpretation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "xray-basics-2",
+                  "text": "Recognize common chest and abdominal radiographic patterns.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "ct-principles",
+              "title": "Computed tomography",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "ct-principles-1",
+                  "text": "Explain CT acquisition, contrast principles and major limitations.",
+                  "level": "understand"
+                },
+                {
+                  "id": "ct-principles-2",
+                  "text": "Identify common emergency CT indications and safety considerations.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "mri-principles",
+              "title": "Magnetic resonance imaging",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "mri-principles-1",
+                  "text": "Explain basic MRI sequences and common indications and contraindications.",
+                  "level": "understand"
+                },
+                {
+                  "id": "mri-principles-2",
+                  "text": "Relate common MRI signal patterns to broad tissue characteristics.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "ultrasound-principles",
+              "title": "Ultrasound and Doppler",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "ultrasound-principles-1",
+                  "text": "Explain ultrasound modes, artefacts and Doppler principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "ultrasound-principles-2",
+                  "text": "Recognize common abdominal, pelvic and vascular ultrasound findings.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "systemic-imaging",
+          "title": "Systemic and Emergency Imaging",
+          "topics": [
+            {
+              "id": "neuroimaging",
+              "title": "Neuroradiology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "neuroimaging-1",
+                  "text": "Use a structured approach to non-contrast head CT and brain MRI.",
+                  "level": "understand"
+                },
+                {
+                  "id": "neuroimaging-2",
+                  "text": "Recognize major imaging patterns in stroke, haemorrhage and mass lesions.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "chest-imaging",
+              "title": "Thoracic imaging",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "chest-imaging-1",
+                  "text": "Interpret common chest radiograph and thoracic CT patterns.",
+                  "level": "understand"
+                },
+                {
+                  "id": "chest-imaging-2",
+                  "text": "Relate imaging findings to respiratory and cardiovascular presentations.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "abdominal-imaging",
+              "title": "Abdominal and pelvic imaging",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "abdominal-imaging-1",
+                  "text": "Choose and interpret introductory imaging approaches for acute abdominal and pelvic disease.",
+                  "level": "understand"
+                },
+                {
+                  "id": "abdominal-imaging-2",
+                  "text": "Recognize obstruction, inflammatory and urinary tract imaging patterns.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "msk-imaging",
+              "title": "Musculoskeletal imaging",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "msk-imaging-1",
+                  "text": "Apply a systematic approach to common fracture and joint imaging.",
+                  "level": "understand"
+                },
+                {
+                  "id": "msk-imaging-2",
+                  "text": "Recognize common traumatic and degenerative imaging abnormalities.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "emergency-medicine",
+      "title": "Emergency Medicine",
+      "domains": [
+        {
+          "id": "resuscitation",
+          "title": "Resuscitation and Initial Stabilization",
+          "topics": [
+            {
+              "id": "abcde",
+              "title": "ABCDE assessment",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "abcde-1",
+                  "text": "Perform a structured primary survey and identify immediately life-threatening problems.",
+                  "level": "understand"
+                },
+                {
+                  "id": "abcde-2",
+                  "text": "Prioritize resuscitation and reassessment in an undifferentiated emergency.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "shock",
+              "title": "Shock and hemodynamic emergencies",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "shock-1",
+                  "text": "Differentiate major shock categories using clinical assessment.",
+                  "level": "understand"
+                },
+                {
+                  "id": "shock-2",
+                  "text": "Initiate cause-directed stabilization and monitor response using local protocols.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "cardiac-arrest",
+              "title": "Cardiac arrest and peri-arrest care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cardiac-arrest-1",
+                  "text": "Describe adult cardiac-arrest recognition and resuscitation sequence.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cardiac-arrest-2",
+                  "text": "Apply current resuscitation algorithms in simulated scenarios.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "airway-emergencies",
+              "title": "Airway and breathing emergencies",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "airway-emergencies-1",
+                  "text": "Recognize airway compromise and respiratory failure.",
+                  "level": "understand"
+                },
+                {
+                  "id": "airway-emergencies-2",
+                  "text": "Describe escalation and airway-support principles within scope of training.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "acute-presentations",
+          "title": "Time-Critical Presentations",
+          "topics": [
+            {
+              "id": "stroke-emergency",
+              "title": "Acute stroke",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "stroke-emergency-1",
+                  "text": "Recognize stroke syndromes and time-critical assessment requirements.",
+                  "level": "understand"
+                },
+                {
+                  "id": "stroke-emergency-2",
+                  "text": "Describe imaging-led pathways and urgent specialist escalation.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "acute-chest-pain",
+              "title": "Acute chest pain and dyspnoea",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "acute-chest-pain-1",
+                  "text": "Prioritize life-threatening causes of chest pain and breathlessness.",
+                  "level": "understand"
+                },
+                {
+                  "id": "acute-chest-pain-2",
+                  "text": "Select immediate investigations and escalation based on risk.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "poisoning",
+              "title": "Poisoning and toxicology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "poisoning-1",
+                  "text": "Assess exposure, toxidromes and immediate stabilization priorities.",
+                  "level": "understand"
+                },
+                {
+                  "id": "poisoning-2",
+                  "text": "Use poison-centre and local toxicology guidance for specific antidotes and monitoring.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "trauma-emergency",
+              "title": "Major trauma",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "trauma-emergency-1",
+                  "text": "Perform structured trauma assessment and identify occult life threats.",
+                  "level": "understand"
+                },
+                {
+                  "id": "trauma-emergency-2",
+                  "text": "Coordinate hemorrhage control, imaging and definitive trauma-team care.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "family-medicine",
+      "title": "Family Medicine and Primary Care",
+      "domains": [
+        {
+          "id": "primary-care",
+          "title": "Common Primary Care Presentations",
+          "topics": [
+            {
+              "id": "undifferentiated-symptoms",
+              "title": "Undifferentiated symptoms",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "undifferentiated-symptoms-1",
+                  "text": "Assess common undifferentiated symptoms using a structured problem list.",
+                  "level": "understand"
+                },
+                {
+                  "id": "undifferentiated-symptoms-2",
+                  "text": "Identify red flags, safety-netting needs and appropriate follow-up.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "chronic-disease",
+              "title": "Long-term condition management",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "chronic-disease-1",
+                  "text": "Develop continuity plans for common chronic diseases and multimorbidity.",
+                  "level": "understand"
+                },
+                {
+                  "id": "chronic-disease-2",
+                  "text": "Apply shared decision-making and monitoring principles.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "preventive-care",
+              "title": "Screening and preventive care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "preventive-care-1",
+                  "text": "Describe evidence-based prevention, vaccination and screening principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "preventive-care-2",
+                  "text": "Use age- and risk-appropriate preventive guidance.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "common-infections",
+              "title": "Common infections in primary care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "common-infections-1",
+                  "text": "Assess common community infections and identify patients needing escalation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "common-infections-2",
+                  "text": "Apply antimicrobial stewardship and local primary-care guidance.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "community-health",
+          "title": "Community and Population Health",
+          "topics": [
+            {
+              "id": "health-promotion",
+              "title": "Health promotion and behaviour change",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "health-promotion-1",
+                  "text": "Explain determinants of health and behaviour-change approaches.",
+                  "level": "understand"
+                },
+                {
+                  "id": "health-promotion-2",
+                  "text": "Construct a patient-centred health-promotion plan.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "maternal-child-primary",
+              "title": "Maternal and child primary care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "maternal-child-primary-1",
+                  "text": "Describe routine preventive care across pregnancy, infancy and childhood.",
+                  "level": "understand"
+                },
+                {
+                  "id": "maternal-child-primary-2",
+                  "text": "Recognize warning signs requiring urgent referral.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "mental-health-primary",
+              "title": "Mental health in primary care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "mental-health-primary-1",
+                  "text": "Recognize common mental-health presentations and assess immediate risk.",
+                  "level": "understand"
+                },
+                {
+                  "id": "mental-health-primary-2",
+                  "text": "Plan initial support, follow-up and appropriate referral.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "continuity-referral",
+              "title": "Continuity, coordination and referral",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "continuity-referral-1",
+                  "text": "Explain care coordination, referral pathways and clinical handover.",
+                  "level": "understand"
+                },
+                {
+                  "id": "continuity-referral-2",
+                  "text": "Create a safe follow-up and referral plan.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "forensic-medicine",
+      "title": "Forensic Medicine and Medical Ethics",
+      "domains": [
+        {
+          "id": "forensic-practice",
+          "title": "Forensic Clinical Practice",
+          "topics": [
+            {
+              "id": "injury-documentation",
+              "title": "Injury assessment and documentation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "injury-documentation-1",
+                  "text": "Describe systematic injury examination and objective documentation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "injury-documentation-2",
+                  "text": "Explain consent, photography and chain-of-custody principles.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "medicolegal-death",
+              "title": "Death investigation and certification",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "medicolegal-death-1",
+                  "text": "Describe medical responsibilities in death certification and referral.",
+                  "level": "understand"
+                },
+                {
+                  "id": "medicolegal-death-2",
+                  "text": "Distinguish natural, accidental, suspicious and reportable deaths at a basic level.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "sexual-assault-care",
+              "title": "Clinical care after sexual assault",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "sexual-assault-care-1",
+                  "text": "Describe trauma-informed, consent-based clinical assessment and safeguarding.",
+                  "level": "understand"
+                },
+                {
+                  "id": "sexual-assault-care-2",
+                  "text": "Identify time-sensitive care, documentation and referral requirements.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "toxicology-forensic",
+              "title": "Forensic toxicology",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "toxicology-forensic-1",
+                  "text": "Explain specimen handling and interpretation limitations in toxicology.",
+                  "level": "understand"
+                },
+                {
+                  "id": "toxicology-forensic-2",
+                  "text": "Describe chain of custody and the need for accredited laboratory interpretation.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ethics-law",
+          "title": "Professional Ethics and Law",
+          "topics": [
+            {
+              "id": "consent-capacity",
+              "title": "Consent and decision-making capacity",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "consent-capacity-1",
+                  "text": "Explain informed consent, capacity assessment and supported decision-making.",
+                  "level": "understand"
+                },
+                {
+                  "id": "consent-capacity-2",
+                  "text": "Apply consent principles to common clinical dilemmas.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "confidentiality",
+              "title": "Confidentiality and disclosure",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "confidentiality-1",
+                  "text": "Describe confidentiality principles and justified exceptions.",
+                  "level": "understand"
+                },
+                {
+                  "id": "confidentiality-2",
+                  "text": "Resolve basic confidentiality scenarios using applicable local law.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "negligence-records",
+              "title": "Professional accountability and records",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "negligence-records-1",
+                  "text": "Explain accurate record keeping, duty of care and incident reporting.",
+                  "level": "understand"
+                },
+                {
+                  "id": "negligence-records-2",
+                  "text": "Identify when senior, legal or institutional advice is required.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "safeguarding",
+              "title": "Safeguarding vulnerable people",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "safeguarding-1",
+                  "text": "Recognize potential abuse, neglect and vulnerability.",
+                  "level": "understand"
+                },
+                {
+                  "id": "safeguarding-2",
+                  "text": "Describe safe escalation and documentation according to local policy.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geriatrics-palliative",
+      "title": "Geriatrics and Palliative Medicine",
+      "domains": [
+        {
+          "id": "geriatrics",
+          "title": "Geriatric Medicine",
+          "topics": [
+            {
+              "id": "frailty-falls",
+              "title": "Frailty, falls and mobility",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "frailty-falls-1",
+                  "text": "Assess frailty and multifactorial fall risk.",
+                  "level": "understand"
+                },
+                {
+                  "id": "frailty-falls-2",
+                  "text": "Develop individualized prevention and functional-support plans.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "delirium-dementia",
+              "title": "Delirium and dementia",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "delirium-dementia-1",
+                  "text": "Differentiate acute delirium from chronic cognitive decline.",
+                  "level": "understand"
+                },
+                {
+                  "id": "delirium-dementia-2",
+                  "text": "Identify reversible contributors and immediate safety needs.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "polypharmacy",
+              "title": "Polypharmacy and medication review",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "polypharmacy-1",
+                  "text": "Recognize high-risk prescribing and age-related pharmacological changes.",
+                  "level": "understand"
+                },
+                {
+                  "id": "polypharmacy-2",
+                  "text": "Conduct a structured medication review with patient goals.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "continence-nutrition",
+              "title": "Continence, nutrition and pressure injury",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "continence-nutrition-1",
+                  "text": "Assess common geriatric syndromes and functional impact.",
+                  "level": "understand"
+                },
+                {
+                  "id": "continence-nutrition-2",
+                  "text": "Plan prevention and multidisciplinary management.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "palliative-care",
+          "title": "Palliative and Supportive Care",
+          "topics": [
+            {
+              "id": "symptom-control",
+              "title": "Symptom assessment and control",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "symptom-control-1",
+                  "text": "Assess pain, dyspnoea, nausea and other common symptoms.",
+                  "level": "understand"
+                },
+                {
+                  "id": "symptom-control-2",
+                  "text": "Use current local palliative guidance and individualized reassessment.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "communication-goals",
+              "title": "Serious-illness communication and goals of care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "communication-goals-1",
+                  "text": "Explain shared decision-making and advance-care planning principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "communication-goals-2",
+                  "text": "Conduct a structured, compassionate goals-of-care discussion.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "end-of-life",
+              "title": "End-of-life care",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "end-of-life-1",
+                  "text": "Recognize the dying phase and describe holistic care needs.",
+                  "level": "understand"
+                },
+                {
+                  "id": "end-of-life-2",
+                  "text": "Support family communication and appropriate team coordination.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "bereavement",
+              "title": "Family support and bereavement",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "bereavement-1",
+                  "text": "Describe psychosocial, cultural and bereavement support needs.",
+                  "level": "understand"
+                },
+                {
+                  "id": "bereavement-2",
+                  "text": "Identify complicated grief and referral needs.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rehabilitation-medicine",
+      "title": "Physical and Rehabilitation Medicine",
+      "domains": [
+        {
+          "id": "rehabilitation",
+          "title": "Rehabilitation Principles",
+          "topics": [
+            {
+              "id": "stroke-rehab",
+              "title": "Stroke rehabilitation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "stroke-rehab-1",
+                  "text": "Describe multidisciplinary assessment of post-stroke impairments and activity limitations.",
+                  "level": "understand"
+                },
+                {
+                  "id": "stroke-rehab-2",
+                  "text": "Set functional goals and monitor rehabilitation outcomes.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "spinal-injury-rehab",
+              "title": "Spinal cord injury rehabilitation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "spinal-injury-rehab-1",
+                  "text": "Recognize common functional complications after spinal cord injury.",
+                  "level": "understand"
+                },
+                {
+                  "id": "spinal-injury-rehab-2",
+                  "text": "Describe prevention, rehabilitation and coordinated follow-up.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "amputation-prosthetics",
+              "title": "Amputation and prosthetic rehabilitation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "amputation-prosthetics-1",
+                  "text": "Describe pre-prosthetic assessment and common residual-limb complications.",
+                  "level": "understand"
+                },
+                {
+                  "id": "amputation-prosthetics-2",
+                  "text": "Explain rehabilitation goals and prosthetic-team roles.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "pain-disability",
+              "title": "Chronic pain and disability",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "pain-disability-1",
+                  "text": "Assess biopsychosocial contributors to chronic pain and disability.",
+                  "level": "understand"
+                },
+                {
+                  "id": "pain-disability-2",
+                  "text": "Construct a function-focused multidisciplinary management plan.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "functional-assessment",
+          "title": "Function and Assistive Care",
+          "topics": [
+            {
+              "id": "mobility-assessment",
+              "title": "Mobility and activities of daily living",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "mobility-assessment-1",
+                  "text": "Assess mobility, transfers and activities of daily living.",
+                  "level": "understand"
+                },
+                {
+                  "id": "mobility-assessment-2",
+                  "text": "Select appropriate functional goals and assistive strategies.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "swallow-speech",
+              "title": "Swallowing, speech and communication",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "swallow-speech-1",
+                  "text": "Recognize dysphagia and communication impairment.",
+                  "level": "understand"
+                },
+                {
+                  "id": "swallow-speech-2",
+                  "text": "Describe referral and multidisciplinary assessment pathways.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "pressure-care",
+              "title": "Pressure injury prevention",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "pressure-care-1",
+                  "text": "Identify pressure-injury risk factors and staging principles.",
+                  "level": "understand"
+                },
+                {
+                  "id": "pressure-care-2",
+                  "text": "Plan pressure relief, skin surveillance and nutritional support.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "assistive-technology",
+              "title": "Assistive devices and adaptations",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "assistive-technology-1",
+                  "text": "Describe common mobility and self-care aids.",
+                  "level": "understand"
+                },
+                {
+                  "id": "assistive-technology-2",
+                  "text": "Match assistive strategies to functional goals and patient context.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clinical-genetics",
+      "title": "Clinical Genetics",
+      "domains": [
+        {
+          "id": "genetic-assessment",
+          "title": "Genetic Assessment",
+          "topics": [
+            {
+              "id": "dysmorphology",
+              "title": "Dysmorphology and congenital anomalies",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "dysmorphology-1",
+                  "text": "Describe a structured approach to congenital anomaly assessment.",
+                  "level": "understand"
+                },
+                {
+                  "id": "dysmorphology-2",
+                  "text": "Recognize patterns warranting genetics referral.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "genetic-counselling",
+              "title": "Genetic counselling principles",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "genetic-counselling-1",
+                  "text": "Explain informed choice, risk communication and family-centred counselling.",
+                  "level": "understand"
+                },
+                {
+                  "id": "genetic-counselling-2",
+                  "text": "Communicate uncertainty and referral options without deterministic claims.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "prenatal-genetics",
+              "title": "Prenatal and reproductive genetics",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "prenatal-genetics-1",
+                  "text": "Compare screening and diagnostic testing concepts in pregnancy.",
+                  "level": "understand"
+                },
+                {
+                  "id": "prenatal-genetics-2",
+                  "text": "Explain test limitations and the need for specialist counselling.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "cancer-genetics",
+              "title": "Hereditary cancer risk",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "cancer-genetics-1",
+                  "text": "Recognize family-history patterns that may indicate inherited cancer risk.",
+                  "level": "understand"
+                },
+                {
+                  "id": "cancer-genetics-2",
+                  "text": "Describe referral criteria and implications of genetic testing.",
+                  "level": "apply"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "genomic-medicine",
+          "title": "Genomic Medicine",
+          "topics": [
+            {
+              "id": "variant-interpretation",
+              "title": "Genetic variant interpretation",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "variant-interpretation-1",
+                  "text": "Explain pathogenicity categories and uncertainty in variant interpretation.",
+                  "level": "understand"
+                },
+                {
+                  "id": "variant-interpretation-2",
+                  "text": "Avoid treating variants of uncertain significance as diagnostic findings.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "pharmacogenomics",
+              "title": "Pharmacogenomics",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "pharmacogenomics-1",
+                  "text": "Describe how genetic variation can influence drug response.",
+                  "level": "understand"
+                },
+                {
+                  "id": "pharmacogenomics-2",
+                  "text": "Use validated pharmacogenomic guidance when available.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "newborn-screening",
+              "title": "Newborn screening",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "newborn-screening-1",
+                  "text": "Explain screening principles, false positives and confirmatory testing.",
+                  "level": "understand"
+                },
+                {
+                  "id": "newborn-screening-2",
+                  "text": "Describe safe communication and follow-up of abnormal screening results.",
+                  "level": "apply"
+                }
+              ]
+            },
+            {
+              "id": "genetic-privacy",
+              "title": "Genetic information and ethics",
+              "exam_weight": "medium",
+              "coverage_status": "planned",
+              "source_refs": [],
+              "tags": [
+                "medical-curriculum-expansion"
+              ],
+              "objectives": [
+                {
+                  "id": "genetic-privacy-1",
+                  "text": "Explain privacy, familial implications and consent issues in genomic medicine.",
+                  "level": "understand"
+                },
+                {
+                  "id": "genetic-privacy-2",
+                  "text": "Apply ethical principles to common genetic-information scenarios.",
+                  "level": "apply"
                 }
               ]
             }
