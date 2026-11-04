@@ -21,22 +21,22 @@
       "topic_id": "breast-cancer-clinical-examination",
       "stem": "Which clinical finding on breast examination is more suggestive of malignancy than a benign breast lesion?",
       "options": [
-        [
-          "a",
-          "Excessive mobility within breast tissue"
-        ],
-        [
-          "b",
-          "Tenderness over a soft mass"
-        ],
-        [
-          "c",
-          "Fixation or tethering to underlying pectoral structures"
-        ],
-        [
-          "d",
-          "Variation in size through the menstrual cycle"
-        ]
+        {
+          "id": "a",
+          "text": "Excessive mobility within breast tissue"
+        },
+        {
+          "id": "b",
+          "text": "Tenderness over a soft mass"
+        },
+        {
+          "id": "c",
+          "text": "Fixation or tethering to underlying pectoral structures"
+        },
+        {
+          "id": "d",
+          "text": "Variation in size through the menstrual cycle"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "A mass fixed to the skin or chest wall/pectoral structures is a concerning feature for malignancy. Mobility and cyclical variation are more often associated with benign lesions, although no single examination feature establishes the diagnosis.",
@@ -82,22 +82,22 @@
       "topic_id": "breast-cancer-metastasis",
       "stem": "What is the most common site of distant metastasis in breast cancer?",
       "options": [
-        [
-          "a",
-          "Brain"
-        ],
-        [
-          "b",
-          "Bone"
-        ],
-        [
-          "c",
-          "Lung"
-        ],
-        [
-          "d",
-          "Liver"
-        ]
+        {
+          "id": "a",
+          "text": "Brain"
+        },
+        {
+          "id": "b",
+          "text": "Bone"
+        },
+        {
+          "id": "c",
+          "text": "Lung"
+        },
+        {
+          "id": "d",
+          "text": "Liver"
+        }
       ],
       "correct_option_id": "b",
       "explanation": "Bone is a common and the most frequent distant metastatic site listed for breast cancer in the NCI overview. The pattern of spread varies with tumour biology and subtype.",
@@ -143,22 +143,22 @@
       "topic_id": "breast-mass-imaging",
       "stem": "A 45-year-old woman presents with a new painless, hard breast lump. Which is the most appropriate initial imaging investigation?",
       "options": [
-        [
-          "a",
-          "Fine-needle aspiration"
-        ],
-        [
-          "b",
-          "MRI of the breast"
-        ],
-        [
-          "c",
-          "Diagnostic mammography"
-        ],
-        [
-          "d",
-          "Breast ultrasound alone"
-        ]
+        {
+          "id": "a",
+          "text": "Fine-needle aspiration"
+        },
+        {
+          "id": "b",
+          "text": "MRI of the breast"
+        },
+        {
+          "id": "c",
+          "text": "Diagnostic mammography"
+        },
+        {
+          "id": "d",
+          "text": "Breast ultrasound alone"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "For a woman aged 40 years or older with a palpable breast mass, diagnostic mammography (or diagnostic tomosynthesis) is usually appropriate as initial imaging. Ultrasound may be added depending on the findings; biopsy is guided by the imaging and clinical assessment.",
@@ -205,26 +205,26 @@
       "topic_id": "breast-surgery-nerve-injury",
       "stem": "After modified radical mastectomy, a patient develops medial scapular winging and weakness of shoulder movement. Which nerve is most likely injured?",
       "options": [
-        [
-          "a",
-          "Long thoracic nerve"
-        ],
-        [
-          "b",
-          "Thoracodorsal nerve"
-        ],
-        [
-          "c",
-          "Intercostobrachial nerve"
-        ],
-        [
-          "d",
-          "Ulnar nerve"
-        ],
-        [
-          "e",
-          "Median nerve"
-        ]
+        {
+          "id": "a",
+          "text": "Long thoracic nerve"
+        },
+        {
+          "id": "b",
+          "text": "Thoracodorsal nerve"
+        },
+        {
+          "id": "c",
+          "text": "Intercostobrachial nerve"
+        },
+        {
+          "id": "d",
+          "text": "Ulnar nerve"
+        },
+        {
+          "id": "e",
+          "text": "Median nerve"
+        }
       ],
       "correct_option_id": "a",
       "explanation": "The long thoracic nerve supplies serratus anterior. Injury causes serratus anterior palsy and medial scapular winging, and may impair shoulder elevation/abduction.",
@@ -270,22 +270,22 @@
       "topic_id": "breast-axillary-lymph-nodes",
       "stem": "The three surgical levels of axillary lymph nodes are defined in relation to which anatomical structure?",
       "options": [
-        [
-          "a",
-          "Axillary artery"
-        ],
-        [
-          "b",
-          "Axillary vein"
-        ],
-        [
-          "c",
-          "Nerve to latissimus dorsi"
-        ],
-        [
-          "d",
-          "Pectoralis minor muscle"
-        ]
+        {
+          "id": "a",
+          "text": "Axillary artery"
+        },
+        {
+          "id": "b",
+          "text": "Axillary vein"
+        },
+        {
+          "id": "c",
+          "text": "Nerve to latissimus dorsi"
+        },
+        {
+          "id": "d",
+          "text": "Pectoralis minor muscle"
+        }
       ],
       "correct_option_id": "d",
       "explanation": "Berg levels I, II and III are defined by the position of axillary nodes relative to pectoralis minor: lateral/inferior, behind, and medial/superior to the muscle, respectively.",
@@ -331,22 +331,22 @@
       "topic_id": "nipple-discharge",
       "stem": "Which is the most common benign cause of spontaneous bloody nipple discharge from a single duct?",
       "options": [
-        [
-          "a",
-          "Paget disease of the nipple"
-        ],
-        [
-          "b",
-          "Breast carcinoma"
-        ],
-        [
-          "c",
-          "Intraductal papilloma"
-        ],
-        [
-          "d",
-          "Fibroadenosis"
-        ]
+        {
+          "id": "a",
+          "text": "Paget disease of the nipple"
+        },
+        {
+          "id": "b",
+          "text": "Breast carcinoma"
+        },
+        {
+          "id": "c",
+          "text": "Intraductal papilloma"
+        },
+        {
+          "id": "d",
+          "text": "Fibroadenosis"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "Intraductal papilloma is a common and often the most frequent benign cause of pathological nipple discharge, including bloody single-duct discharge. Duct ectasia is another important benign cause; malignancy must still be excluded.",
@@ -392,22 +392,22 @@
       "topic_id": "breast-cancer-histology",
       "stem": "Which is the most frequent histological type of breast carcinoma?",
       "options": [
-        [
-          "a",
-          "Infiltrating papillary carcinoma"
-        ],
-        [
-          "b",
-          "Invasive ductal carcinoma"
-        ],
-        [
-          "c",
-          "Invasive lobular carcinoma"
-        ],
-        [
-          "d",
-          "Colloid (mucinous) carcinoma"
-        ]
+        {
+          "id": "a",
+          "text": "Infiltrating papillary carcinoma"
+        },
+        {
+          "id": "b",
+          "text": "Invasive ductal carcinoma"
+        },
+        {
+          "id": "c",
+          "text": "Invasive lobular carcinoma"
+        },
+        {
+          "id": "d",
+          "text": "Colloid (mucinous) carcinoma"
+        }
       ],
       "correct_option_id": "b",
       "explanation": "Invasive ductal carcinoma (also termed invasive carcinoma of no special type in contemporary classification) is the most common histological type of breast cancer. Invasive lobular carcinoma is the next most common major type.",
@@ -453,22 +453,22 @@
       "topic_id": "paget-disease-breast",
       "stem": "Which clinical presentation is characteristic of mammary Paget disease?",
       "options": [
-        [
-          "a",
-          "A mass beneath the nipple without skin change"
-        ],
-        [
-          "b",
-          "Bleeding from the nipple only"
-        ],
-        [
-          "c",
-          "A unilateral red, scaly eczematous nipple lesion"
-        ],
-        [
-          "d",
-          "Bilateral itchy red vesicles"
-        ]
+        {
+          "id": "a",
+          "text": "A mass beneath the nipple without skin change"
+        },
+        {
+          "id": "b",
+          "text": "Bleeding from the nipple only"
+        },
+        {
+          "id": "c",
+          "text": "A unilateral red, scaly eczematous nipple lesion"
+        },
+        {
+          "id": "d",
+          "text": "Bilateral itchy red vesicles"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "Mammary Paget disease typically presents as a unilateral eczematous or psoriasiform lesion of the nipple-areolar complex and is frequently associated with underlying DCIS or invasive carcinoma. Diagnosis requires biopsy; management depends on associated breast pathology.",
