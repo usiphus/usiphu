@@ -26,7 +26,7 @@ def test_pilot_banks_are_traceable_evidence_linked_and_not_scored():
         assert item.source_filename
         assert item.source_page and item.source_page > 0
         assert item.source_candidate_id
-        assert item.transcription_status == "text_layer_checked_not_image_verified"
+        assert item.transcription_status == "visually_verified"
         assert item.correct_option_id in {option.id for option in item.options}
         assert item.editorial_notes
         assert item.reviewed_by is None
