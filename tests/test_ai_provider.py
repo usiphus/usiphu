@@ -32,7 +32,7 @@ def _model_response(prompt):
     permitted_refs = json.loads(refs_json)
     return json.dumps({
         "card_type": "mcq",
-        "prompt": "Which investigation evaluates vesicoureteral reflux?",
+        "prompt": f"Which investigation evaluates vesicoureteral reflux? ({prompt.split('CURRICULUM BRIEF:', 1)[1].split('PERMITTED COURSE OUTCOME REFERENCES:', 1)[0].strip()[:40]})",
         "answer": "A micturating cystourethrogram evaluates reflux in the appropriate clinical context.",
         "options": [
             {"id": "A", "text": "Renal biopsy"},
@@ -224,7 +224,15 @@ def test_batch_gate_rejects_duplicate_prompts_across_objectives(monkeypatch, pub
     monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
     monkeypatch.setattr(ai, "_ollama_chat", lambda prompt, model: _model_response(prompt))
     monkeypatch.setattr(ai, "retrieve_pubmed_evidence", lambda query, max_results: [pubmed_record])
+    original_author = ai._author_one
 
+    def duplicate_author(brief, evidence, model, guidance=""):
+        item = original_author(brief, evidence, model, guidance)
+        if item.get("card"):
+            item["card"]["prompt"] = "Repeated prompt across objectives"
+        return item
+
+    monkeypatch.setattr(ai, "_author_one", duplicate_author)
     result = generate_topic_cards("urology", "pujo", max_objectives=2)
 
     assert result["batch_validation"]["total_checked"] == 2
