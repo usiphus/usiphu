@@ -67,3 +67,19 @@ Short-answer and MEQ items can be split into answer parts, mapped to a curriculu
 The learner Practice page includes short-answer and MEQ practice for those assessments. MCQ marking compares the learner's selected option with the stored option key. Draft keys are explicitly labelled provisional; only clinically reviewed or exam-validated keys are presented as trusted marking keys.
 
 Written-answer marking is a conservative keyword/rubric screen: it awards points when reviewer-defined acceptable phrases are found. It does not understand clinical semantics, so equivalent wording can be missed. Unmatched points are flagged for manual review, and every written-answer score is labelled provisional. It is a study aid, not an official examination mark. Reviewers must check the source and rubric before approval; no answer or rubric is generated or inferred from highlighting. An optional **AI-assisted rubric review** is also available in Practice when the local Ollama provider is configured. It evaluates clinical meaning against the fixed reviewer-authored rubric and returns per-point suggested marks, reasons, answer evidence and uncertainty. The response is structurally checked so it cannot add rubric points or exceed their mark limits. AI suggestions remain provisional, are not written to official results, and always require human examiner review. This is an educational aid, not a validated clinical examiner.
+
+
+## Evidence-checked pilot banks (November 2026)
+
+Two small pilot banks are installed alongside the starter bank:
+
+- `pilot_urology_2026.json`: 9 MCQs sourced from Paper 2.
+- `pilot_general_surgery_2026.json`: 8 MCQs sourced from Paper 1.
+
+Each item retains its source candidate ID, source filename and page, answer rationale, editorial notes, evidence-review status and structured external evidence references. The pilot uses public clinical guidelines, government health information and open-access medical literature (for example, current EAU guidance, NCI, ACR and PMC articles).
+
+**Important status boundary:** all 17 items remain `review_status: "draft"`, `human_signoff_status: "pending"` and are not eligible for scored practice. The answer proposals have undergone an editorial evidence check, not faculty or independent clinician approval. The source PDFs were checked through their selectable text layer; page-image/highlight verification has not yet been completed. Some stems/options were clarified or corrected where the original item was ambiguous, outdated or underspecified; those changes are recorded in `editorial_notes`.
+
+Items that are ambiguous, have multiple defensible answers, depend on outdated thresholds, or have incomplete extracted options should remain in the review queue rather than being silently keyed. In particular, do not treat the source-paper annotations or handwritten/highlighted marks as an official key.
+
+The next review gate is: (1) compare each selected item with the rendered source page, (2) confirm the answer and explanation independently, (3) obtain qualified specialty reviewer identity and sign-off, and (4) only then promote to `clinically_reviewed` or `exam_validated` as appropriate. The two pilot JSON banks can be used as a controlled review sample, but not yet as an approved learner-scored bank.
