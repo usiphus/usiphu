@@ -2,6 +2,7 @@
 """Safely and resumably copy an existing Source Inbox into its persistent volume."""
 import argparse
 import hashlib
+import os
 import shutil
 from pathlib import Path
 
@@ -59,7 +60,8 @@ def migrate(source: Path, destination: Path, dry_run: bool = False) -> tuple[int
             shutil.copy2(original, temporary)
             if digest(original) != digest(temporary):
                 raise IOError(f"Checksum mismatch after copying: {relative}")
-            temporary.replace(target)
+            os.link(temporary, target)
+            temporary.unlink()
         finally:
             temporary.unlink(missing_ok=True)
         copied += 1
