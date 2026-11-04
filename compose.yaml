@@ -13,6 +13,7 @@ services:
       - "8501:8501"
     environment:
       USIPHU_DB_PATH: /data/usiphu.sqlite3
+      USIPHU_SOURCE_DIR: /source-inbox
       USIPHU_AUTH_REQUIRED: "true"
       OLLAMA_BASE_URL: http://ollama:11434
       USIPHU_OLLAMA_MODEL: ${USIPHU_OLLAMA_MODEL:-qwen2.5:7b}
@@ -20,6 +21,7 @@ services:
       NCBI_API_KEY: ${NCBI_API_KEY:-}
     volumes:
       - usiphu-data:/data
+      - usiphu-sources:/source-inbox
       - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
     depends_on:
       - ollama
@@ -32,4 +34,5 @@ services:
 
 volumes:
   usiphu-data:
+  usiphu-sources:
   ollama-models:
