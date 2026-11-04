@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "feat/medical-curriculum-specialty-generator"]
   pull_request:
     branches: ["main"]
 
