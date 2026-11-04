@@ -16,6 +16,7 @@ from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
 from usiphu.practice import filter_questions, load_cases, load_questions
+from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.source_inbox import list_sources, save_source
@@ -661,6 +662,71 @@ elif page == "Question Bank":
         )
     else:
         st.info("Your submitted answers will appear here.")
+
+    st.divider()
+    st.subheader("Review and approve extracted questions")
+    review_candidates = list_review_candidates()
+    pending_candidates = [item for item in review_candidates if item.get("review_state") != "approved" and item.get("question_type") == "single_best_answer" and len(item.get("options", [])) >= 2]
+    approved_candidates = sum(item.get("review_state") == "approved" for item in review_candidates)
+    unsupported_candidates = sum(item.get("question_type") != "single_best_answer" or len(item.get("options", [])) < 2 for item in review_candidates)
+    rc1, rc2, rc3 = st.columns(3)
+    rc1.metric("Ready for human review", len(pending_candidates))
+    rc2.metric("Already promoted", approved_candidates)
+    rc3.metric("Incomplete / non-MCQ", unsupported_candidates)
+    st.caption("Check each candidate against its original paper. Promotion requires a reviewer, a correct answer you have independently verified, and an explanation. Promoted questions enter the practice bank as editorial drafts, not clinically approved material.")
+    if pending_candidates:
+        candidate_labels = {item["candidate_id"]: (f"{item.get('source_title') or item.get('source_filename') or 'Source'} · p.{item.get('source_page', '?')} · {item['candidate_id']} · {item.get('review_state', 'pending').replace('_', ' ')}") for item in pending_candidates}
+        selected_candidate_id = st.selectbox("Choose a question to review", list(candidate_labels), format_func=lambda value: candidate_labels[value], key="qb-review-candidate")
+        candidate = next(item for item in pending_candidates if item["candidate_id"] == selected_candidate_id)
+        with st.expander("Original extracted text and provenance", expanded=True):
+            st.caption(f"{candidate.get('source_filename') or 'Source file'} · page {candidate.get('source_page', '?')}")
+            st.text(candidate.get("raw_text") or candidate.get("stem_extracted", ""))
+        specialty_by_id = {item.id: item for item in curriculum.specialties}
+        specialty_ids = list(specialty_by_id)
+        default_specialty = candidate.get("specialty_id") if candidate.get("specialty_id") in specialty_by_id else specialty_ids[0]
+        with st.form("review-question-" + selected_candidate_id):
+            edited_stem = st.text_area("Question stem", value=candidate.get("stem_extracted") or "", height=130)
+            existing_options = {str(item.get("id", "")).lower(): item.get("text", "") for item in candidate.get("options", [])}
+            option_ids = ["a", "b", "c", "d", "e"]
+            option_values = {}
+            option_columns = st.columns(2)
+            for option_index, option_id in enumerate(option_ids):
+                option_values[option_id] = option_columns[option_index % 2].text_input("Option " + option_id.upper(), value=existing_options.get(option_id, ""), key="review-option-" + selected_candidate_id + "-" + option_id)
+            available_options = [option_id for option_id in option_ids if option_values[option_id].strip()]
+            prior_answer = candidate.get("correct_option_id")
+            answer_choices = ["Not verified", *available_options]
+            answer_index = answer_choices.index(prior_answer) if prior_answer in available_options else 0
+            answer_id = st.selectbox("Verified correct answer", answer_choices, index=answer_index, format_func=lambda value: "— Select only after checking the source —" if value == "Not verified" else value.upper())
+            specialty_id = st.selectbox("Curriculum specialty", specialty_ids, index=specialty_ids.index(default_specialty), format_func=lambda value: specialty_by_id[value].title)
+            topic_rows = [(domain.id, topic.id, domain.title, topic.title) for domain in specialty_by_id[specialty_id].domains for topic in domain.topics]
+            topic_ids = [item[1] for item in topic_rows]
+            prior_topic = candidate.get("topic_id")
+            default_topic = prior_topic if prior_topic in topic_ids else topic_ids[0]
+            topic_id = st.selectbox("Curriculum topic", topic_ids, index=topic_ids.index(default_topic), format_func=lambda value: next(f"{row[2]} · {row[3]}" for row in topic_rows if row[1] == value))
+            difficulty_values = ["easy", "moderate", "hard"]
+            prior_difficulty = candidate.get("difficulty", "moderate")
+            difficulty = st.selectbox("Difficulty", difficulty_values, index=difficulty_values.index(prior_difficulty if prior_difficulty in difficulty_values else "moderate"))
+            explanation = st.text_area("Explanation / rationale", value=candidate.get("explanation") or "", height=100, help="Write a concise rationale based on a trusted source or verified answer key.")
+            reviewer = st.text_input("Reviewed by", value=candidate.get("reviewer") or "", placeholder="Name or reviewer ID")
+            answer_verified = st.checkbox("I independently checked the answer against the source / a reliable reference.", value=bool(candidate.get("answer_verified_by_reviewer")))
+            review_action = st.radio("Action", ["Save review draft", "Approve into practice bank"], horizontal=True)
+            submitted_review = st.form_submit_button("Save review" if review_action == "Save review draft" else "Approve question", type="primary")
+        if submitted_review:
+            edited_options = [{"id": option_id, "text": option_values[option_id].strip()} for option_id in option_ids if option_values[option_id].strip()]
+            try:
+                save_candidate_review(selected_candidate_id, stem=edited_stem, options=edited_options, specialty_id=specialty_id, topic_id=topic_id, correct_option_id=None if answer_id == "Not verified" else answer_id, explanation=explanation, reviewer=reviewer, answer_verified=answer_verified, difficulty=difficulty)
+                if review_action == "Approve into practice bank":
+                    promoted = approve_candidate(selected_candidate_id)
+                    st.success("Added " + promoted["id"] + " to the past-paper bank. It remains an editorial draft pending qualified clinical review.")
+                else:
+                    st.success("Review edits saved. The question has not been added to the practice bank.")
+                st.rerun()
+            except (ValueError, KeyError) as exc:
+                st.error(str(exc))
+    else:
+        st.info("No complete single-best-answer candidates are waiting for review. Upload or extract a paper to begin.")
+    if unsupported_candidates:
+        st.caption(str(unsupported_candidates) + " incomplete-option or non-MCQ candidates are not eligible for this MCQ approval flow; MEQs and short-answer items need a separate editor.")
 
     st.divider()
     st.subheader("Add examination papers and question sources")
