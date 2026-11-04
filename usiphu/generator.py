@@ -216,14 +216,17 @@ def validate_generated_card(
                 errors.append(f"osce_station requires at least two non-empty {field}")
     if card.get("card_type") == "viva":
         questions = card.get("viva_questions")
-        if not isinstance(questions, list) or len(questions) < 2:
-            errors.append("viva requires at least two viva_questions")
+        if (not isinstance(questions, list) or len(questions) < 2
+                or any(not isinstance(item, dict) or not item.get("question")
+                       or not item.get("expected_answer") for item in questions)):
+            errors.append("viva requires at least two question/expected_answer pairs")
     if card.get("card_type") == "emq":
         options = card.get("options")
         items = card.get("emq_items")
         if (not isinstance(options, list) or len(options) < 5
                 or any(not isinstance(o, dict) or not o.get("id") or not o.get("text")
-                       for o in options)):
+                       for o in options)
+                or len({o.get("id") for o in options if isinstance(o, dict)}) != len(options)):
             errors.append("emq requires at least five labelled options")
         elif (not isinstance(items, list) or len(items) < 2
               or any(not isinstance(item, dict) or not item.get("stem")
