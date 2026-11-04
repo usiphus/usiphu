@@ -251,11 +251,22 @@ elif page == "Practice":
                         height=110,
                     )
                 submitted_written = st.form_submit_button("Check written answer")
-            if submitted_written:
-                result = check_assessment_answers(assessment, written_answers)
-                st.session_state["written-result-" + assessment["id"]] = result
+                submitted_ai_written = st.form_submit_button("AI-assisted rubric review")
+            if submitted_written or submitted_ai_written:
                 st.session_state["written-answers-" + assessment["id"]] = written_answers
                 st.session_state.pop("written-ai-result-" + assessment["id"], None)
+                if submitted_written:
+                    result = check_assessment_answers(assessment, written_answers)
+                    st.session_state["written-result-" + assessment["id"]] = result
+                if submitted_ai_written:
+                    st.session_state.pop("written-result-" + assessment["id"], None)
+                    try:
+                        ai_result = grade_assessment_answers(assessment, written_answers)
+                        st.session_state["written-ai-result-" + assessment["id"]] = ai_result
+                    except GenerationNotConfigured as exc:
+                        st.error(str(exc))
+                    except (AnswerGradingError, ValueError) as exc:
+                        st.error("AI review could not be safely completed: " + str(exc))
             result = st.session_state.get("written-result-" + assessment["id"])
             if result:
                 st.metric(
@@ -282,21 +293,6 @@ elif page == "Practice":
                         )
                 st.caption("This score is a study aid, not an official examination mark.")
 
-            if st.button(
-                "AI-assisted rubric review",
-                key="ai-written-review-" + assessment["id"],
-                help="Ask the configured local Ollama model to assess clinical meaning against the fixed reviewer rubric.",
-            ):
-                try:
-                    ai_result = grade_assessment_answers(
-                        assessment,
-                        st.session_state.get("written-answers-" + assessment["id"], {}),
-                    )
-                    st.session_state["written-ai-result-" + assessment["id"]] = ai_result
-                except GenerationNotConfigured as exc:
-                    st.error(str(exc))
-                except (AnswerGradingError, ValueError) as exc:
-                    st.error("AI review could not be safely completed: " + str(exc))
             ai_result = st.session_state.get("written-ai-result-" + assessment["id"])
             if ai_result:
                 st.warning(ai_result["warning"])
