@@ -54,3 +54,12 @@ Saving review edits does not add a question to the practice bank. Promotion requ
 
 
 When OIDC authentication is enabled, only identities whose OIDC `sub` value appears in the comma-separated `USIPHU_REVIEWER_SUBJECTS` environment variable can save review edits or promote questions. In local single-learner mode, review is available to the local operator. Configure this allowlist before enabling shared question review in a multi-user deployment.
+
+
+## Dedicated written-question review and answer checking
+
+Use **Review Editor** in the sidebar to edit MCQs, short-answer candidates and MEQ page candidates separately from the learner-facing bank. Short-answer and MEQ items can be split into answer parts, mapped to a curriculum specialty/topic, and given a reviewer-authored marking rubric. Each rubric point records a description, acceptable phrases/variants and marks available. Approved written assessments are stored in `data/question_banks/reviewed_assessments.json` with source/page provenance and remain editorial drafts.
+
+The learner Practice page includes short-answer and MEQ practice for those assessments. MCQ marking compares the learner's selected option with the stored option key. Draft keys are explicitly labelled provisional; only clinically reviewed or exam-validated keys are presented as trusted marking keys.
+
+Written-answer marking is a conservative keyword/rubric screen: it awards points when reviewer-defined acceptable phrases are found. It does not understand clinical semantics, so equivalent wording can be missed. Unmatched points are flagged for manual review, and every written-answer score is labelled provisional. It is a study aid, not an official examination mark. Reviewers must check the source and rubric before approval; no answer or rubric is generated or inferred from highlighting.
