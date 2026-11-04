@@ -2,7 +2,7 @@
   "schema_version": "1.1",
   "bank_id": "pilot-general-surgery-2026",
   "title": "USIPHU Pilot Question Bank — General Surgery",
-  "description": "Pilot set derived from user-provided examination papers. Editorially checked against open-access references; all items remain draft pending source-page visual confirmation and qualified clinical/faculty sign-off.",
+  "description": "Pilot set derived from user-provided examination papers. Source-page transcription has been visually checked and editorial answers compared with open-access clinical references; all items remain draft pending qualified clinical/faculty sign-off.",
   "source_policy": "Preserve candidate provenance and do not infer official past-paper answer keys. Editorial answer proposals are independently evidence-checked and are not faculty-approved.",
   "review_policy": {
     "review_status": "draft",
