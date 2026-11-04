@@ -7,9 +7,9 @@ import tarfile
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-source = Path(os.environ.get("USIPHU_DB_PATH", "/data/usiphu.sqlite3"))
-source_dir = Path(os.environ.get("USIPHU_SOURCE_DIR", "/source-inbox"))
-backup_dir = Path(os.environ.get("USIPHU_BACKUP_DIR", "/backups"))
+source = Path(os.environ.get("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
+source_dir = Path(os.environ.get("USIPHU_SOURCE_DIR", "data/source_inbox"))
+backup_dir = Path(os.environ.get("USIPHU_BACKUP_DIR", "data/backups"))
 retention_days = max(1, int(os.environ.get("USIPHU_BACKUP_RETENTION_DAYS", "30")))
 
 
