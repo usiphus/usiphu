@@ -1,7 +1,6 @@
 """Tests for independent two-stage pilot faculty review and release gating."""
 import json
 import shutil
-from pathlib import Path
 
 import pytest
 
@@ -69,7 +68,7 @@ def approve_exam(db_path, bank_dir, question_id="uro-pilot-0001", reviewer="exam
 
 
 def test_exam_validation_is_blocked_until_clinical_approval(review_workspace):
-    db_path, bank_dir, question_id = review_workspace
+    db_path, bank_dir, _ = review_workspace
     with pytest.raises(ValueError, match="clinical approval"):
         approve_exam(db_path, bank_dir)
 
