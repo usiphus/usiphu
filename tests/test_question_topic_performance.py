@@ -16,7 +16,7 @@ def test_question_topic_performance_groups_attempts_and_isolates_learners(tmp_pa
         for item in questions
     ]
     monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
-    database = tmp_path / "question-performance.sqlite3
+    database = tmp_path / "question-performance.sqlite3"
 
     record_question_attempt(
         "uro-001", "b", True, database, learner_id="learner-a"
