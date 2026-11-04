@@ -8,7 +8,7 @@ from usiphu.ai_provider import (
 )
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
-from usiphu.generator import build_generation_briefs, validate_generation_batch
+from usiphu.generator import EXAM_FORMATS, build_generation_briefs, validate_generation_batch
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
@@ -120,8 +120,8 @@ def generator_generate(payload: dict) -> dict:
     if not isinstance(topic, str) or not topic.strip() or len(topic) > 160:
         raise HTTPException(status_code=422, detail="topic_id is required")
     exam_format = payload.get("exam_format", "mixed")
-    if not isinstance(exam_format, str) or len(exam_format) > 40:
-        raise HTTPException(status_code=422, detail="exam_format must be a supported format")
+    if not isinstance(exam_format, str) or exam_format not in EXAM_FORMATS:
+        raise HTTPException(status_code=422, detail="exam_format must be one of the supported formats")
     evidence_limit = payload.get("evidence_limit", 5)
     if not isinstance(evidence_limit, int) or not 1 <= evidence_limit <= 10:
         raise HTTPException(status_code=422, detail="evidence_limit must be between 1 and 10")
@@ -134,8 +134,6 @@ def generator_generate(payload: dict) -> dict:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
-    except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc)) from exc
     except EvidenceRetrievalError as exc:
         raise HTTPException(status_code=502, detail="PubMed evidence retrieval failed") from exc
     except Exception as exc:
