@@ -49,11 +49,14 @@ if AUTH_REQUIRED:
         st.error("The identity provider did not return a stable subject identifier.")
         st.stop()
     learner_id = f"{st.user.get('iss', 'oidc')}:{subject}"
+    reviewer_subjects = {value.strip() for value in os.getenv("USIPHU_REVIEWER_SUBJECTS", "").split(",") if value.strip()}
+    reviewer_access = subject in reviewer_subjects
     with st.sidebar:
         st.caption(f"Signed in: {st.user.get('email', 'learner')}")
         st.button("Sign out", on_click=st.logout)
 else:
     learner_id = "local"
+    reviewer_access = True
     st.sidebar.warning("Local single-learner mode. Enable OIDC before deploying for multiple learners.")
 
 initialize()
@@ -711,7 +714,9 @@ elif page == "Question Bank":
             answer_verified = st.checkbox("I independently checked the answer against the source / a reliable reference.", value=bool(candidate.get("answer_verified_by_reviewer")))
             review_action = st.radio("Action", ["Save review draft", "Approve into practice bank"], horizontal=True)
             submitted_review = st.form_submit_button("Save review" if review_action == "Save review draft" else "Approve question", type="primary")
-        if submitted_review:
+        if submitted_review and not reviewer_access:
+            st.error("Your account is not authorized to review or approve shared question-bank content. Configure USIPHU_REVIEWER_SUBJECTS for approved reviewer subject IDs.")
+        elif submitted_review:
             edited_options = [{"id": option_id, "text": option_values[option_id].strip()} for option_id in option_ids if option_values[option_id].strip()]
             try:
                 save_candidate_review(selected_candidate_id, stem=edited_stem, options=edited_options, specialty_id=specialty_id, topic_id=topic_id, correct_option_id=None if answer_id == "Not verified" else answer_id, explanation=explanation, reviewer=reviewer, answer_verified=answer_verified, difficulty=difficulty)
