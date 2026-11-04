@@ -14,7 +14,7 @@ A question is eligible for trusted scored practice only after both approvals. Cl
 Enable Streamlit OIDC authentication and set:
 
 - `USIPHU_AUTH_REQUIRED=true`
-- `USIPHU_REVIEWER_SUBJECTS` to a comma-separated allowlist of authenticated OIDC subject IDs (the stable `sub` claim, scoped by issuer).
+- `USIPHU_REVIEWER_SUBJECTS` to a comma-separated allowlist of authenticated OIDC identities in `issuer:sub` form. Include the exact issuer URL and stable `sub` claim for each approved faculty account.
 
 Only allowlisted accounts can submit decisions. The reviewer identity stored in the audit log is the authenticated issuer/subject pair; the displayed faculty name is an additional label, not the security identity.
 
