@@ -300,7 +300,8 @@ def generate_topic_cards(
         query = f'"{brief["topic"]}" AND ({brief["objective"]})'
         return brief["brief_id"], retrieve_pubmed_evidence(query, max_results=evidence_limit)
 
-    with ThreadPoolExecutor(max_workers=2) as pool:
+    retrieval_workers = 3 if os.getenv("NCBI_API_KEY") else 1
+    with ThreadPoolExecutor(max_workers=retrieval_workers) as pool:
         futures = {pool.submit(retrieve_one, brief): brief for brief in briefs}
         finished = 0
         for future, brief in futures.items():
