@@ -61,7 +61,7 @@ SPECIALTY EXAM BLUEPRINT:
 {json.dumps(brief.get("specialty_exam_blueprint", {}), ensure_ascii=False)}
 
 REQUESTED EXAM FORMAT: {brief.get("requested_exam_format", "mixed")}
-ALLOWED CARD TYPES: {json.dumps(brief["output_contract"]["allowed_card_types"])}
+ALLOWED CARD TYPES: {json.dumps(brief.get("output_contract", {}).get("allowed_card_types", ["mcq", "short_answer", "clinical_case", "osce_station", "viva", "emq"]))}
 
 Required JSON fields:
 {{
