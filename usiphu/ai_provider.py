@@ -206,12 +206,16 @@ def _author_one(
         "official_suez_alignment": bool(brief["official_suez_outcomes"]),
     }
     validation = validate_generated_card(card, brief)
+    review_packet = validation["review_packet"]
+    if validation["card"] is not None:
+        validation["card"]["review_packet"] = review_packet
     return {
         "valid": validation["valid"],
         "status": "draft_ready" if validation["valid"] else "rejected_by_quality_gate",
         "errors": validation["errors"],
         "clinical_review_required": True,
         "exam_validation_required": True,
+        "review_packet": review_packet,
         "evidence": evidence,
         "card": validation["card"],
     }
