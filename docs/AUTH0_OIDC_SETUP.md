@@ -29,9 +29,9 @@ Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml`. The latter 
 [auth]
 redirect_uri = "http://localhost:8501/oauth2callback"
 cookie_secret = "PASTE_A_LONG_RANDOM_SECRET_HERE"
-client_id = "PASTE_AUTH0_CLIENT_ID_HERE"
+client_id = "kj54fbo5kn3H7Im60zwx1y4VxvbWZ4qN"
 client_secret = "PASTE_AUTH0_CLIENT_SECRET_HERE"
-server_metadata_url = "https://YOUR-AUTH0-DOMAIN/.well-known/openid-configuration"
+server_metadata_url = "https://dev-bb4nkmafcj74u3ek.us.auth0.com/.well-known/openid-configuration"
 ```
 
 Use the tenant's exact domain in the metadata URL, including `https://`. For example, if the dashboard shows `your-tenant.eu.auth0.com`, the metadata URL is `https://your-tenant.eu.auth0.com/.well-known/openid-configuration`.
@@ -73,7 +73,7 @@ Use **Continue with Auth0**. After successful login, the app sidebar displays th
 Illustrative format only — these placeholders are not real reviewer identities:
 
 ```text
-USIPHU_REVIEWER_SUBJECTS=https://YOUR-AUTH0-DOMAIN/:AUTH0_SUBJECT_1,https://YOUR-AUTH0-DOMAIN/:AUTH0_SUBJECT_2
+USIPHU_REVIEWER_SUBJECTS=https://dev-bb4nkmafcj74u3ek.us.auth0.com/:AUTH0_SUBJECT_1,https://dev-bb4nkmafcj74u3ek.us.auth0.com/:AUTH0_SUBJECT_2
 ```
 
 Restart the application after changing environment variables. For every question, USIPHU continues to require:
