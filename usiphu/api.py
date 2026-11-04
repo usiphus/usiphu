@@ -52,6 +52,7 @@ def questions(
     review_status: str | None = None,
     question_type: str | None = None,
     bank_id: str | None = None,
+    q: str | None = Query(default=None, min_length=1, max_length=200),
 ) -> list[dict]:
     """Return filterable authored MCQs with editorial status and provenance metadata."""
     rows = filter_questions(
@@ -59,6 +60,15 @@ def questions(
         difficulty=difficulty, review_status=review_status,
         question_type=question_type, bank_id=bank_id,
     )
+    term = q.casefold().strip() if q else None
+    if term:
+        rows = [
+            item for item in rows
+            if term in " ".join([
+                item.stem, item.topic_id, item.specialty_id,
+                item.source_title or "", " ".join(item.tags),
+            ]).casefold()
+        ]
     return [item.model_dump() for item in rows]
 
 
