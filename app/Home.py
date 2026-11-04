@@ -48,8 +48,8 @@ AUTH_REQUIRED = os.getenv("USIPHU_AUTH_REQUIRED", "false").lower() == "true"
 if AUTH_REQUIRED:
     if not st.user.is_logged_in:
         st.title("🩺 USIPHU")
-        st.write("Sign in with your configured identity provider to access your learning workspace.")
-        st.button("Sign in", on_click=st.login)
+        st.write("Sign in securely with Google to access your learning workspace.")
+        st.button("Continue with Google", on_click=st.login)
         st.stop()
     subject = st.user.get("sub")
     if not subject:
@@ -60,6 +60,8 @@ if AUTH_REQUIRED:
     reviewer_access = learner_id in reviewer_subjects
     with st.sidebar:
         st.caption(f"Signed in: {st.user.get('email', 'learner')}")
+        st.caption("Your authenticated identity (share with the app administrator to request reviewer access):")
+        st.code(learner_id, language="text")
         st.button("Sign out", on_click=st.logout)
 else:
     learner_id = "local"
