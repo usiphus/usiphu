@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException, Query
 from usiphu.ai_provider import (
     GenerationNotConfigured,
     generate_topic_cards,
+    provider_health,
     provider_status,
 )
 from usiphu.coverage import coverage_report
@@ -152,7 +153,7 @@ def generator_validate(payload: dict) -> dict:
 @app.get("/generator/status")
 def generator_status() -> dict:
     """Expose provider readiness without exposing secrets or making provider calls."""
-    return provider_status()
+    return {**provider_status(), "health": provider_health()}
 
 
 @app.post("/generator/generate")
@@ -170,10 +171,19 @@ def generator_generate(payload: dict) -> dict:
     evidence_limit = payload.get("evidence_limit", 5)
     if not isinstance(evidence_limit, int) or not 1 <= evidence_limit <= 10:
         raise HTTPException(status_code=422, detail="evidence_limit must be between 1 and 10")
+    max_objectives = payload.get("max_objectives")
+    if max_objectives is not None and (
+        not isinstance(max_objectives, int) or not 1 <= max_objectives <= 100
+    ):
+        raise HTTPException(status_code=422, detail="max_objectives must be between 1 and 100")
+    generation_guidance = payload.get("generation_guidance", "")
+    if not isinstance(generation_guidance, str) or len(generation_guidance) > 1200:
+        raise HTTPException(status_code=422, detail="generation_guidance must be 1200 characters or fewer")
     try:
         return generate_topic_cards(
             specialty.strip(), topic.strip(), evidence_limit=evidence_limit,
-            exam_format=exam_format,
+            exam_format=exam_format, max_objectives=max_objectives,
+            generation_guidance=generation_guidance,
         )
     except GenerationNotConfigured as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
