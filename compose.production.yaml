@@ -4,10 +4,12 @@ services:
     image: usiphu:2.0
     environment:
       USIPHU_DB_PATH: /data/usiphu.sqlite3
+      USIPHU_SOURCE_DIR: /source-inbox
       USIPHU_AUTH_REQUIRED: "true"
       TZ: ${TZ:-Africa/Cairo}
     volumes:
       - usiphu-data:/data
+      - usiphu-sources:/source-inbox
       - ./.streamlit/secrets.toml:/app/.streamlit/secrets.toml:ro
     expose: ["8501"]
     restart: unless-stopped
@@ -50,16 +52,19 @@ services:
     entrypoint: ["python", "/scripts/backup_sqlite.py"]
     environment:
       USIPHU_DB_PATH: /data/usiphu.sqlite3
+      USIPHU_SOURCE_DIR: /source-inbox
       USIPHU_BACKUP_DIR: /backups
       USIPHU_BACKUP_RETENTION_DAYS: "30"
     volumes:
       - usiphu-data:/data:ro
+      - usiphu-sources:/source-inbox:ro
       - usiphu-backups:/backups
       - ./scripts:/scripts:ro
     networks: [private]
 
 volumes:
   usiphu-data:
+  usiphu-sources:
   usiphu-backups:
   caddy-data:
   caddy-config:
