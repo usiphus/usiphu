@@ -62,6 +62,20 @@ services:
       - ./scripts:/scripts:ro
     networks: [private]
 
+  restore:
+    image: usiphu:2.0
+    profiles: ["restore"]
+    entrypoint: ["python", "/scripts/restore_backup.py"]
+    environment:
+      USIPHU_DB_PATH: /data/usiphu.sqlite3
+      USIPHU_SOURCE_DIR: /source-inbox
+    volumes:
+      - usiphu-data:/data
+      - usiphu-sources:/source-inbox
+      - usiphu-backups:/backups:ro
+      - ./scripts:/scripts:ro
+    networks: [private]
+
 volumes:
   usiphu-data:
   usiphu-sources:
