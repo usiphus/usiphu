@@ -21,9 +21,20 @@ The ENT and ophthalmology teaching outlines are also catalogued as **teaching sc
 
 ## Granular source transcription milestone
 
-A first page-cited granular transcription is now available for **Medicine I (MI 2.4.1, 2021–2022)** at `data/suez_ilo_transcriptions/mi_2_4_1.json`. It contains 111 individually identified outcome statements transcribed from source pages 6–26, spanning knowledge, clinical reasoning, management, clinical skills, professional skills, research and field training. Each row retains a source page and a stable transcription ID. The text has light spelling, punctuation and whitespace cleanup; multi-part bullets remain grouped where the source presents them as one outcome.
+The granular transcription workspace now contains **504 individually identified, page-cited outcome statements across six supplied source files**:
 
-The extraction is marked `transcribed_not_faculty_verified`. Automated validation checks source identity against the official Suez catalog, module identity, unique IDs, non-empty text and page bounds. This is a granular transcription milestone for Medicine I only; it does not yet complete the other official modules, prove that every phrase is independently mapped to a Usiphu objective, or confer faculty approval.
+| Module/source | Statements | Printed pages |
+|---|---:|---:|
+| Surgery I (SI 2.4.2, 2022–2023) | 180 | 3–17 |
+| Medicine I (MI 2.4.1, 2021–2022) | 111 | 7–26 |
+| Medicine II (MII 2.5.1) | 70 | 4–16 |
+| Surgery II (SII 2.5.2) | 64 | 4–11 |
+| Emergency Course Guide (E&MR 2.5.3) | 52 | 4–9 |
+| Medical Reporting/Toxicology proposal (E&MR 2.5.3) | 27 | 1–3 |
+
+Each statement has a stable transcription ID, source ID, module code, classification and printed page. Source wording has light spelling, punctuation and whitespace normalization; multi-part statements remain grouped where the source groups them. Topic outlines and assessment methods are not counted as ILOs. The Emergency guide and Medical Reporting proposal are separate source documents within the same module.
+
+All records remain `transcribed_not_faculty_verified`. Automated validation checks source identity against the official Suez catalogue, module identity, unique IDs, non-empty text and page bounds. Granular transcription is not the same as objective-to-curriculum mapping or faculty approval. These six files do not establish that every official course specification has been obtained.
 
 ## Outcome mapping
 
