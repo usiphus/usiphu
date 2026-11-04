@@ -122,7 +122,11 @@ def review_mcq_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
     source_evidence = str(answer.get("source_evidence", ""))[:500]
     if basis != "explicit_source_key":
         source_evidence = ""
-    if basis == "explicit_source_key" and not source_evidence.strip():
+    if basis == "explicit_source_key" and (
+        not source_evidence.strip()
+        or source_evidence.casefold() not in str(candidate.get("raw_text", "")).casefold()
+    ):
+        # Do not let the model invent a quotation to make a clinical guess look like a printed key.
         basis = "unclear"
         suggested_key = None
     if basis == "unclear":
