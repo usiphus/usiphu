@@ -60,7 +60,7 @@ st.caption(
     f"{coverage['topics_planned']} planned topics; mapped topics are not automatically syllabus-complete."
 )
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Specialties mapped", coverage["specialties"])
+c1.metric("Medical disciplines", coverage["specialties"])
 c2.metric("Curriculum topics", coverage["topics"])
 c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
