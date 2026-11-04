@@ -6,6 +6,7 @@ from usiphu.ai_provider import (
     generate_topic_cards,
     provider_status,
 )
+from usiphu.coverage import coverage_report
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
 from usiphu.generator import (
@@ -33,7 +34,7 @@ def curriculum() -> dict:
 
 @app.get("/curriculum/coverage")
 def curriculum_coverage() -> dict:
-    return coverage_summary(load_curriculum())
+    return {**coverage_summary(load_curriculum()), **coverage_report()}
 
 
 @app.get("/curriculum/topics")
