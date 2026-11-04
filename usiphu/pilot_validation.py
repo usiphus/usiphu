@@ -171,6 +171,33 @@ def build_pilot_validation_report(
     )
     dated_sources = sum(bool(item.get("source_date")) for item in evidence_sources)
     answer_verified = answer_status.get("human_verified", 0)
+    source_lookup = {str(item.get("source_id", "")): item for item in sources}
+    candidate_rows = []
+    for item in [*mcqs, *short_answers, *meqs]:
+        history = item.get("ai_review_history", [])
+        latest = history[-1] if history else {}
+        internet = latest.get("internet_evidence_review", {})
+        source = source_lookup.get(str(item.get("source_id", "")), {})
+        candidate_rows.append({
+            "candidate_id": item.get("candidate_id"),
+            "source": source.get("title") or source.get("original_filename") or item.get("source_id"),
+            "page": item.get("source_page"),
+            "page_end": item.get("source_page_end", item.get("source_page")),
+            "type": (
+                "MCQ" if item.get("question_type") == "single_best_answer"
+                else "MEQ page" if item.get("question_type") == "modified_essay_question"
+                else "Short answer"
+            ),
+            "review_state": item.get("review_state", "pending"),
+            "transcription_outcome": item.get("transcription_accuracy_outcome", "not_checked"),
+            "answer_status": item.get("answer_status", "not_extracted_or_verified"),
+            "AI_evidence_verdict": internet.get("verdict", "not_reviewed"),
+            "AI_existing_key_assessment": internet.get("existing_key_assessment", "not_assessed"),
+            "AI_proposed_option": internet.get("proposed_option_id"),
+            "human_selected_option": item.get("correct_option_id"),
+            "reviewer": item.get("reviewer") or item.get("transcription_reviewed_by"),
+        })
+
     source_rows = []
     for source in sources:
         source_id = str(source.get("source_id", ""))
@@ -271,6 +298,7 @@ def build_pilot_validation_report(
             ),
         },
         "source_rows": source_rows,
+        "candidate_rows": candidate_rows,
         "limitations": [
             "Transcription confirmation rates describe only items explicitly saved after human comparison; they are not automatic OCR accuracy estimates.",
             "Question segmentation and page grouping require separate manual validation; a page-level MEQ candidate is not necessarily a complete MEQ.",
