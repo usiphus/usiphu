@@ -76,19 +76,16 @@ def build_pilot_validation_report(
 ) -> dict[str, Any]:
     """Summarize extraction, reviewer corrections, answer checks and evidence quality."""
     sources = list_sources(source_dir)
-    source_by_id = {item.get("source_id"): item for item in sources}
     extractions = _read_extractions(source_dir)
     mcqs: list[dict[str, Any]] = []
     short_answers: list[dict[str, Any]] = []
     meqs: list[dict[str, Any]] = []
-    source_candidate_counts: Counter[str] = Counter()
     source_mcq_counts: Counter[str] = Counter()
     source_meq_counts: Counter[str] = Counter()
     for payload in extractions:
         source_id = str(payload.get("source_id", ""))
         for item in payload.get("mcq_candidates", []):
             row = {**item, "source_id": source_id}
-            source_candidate_counts[source_id] += 1
             if item.get("question_type") == "single_best_answer":
                 mcqs.append(row)
                 source_mcq_counts[source_id] += 1
@@ -96,7 +93,6 @@ def build_pilot_validation_report(
                 short_answers.append(row)
         for item in payload.get("meq_page_candidates", []):
             meqs.append({**item, "source_id": source_id})
-            source_candidate_counts[source_id] += 1
             source_meq_counts[source_id] += 1
 
     all_written = [*short_answers, *meqs]
