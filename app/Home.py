@@ -695,6 +695,69 @@ elif page == "Review Editor":
                                     "dedicated-option-" + selected_id + "-" + option["id"]
                                 ] = option["text"]
                             st.rerun()
+                    internet_review = ai_review.get("internet_evidence_review", {})
+                    with st.expander("Open-access internet evidence comparison", expanded=True):
+                        st.warning(
+                            "This is an AI evidence summary, not a verified answer key. "
+                            "Sources are retrieved from Europe PMC / PubMed Central and may not include "
+                            "all relevant guidelines or local protocols."
+                        )
+                        verdict_labels = {
+                            "supported": "Evidence supports a best answer",
+                            "contradicted": "Evidence contradicts the proposed answer",
+                            "mixed": "Evidence is conflicting",
+                            "insufficient_evidence": "Insufficient open-access evidence",
+                        }
+                        st.markdown("**Overall finding:** " + verdict_labels.get(
+                            internet_review.get("verdict"), "Evidence review unavailable"
+                        ))
+                        existing_key = internet_review.get("existing_key_option_id")
+                        existing_assessment = internet_review.get("existing_key_assessment", "uncertain")
+                        st.write(
+                            "Existing paper key: "
+                            + (str(existing_key).upper() if existing_key else "not supplied")
+                            + " · Evidence assessment: " + str(existing_assessment).replace("_", " ")
+                        )
+                        proposed = internet_review.get("proposed_option_id")
+                        st.write(
+                            "Evidence-based AI suggestion: "
+                            + (str(proposed).upper() if proposed else "No defensible option")
+                        )
+                        if internet_review.get("summary"):
+                            st.write(internet_review["summary"])
+                        for option_review in internet_review.get("option_assessments", []):
+                            st.markdown(
+                                "**Option " + option_review["option_id"].upper() + " — "
+                                + option_review["assessment"].replace("_", " ").title() + "**"
+                            )
+                            if option_review.get("reasoning"):
+                                st.write(option_review["reasoning"])
+                            for citation in option_review.get("citations", []):
+                                st.markdown(
+                                    "> " + citation["quote"] + "\n\n"
+                                    + "[" + citation["source_title"] + "](" + citation["source_url"] + ")"
+                                    + " · " + str(citation.get("source_date", "date unavailable"))
+                                )
+                        if internet_review.get("conflicts"):
+                            st.markdown("**Conflicts and limitations**")
+                            for conflict in internet_review["conflicts"]:
+                                st.write("• " + conflict)
+                        if internet_review.get("sources"):
+                            st.markdown("**Retrieved open-access sources**")
+                            for source in internet_review["sources"]:
+                                st.markdown(
+                                    "- [" + source["source_title"] + "](" + source["source_url"] + ")"
+                                    + " · " + str(source.get("source_date", "date unavailable"))
+                                    + " · " + str(source.get("journal") or "Journal not supplied")
+                                    + " · " + ("full text" if source.get("full_text_available") else "abstract only")
+                                )
+                                if source.get("license"):
+                                    st.caption("Licence: " + source["license"])
+                        else:
+                            st.info(
+                                "No relevant open-access full-text article was retrieved. "
+                                "The internet comparison did not verify the answer."
+                            )
                 with st.form("dedicated-mcq-editor-" + selected_id):
                     stem = st.text_area("Question stem", height=140, key=stem_widget_key)
                     option_values = {}
