@@ -782,10 +782,13 @@ elif page == "Review Editor":
                 ):
                     try:
                         st.session_state[ai_review_state_key] = review_mcq_candidate(selected)
-                        try:
-                            record_ai_review(selected_id, st.session_state[ai_review_state_key])
-                        except (OSError, ValueError, KeyError) as audit_error:
-                            st.warning("AI review completed but its audit record could not be saved: " + str(audit_error))
+                        if reviewer_access:
+                            try:
+                                record_ai_review(selected_id, st.session_state[ai_review_state_key])
+                            except (OSError, ValueError, KeyError) as audit_error:
+                                st.warning("AI review completed but its audit record could not be saved: " + str(audit_error))
+                        else:
+                            st.info("AI review is available as a session preview; reviewer access is required to save it to the shared audit history.")
                     except GenerationNotConfigured as exc:
                         st.error(str(exc))
                     except (QuestionReviewError, ValueError) as exc:
