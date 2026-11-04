@@ -87,8 +87,8 @@ def restore(
         if database_target.exists() or unexpected:
             raise ValueError("Restore targets changed during validation; refusing to overwrite")
         os.link(temporary_database, database_target)
-        temporary_database.unlink()
         installed_database = True
+        temporary_database.unlink()
         for item in list(staging.iterdir()):
             target = source_target / item.name
             if target.exists():
