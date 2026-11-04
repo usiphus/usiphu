@@ -342,6 +342,20 @@ with tab6:
                         for option in card["options"]:
                             prefix = "✓ " if option["id"] == card.get("correct_option_id") else "• "
                             st.write(prefix + option["text"])
+                    packet = item.get("review_packet") or card.get("review_packet")
+                    if packet:
+                        with st.expander("Clinical and examination review checklist"):
+                            st.caption(packet["automated_validation_scope"])
+                            st.markdown("**Clinical and educational checks**")
+                            for check in packet["common_checks"]:
+                                st.write("• " + check)
+                            st.markdown("**Assessment-format checks**")
+                            for check in packet["format_checks"]:
+                                st.write("• " + check)
+                            st.markdown("**Specialty safety checks**")
+                            for check in packet["specialty_safety_checks"]:
+                                st.write("• " + check)
+                            st.warning("Human clinical review and faculty exam validation are required. No automatic approval.")
                     st.markdown("**Evidence sources**")
                     for source in card.get("evidence_sources", []):
                         st.markdown(
@@ -363,5 +377,12 @@ with tab6:
         with st.expander(draft["prompt"]):
             st.write(draft["answer"])
             st.caption("DRAFT — not approved for learner flashcard review")
+            packet = draft.get("review_packet")
+            if packet:
+                st.markdown("**Review requirements**")
+                for check in packet["specialty_safety_checks"]:
+                    st.write("• " + check)
+                for check in packet["format_checks"]:
+                    st.write("• " + check)
             for source in draft.get("evidence_sources", []):
                 st.markdown(f"- [{source['source_title']}]({source['source_url']})")
