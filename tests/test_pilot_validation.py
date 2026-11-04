@@ -31,6 +31,7 @@ def _seed_pilot(tmp_path):
                 "review_state": "reviewed_pending_approval",
                 "transcription_accuracy_outcome": "confirmed_as_extracted",
                 "reviewer_ai_comparison": {
+                    "ai_proposed_option_id": "b",
                     "reviewer_answer_verified": True,
                     "reviewer_matches_ai_proposal": False,
                 },
