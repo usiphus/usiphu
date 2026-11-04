@@ -14,7 +14,10 @@ def test_health():
 def test_curriculum_coverage_and_search():
     coverage = client.get("/curriculum/coverage")
     assert coverage.status_code == 200
-    assert coverage.json()["specialties"] >= 10
+    assert coverage.json()["specialties"] == 27
+    assert coverage.json()["topics"] == 174
+    assert coverage.json()["course_outcomes_catalogued"] == 73
+    assert coverage.json()["official_outcomes_linked_at_topic_level"] == 47
     topics = client.get("/curriculum/topics", params={"q":"urinary retention"})
     assert topics.status_code == 200
     assert any("retention" in row["topic"].lower() for row in topics.json())
@@ -33,8 +36,10 @@ def test_content_validation_endpoint():
     response = client.get("/content/validation")
     assert response.status_code == 200
     result = response.json()
-    assert result["specialties"] == 13
-    assert result["topics"] == 62
+    assert result["specialties"] == 27
+    assert result["topics"] == 174
+    assert result["course_outcomes_catalogued"] == 73
+    assert result["topics_without_verified_outcome_mapping"] == 112
     assert result["draft_questions"] == 3
     assert result["draft_cases"] == 2
     assert result["target_syllabus"] is None
