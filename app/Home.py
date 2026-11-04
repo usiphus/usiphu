@@ -11,9 +11,9 @@ from usiphu.ai_provider import (
     generate_topic_cards,
     provider_status,
 )
-from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
+from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
@@ -488,7 +488,7 @@ elif page == "AI Studio":
 elif page == "Review Editor":
     st.subheader("Question review editor")
     st.write("A dedicated editorial workspace for extracted MCQs, short-answer questions and modified essay questions.")
-    mcq_candidates = list_review_candidates()
+    mcq_candidates = [item for item in list_review_candidates() if item.get("question_type") == "single_best_answer"]
     written_candidates = list_non_mcq_candidates()
     all_candidates = [
         item for item in mcq_candidates if item.get("review_state") != "approved"
