@@ -81,7 +81,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 8,
       "specialty_id": "urology",
-      "topic_id": "bladder-cancer-presentation",
+      "topic_id": "bladder-cancer",
       "stem": "What is the most common presenting symptom in patients with bladder cancer?",
       "options": [
         {
@@ -142,7 +142,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 8,
       "specialty_id": "urology",
-      "topic_id": "renal-cell-carcinoma-imaging",
+      "topic_id": "rcc",
       "stem": "A 70-year-old woman presents with painless total haematuria. Ultrasound shows a 5 × 7 cm right renal lesion and renal function is normal. What is the most appropriate next imaging investigation to characterize and stage a suspected renal cell carcinoma?",
       "options": [
         {
@@ -205,7 +205,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 8,
       "specialty_id": "urology",
-      "topic_id": "haematuria-imaging",
+      "topic_id": "bladder-cancer",
       "stem": "An older man who smokes presents with painless visible haematuria and clot passage. Which imaging test is most appropriate for evaluating the upper urinary tract for a suspected urothelial malignancy?",
       "options": [
         {
@@ -268,7 +268,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 8,
       "specialty_id": "urology",
-      "topic_id": "bladder-cancer-restaging-turbt",
+      "topic_id": "bladder-cancer",
       "stem": "After an initial TURBT for non-muscle-invasive bladder cancer, which finding is an indication for a second resection (re-TURBT), subject to tumour-risk and histology exceptions?",
       "options": [
         {
@@ -330,7 +330,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 10,
       "specialty_id": "urology",
-      "topic_id": "bladder-cancer-diagnosis",
+      "topic_id": "bladder-cancer",
       "stem": "Which investigation is essential for direct assessment of a suspected bladder tumour and cannot be replaced by imaging or urine cytology?",
       "options": [
         {
@@ -391,7 +391,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 9,
       "specialty_id": "urology",
-      "topic_id": "muscle-invasive-bladder-cancer",
+      "topic_id": "bladder-cancer",
       "stem": "A fit patient has cT2–T4a N0M0 muscle-invasive bladder cancer and is proceeding with standard surgical management. Which is the standard operation?",
       "options": [
         {
@@ -453,7 +453,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 8,
       "specialty_id": "urology",
-      "topic_id": "muscle-invasive-bladder-cancer",
+      "topic_id": "bladder-cancer",
       "stem": "Which combination defines trimodality bladder-preserving treatment for appropriately selected patients with muscle-invasive bladder cancer?",
       "options": [
         {
@@ -514,7 +514,7 @@
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
       "source_page": 9,
       "specialty_id": "urology",
-      "topic_id": "renal-cell-carcinoma-staging",
+      "topic_id": "rcc",
       "stem": "A renal cell carcinoma extends beyond Gerota's fascia. What is its TNM T category?",
       "options": [
         {
