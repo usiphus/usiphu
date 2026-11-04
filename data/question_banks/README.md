@@ -35,3 +35,10 @@ A bank file can be a JSON array of MCQ objects, or an object with this shape:
 Items default to editorial draft status. Do not mark questions clinically reviewed or exam validated without an identified qualified reviewer, review date, evidence source and appropriate departmental sign-off. Preserve source attribution and licence conditions; do not upload commercial question-bank dumps without permission.
 
 See `data/question_bank_manifest.json` for the supported item types, validation requirements and current bank status.
+
+
+## Uploading source papers from the USIPHU app
+
+Open **Question Bank → Add examination papers and question sources** to add papers as you find them. The upload inbox accepts PDF, DOCX, DOC, TXT, PNG and JPG files (up to 50 MB each), records their original filename, title, specialty, exam year, notes, upload date and SHA-256 fingerprint, and rejects duplicate files.
+
+Uploads are stored separately from the question JSON banks in `data/source_inbox/` by default. Set `USIPHU_SOURCE_DIR` to a persistent mounted directory in hosted deployments; otherwise files may be lost when an ephemeral app container is rebuilt. Uploaded documents remain in `awaiting_extraction` status: saving a paper does not automatically create questions or approve any answer. Extracted questions must retain source/page provenance and remain drafts until human review.
