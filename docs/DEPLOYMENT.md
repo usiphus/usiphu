@@ -6,15 +6,13 @@ USIPHU is currently designed to run directly on one computer with Python and SQL
 
 Requirements: Python 3.11 or newer.
 
-**Windows PowerShell**
+**Windows (one-click setup)**
 
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -e ".[dev]"
-streamlit run app/Home.py
-```
+1. Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/windows/) and keep the Python Launcher option enabled.
+2. Double-click `setup_windows.bat` in the USIPHU project folder. It creates `.venv`, installs the project dependencies and launches USIPHU.
+3. For later sessions, double-click `start_usiphu.bat`. It reuses the installed environment and does not reinstall packages.
+
+Keep the launcher window open while using USIPHU; press Ctrl+C to stop it. The first setup requires internet access to download dependencies.
 
 **macOS / Linux**
 
