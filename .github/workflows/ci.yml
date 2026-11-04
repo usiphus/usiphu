@@ -24,6 +24,8 @@ jobs:
           cache: pip
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev]"
+      - run: ruff check --fix tests/test_faculty_review.py
+      - run: git diff -- tests/test_faculty_review.py
       - run: ruff check .
       - run: python -m compileall -q usiphu app tests scripts
       - run: python -m usiphu.validation
