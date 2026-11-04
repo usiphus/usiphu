@@ -784,6 +784,23 @@ elif page == "Faculty Review":
                     ["easy", "moderate", "hard"],
                     index=["easy", "moderate", "hard"].index(selected.get("difficulty", "moderate")),
                 )
+                faculty_topic_rows = [
+                    (topic.id, specialty.id, specialty.title, domain.title, topic.title)
+                    for specialty in curriculum.specialties
+                    for domain in specialty.domains
+                    for topic in domain.topics
+                ]
+                current_topic_row = next(
+                    (row for row in faculty_topic_rows
+                     if row[0] == selected.get("topic_id") and row[1] == selected.get("specialty_id")),
+                    faculty_topic_rows[0],
+                )
+                curriculum_choice = st.selectbox(
+                    "Curriculum alignment",
+                    faculty_topic_rows,
+                    index=faculty_topic_rows.index(current_topic_row),
+                    format_func=lambda row: row[2] + " · " + row[3] + " · " + row[4],
+                )
                 st.markdown("**Clinical attestations — all required for approval**")
                 answer_ok = st.checkbox("I independently verified the best answer against reliable clinical evidence.")
                 rationale_ok = st.checkbox("The explanation is accurate, current and clinically safe.")
@@ -806,6 +823,8 @@ elif page == "Faculty Review":
                                 "stem": stem, "options": edited_options,
                                 "correct_option_id": answer_key, "explanation": rationale,
                                 "difficulty": difficulty,
+                                "topic_id": curriculum_choice[0],
+                                "specialty_id": curriculum_choice[1],
                             },
                             attestations={
                                 "answer_verified": answer_ok, "rationale_verified": rationale_ok,
