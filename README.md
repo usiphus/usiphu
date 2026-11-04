@@ -45,6 +45,7 @@ The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 lea
 - Resource discovery across PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE search, guidelines, and medical challenge sites.
 - A multi-file medical question-bank loader, specialty/topic/difficulty/editorial filters, answer explanations, learner-isolated attempt history and accuracy tracking; the current starter set contains 3 draft MCQs, not a complete exam bank.
 - Source Inbox with automatic text extraction for readable PDF/DOCX/TXT uploads, page-cited draft question candidates, MEQ page capture and human-review gating; scanned/image sources require OCR/manual handling.
+- Review Editor with AI-assisted transcription checks and open-access medical evidence comparison for each MCQ option (Europe PMC / PubMed Central), source links, publication metadata and human approval gates.
 - MCQ and structured clinical-case practice with explicit editorial status.
 - Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
