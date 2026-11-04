@@ -439,7 +439,7 @@ elif page == "Generator":
         "2. Curriculum topic",
         topic_options,
         format_func=lambda item: item[3],
-        key="generator-topic",
+        key="generator-topic-v2",
     )
     objective_count = len(build_generation_briefs(
         specialty_id=selected_topic[0], topic_id=selected_topic[1]
