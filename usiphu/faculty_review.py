@@ -8,6 +8,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
+from usiphu.curriculum import load_curriculum
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -148,6 +149,17 @@ def record_faculty_decision(
         raise ValueError("At least two uniquely identified answer options are required.")
     if updated.get("correct_option_id") not in option_ids:
         raise ValueError("The answer key must match one of the current options.")
+    if updated.get("difficulty") not in {"easy", "moderate", "hard"}:
+        raise ValueError("Difficulty must be easy, moderate or hard.")
+    curriculum = load_curriculum()
+    valid_topic_pairs = {
+        (specialty.id, topic.id)
+        for specialty in curriculum.specialties
+        for domain in specialty.domains
+        for topic in domain.topics
+    }
+    if (updated.get("specialty_id"), updated.get("topic_id")) not in valid_topic_pairs:
+        raise ValueError("The question must map to an existing specialty and curriculum topic.")
 
     checks = attestations or {}
     if decision == "approve" and stage == "clinical":
@@ -276,7 +288,10 @@ def faculty_release_statuses(path: Path = DEFAULT_DB) -> dict[str, dict]:
                 else "clinically_reviewed" if row["clinical_status"] == "approved"
                 else "draft"
             ),
-            "human_signoff_status": "approved" if row["exam_status"] == "approved" else "pending",
+            "human_signoff_status": (
+                "rejected" if row["clinical_status"] == "rejected" or row["exam_status"] == "rejected"
+                else "approved" if row["exam_status"] == "approved" else "pending"
+            ),
             "clinical_reviewed_by": row["clinical_reviewer_name"],
             "clinical_reviewed_at": row["clinical_reviewed_at"],
             "exam_validated_by": row["exam_reviewer_name"],
