@@ -1,0 +1,99 @@
+name: Staging persistence and recovery smoke test
+
+on:
+  push:
+    branches: ["feat/medical-curriculum-specialty-generator"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: staging-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  disposable-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the application image
+        run: docker build --tag usiphu:staging-smoke .
+      - name: Create isolated staging volumes
+        run: |
+          docker volume create usiphu-smoke-data
+          docker volume create usiphu-smoke-sources
+          docker volume create usiphu-smoke-backups
+          docker volume create usiphu-smoke-restored-data
+          docker volume create usiphu-smoke-restored-sources
+      - name: Start app and check HTTP health
+        run: |
+          docker run --detach --name usiphu-smoke-app \
+            --publish 127.0.0.1:8501:8501 \
+            --mount source=usiphu-smoke-data,target=/data \
+            --mount source=usiphu-smoke-sources,target=/source-inbox \
+            --env USIPHU_DB_PATH=/data/usiphu.sqlite3 \
+            --env USIPHU_SOURCE_DIR=/source-inbox \
+            usiphu:staging-smoke
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8501/_stcore/health; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs usiphu-smoke-app
+          exit 1
+      - name: Seed synthetic paper, extraction and learner activity
+        run: docker exec usiphu-smoke-app python /scripts/staging_smoke.py seed
+      - name: Restart app and verify persistent volumes
+        run: |
+          docker restart usiphu-smoke-app
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8501/_stcore/health; then
+              break
+            fi
+            sleep 2
+          done
+          docker exec usiphu-smoke-app python /scripts/staging_smoke.py verify
+      - name: Create paired SQLite and Source Inbox backup
+        run: |
+          docker run --rm \
+            --mount source=usiphu-smoke-data,target=/data,readonly \
+            --mount source=usiphu-smoke-sources,target=/source-inbox,readonly \
+            --mount source=usiphu-smoke-backups,target=/backups \
+            --env USIPHU_DB_PATH=/data/usiphu.sqlite3 \
+            --env USIPHU_SOURCE_DIR=/source-inbox \
+            --env USIPHU_BACKUP_DIR=/backups \
+            usiphu:staging-smoke python /scripts/backup_sqlite.py
+      - name: Restore backup into clean isolated volumes
+        run: |
+          STAMP=$(docker run --rm \
+            --mount source=usiphu-smoke-backups,target=/backups,readonly \
+            --entrypoint sh usiphu:staging-smoke \
+            -c 'basename /backups/usiphu-*.sqlite3 .sqlite3 | sed "s/^usiphu-//"')
+          test -n "$STAMP"
+          docker run --rm --user 0 \
+            --mount source=usiphu-smoke-backups,target=/backups,readonly \
+            --mount source=usiphu-smoke-restored-data,target=/restore-data \
+            --mount source=usiphu-smoke-restored-sources,target=/restore-sources \
+            usiphu:staging-smoke python /scripts/restore_backup.py \
+            --database-backup "/backups/usiphu-$STAMP.sqlite3" \
+            --source-archive "/backups/usiphu-sources-$STAMP.tar.gz" \
+            --checksum "/backups/usiphu-sources-$STAMP.tar.gz.sha256" \
+            --database-target /restore-data/usiphu.sqlite3 \
+            --source-target /restore-sources
+      - name: Verify restored database, source and extraction history
+        run: |
+          docker run --rm --user 0 \
+            --mount source=usiphu-smoke-restored-data,target=/data,readonly \
+            --mount source=usiphu-smoke-restored-sources,target=/source-inbox,readonly \
+            --env USIPHU_DB_PATH=/data/usiphu.sqlite3 \
+            --env USIPHU_SOURCE_DIR=/source-inbox \
+            usiphu:staging-smoke python /scripts/staging_smoke.py verify
+      - name: Remove disposable staging resources
+        if: always()
+        run: |
+          docker rm --force usiphu-smoke-app || true
+          docker volume rm usiphu-smoke-data usiphu-smoke-sources usiphu-smoke-backups \
+            usiphu-smoke-restored-data usiphu-smoke-restored-sources || true
