@@ -725,6 +725,13 @@ elif page == "Review Editor":
                         )
                         if internet_review.get("summary"):
                             st.write(internet_review["summary"])
+                        if proposed and proposed in [item.get("id") for item in selected.get("options", [])]:
+                            if st.button(
+                                "Select evidence-suggested option " + proposed.upper() + " in answer editor (still unverified)",
+                                key="apply-internet-answer-" + selected_id,
+                            ):
+                                st.session_state["dedicated-answer-key-" + selected_id] = proposed
+                                st.rerun()
                         for option_review in internet_review.get("option_assessments", []):
                             st.markdown(
                                 "**Option " + option_review["option_id"].upper() + " — "
@@ -770,11 +777,16 @@ elif page == "Review Editor":
                     available_options = [key for key, value in option_values.items() if value.strip()]
                     prior_key = selected.get("correct_option_id")
                     answer_choices = ["Not verified", *available_options]
+                    answer_widget_key = "dedicated-answer-key-" + selected_id
+                    if answer_widget_key not in st.session_state:
+                        st.session_state[answer_widget_key] = (
+                            prior_key if prior_key in available_options else "Not verified"
+                        )
                     answer = st.selectbox(
                         "Answer key",
                         answer_choices,
-                        index=answer_choices.index(prior_key) if prior_key in available_options else 0,
                         format_func=lambda value: "Not verified" if value == "Not verified" else value.upper(),
+                        key=answer_widget_key,
                     )
                     specialty_id = st.selectbox(
                         "Specialty", specialty_ids,
