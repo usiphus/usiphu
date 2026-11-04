@@ -47,7 +47,7 @@ def test_pilot_questions_do_not_count_as_clinically_reviewed():
 def test_pilot_topics_exist_in_the_current_medical_curriculum():
     curriculum = load_curriculum()
     valid_topics = {
-        topic.id
+        (specialty.id, topic.id)
         for specialty in curriculum.specialties
         for domain in specialty.domains
         for topic in domain.topics
@@ -56,4 +56,4 @@ def test_pilot_topics_exist_in_the_current_medical_curriculum():
         item for item in load_questions()
         if item.bank_id in {"pilot-urology-2026", "pilot-general-surgery-2026"}
     ]
-    assert all(item.topic_id in valid_topics for item in pilot)
+    assert all((item.specialty_id, item.topic_id) in valid_topics for item in pilot)
