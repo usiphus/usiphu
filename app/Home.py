@@ -1,7 +1,7 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
 import os
 import random
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import streamlit as st
 
@@ -566,7 +566,7 @@ with tab7:
                     "ids": [item.id for item in exam_questions],
                     "answers": {},
                     "submitted": False,
-                    "run_id": datetime.now(timezone.utc).isoformat(),
+                    "run_id": datetime.now(UTC).isoformat(),
                 }
                 st.rerun()
 
