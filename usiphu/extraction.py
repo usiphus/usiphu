@@ -44,8 +44,10 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
     """Create page-cited draft candidates; answer keys are deliberately left empty."""
     lines = []
     meq_pages = []
+    meq_page_numbers = set()
     for page_number, page_text in enumerate(pages, start=1):
         if re.search(r"\\bMEQ\\s*\\d*|modified essay question", page_text, re.I):
+            meq_page_numbers.add(page_number)
             cleaned = [line.rstrip() for line in page_text.splitlines()
                        if line.strip() and not FOOTER.search(line)]
             if cleaned:
@@ -67,6 +69,8 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
     for start_index, line_index in enumerate(starts):
         stop_index = starts[start_index + 1] if start_index + 1 < len(starts) else len(lines)
         block = lines[line_index:stop_index]
+        if block[0][0] in meq_page_numbers:
+            continue
         raw_lines = [line for _, line in block if line.strip() and not FOOTER.search(line)]
         raw_text = "\\n".join(raw_lines).strip()
         if not raw_text:
