@@ -57,8 +57,37 @@
   },
   "current_content": {
     "primary_file": "data/questions.json",
-    "question_count": 3,
-    "status": "draft_only",
-    "note": "Three starter SBA questions are included to exercise the workflow. They are not a comprehensive Suez University question bank and are not approved examination content."
+    "question_count": 20,
+    "status": "starter_plus_evidence_checked_draft_pilot",
+    "note": "Three starter questions plus 17 evidence-checked pilot MCQs (9 Urology, 8 General Surgery). All remain draft and are excluded from scored accuracy until qualified human clinical/faculty sign-off. The pilot source PDFs were checked through their selectable text layer; visual page verification remains pending.",
+    "installed_banks": [
+      {
+        "bank_id": "starter-medical-bank",
+        "title": "Starter medical bank",
+        "question_count": 3,
+        "status": "draft"
+      },
+      {
+        "bank_id": "pilot-urology-2026",
+        "title": "USIPHU Pilot Question Bank — Urology",
+        "question_count": 9,
+        "status": "draft",
+        "human_signoff_status": "pending"
+      },
+      {
+        "bank_id": "pilot-general-surgery-2026",
+        "title": "USIPHU Pilot Question Bank — General Surgery",
+        "question_count": 8,
+        "status": "draft",
+        "human_signoff_status": "pending"
+      }
+    ]
+  },
+  "pilot_governance": {
+    "answer_basis": "Open-access clinical guidelines, government health information and open-access medical literature, cited per question.",
+    "human_signoff_required": true,
+    "visual_source_page_check_required": true,
+    "ai_or_editorial_review_is_clinical_approval": false,
+    "scored_practice_allowed": false
   }
 }
