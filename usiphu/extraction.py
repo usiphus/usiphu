@@ -1,9 +1,9 @@
 """Extract question candidates from uploaded source documents without inventing answers."""
-import hashlib
 import io
 import json
 import re
 import zipfile
+from datetime import UTC, datetime
 from pathlib import Path
 from xml.etree import ElementTree
 
@@ -152,7 +152,7 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
         "status": "extracted_pending_review",
         "question_count": question_count,
         "extraction_file": str(extraction_path.relative_to(source_dir)),
-        "extracted_at": __import__("datetime").datetime.now(__import__("datetime").UTC).isoformat(),
+        "extracted_at": datetime.now(UTC).isoformat(),
         "extraction_error": None,
     })
     return payload
