@@ -37,7 +37,7 @@ See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [cour
 
 ## Medical curriculum coverage
 
-The curriculum blueprint now contains 27 medical disciplines, 174 topics and 291 learning objectives across basic sciences, diagnostic disciplines, clinical specialties and supporting medical practice. Newly added topics are marked `planned`; they are not represented as official Suez outcomes or faculty-approved syllabus coverage. Continue mapping each topic to current course specifications, trusted references and local examination requirements. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
+The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 learning objectives. The auditable [coverage register](data/curriculum_coverage.json) records 50 topics with direct course-outcome links, 6 partial links, 4 external-benchmark-only topics, 2 module-only topics and 112 topics without a verified outcome mapping. The current first-pass catalogue contains 73 grouped official Suez outcomes: 47 are linked to topics and 26 are not linked in the current crosswalk. These are topic-level links, not proof that individual objectives are mapped. Zero objectives have yet received individual faculty-verified mapping. The 73-outcome extraction is explicitly non-exhaustive; the 112 new topics remain planned and are not represented as official Suez outcomes. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
 
 ## Features
 
@@ -55,7 +55,7 @@ The generator retrieves PubMed abstracts and uses a locally hosted Ollama model 
 
 ## Card generation
 
-See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval.
+See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval. Every accepted draft includes a specialty- and format-specific human review packet; see [the clinical/exam review rubric](data/clinical_exam_review_rubric.json).
 
 ## Production
 
