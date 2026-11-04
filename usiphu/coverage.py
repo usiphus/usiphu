@@ -102,8 +102,26 @@ def validate_coverage_register(
             raise ValueError(f"Duplicate objective IDs for topic {key}")
         if set(objective_ids) != current_topics[key]:
             raise ValueError(f"Objective coverage mismatch for topic {key}")
+        status = row["course_outcome_mapping_status"]
         if row["external_benchmark_refs"] and row["official_course_outcome_refs"]:
             raise ValueError(f"External-only topic has official outcome refs: {key}")
+        if status in {"direct_course_outcome", "partial_related_outcome"} and not row["official_course_outcome_refs"]:
+            raise ValueError(f"Mapped topic lacks official outcome refs: {key}")
+        if status == "external_benchmark_only" and not row["external_benchmark_refs"]:
+            raise ValueError(f"External-only topic lacks benchmark refs: {key}")
+        if status in {"module_only_no_specific_ilo", "not_mapped_no_verified_course_outcome"} and (
+            row["official_course_outcome_refs"] or row["external_benchmark_refs"]
+        ):
+            raise ValueError(f"Unmapped/module-only topic contains outcome refs: {key}")
+        expected_objective_status = {
+            "direct_course_outcome": "topic_level_link_only_not_objective_specific",
+            "partial_related_outcome": "partial_topic_level_link_not_objective_specific",
+            "external_benchmark_only": "external_benchmark_only_not_official_suez",
+            "module_only_no_specific_ilo": "module_alignment_only_no_specific_ilo",
+            "not_mapped_no_verified_course_outcome": "not_mapped_no_verified_course_outcome",
+        }.get(status)
+        if any(item["mapping_status"] != expected_objective_status for item in row["objectives"]):
+            raise ValueError(f"Objective mapping status mismatch for topic {key}")
         if row["course_outcome_mapping_status"] == "not_mapped_no_verified_course_outcome":
             if row["official_course_outcome_refs"] or row["external_benchmark_refs"]:
                 raise ValueError(f"Unmapped topic contains unsupported refs: {key}")
@@ -139,6 +157,23 @@ def validate_coverage_register(
             )
 
     report = coverage_report(register_path)
+    topic_status_counts: dict[str, int] = {}
+    objective_status_counts: dict[str, int] = {}
+    for row in rows:
+        status = row["course_outcome_mapping_status"]
+        topic_status_counts[status] = topic_status_counts.get(status, 0) + 1
+        for objective in row["objectives"]:
+            obj_status = objective["mapping_status"]
+            objective_status_counts[obj_status] = objective_status_counts.get(obj_status, 0) + 1
+    if topic_status_counts != register["counts"]["topic_mapping_statuses"]:
+        raise ValueError("Stored topic mapping counts do not match the coverage rows")
+    if objective_status_counts != register["counts"]["objective_mapping_statuses"]:
+        raise ValueError("Stored objective mapping counts do not match the coverage rows")
+    linked_outcomes = sum(bool(row["linked_topic_ids"]) for row in outcome_rows)
+    if (register["counts"]["official_outcomes_linked_at_topic_level"] != linked_outcomes
+            or register["counts"]["official_outcomes_not_linked_in_current_crosswalk"]
+            != len(outcome_rows) - linked_outcomes):
+        raise ValueError("Stored official outcome mapping counts do not match the outcome rows")
     if sum(report[key] for key in (
         "topics_directly_mapped", "topics_partially_mapped",
         "topics_external_benchmark_only", "topics_module_only_no_specific_ilo",
