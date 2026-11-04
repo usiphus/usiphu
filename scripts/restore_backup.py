@@ -76,17 +76,21 @@ def restore(
     database_target.parent.mkdir(parents=True, exist_ok=True)
     temporary_database = database_target.with_name(f".{database_target.name}.restore-tmp")
     staging = Path(tempfile.mkdtemp(prefix=".usiphu-restore-", dir=source_target))
+    installed_database = False
     try:
         shutil.copy2(database_backup, temporary_database)
         verify_database(temporary_database)
         extract_safe(source_archive, staging)
-        if database_target.exists() or any(source_target.iterdir() if source_target.exists() else []):
+        unexpected = [item for item in source_target.iterdir() if item != staging]
+        if database_target.exists() or unexpected:
             raise ValueError("Restore targets changed during validation; refusing to overwrite")
         temporary_database.replace(database_target)
+        installed_database = True
         for item in staging.iterdir():
             item.replace(source_target / item.name)
     except Exception:
-        database_target.unlink(missing_ok=True)
+        if installed_database:
+            database_target.unlink(missing_ok=True)
         raise
     finally:
         temporary_database.unlink(missing_ok=True)
