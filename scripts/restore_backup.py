@@ -2,6 +2,7 @@
 """Restore a paired SQLite + Source Inbox backup into empty mounted volumes."""
 import argparse
 import hashlib
+import os
 import shutil
 import sqlite3
 import tarfile
@@ -85,11 +86,14 @@ def restore(
         unexpected = [item for item in source_target.iterdir() if item != staging]
         if database_target.exists() or unexpected:
             raise ValueError("Restore targets changed during validation; refusing to overwrite")
-        temporary_database.replace(database_target)
+        os.link(temporary_database, database_target)
+        temporary_database.unlink()
         installed_database = True
         for item in list(staging.iterdir()):
             target = source_target / item.name
-            item.replace(target)
+            if target.exists():
+                raise ValueError(f"Refusing to overwrite restored source path: {target}")
+            item.rename(target)
             installed_source_items.append(target)
     except Exception:
         for item in reversed(installed_source_items):
