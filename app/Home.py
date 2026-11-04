@@ -16,6 +16,7 @@ from usiphu.models import ReviewState
 from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
+from usiphu.source_inbox import list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -658,6 +659,84 @@ elif page == "Question Bank":
         )
     else:
         st.info("Your submitted answers will appear here.")
+
+    st.divider()
+    st.subheader("Add examination papers and question sources")
+    st.write(
+        "Upload past papers whenever you find them. USIPHU keeps the original file and its "
+        "source details in an inbox so it can be extracted into the question bank later."
+    )
+    st.caption(
+        "Accepted: PDF, DOCX, DOC, TXT, PNG and JPG · Maximum 50 MB per file. "
+        "Uploads are stored on the server, not automatically converted into questions."
+    )
+    with st.form("question-source-upload"):
+        source_files = st.file_uploader(
+            "Choose one or more papers / source files",
+            type=["pdf", "docx", "doc", "txt", "png", "jpg", "jpeg"],
+            accept_multiple_files=True,
+            help="You can add several files at once and return later to add more.",
+        )
+        source_title = st.text_input("Collection / paper title (optional)")
+        source_specialty = st.selectbox(
+            "Main specialty",
+            ["Unassigned", "Urology", "Vascular Surgery", "Neurosurgery", "Cardiothoracic Surgery",
+             "General Surgery", "Pediatrics", "Radiology", "Medicine", "Emergency Medicine", "Other"],
+        )
+        source_year = st.text_input("Exam year (if known)", placeholder="e.g. 2024")
+        source_notes = st.text_area(
+            "Notes (optional)", placeholder="University, course, paper number, source/permission details..."
+        )
+        upload_sources = st.form_submit_button(
+            "Save files to source inbox", type="primary", disabled=not source_files
+        )
+    if upload_sources:
+        saved_count = 0
+        for uploaded_file in source_files:
+            try:
+                saved = save_source(
+                    uploaded_file.name,
+                    uploaded_file.getvalue(),
+                    title=source_title or None,
+                    specialty=source_specialty,
+                    exam_year=source_year,
+                    notes=source_notes,
+                )
+                saved_count += 1
+                st.success(f"Saved: {saved['original_filename']}")
+            except ValueError as exc:
+                st.warning(f"{uploaded_file.name}: {exc}")
+        if saved_count:
+            st.success(f"{saved_count} source file(s) added. They are ready for extraction.")
+            st.rerun()
+
+    source_records = list_sources()
+    st.markdown("#### Source inbox")
+    st.caption(f"{len(source_records)} source file(s) stored · newest first")
+    if source_records:
+        st.dataframe(
+            [{
+                "Title": item["title"],
+                "Original file": item["original_filename"],
+                "Specialty": item["specialty"],
+                "Year": item["exam_year"] or "—",
+                "Status": item["status"].replace("_", " ").title(),
+                "Size (MB)": round(item["size_bytes"] / (1024 * 1024), 2),
+                "Added": item["uploaded_at"][:10],
+            } for item in source_records],
+            use_container_width=True,
+            hide_index=True,
+        )
+        for item in source_records:
+            with st.expander(f"{item['title']} · {item['original_filename']}"):
+                st.write(f"**Specialty:** {item['specialty']}")
+                st.write(f"**Exam year:** {item['exam_year'] or 'Not supplied'}")
+                st.write(f"**Status:** {item['status'].replace('_', ' ').title()}")
+                if item.get("notes"):
+                    st.write(item["notes"])
+                st.caption(f"Source ID: {item['source_id']} · SHA-256: {item['sha256']}")
+    else:
+        st.info("No source files yet. Upload your first paper above.")
 
 st.divider()
 st.caption(
