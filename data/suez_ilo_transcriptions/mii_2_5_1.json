@@ -1,0 +1,504 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "MII 2.5.1",
+  "academic_year": "Not stated in supplied document",
+  "source_id": "suez-mii-course",
+  "source_file": "Medicine II Course last.docx",
+  "source_page_count": 18,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from supplied DOCX/PDF text. Light spelling, punctuation and whitespace normalization only. Where the source presents a multi-part ILO as one statement, its related components remain grouped; topic headings and assessment methods are not relabelled as ILOs.",
+  "scope_note": "Granular transcription of the knowledge and psychomotor ILO statements for Neurology, Psychiatry, Rheumatology, Dermatology and Andrology from printed pages 4–16. Topic lists and end-of-module assessment descriptions are excluded as ILOs.",
+  "outcomes": [
+    {
+      "id": "mii-neu-001",
+      "kind": "knowledge",
+      "domain": "neurology",
+      "source_page": 4,
+      "transcribed_text": "Describe hemiplegia, cerebrovascular stroke, transient ischaemic attack, convulsions and epilepsy, Parkinson’s disease, multiple sclerosis, motor-neuron diseases, myopathy, myasthenia, involuntary movements, movement disorders and ataxia in terms of definition, classification, causes, pathogenesis, clinical picture and outline management."
+    },
+    {
+      "id": "mii-neu-002",
+      "kind": "clinical_reasoning",
+      "domain": "neurology",
+      "source_page": 5,
+      "transcribed_text": "Identify diagnostic approaches for coma, confusion and delirium; peripheral neuropathies and ascending paralysis (Guillain–Barré syndrome); spinal-cord compression and acute paraplegia; raised intracranial tension and subarachnoid haemorrhage; and cerebral venous sinus thrombosis."
+    },
+    {
+      "id": "mii-neu-003",
+      "kind": "clinical_reasoning",
+      "domain": "neurology",
+      "source_page": 5,
+      "transcribed_text": "Describe causes, diagnostic approach and clinical picture of headache."
+    },
+    {
+      "id": "mii-neu-004",
+      "kind": "clinical_reasoning",
+      "domain": "neurology",
+      "source_page": 5,
+      "transcribed_text": "Outline a diagnostic approach to low-back pain."
+    },
+    {
+      "id": "mii-neu-005",
+      "kind": "clinical_reasoning",
+      "domain": "neurology",
+      "source_page": 5,
+      "transcribed_text": "Formulate a differential diagnosis for paraplegia and low-back pain."
+    },
+    {
+      "id": "mii-psy-001",
+      "kind": "clinical_skill",
+      "domain": "psychiatry",
+      "source_page": 5,
+      "transcribed_text": "Describe mental and psychiatric status assessment."
+    },
+    {
+      "id": "mii-psy-002",
+      "kind": "knowledge",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Mention psychiatric emergencies and outline a plan of management for psychiatric emergencies."
+    },
+    {
+      "id": "mii-psy-003",
+      "kind": "knowledge",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Identify high-risk groups (women, children and older people) for psychiatric illness."
+    },
+    {
+      "id": "mii-psy-004",
+      "kind": "knowledge",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Define psychoses and personality disorders."
+    },
+    {
+      "id": "mii-psy-005",
+      "kind": "knowledge",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Describe substance abuse, liaison psychiatry and suicide."
+    },
+    {
+      "id": "mii-psy-006",
+      "kind": "knowledge_and_management",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Explain mood disorders, adjustment disorders, somatoform disorders, anxiety disorders, schizophrenia and organic mental disorders in terms of pathogenesis, clinical presentation and lines of management."
+    },
+    {
+      "id": "mii-psy-007",
+      "kind": "management",
+      "domain": "psychiatry",
+      "source_page": 6,
+      "transcribed_text": "Formulate therapeutic approaches in psychiatric patients."
+    },
+    {
+      "id": "mii-rhe-001",
+      "kind": "knowledge",
+      "domain": "rheumatology",
+      "source_page": 7,
+      "transcribed_text": "Describe types, pathogenesis, clinical picture and outcomes of rheumatoid arthritis, lupus erythematosus, osteoporosis, osteoarthritis and low-back pain."
+    },
+    {
+      "id": "mii-rhe-002",
+      "kind": "clinical_reasoning",
+      "domain": "rheumatology",
+      "source_page": 7,
+      "transcribed_text": "Outline a diagnostic approach to mechanical and inflammatory back pain and to a patient with monoarthritis or polyarthritis."
+    },
+    {
+      "id": "mii-rhe-003",
+      "kind": "clinical_reasoning",
+      "domain": "rheumatology",
+      "source_page": 7,
+      "transcribed_text": "Identify diagnostic approaches to vasculitis (classification), systemic sclerosis/scleroderma, Sjögren syndrome, seronegative rheumatic diseases (ankylosing spondylitis and reactive arthritis), crystal-induced arthropathies (gout and pseudogout), soft-tissue rheumatism (fibromyalgia, dermatomyositis and polymyositis), and metabolic/nutritional bone disease (osteoporosis, osteomalacia and rickets)."
+    },
+    {
+      "id": "mii-rhe-004",
+      "kind": "management",
+      "domain": "rheumatology",
+      "source_page": 7,
+      "transcribed_text": "Mention basic principles of rehabilitation of rheumatologic and neurological diseases."
+    },
+    {
+      "id": "mii-rhe-005",
+      "kind": "management",
+      "domain": "rheumatology",
+      "source_page": 7,
+      "transcribed_text": "Outline management plans for rheumatoid arthritis, lupus erythematosus, osteoporosis, osteoarthritis and low-back pain."
+    },
+    {
+      "id": "mii-rhe-006",
+      "kind": "knowledge_and_management",
+      "domain": "pharmacology",
+      "source_page": 7,
+      "transcribed_text": "Describe mechanisms of action, indications, contraindications and adverse effects of conventional synthetic and biological disease-modifying antirheumatic drugs, NSAIDs and corticosteroids."
+    },
+    {
+      "id": "mii-derm-001",
+      "kind": "clinical_skill",
+      "domain": "dermatology",
+      "source_page": 9,
+      "transcribed_text": "Take a focused history of illness from a patient with dermatological complaints."
+    },
+    {
+      "id": "mii-derm-002",
+      "kind": "clinical_skill",
+      "domain": "dermatology",
+      "source_page": 9,
+      "transcribed_text": "Demonstrate proper use of medical instruments."
+    },
+    {
+      "id": "mii-and-001",
+      "kind": "diagnostic_investigations",
+      "domain": "andrology",
+      "source_page": 9,
+      "transcribed_text": "Outline and interpret physical and microscopic parameters of semen analysis."
+    },
+    {
+      "id": "mii-derm-003",
+      "kind": "knowledge",
+      "domain": "dermatology",
+      "source_page": 9,
+      "transcribed_text": "Recognize indications of dermatological diagnostic and therapeutic tools, including Wood’s light, skin biopsy, cryotherapy, electrocautery, intralesional injections, phototherapy and potassium-hydroxide examination."
+    },
+    {
+      "id": "mii-derm-004",
+      "kind": "knowledge",
+      "domain": "dermatology",
+      "source_page": 10,
+      "transcribed_text": "List causes of bacterial skin infections and describe different skin lesions."
+    },
+    {
+      "id": "mii-derm-005",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 10,
+      "transcribed_text": "Discuss aetiology, clinical picture and diagnosis of molluscum contagiosum, human papillomavirus infection, herpes simplex infection (non-genital and genital), varicella and herpes zoster."
+    },
+    {
+      "id": "mii-derm-006",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 10,
+      "transcribed_text": "Discuss aetiology, clinical picture and diagnosis of dermatophyte infections at different sites, pityriasis versicolor and cutaneous, oropharyngeal, genital and nail candidiasis."
+    },
+    {
+      "id": "mii-derm-007",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 10,
+      "transcribed_text": "Discuss aetiology, pathogenesis, manifestations and diagnosis of leprosy."
+    },
+    {
+      "id": "mii-derm-008",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 10,
+      "transcribed_text": "Discuss aetiology, clinical features and diagnosis of erythrasma, impetigo, ecthyma, furuncles, carbuncles, erysipelas and cellulitis."
+    },
+    {
+      "id": "mii-derm-009",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Describe cutaneous reactions to arthropod bites and discuss manifestations and diagnosis of pediculosis and scabies."
+    },
+    {
+      "id": "mii-derm-010",
+      "kind": "knowledge",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Explain pathogenesis of psoriasis vulgaris, pityriasis rosea and lichen planus."
+    },
+    {
+      "id": "mii-derm-011",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Describe diagnosis and clinical picture of psoriasis vulgaris, pityriasis rubra pilaris, pityriasis rosea and lichen planus."
+    },
+    {
+      "id": "mii-derm-012",
+      "kind": "knowledge",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "List different types of eczema."
+    },
+    {
+      "id": "mii-derm-013",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Explain pathogenesis, clinical picture and diagnosis of atopic dermatitis, seborrhoeic dermatitis and irritant and allergic contact dermatitis."
+    },
+    {
+      "id": "mii-derm-014",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Explain aetiology, pathogenesis, clinical picture and diagnosis of acute and chronic urticaria, angioedema and anaphylaxis."
+    },
+    {
+      "id": "mii-derm-015",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Describe aetiology, clinical picture and diagnosis of erythema multiforme, Stevens–Johnson syndrome, toxic epidermal necrolysis, exanthematous drug reactions, drug-induced acute urticaria/angioedema and fixed drug eruption."
+    },
+    {
+      "id": "mii-derm-016",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 11,
+      "transcribed_text": "Explain aetiology, pathogenesis, types and diagnosis of vitiligo."
+    },
+    {
+      "id": "mii-derm-017",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 12,
+      "transcribed_text": "Describe pathogenesis, clinical picture and diagnosis of squamous-cell carcinoma, basal-cell carcinoma, alopecia areata, telogen effluvium and pattern hair loss."
+    },
+    {
+      "id": "mii-derm-018",
+      "kind": "clinical_reasoning",
+      "domain": "dermatology",
+      "source_page": 12,
+      "transcribed_text": "Discuss clinical picture and diagnosis of acne vulgaris and acne variants; describe the clinical picture of discoid lupus erythematosus and erythema nodosum."
+    },
+    {
+      "id": "mii-derm-019",
+      "kind": "knowledge",
+      "domain": "dermatology",
+      "source_page": 12,
+      "transcribed_text": "Describe skin manifestations of liver disease, kidney disease and diabetes mellitus."
+    },
+    {
+      "id": "mii-and-002",
+      "kind": "clinical_reasoning",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Describe aetiology, clinical presentation and diagnosis of bacterial, viral, fungal and other genital ulcers; discuss non-STD genital ulcers and their differential diagnosis."
+    },
+    {
+      "id": "mii-and-003",
+      "kind": "clinical_reasoning",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Describe aetiology, incubation period, transmission, clinical pictures in males and females, complications, differential diagnosis, management and follow-up of gonococcal urethritis."
+    },
+    {
+      "id": "mii-and-004",
+      "kind": "diagnostic_investigations",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Discuss aetiology, differential diagnosis and laboratory investigations of trichomoniasis, chlamydiasis and candidiasis."
+    },
+    {
+      "id": "mii-and-005",
+      "kind": "clinical_reasoning",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Discuss aetiology, pathogenesis, clinical picture and differential diagnosis of syphilis."
+    },
+    {
+      "id": "mii-and-006",
+      "kind": "knowledge",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Differentiate infertility, sterility and subfertility and describe the aetiological factors of male infertility."
+    },
+    {
+      "id": "mii-and-007",
+      "kind": "clinical_reasoning",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Discuss the diagnostic approach to male infertility."
+    },
+    {
+      "id": "mii-and-008",
+      "kind": "clinical_reasoning",
+      "domain": "andrology",
+      "source_page": 12,
+      "transcribed_text": "Describe the definition, epidemiology and diagnostic tests of erectile dysfunction."
+    },
+    {
+      "id": "mii-derm-020",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 12,
+      "transcribed_text": "Discuss management of molluscum contagiosum, human papillomavirus infection, herpes simplex infection (non-genital and genital), varicella and herpes zoster."
+    },
+    {
+      "id": "mii-derm-021",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 13,
+      "transcribed_text": "Discuss management of dermatophyte infections, pityriasis versicolor and cutaneous, oropharyngeal, genital and nail candidiasis."
+    },
+    {
+      "id": "mii-derm-022",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 13,
+      "transcribed_text": "Discuss management of leprosy, erythrasma, impetigo, ecthyma, furuncles, carbuncles, erysipelas, cellulitis, pediculosis and scabies."
+    },
+    {
+      "id": "mii-derm-023",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 13,
+      "transcribed_text": "Outline management of psoriasis vulgaris, pityriasis rubra pilaris, pityriasis rosea and lichen planus."
+    },
+    {
+      "id": "mii-derm-024",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 13,
+      "transcribed_text": "Explain management of atopic, seborrhoeic, irritant contact and allergic contact dermatitis."
+    },
+    {
+      "id": "mii-derm-025",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 14,
+      "transcribed_text": "Explain management of acute and chronic urticaria, angioedema, anaphylaxis, erythema multiforme, Stevens–Johnson syndrome, toxic epidermal necrolysis and drug eruptions."
+    },
+    {
+      "id": "mii-derm-026",
+      "kind": "management",
+      "domain": "dermatology",
+      "source_page": 14,
+      "transcribed_text": "Discuss management modalities for vitiligo, squamous-cell carcinoma, basal-cell carcinoma, alopecia areata, telogen effluvium, pattern hair loss, acne vulgaris and acne variants."
+    },
+    {
+      "id": "mii-and-009",
+      "kind": "management",
+      "domain": "andrology",
+      "source_page": 14,
+      "transcribed_text": "Discuss management of trichomoniasis, chlamydiasis, candidiasis and syphilis; outline medical and surgical treatment of male infertility and enumerate treatments for erectile dysfunction."
+    },
+    {
+      "id": "mii-derm-027",
+      "kind": "knowledge_and_management",
+      "domain": "pharmacology",
+      "source_page": 14,
+      "transcribed_text": "Identify therapeutic uses and adverse effects of dapsone, isotretinoin, systemic antifungals and topical corticosteroids, antifungals, antibiotics, antiscabitics and calcineurin inhibitors."
+    },
+    {
+      "id": "mii-neu-006",
+      "kind": "clinical_skill",
+      "domain": "neurology",
+      "source_page": 15,
+      "transcribed_text": "Take a complete neurological history, elicit presenting problems and relevant details, past medical/surgical, family and social history, medications and allergies, perform an appropriate review of systems, and establish rapport."
+    },
+    {
+      "id": "mii-neu-007",
+      "kind": "clinical_skill",
+      "domain": "neurology",
+      "source_page": 15,
+      "transcribed_text": "Perform general and focused neurological examination in logical sequence; show sensitivity and respect, explain procedures, and use medical instruments including stethoscope, sphygmomanometer, reflex hammer and tuning fork."
+    },
+    {
+      "id": "mii-neu-008",
+      "kind": "professional_skill",
+      "domain": "neurology",
+      "source_page": 15,
+      "transcribed_text": "Use appropriate draping, maintain dignity and privacy, demonstrate empathy and professional conduct, communicate findings concisely using accepted terminology, and present positive and negative findings systematically."
+    },
+    {
+      "id": "mii-neu-009",
+      "kind": "clinical_reasoning",
+      "domain": "neurology",
+      "source_page": 15,
+      "transcribed_text": "Use simple diagnostic procedures available in district hospitals to reach a diagnosis and diagnose medical diseases prevalent in the community."
+    },
+    {
+      "id": "mii-psy-008",
+      "kind": "clinical_skill",
+      "domain": "psychiatry",
+      "source_page": 15,
+      "transcribed_text": "Take a psychiatric history, elicit presenting problems, relevant past medical, family and social history and medications, perform a relevant review of systems, and establish rapport."
+    },
+    {
+      "id": "mii-psy-009",
+      "kind": "clinical_skill",
+      "domain": "psychiatry",
+      "source_page": 15,
+      "transcribed_text": "Perform general clinical examination and focused mental-status examination in logical sequence."
+    },
+    {
+      "id": "mii-psy-010",
+      "kind": "professional_skill",
+      "domain": "psychiatry",
+      "source_page": 15,
+      "transcribed_text": "Show sensitivity and respect, explain examination procedures, maintain dignity and privacy, and demonstrate empathy and ethical conduct with patients and families."
+    },
+    {
+      "id": "mii-psy-011",
+      "kind": "professional_skill",
+      "domain": "psychiatry",
+      "source_page": 16,
+      "transcribed_text": "Communicate psychiatric history and examination findings in accepted medical terminology and present significant positive and negative findings systematically."
+    },
+    {
+      "id": "mii-psy-012",
+      "kind": "clinical_reasoning",
+      "domain": "psychiatry",
+      "source_page": 16,
+      "transcribed_text": "Diagnose psychiatric diseases prevalent in the community and make recommendations for further investigation, management or referral."
+    },
+    {
+      "id": "mii-psy-013",
+      "kind": "professional_skill",
+      "domain": "psychiatry",
+      "source_page": 16,
+      "transcribed_text": "Negotiate with the patient and family, considering cultural and religious beliefs, to arrive at an acceptable action plan."
+    },
+    {
+      "id": "mii-rhe-007",
+      "kind": "clinical_skill",
+      "domain": "rheumatology",
+      "source_page": 16,
+      "transcribed_text": "Take and record a full and organized rheumatological history."
+    },
+    {
+      "id": "mii-rhe-008",
+      "kind": "clinical_skill",
+      "domain": "rheumatology",
+      "source_page": 16,
+      "transcribed_text": "Perform physical assessment of the musculoskeletal system and special clinical tests relevant to the provisional diagnosis of each rheumatic disease."
+    },
+    {
+      "id": "mii-rhe-009",
+      "kind": "clinical_reasoning",
+      "domain": "rheumatology",
+      "source_page": 16,
+      "transcribed_text": "Design a management strategy proportional to the rheumatological diagnosis."
+    },
+    {
+      "id": "mii-derm-028",
+      "kind": "clinical_skill",
+      "domain": "dermatology",
+      "source_page": 16,
+      "transcribed_text": "Take a complete dermatological history, examine a dermatology patient, recognize primary and secondary skin lesions, and use essential diagnostic tools in the dermatology clinic."
+    },
+    {
+      "id": "mii-derm-029",
+      "kind": "clinical_skill",
+      "domain": "dermatology",
+      "source_page": 16,
+      "transcribed_text": "Read and interpret selected dermatological and andrological investigations and recognize topical and systemic drugs used in dermatology."
+    },
+    {
+      "id": "mii-derm-030",
+      "kind": "procedural_skill",
+      "domain": "dermatology",
+      "source_page": 16,
+      "transcribed_text": "Demonstrate familiarity with dermatological therapeutic modalities including PUVA, narrow-band UVB, intralesional injections, electrocautery and cryotherapy."
+    }
+  ]
+}
