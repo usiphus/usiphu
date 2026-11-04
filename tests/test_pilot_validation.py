@@ -30,6 +30,10 @@ def _seed_pilot(tmp_path):
                 "correct_option_id": "a",
                 "review_state": "reviewed_pending_approval",
                 "transcription_accuracy_outcome": "confirmed_as_extracted",
+                "reviewer_ai_comparison": {
+                    "reviewer_answer_verified": True,
+                    "reviewer_matches_ai_proposal": False,
+                },
                 "ai_review_history": [{
                     "recorded_at": "2026-11-01T12:00:00+00:00",
                     "internet_evidence_review": {
@@ -84,6 +88,9 @@ def test_report_counts_transcription_answers_and_evidence_quality(tmp_path):
     assert report["totals"]["answer_verified"] == 1
     assert report["totals"]["ai_review_runs"] == 1
     assert report["totals"]["ai_key_contradictions"] == 1
+    assert report["totals"]["reviewer_ai_comparisons"] == 1
+    assert report["totals"]["reviewer_ai_agreements"] == 0
+    assert report["totals"]["reviewer_ai_disagreements"] == 1
     assert report["evidence_quality"]["full_text_articles"] == 1
     assert report["evidence_quality"]["abstract_only_articles"] == 0
     assert report["ai_evidence_verdict_counts"] == {"contradicted": 1}
