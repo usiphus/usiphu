@@ -56,11 +56,21 @@
           "source_type": "open_access_review",
           "accessed_at": "2026-11-04",
           "supports": "Describes skin tethering as a recognized clinical manifestation of breast cancer and distinguishes tethering from dimpling and direct skin fixation."
+        },
+        {
+          "source_id": "PMC-BREAST-EXAM-FIXITY",
+          "title": "Validation of Different Techniques in Physical Examination of Breast",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5473793/",
+          "publisher": "Journal of Clinical and Diagnostic Research / PubMed Central",
+          "source_type": "open_access_study",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes the clinical manoeuvre used to assess fixation of a breast lump to the pectoralis major muscle."
         }
       ],
       "editorial_notes": [
         "Option C clarified from 'tethering to underlying muscular structures' to distinguish fixation/tethering from skin dimpling.",
-        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Added a second open-access source specifically describing assessment of a lump's fixation to pectoralis major; the original skin-tethering reference remains contextual support."
       ],
       "transcription_status": "visually_verified",
       "bank_id": "pilot-general-surgery-2026",
@@ -111,18 +121,19 @@
       "evidence_review_status": "supported",
       "evidence_sources": [
         {
-          "source_id": "NCI-METASTASIS",
-          "title": "Metastatic Cancer: When Cancer Spreads",
-          "url": "https://www.cancer.gov/types/metastatic-cancer",
-          "publisher": "US National Cancer Institute",
-          "source_type": "government_health_source",
+          "source_id": "PMC-BREAST-BONE-METASTASIS",
+          "title": "Bone metastasis risk factors in breast cancer",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5295847/",
+          "publisher": "ecancermedicalscience / PubMed Central",
+          "source_type": "open_access_review",
           "accessed_at": "2026-11-04",
-          "supports": "Lists bone, brain, liver and lung as common metastatic sites for breast cancer, with bone listed first."
+          "supports": "Identifies bone as the single most frequent site of metastasis in breast cancer."
         }
       ],
       "editorial_notes": [
         "Wording standardized; options retained.",
-        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Replaced the broad NCI metastatic-cancer overview with a breast-cancer-specific open-access review directly supporting bone as the most frequent metastatic site."
       ],
       "transcription_status": "visually_verified",
       "bank_id": "pilot-general-surgery-2026",
@@ -130,8 +141,8 @@
       "human_signoff_status": "pending",
       "reviewed_by": null,
       "reviewed_at": null,
-      "source_url": "https://www.cancer.gov/types/metastatic-cancer",
-      "source_title": "Metastatic Cancer: When Cancer Spreads",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5295847/",
+      "source_title": "Bone metastasis risk factors in breast cancer",
       "source_date": null,
       "jurisdiction": "International evidence; local faculty review required"
     },
@@ -247,11 +258,21 @@
           "source_type": "open_access_review",
           "accessed_at": "2026-11-04",
           "supports": "Describes long thoracic nerve injury as a cause of scapular winging and impaired shoulder movement."
+        },
+        {
+          "source_id": "PMC-SCAPULAR-WINGING-REVIEW",
+          "title": "Scapular winging: anatomical review, diagnosis, and treatments",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2684151/",
+          "publisher": "Clinical Orthopaedics and Related Research / PubMed Central",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Links medial scapular winging to serratus anterior paralysis and identifies long thoracic nerve injury as its cause."
         }
       ],
       "editorial_notes": [
         "Minor grammar correction only; options retained.",
-        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Added an open-access anatomical review that explicitly distinguishes medial winging from other scapular winging patterns and links it to long thoracic nerve injury."
       ],
       "transcription_status": "visually_verified",
       "bank_id": "pilot-general-surgery-2026",
