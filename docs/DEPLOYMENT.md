@@ -30,9 +30,12 @@ The backup job creates two coordinated artifacts:
 For a consistent database + Source Inbox point-in-time snapshot, briefly stop the app while the backup job runs (the SQLite online backup itself is safe while SQLite is open, but a coordinated snapshot across SQLite and uploaded files requires quiescing uploads/reviews):
 
 ```bash
+set -e
 docker compose -f compose.production.yaml stop app
+trap 'docker compose -f compose.production.yaml start app' EXIT
 docker compose -f compose.production.yaml run --rm backup
 docker compose -f compose.production.yaml start app
+trap - EXIT
 ```
 
 Run this sequence from a protected host scheduler daily. The job retains the most recent 30 days of each artifact. Copy both database and source archive, plus the checksum sidecar, encrypted off-host. A local backup volume on the same host is not disaster recovery. Do not run the backup job without the stop/start wrapper if a coordinated point-in-time snapshot is required.
