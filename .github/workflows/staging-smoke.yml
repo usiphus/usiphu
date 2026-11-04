@@ -86,7 +86,7 @@ jobs:
       - name: Verify restored database, source and extraction history
         run: |
           docker run --rm --user 0 \
-            --mount source=usiphu-smoke-restored-data,target=/data,readonly \
+            --mount source=usiphu-smoke-restored-data,target=/data \
             --mount source=usiphu-smoke-restored-sources,target=/source-inbox,readonly \
             --env USIPHU_DB_PATH=/data/usiphu.sqlite3 \
             --env USIPHU_SOURCE_DIR=/source-inbox \
