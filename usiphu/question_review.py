@@ -94,11 +94,17 @@ def save_candidate_review(
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
             # Keep the first machine extraction immutable as an audit baseline.
-            item.setdefault("original_extracted_stem", item.get("stem_extracted", ""))
-            item.setdefault("original_extracted_options", item.get("options", []))
+            original_stem = item.setdefault("original_extracted_stem", item.get("stem_extracted", ""))
+            original_options = item.setdefault("original_extracted_options", item.get("options", []))
+            cleaned_stem = stem.strip()
             item.update({
-                "stem_extracted": stem.strip(),
+                "stem_extracted": cleaned_stem,
                 "options": options,
+                "transcription_accuracy_outcome": (
+                    "confirmed_as_extracted"
+                    if cleaned_stem == original_stem and options == original_options
+                    else "corrected"
+                ),
                 "specialty_id": specialty_id,
                 "topic_id": topic_id,
                 "correct_option_id": correct_option_id,
