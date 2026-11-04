@@ -87,30 +87,39 @@ def _full_text(article: ET.Element) -> str:
         return ""
     parent = {child: node for node in body.iter() for child in node}
     excluded = {"ref-list", "fig", "table-wrap", "supplementary-material"}
-    paragraphs: list[str] = []
+    important = ("result", "discussion", "conclusion", "recommendation", "clinical implication")
+    paragraphs: list[tuple[int, str]] = []
     for section in body.iter():
         if section.tag.rsplit("}", 1)[-1].casefold() != "p":
             continue
         ancestor = parent.get(section)
         skip = False
+        section_titles: list[str] = []
         while ancestor is not None and ancestor is not body:
-            if ancestor.tag.rsplit("}", 1)[-1].casefold() in excluded:
+            tag = ancestor.tag.rsplit("}", 1)[-1].casefold()
+            if tag in excluded:
                 skip = True
                 break
+            if tag == "sec":
+                title = _plain_text(ancestor.find("./title"))
+                if title:
+                    section_titles.append(title)
             ancestor = parent.get(ancestor)
-        if not skip:
-            value = _plain_text(section)
-            if value:
-                paragraphs.append(value)
-    # Deduplicate nested paragraph text while preserving article order.
+        if skip:
+            continue
+        value = _plain_text(section)
+        if value:
+            section_label = " / ".join(reversed(section_titles))
+            priority = 0 if any(term in section_label.casefold() for term in important) else 1
+            paragraphs.append((priority, f"[{section_label}] {value}" if section_label else value))
+    paragraphs.sort(key=lambda item: item[0])
     unique: list[str] = []
     seen: set[str] = set()
-    for paragraph in paragraphs:
+    for _, paragraph in paragraphs:
         if paragraph not in seen:
             seen.add(paragraph)
             unique.append(paragraph)
-    return "\n".join(unique)[:7000]
-
+    return "\n".join(unique)[:9000]
 
 def retrieve_open_access_evidence(
     candidate: dict[str, Any], *, max_results: int = 4
@@ -158,7 +167,10 @@ def retrieve_open_access_evidence(
         article = _request(full_url)
         abstract = _plain_text(article.find(".//abstract"))
         body_text = _full_text(article)
-        evidence_text = body_text or abstract
+        evidence_text = (
+            ("ABSTRACT: " + abstract + "\nFULL TEXT EXCERPTS:\n" + body_text)
+            if body_text else abstract
+        )
         if not evidence_text:
             continue
         title = _plain_text(article.find(".//article-title")) or str(item.get("title") or "")
