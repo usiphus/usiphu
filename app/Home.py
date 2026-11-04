@@ -32,6 +32,7 @@ from usiphu.storage import (
     initialize,
     question_attempt_history,
     question_bank_stats,
+    question_topic_performance,
     record_question_attempt,
     record_review,
     save_flashcard,
@@ -369,10 +370,18 @@ elif page == "Flashcards":
                 st.rerun()
 elif page == "Progress":
     st.subheader("Learner progress")
-    p1, p2, p3 = st.columns(3)
+    p1, p2, p3, p4 = st.columns(4)
+    bank_stats = question_bank_stats(learner_id=learner_id)
     p1.metric("Topics tracked", stats["topics_tracked"])
     p2.metric("Topics mastered", stats["topics_mastered"])
     p3.metric("Reviews completed", stats["reviews_completed"])
+    p4.metric("Question accuracy", f'{bank_stats["accuracy_percent"]}%')
+    st.markdown("#### Question performance by topic")
+    topic_results = question_topic_performance(learner_id=learner_id)
+    if topic_results:
+        st.dataframe(topic_results, use_container_width=True, hide_index=True)
+    else:
+        st.info("Complete reviewed question-bank items to see topic-level accuracy.")
     with st.form("topic_progress"):
         topic_ids = [row["topic_id"] for row in flatten_topics(curriculum)]
         chosen_topic = st.selectbox("Topic", topic_ids)
@@ -1214,31 +1223,47 @@ elif page == "Question Bank":
                     key=f"qb-submit-{selected_question.id}",
                     disabled=previous_result is not None,
                 ):
-                    correct = selected_option.id == selected_question.correct_option_id
-                    record_question_attempt(
-                        selected_question.id, selected_option.id, correct,
-                        learner_id=learner_id,
-                    )
-                    st.session_state[result_key] = {
-                        "selected": selected_option.id, "correct": correct,
+                    trusted_key = selected_question.review_status in {
+                        "clinically_reviewed", "exam_validated",
                     }
+                    if trusted_key:
+                        correct = selected_option.id == selected_question.correct_option_id
+                        record_question_attempt(
+                            selected_question.id, selected_option.id, correct,
+                            learner_id=learner_id,
+                        )
+                        st.session_state[result_key] = {
+                            "selected": selected_option.id, "correct": correct,
+                            "scored": True,
+                        }
+                    else:
+                        st.session_state[result_key] = {
+                            "selected": selected_option.id, "scored": False,
+                        }
                 result = st.session_state.get(result_key)
                 if result:
-                    if result["correct"]:
-                        st.success("Correct answer")
-                    else:
-                        st.error("Incorrect answer")
-                    correct_option = next(
-                        item for item in selected_question.options
-                        if item.id == selected_question.correct_option_id
-                    )
-                    st.markdown(f"**Correct answer:** {correct_option.text}")
-                    st.markdown("**Explanation**")
-                    st.write(selected_question.explanation)
-                    if selected_question.source_url:
-                        st.markdown(
-                            f"[{selected_question.source_title or 'Source'}]({selected_question.source_url})"
+                    if not result.get("scored"):
+                        st.warning(
+                            "Response not scored or added to accuracy statistics. "
+                            "This question's answer key is still an editorial draft; "
+                            "the key and explanation remain hidden until human review."
                         )
+                    else:
+                        if result["correct"]:
+                            st.success("Correct answer")
+                        else:
+                            st.error("Incorrect answer")
+                        correct_option = next(
+                            item for item in selected_question.options
+                            if item.id == selected_question.correct_option_id
+                        )
+                        st.markdown(f"**Correct answer:** {correct_option.text}")
+                        st.markdown("**Explanation**")
+                        st.write(selected_question.explanation)
+                        if selected_question.source_url:
+                            st.markdown(
+                                f"[{selected_question.source_title or 'Source'}]({selected_question.source_url})"
+                            )
                     if st.button("Retry this question", key=f"qb-retry-{selected_question.id}"):
                         del st.session_state[result_key]
                         st.rerun()
@@ -1292,7 +1317,10 @@ elif page == "Question Bank":
                     if st.button("Submit mock exam", type="primary", use_container_width=True):
                         for item in exam_questions:
                             selected_id = exam["answers"].get(item.id)
-                            if selected_id:
+                            trusted_key = item.review_status in {
+                                "clinically_reviewed", "exam_validated",
+                            }
+                            if selected_id and trusted_key:
                                 record_question_attempt(
                                     item.id,
                                     selected_id,
@@ -1304,33 +1332,58 @@ elif page == "Question Bank":
                         st.session_state["qb-exam"] = exam
                         st.rerun()
                 else:
+                    scoreable_questions = [
+                        item for item in exam_questions
+                        if item.review_status in {"clinically_reviewed", "exam_validated"}
+                    ]
                     correct_total = sum(
                         exam["answers"].get(item.id) == item.correct_option_id
-                        for item in exam_questions
+                        for item in scoreable_questions
                     )
                     answered_total = len(exam["answers"])
-                    percentage = round(100 * correct_total / len(exam_questions)) if exam_questions else 0
-                    st.metric("Mock exam result", f"{correct_total}/{len(exam_questions)} · {percentage}%")
-                    st.caption(f"{answered_total} of {len(exam_questions)} questions answered")
+                    scoreable_total = len(scoreable_questions)
+                    if scoreable_total:
+                        percentage = round(100 * correct_total / scoreable_total)
+                        st.metric(
+                            "Mock exam result",
+                            f"{correct_total}/{scoreable_total} · {percentage}%",
+                        )
+                    else:
+                        st.info("No questions in this mock exam have a clinically reviewed or exam-validated answer key, so no score was calculated.")
+                    st.caption(
+                        f"{answered_total} of {len(exam_questions)} questions answered · "
+                        f"{scoreable_total} questions eligible for scoring"
+                    )
                     for number, item in enumerate(exam_questions, start=1):
                         selected_id = exam["answers"].get(item.id)
-                        correct = selected_id == item.correct_option_id
-                        st.markdown(f"**{number}. {'Correct' if correct else 'Review this answer'}**")
+                        st.markdown(f"**Question {number}**")
                         st.write(item.stem)
                         if selected_id:
                             selected_text = next(option.text for option in item.options if option.id == selected_id)
                             st.write(f"Your answer: {selected_text}")
                         else:
                             st.write("Your answer: Not answered")
-                        correct_option = next(
-                            option for option in item.options if option.id == item.correct_option_id
-                        )
-                        st.write(f"Correct answer: {correct_option.text}")
-                        st.caption(item.explanation)
-                        if item.source_url:
-                            st.markdown(f"[{item.source_title or 'Source'}]({item.source_url})")
-                        if item.review_status == "draft":
-                            st.caption("Editorial draft — clinical review required.")
+                        trusted_key = item.review_status in {
+                            "clinically_reviewed", "exam_validated",
+                        }
+                        if trusted_key:
+                            correct = selected_id == item.correct_option_id
+                            st.markdown(
+                                f"**{'Correct' if correct else 'Review this answer'}**"
+                            )
+                            correct_option = next(
+                                option for option in item.options
+                                if option.id == item.correct_option_id
+                            )
+                            st.write(f"Correct answer: {correct_option.text}")
+                            st.caption(item.explanation)
+                            if item.source_url:
+                                st.markdown(f"[{item.source_title or 'Source'}]({item.source_url})")
+                        else:
+                            st.warning(
+                                "Unscored: the answer key is still an editorial draft. "
+                                "The stored key and explanation are hidden pending human review."
+                            )
                         st.divider()
                     if st.button("Close exam review", key="qb-close-exam"):
                         st.session_state.pop("qb-exam", None)
