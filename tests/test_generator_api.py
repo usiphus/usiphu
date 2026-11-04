@@ -1,6 +1,7 @@
 """HTTP contract tests for the generator integration."""
 from fastapi.testclient import TestClient
 
+import usiphu.api as api
 from usiphu.api import app
 
 client = TestClient(app)
@@ -43,3 +44,37 @@ def test_generator_briefs_reject_unsupported_exam_format():
         params={"specialty": "urology", "topic": "pujo", "exam_format": "image_based"},
     )
     assert response.status_code == 422
+
+
+
+def test_generator_status_includes_live_health_diagnostic(monkeypatch):
+    monkeypatch.setattr(
+        api, "provider_health",
+        lambda: {"healthy": False, "message": "Ollama is not running."},
+    )
+    response = client.get("/generator/status")
+    assert response.status_code == 200
+    assert response.json()["health"]["healthy"] is False
+    assert response.json()["health"]["message"] == "Ollama is not running."
+
+
+def test_generator_endpoint_passes_scope_and_guidance_to_provider(monkeypatch):
+    captured = {}
+
+    def fake_generate(specialty, topic, **kwargs):
+        captured.update({"specialty": specialty, "topic": topic, **kwargs})
+        return {"draft_cards": 0, "results": []}
+
+    monkeypatch.setattr(api, "generate_topic_cards", fake_generate)
+    response = client.post("/generator/generate", json={
+        "specialty_id": "urology",
+        "topic_id": "pujo",
+        "exam_format": "osce",
+        "evidence_limit": 4,
+        "max_objectives": 1,
+        "generation_guidance": "Emphasize clinical reasoning.",
+    })
+    assert response.status_code == 200
+    assert captured["max_objectives"] == 1
+    assert captured["generation_guidance"] == "Emphasize clinical reasoning."
+    assert captured["exam_format"] == "osce"
