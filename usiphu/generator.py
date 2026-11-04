@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from usiphu.coverage import load_coverage_register
 from usiphu.curriculum import load_curriculum
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -68,12 +69,13 @@ def build_generation_briefs(
         raise ValueError(f"Unsupported exam_format: {exam_format}")
     curriculum = load_curriculum(curriculum_path) if curriculum_path else load_curriculum()
     profile = _load_json(profile_path)
-    exam_blueprints = _load_json(blueprint_path)
+    if profile.get("institution", {}).get("name_en") != "Suez University":
+        raise ValueError("Generation profile must target Suez University")
+    coverage_register = load_coverage_register()
+    coverage_topics = {\n        (row["specialty_id"], row["topic_id"]): row for row in coverage_register["topics"]\n    }\n    exam_blueprints = _load_json(blueprint_path)
     default_blueprint = exam_blueprints["default"]
     catalog = _load_json(catalog_path)
     official, external = _catalog_index(catalog)
-    crosswalk = {row["topic_id"]: row for row in catalog["topic_crosswalk"]}
-    profile_topics = {row["topic_id"]: row for row in profile["topics"]}
     briefs: list[dict[str, Any]] = []
 
     for specialty in curriculum.specialties:
@@ -83,15 +85,14 @@ def build_generation_briefs(
             for topic in domain.topics:
                 if topic_id and topic.id != topic_id:
                     continue
-                mapping = crosswalk.get(topic.id)
-                profile_mapping = profile_topics.get(topic.id, {})
-                status = (
-                    mapping["status"] if mapping else
-                    profile_mapping.get("course_outcome_mapping_status", "unmapped")
-                )
+                coverage_row = coverage_topics.get((specialty.id, topic.id))
+                if not coverage_row:
+                    raise ValueError(f"Missing coverage register row for {specialty.id}/{topic.id}")
+                status = coverage_row["course_outcome_mapping_status"]
                 if status not in VALID_MAPPING_STATUSES:
-                    status = "unmapped"
-                refs = mapping.get("outcome_refs", []) if mapping else []
+                    raise ValueError(f"Unsupported curriculum mapping status: {status}")
+                refs = (coverage_row["external_benchmark_refs"] if status == "external_benchmark_only"
+                        else coverage_row["official_course_outcome_refs"])
                 is_external = status == "external_benchmark_only"
                 index = external if is_external else official
                 outcomes = [index[ref] for ref in refs if ref in index]
@@ -116,6 +117,10 @@ def build_generation_briefs(
                         "exam_weight": topic.exam_weight,
                         "curriculum_source_refs": topic.source_refs,
                         "course_outcome_mapping_status": status,
+                        "objective_mapping_status": next(
+                            item["mapping_status"] for item in coverage_row["objectives"]
+                            if item["objective_id"] == objective.id
+                        ),
                         "official_suez_outcomes": outcomes if not is_external else [],
                         "external_benchmark_outcomes": outcomes if is_external else [],
                         "generation_status": "brief_ready",
