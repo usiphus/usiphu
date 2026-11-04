@@ -193,8 +193,13 @@ def test_saved_generated_draft_retains_human_review_packet(tmp_path: Path):
 
 
 
-def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path):
+def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path, monkeypatch):
     questions = load_questions()
+    trusted_questions = [
+        item.model_copy(update={"review_status": "exam_validated"})
+        for item in questions
+    ]
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
     filtered = filter_questions(questions, specialty_id="urology", difficulty="easy")
     assert [item.id for item in filtered] == ["uro-001"]
     assert filter_questions(questions, review_status="exam_validated") == []
