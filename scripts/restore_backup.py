@@ -112,8 +112,8 @@ def main() -> None:
     parser.add_argument("--database-backup", type=Path, required=True)
     parser.add_argument("--source-archive", type=Path, required=True)
     parser.add_argument("--checksum", type=Path, required=True)
-    parser.add_argument("--database-target", type=Path, default=Path("/data/usiphu.sqlite3"))
-    parser.add_argument("--source-target", type=Path, default=Path("/source-inbox"))
+    parser.add_argument("--database-target", type=Path, default=Path("usiphu_data.sqlite3"))
+    parser.add_argument("--source-target", type=Path, default=Path("data/source_inbox"))
     args = parser.parse_args()
     restore(
         args.database_backup,
