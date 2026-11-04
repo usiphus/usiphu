@@ -46,7 +46,7 @@ Optional `NCBI_EMAIL` and `NCBI_API_KEY` settings support PubMed E-utilities con
 
 ## Runtime/API
 
-- `GET /curriculum/coverage` reports topic/objective mapping status and current official outcome crosswalk coverage. `GET /content/validation` also checks that the coverage register still matches the curriculum and ILO source files.\n- `GET /generator/status` reports configured provider, endpoint, and selected model without making a live health check. A configured endpoint does not guarantee Ollama is running or that the model is present.
+- `GET /curriculum/coverage` reports topic/objective mapping status and current official outcome crosswalk coverage. `GET /content/validation` also checks that the coverage register still matches the curriculum and ILO source files.\n- `GET /generator/status` reports provider configuration and performs a short live Ollama/model-tag health check. A successful health check confirms service reachability and the configured model is installed; it does not guarantee generation quality.
 - `GET /generator/briefs?specialty=urology&topic=pujo` returns deterministic objective-level briefs without calling a model.
 - `POST /generator/generate` accepts
   `{"specialty_id":"urology","topic_id":"pujo","evidence_limit":5,"exam_format":"osce"}`. Supported formats are `mixed`, `mcq`, `short_answer`, `clinical_case`, `osce`, `viva` and `emq`. The same `exam_format` query parameter is available on `/generator/briefs`.
