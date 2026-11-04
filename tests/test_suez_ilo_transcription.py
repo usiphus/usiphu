@@ -6,15 +6,16 @@ import pytest
 from usiphu.suez_ilo_transcription import load_transcriptions, validate_transcriptions
 
 
-def test_three_suez_modules_have_page_cited_granular_ilos():
+def test_six_suez_source_files_have_page_cited_granular_ilos():
     report = validate_transcriptions()
-    assert report["granular_ilo_transcription_sources"] == 3
-    assert report["granular_ilo_transcribed_outcomes"] == 227
+    assert report["granular_ilo_transcription_sources"] == 6
+    assert report["granular_ilo_transcribed_outcomes"] == 504
     documents = {item["module_code"]: item for item in load_transcriptions()}
     expected = {
         "MI 2.4.1": ("suez-mi-2021-22", 111, 7, 26),
+        "MII 2.5.1": ("suez-mii-course", 70, 4, 16),
+        "SI 2.4.2": ("suez-si-2022-23", 180, 3, 17),
         "SII 2.5.2": ("suez-sii-course", 64, 4, 11),
-        "E&MR 2.5.3": ("suez-emergency-guide", 52, 4, 9),
     }
     for module_code, (source_id, count, first_page, last_page) in expected.items():
         document = documents[module_code]
@@ -23,6 +24,13 @@ def test_three_suez_modules_have_page_cited_granular_ilos():
         assert document["extraction_status"] == "transcribed_not_faculty_verified"
         assert all(first_page <= item["source_page"] <= last_page
                    for item in document["outcomes"])
+
+    emergency_docs = [item for item in load_transcriptions()
+                      if item["module_code"] == "E&MR 2.5.3"]
+    assert {item["source_id"] for item in emergency_docs} == {
+        "suez-emergency-guide", "suez-medical-reporting-ilos"
+    }
+    assert sum(len(item["outcomes"]) for item in emergency_docs) == 79
 
 
 def test_transcription_validator_rejects_external_source_as_official(tmp_path, monkeypatch):
