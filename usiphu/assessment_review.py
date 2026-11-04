@@ -5,7 +5,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from usiphu.practice import DATA_DIR
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
 
 ASSESSMENT_BANK_PATH = DATA_DIR / "question_banks" / "reviewed_assessments.json"
 
@@ -22,9 +22,11 @@ def list_non_mcq_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]
     extraction_dir = source_dir / "extractions"
     if not extraction_dir.exists():
         return []
+    sources = {item["source_id"]: item for item in list_sources(source_dir)}
     results = []
     for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
         payload = json.loads(path.read_text(encoding="utf-8"))
+        source = sources.get(payload.get("source_id"), {})
         for collection, kind in (
             ("mcq_candidates", "short_answer"),
             ("meq_page_candidates", "meq"),
@@ -40,7 +42,8 @@ def list_non_mcq_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]
                     "assessment_type": kind,
                     "source_id": item.get("source_id") or payload.get("source_id"),
                     "source_title": item.get("source_title") or payload.get("source_title"),
-                    "source_filename": item.get("source_filename") or payload.get("source_filename"),
+                    "source_filename": item.get("source_filename") or source.get("original_filename") or payload.get("source_filename"),
+                    "specialty_label": source.get("specialty", payload.get("specialty", "")),
                     "extraction_path": str(path),
                     "review_state": item.get("review_state", "pending"),
                 })
