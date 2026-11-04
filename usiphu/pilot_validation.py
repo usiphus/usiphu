@@ -144,6 +144,7 @@ def build_pilot_validation_report(
         for item in mcqs
         if isinstance(item.get("reviewer_ai_comparison"), dict)
         and item["reviewer_ai_comparison"].get("reviewer_answer_verified")
+        and item["reviewer_ai_comparison"].get("ai_proposed_option_id")
     ]
     reviewer_ai_agreements = sum(
         item.get("reviewer_matches_ai_proposal") is True for item in reviewer_ai_comparisons
