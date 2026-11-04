@@ -61,9 +61,10 @@
       "editorial_notes": [
         "Retained the source-paper concept and answer; wording standardized.",
         "Topic linked to the current USIPHU curriculum topic 'renal-colic'.",
-        "The former testicular-cancer candidate was held out because the current curriculum has no corresponding topic entry."
+        "The former testicular-cancer candidate was held out because the current curriculum has no corresponding topic entry.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -122,9 +123,10 @@
         }
       ],
       "editorial_notes": [
-        "British spelling standardized; meaning retained."
+        "British spelling standardized; meaning retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -185,9 +187,10 @@
       "editorial_notes": [
         "Stem narrowed to suspected RCC to remove diagnostic ambiguity.",
         "Option C updated from generic contrast CT chest/abdomen/pelvis to multiphasic contrast-enhanced CT abdomen/chest, consistent with current EAU staging guidance.",
-        "Not a substitute for checking contrast allergy, renal function, or local imaging protocol."
+        "Not a substitute for checking contrast allergy, renal function, or local imaging protocol.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -248,9 +251,10 @@
       "editorial_notes": [
         "Stem clarified to ask specifically about upper-tract imaging.",
         "Option B changed from 'CT with contrast' to the more precise 'CT urography'.",
-        "The original question's phrase 'main radiological investigation' was underspecified; cystoscopy remains necessary for bladder evaluation."
+        "The original question's phrase 'main radiological investigation' was underspecified; cystoscopy remains necessary for bladder evaluation.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -310,9 +314,10 @@
       ],
       "editorial_notes": [
         "Original options contained more than one potentially correct indication and an overbroad 'all of the above' distractor.",
-        "Options rewritten to create one defensible best answer and include current low-risk exceptions."
+        "Options rewritten to create one defensible best answer and include current low-risk exceptions.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -371,9 +376,10 @@
         }
       ],
       "editorial_notes": [
-        "Original two-option item expanded with clinically relevant distractors; answer remains cystourethroscopy/cystoscopy."
+        "Original two-option item expanded with clinically relevant distractors; answer remains cystourethroscopy/cystoscopy.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -433,9 +439,10 @@
       ],
       "editorial_notes": [
         "Stem restricted to the standard surgical pathway; selected eligible patients may receive bladder-preserving trimodality therapy.",
-        "Option A expanded to include pelvic lymph-node dissection."
+        "Option A expanded to include pelvic lymph-node dissection.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -494,9 +501,10 @@
         }
       ],
       "editorial_notes": [
-        "Original option phrased the components as a sequence; revised to state that chemotherapy and radiotherapy are concurrent after maximal TURBT."
+        "Original option phrased the components as a sequence; revised to state that chemotherapy and radiotherapy are concurrent after maximal TURBT.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
@@ -559,9 +567,10 @@
         }
       ],
       "editorial_notes": [
-        "Stem clarified; answer options retained."
+        "Stem clarified; answer options retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
       ],
-      "transcription_status": "text_layer_checked_not_image_verified",
+      "transcription_status": "visually_verified",
       "bank_id": "pilot-urology-2026",
       "review_status": "draft",
       "human_signoff_status": "pending",
