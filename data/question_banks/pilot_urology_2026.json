@@ -21,22 +21,22 @@
       "topic_id": "testicular-cancer-risk",
       "stem": "Which of the following is an established risk factor for testicular cancer?",
       "options": [
-        [
-          "a",
-          "Varicocele"
-        ],
-        [
-          "b",
-          "Hydrocele"
-        ],
-        [
-          "c",
-          "Cryptorchidism"
-        ],
-        [
-          "d",
-          "Epididymitis"
-        ]
+        {
+          "id": "a",
+          "text": "Varicocele"
+        },
+        {
+          "id": "b",
+          "text": "Hydrocele"
+        },
+        {
+          "id": "c",
+          "text": "Cryptorchidism"
+        },
+        {
+          "id": "d",
+          "text": "Epididymitis"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "Cryptorchidism (an undescended testis) is an established risk factor for testicular cancer. The association remains relevant even after orchiopexy; orchiopexy facilitates examination and earlier detection but does not eliminate the excess risk.",
@@ -82,22 +82,22 @@
       "topic_id": "bladder-cancer-presentation",
       "stem": "What is the most common presenting symptom in patients with bladder cancer?",
       "options": [
-        [
-          "a",
-          "Urinary frequency from irritation"
-        ],
-        [
-          "b",
-          "Reduced bladder capacity"
-        ],
-        [
-          "c",
-          "Haematuria"
-        ],
-        [
-          "d",
-          "Urinary tract infection"
-        ]
+        {
+          "id": "a",
+          "text": "Urinary frequency from irritation"
+        },
+        {
+          "id": "b",
+          "text": "Reduced bladder capacity"
+        },
+        {
+          "id": "c",
+          "text": "Haematuria"
+        },
+        {
+          "id": "d",
+          "text": "Urinary tract infection"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "Haematuria is the most common finding in non-muscle-invasive bladder cancer. Visible haematuria is particularly important and warrants appropriate evaluation; irritative urinary symptoms can occur, including with carcinoma in situ.",
@@ -143,22 +143,22 @@
       "topic_id": "renal-cell-carcinoma-imaging",
       "stem": "A 70-year-old woman presents with painless total haematuria. Ultrasound shows a 5 × 7 cm right renal lesion and renal function is normal. What is the most appropriate next imaging investigation to characterize and stage a suspected renal cell carcinoma?",
       "options": [
-        [
-          "a",
-          "Repeat ultrasound after one month"
-        ],
-        [
-          "b",
-          "PET scan"
-        ],
-        [
-          "c",
-          "Multiphasic contrast-enhanced CT of the abdomen and chest"
-        ],
-        [
-          "d",
-          "Renal artery embolization"
-        ]
+        {
+          "id": "a",
+          "text": "Repeat ultrasound after one month"
+        },
+        {
+          "id": "b",
+          "text": "PET scan"
+        },
+        {
+          "id": "c",
+          "text": "Multiphasic contrast-enhanced CT of the abdomen and chest"
+        },
+        {
+          "id": "d",
+          "text": "Renal artery embolization"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "A multiphasic contrast-enhanced CT is used to characterize a solid renal mass and assess local extension; chest imaging is used for staging. PET is not recommended for routine primary staging. The exact imaging protocol should be adapted to contrast contraindications and local pathways.",
@@ -206,22 +206,22 @@
       "topic_id": "haematuria-imaging",
       "stem": "An older man who smokes presents with painless visible haematuria and clot passage. Which imaging test is most appropriate for evaluating the upper urinary tract for a suspected urothelial malignancy?",
       "options": [
-        [
-          "a",
-          "Pelvic ultrasound alone"
-        ],
-        [
-          "b",
-          "CT urography"
-        ],
-        [
-          "c",
-          "Intravenous pyelography as the preferred modern test"
-        ],
-        [
-          "d",
-          "Renal isotopic scan"
-        ]
+        {
+          "id": "a",
+          "text": "Pelvic ultrasound alone"
+        },
+        {
+          "id": "b",
+          "text": "CT urography"
+        },
+        {
+          "id": "c",
+          "text": "Intravenous pyelography as the preferred modern test"
+        },
+        {
+          "id": "d",
+          "text": "Renal isotopic scan"
+        }
       ],
       "correct_option_id": "b",
       "explanation": "CT urography is used to detect upper-tract urothelial lesions and provides more information than ultrasound or conventional intravenous urography. Cystoscopy is still required to assess the bladder; imaging does not replace it.",
@@ -269,22 +269,22 @@
       "topic_id": "bladder-cancer-restaging-turbt",
       "stem": "After an initial TURBT for non-muscle-invasive bladder cancer, which finding is an indication for a second resection (re-TURBT), subject to tumour-risk and histology exceptions?",
       "options": [
-        [
-          "a",
-          "Detrusor muscle is absent from the specimen (except in selected low-risk Ta low-grade tumours and primary CIS)"
-        ],
-        [
-          "b",
-          "There is no visible residual tumour and the initial specimen contains detrusor muscle"
-        ],
-        [
-          "c",
-          "Every solitary Ta low-grade tumour with adequate muscle sampling"
-        ],
-        [
-          "d",
-          "Urine cytology is negative after resection"
-        ]
+        {
+          "id": "a",
+          "text": "Detrusor muscle is absent from the specimen (except in selected low-risk Ta low-grade tumours and primary CIS)"
+        },
+        {
+          "id": "b",
+          "text": "There is no visible residual tumour and the initial specimen contains detrusor muscle"
+        },
+        {
+          "id": "c",
+          "text": "Every solitary Ta low-grade tumour with adequate muscle sampling"
+        },
+        {
+          "id": "d",
+          "text": "Urine cytology is negative after resection"
+        }
       ],
       "correct_option_id": "a",
       "explanation": "Absence of detrusor muscle in the initial specimen is an indication for repeat resection in relevant risk groups because residual disease and understaging may otherwise be missed. Current EAU guidance includes exceptions, notably Ta low-grade/G1 tumours and primary CIS; repeat resection is also recommended for T1 disease and incomplete resection.",
@@ -331,22 +331,22 @@
       "topic_id": "bladder-cancer-diagnosis",
       "stem": "Which investigation is essential for direct assessment of a suspected bladder tumour and cannot be replaced by imaging or urine cytology?",
       "options": [
-        [
-          "a",
-          "CT urography alone"
-        ],
-        [
-          "b",
-          "Urine cytology alone"
-        ],
-        [
-          "c",
-          "Cystoscopy with or without biopsy"
-        ],
-        [
-          "d",
-          "Renal ultrasound alone"
-        ]
+        {
+          "id": "a",
+          "text": "CT urography alone"
+        },
+        {
+          "id": "b",
+          "text": "Urine cytology alone"
+        },
+        {
+          "id": "c",
+          "text": "Cystoscopy with or without biopsy"
+        },
+        {
+          "id": "d",
+          "text": "Renal ultrasound alone"
+        }
       ],
       "correct_option_id": "c",
       "explanation": "Cystoscopy, with biopsy when indicated, is necessary for diagnosis of bladder cancer. CT urography and ultrasound are useful adjuncts in haematuria evaluation but do not replace cystoscopy.",
@@ -392,22 +392,22 @@
       "topic_id": "muscle-invasive-bladder-cancer",
       "stem": "A fit patient has cT2–T4a N0M0 muscle-invasive bladder cancer and is proceeding with standard surgical management. Which is the standard operation?",
       "options": [
-        [
-          "a",
-          "Radical cystectomy with pelvic lymph-node dissection and urinary diversion"
-        ],
-        [
-          "b",
-          "TURBT followed by intravesical BCG alone"
-        ],
-        [
-          "c",
-          "TURBT alone"
-        ],
-        [
-          "d",
-          "Radiotherapy alone"
-        ]
+        {
+          "id": "a",
+          "text": "Radical cystectomy with pelvic lymph-node dissection and urinary diversion"
+        },
+        {
+          "id": "b",
+          "text": "TURBT followed by intravesical BCG alone"
+        },
+        {
+          "id": "c",
+          "text": "TURBT alone"
+        },
+        {
+          "id": "d",
+          "text": "Radiotherapy alone"
+        }
       ],
       "correct_option_id": "a",
       "explanation": "Radical cystectomy with pelvic lymph-node dissection and urinary diversion is the standard surgical treatment for suitable patients with T2–T4a N0M0 muscle-invasive bladder cancer. Selected patients may instead be offered bladder-preserving trimodality therapy after multidisciplinary assessment; therefore, the stem specifies the standard surgical pathway.",
@@ -454,22 +454,22 @@
       "topic_id": "muscle-invasive-bladder-cancer",
       "stem": "Which combination defines trimodality bladder-preserving treatment for appropriately selected patients with muscle-invasive bladder cancer?",
       "options": [
-        [
-          "a",
-          "Radical cystectomy alone"
-        ],
-        [
-          "b",
-          "Maximal TURBT followed by concurrent chemoradiotherapy"
-        ],
-        [
-          "c",
-          "TURBT followed by intravesical BCG alone"
-        ],
-        [
-          "d",
-          "Radiotherapy alone"
-        ]
+        {
+          "id": "a",
+          "text": "Radical cystectomy alone"
+        },
+        {
+          "id": "b",
+          "text": "Maximal TURBT followed by concurrent chemoradiotherapy"
+        },
+        {
+          "id": "c",
+          "text": "TURBT followed by intravesical BCG alone"
+        },
+        {
+          "id": "d",
+          "text": "Radiotherapy alone"
+        }
       ],
       "correct_option_id": "b",
       "explanation": "Trimodality therapy consists of maximal transurethral resection of the bladder tumour followed by concurrent chemotherapy and radiotherapy. It is an option for carefully selected patients and requires ongoing cystoscopic surveillance and multidisciplinary selection.",
@@ -515,26 +515,26 @@
       "topic_id": "renal-cell-carcinoma-staging",
       "stem": "A renal cell carcinoma extends beyond Gerota's fascia. What is its TNM T category?",
       "options": [
-        [
-          "a",
-          "T2"
-        ],
-        [
-          "b",
-          "T3"
-        ],
-        [
-          "c",
-          "T3c"
-        ],
-        [
-          "d",
-          "T4"
-        ],
-        [
-          "e",
-          "M0"
-        ]
+        {
+          "id": "a",
+          "text": "T2"
+        },
+        {
+          "id": "b",
+          "text": "T3"
+        },
+        {
+          "id": "c",
+          "text": "T3c"
+        },
+        {
+          "id": "d",
+          "text": "T4"
+        },
+        {
+          "id": "e",
+          "text": "M0"
+        }
       ],
       "correct_option_id": "d",
       "explanation": "Under the renal cell carcinoma TNM classification, tumour invasion beyond Gerota's fascia (including contiguous extension into the ipsilateral adrenal gland) is T4. T3 disease extends into major veins or perinephric tissues but does not extend beyond Gerota's fascia.",
