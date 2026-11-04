@@ -46,6 +46,8 @@ def validate_transcriptions() -> dict[str, int]:
             raise ValueError(f"Source filename mismatch in {source_id}")
         if document.get("module_code") not in module_codes:
             raise ValueError(f"Unknown module code in {source_id}")
+        if source.get("module_code") != document.get("module_code"):
+            raise ValueError(f"Source/module code mismatch in {source_id}")
         if not document.get("academic_year") or not document.get("extraction_status"):
             raise ValueError(f"Missing extraction provenance in {source_id}")
         page_count = document.get("source_page_count")
