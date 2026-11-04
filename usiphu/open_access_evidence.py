@@ -52,17 +52,26 @@ def _plain_text(node: ET.Element | None) -> str:
 
 def _search_terms(candidate: dict[str, Any]) -> list[str]:
     stem = str(candidate.get("stem_extracted") or "")
-    words = re.findall(r"[A-Za-z][A-Za-z-]{2,}", stem.casefold())
+    option_text = " ".join(
+        str(item.get("text", "")) for item in candidate.get("options", [])
+        if isinstance(item, dict)
+    )
+    words = re.findall(r"[A-Za-z][A-Za-z-]{2,}", (stem + " " + option_text).casefold())
+    generic = _STOP_WORDS | {
+        "method", "methods", "improves", "improved", "improvement", "diagnostic",
+        "assessment", "test", "tests", "likely", "associated", "performed",
+        "indicated", "indication", "cause", "causes", "caused", "feature",
+        "features", "following", "option", "options", "treatment", "management",
+    }
     terms: list[str] = []
     for word in words:
-        if word not in _STOP_WORDS and word not in terms:
+        if word not in generic and word not in terms:
             terms.append(word)
     for extra in (candidate.get("specialty_label"), candidate.get("topic_id")):
         for word in re.findall(r"[A-Za-z][A-Za-z-]{2,}", str(extra or "").casefold()):
-            if word not in _STOP_WORDS and word not in terms:
+            if word not in generic and word not in terms:
                 terms.append(word)
-    return terms[:7]
-
+    return terms[:10]
 
 def _license(article: ET.Element) -> str:
     for node in article.findall(".//permissions/license"):
@@ -112,12 +121,12 @@ def retrieve_open_access_evidence(
     terms = _search_terms(candidate)
     if len(terms) < 2:
         return []
-    expression = " AND ".join(terms)
+    expression = " OR ".join(terms)
     query = f"OPEN_ACCESS:Y AND TITLE_ABS:({expression})"
     params = urllib.parse.urlencode({
         "query": query,
         "format": "json",
-        "pageSize": str(max_results * 3),
+        "pageSize": str(max_results * 5),
         "resultType": "core",
         "sort": "RELEVANCE",
     })
@@ -127,8 +136,19 @@ def retrieve_open_access_evidence(
     if not isinstance(results, list):
         raise OpenAccessEvidenceError("Europe PMC returned an invalid result list.")
 
-    records: list[dict[str, Any]] = []
+    ranked_results = []
     for item in results:
+        if str(item.get("isOpenAccess", "")).upper() != "Y" or not item.get("pmcid"):
+            continue
+        searchable = " ".join((str(item.get("title") or ""), str(item.get("abstractText") or ""))).casefold()
+        score = sum(1 for term in terms if term in searchable)
+        ranked_results.append((score, item))
+    ranked_results.sort(key=lambda pair: pair[0], reverse=True)
+
+    records: list[dict[str, Any]] = []
+    for score, item in ranked_results:
+        if score == 0:
+            continue
         if str(item.get("isOpenAccess", "")).upper() != "Y":
             continue
         pmcid = str(item.get("pmcid") or "").strip()
