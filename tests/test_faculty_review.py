@@ -105,6 +105,9 @@ def test_two_distinct_faculty_members_are_required_for_release(review_workspace)
     assert state["human_signoff_status"] == "approved"
     assert state["clinical_reviewed_by"] == "Clinical Faculty"
     assert state["exam_validated_by"] == "Exam Faculty"
+    assert "Clinical: Clinical Faculty" in state["reviewed_by"]
+    assert "Examination: Exam Faculty" in state["reviewed_by"]
+    assert state["reviewed_at"] == state["exam_validated_at"]
 
     history = review_history(question_id, db_path)
     assert [event["stage"] for event in history] == ["clinical", "exam"]
