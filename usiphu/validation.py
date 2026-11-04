@@ -1,11 +1,12 @@
 """Cross-check curriculum, practice content, and editorial review requirements."""
 import json
 
+from usiphu.coverage import coverage_report, validate_coverage_register
 from usiphu.curriculum import coverage_summary, load_curriculum
 from usiphu.practice import load_cases, load_questions
 
 
-def validate_content() -> dict[str, int | str | None]:
+def validate_content() -> dict[str, int | float | str | None]:
     curriculum = load_curriculum()
     specialty_ids = [specialty.id for specialty in curriculum.specialties]
     domain_ids = [domain.id for specialty in curriculum.specialties for domain in specialty.domains]
@@ -55,8 +56,11 @@ def validate_content() -> dict[str, int | str | None]:
             raise ValueError(f"Practice item {item.id} is exam-validated without a jurisdiction")
 
     summary = coverage_summary(curriculum)
+    coverage_integrity = validate_coverage_register()
     return {
         **summary,
+        **coverage_report(),
+        **coverage_integrity,
         "questions": len(questions),
         "cases": len(cases),
         "draft_questions": sum(item.review_status == "draft" for item in questions),
