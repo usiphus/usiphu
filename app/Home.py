@@ -10,6 +10,7 @@ from usiphu.ai_answer_grader import AnswerGradingError, grade_assessment_answers
 from usiphu.ai_provider import (
     GenerationNotConfigured,
     generate_topic_cards,
+    provider_health,
     provider_status,
 )
 from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
@@ -19,6 +20,7 @@ from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.faculty_review import list_pilot_questions, record_faculty_decision, review_history
+from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
 from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
 from usiphu.practice import filter_questions, load_cases, load_questions
@@ -112,7 +114,7 @@ c4.metric("Your reviews", stats["reviews_completed"])
 
 page = st.sidebar.radio(
     "Workspace",
-    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank", "Review Editor", "Faculty Review", "Pilot Dashboard"],
+    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "Generator", "Question Bank", "Review Editor", "Faculty Review", "Pilot Dashboard"],
     label_visibility="visible",
 )
 if page == "Learn":
@@ -399,72 +401,167 @@ elif page == "Progress":
     progress_rows = topic_progress(learner_id=learner_id)
     if progress_rows:
         st.dataframe(progress_rows, use_container_width=True, hide_index=True)
-elif page == "AI Studio":
-    st.subheader("Evidence-grounded exam-card generator")
-    status = provider_status()
-    if status["configured"]:
-        st.success(f"AI authoring configured · {status['model']} · PubMed evidence retrieval")
-    else:
-        st.warning(
-            "Local Ollama authoring is not configured. Start Ollama and set OLLAMA_BASE_URL "
-            "and USIPHU_OLLAMA_MODEL in the server environment."
-        )
-    st.caption(
-        "Generation retrieves PubMed abstracts and asks the configured model to draft cards. "
-        "Every result remains a draft and must be checked against full sources and local protocols."
+elif page == "Generator":
+    st.subheader("AI medical content generator")
+    st.write(
+        "Build evidence-grounded study and examination drafts from the USIPHU curriculum. "
+        "Choose the specialty, topic, format, evidence depth and generation scope below."
     )
-    topic_choices = [
-        (row["specialty_id"], row["topic_id"], row["specialty"], row["topic"])
-        for row in flatten_topics(curriculum)
-    ]
+
+    status = provider_status()
+    health = provider_health()
+    if health["healthy"]:
+        st.success(f"AI engine ready · {status['model']} · PubMed evidence")
+    else:
+        st.error("AI engine is not ready: " + health["message"])
+        st.caption(
+            "The generator checks both the Ollama service and the exact model tag. "
+            "A configured URL alone is not enough."
+        )
+        if health.get("models"):
+            st.caption("Models installed: " + ", ".join(health["models"][:12]))
+
+    topic_rows = flatten_topics(curriculum)
+    specialty_map = {}
+    for row in topic_rows:
+        specialty_map.setdefault(row["specialty_id"], row["specialty"])
+    specialty_ids = list(specialty_map)
+    selected_specialty = st.selectbox(
+        "1. Medical specialty",
+        specialty_ids,
+        format_func=lambda value: specialty_map[value],
+        key="generator-specialty",
+    )
+    specialty_topics = [row for row in topic_rows if row["specialty_id"] == selected_specialty]
+    topic_options = [(row["specialty_id"], row["topic_id"], row["specialty"], row["topic"])
+                     for row in specialty_topics]
     selected_topic = st.selectbox(
-        "Choose a curriculum topic",
-        topic_choices,
-        format_func=lambda item: f"{item[2]} · {item[3]}",
+        "2. Curriculum topic",
+        topic_options,
+        format_func=lambda item: item[3],
         key="generator-topic",
     )
+    objective_count = len(build_generation_briefs(
+        specialty_id=selected_topic[0], topic_id=selected_topic[1]
+    ))
+    st.caption(f"This topic contains {objective_count} learning objective(s).")
+
+    format_labels = {
+        "mixed": "Mixed assessment",
+        "mcq": "Single-best-answer MCQ",
+        "short_answer": "Short-answer question",
+        "clinical_case": "Clinical case / vignette",
+        "osce": "OSCE station",
+        "viva": "Viva / oral examination",
+        "emq": "Extended matching questions",
+    }
     exam_format = st.selectbox(
-        "Examination format",
-        ["mixed", "mcq", "short_answer", "clinical_case", "osce", "viva", "emq"],
-        format_func=lambda value: {
-            "mixed": "Mixed assessment", "mcq": "Single-best-answer MCQ",
-            "short_answer": "Short answer", "clinical_case": "Clinical case",
-            "osce": "OSCE station", "viva": "Viva / oral examination",
-            "emq": "Extended matching questions",
-        }[value],
+        "3. Content / examination format",
+        list(format_labels),
+        format_func=lambda value: format_labels[value],
+        key="generator-format",
     )
-    evidence_limit = st.slider("PubMed records per learning objective", 1, 10, 5)
+
+    with st.expander("4. Generation settings", expanded=True):
+        generation_scope = st.radio(
+            "How much of this topic should be generated?",
+            ["All learning objectives", "Quick run — selected number of objectives"],
+            horizontal=True,
+            key="generator-scope",
+        )
+        max_objectives = None
+        if generation_scope.startswith("Quick"):
+            max_objectives = st.slider(
+                "Number of objectives to process",
+                min_value=1,
+                max_value=objective_count,
+                value=min(2, objective_count),
+                key="generator-objective-limit",
+            )
+        evidence_limit = st.slider(
+            "PubMed evidence records per objective",
+            min_value=1,
+            max_value=10,
+            value=5,
+            help="More records may improve coverage but increase retrieval and review time.",
+            key="generator-evidence-limit",
+        )
+        generation_guidance = st.text_area(
+            "Additional instructions (optional)",
+            placeholder=(
+                "e.g. Focus on common exam traps, include important differential diagnoses, "
+                "or emphasize emergency management."
+            ),
+            max_chars=1200,
+            height=90,
+            key="generator-guidance",
+        )
+
+    st.info(
+        "Every generated item is saved only as an editorial draft. PubMed abstracts are not "
+        "full-text verification, and no AI output can approve itself."
+    )
     if st.button(
-        "Generate evidence-grounded draft cards",
+        "Generate content",
         key="generate-evidence-grounded-cards",
-        disabled=not status["configured"],
+        type="primary",
+        disabled=not health["healthy"],
+        use_container_width=True,
     ):
+        progress_bar = st.progress(0, text="Preparing generation...")
+        progress_label = st.empty()
+
+        def update_generation_progress(event):
+            fraction = event["completed"] / max(event["total"], 1)
+            if event["stage"] == "evidence":
+                progress_bar.progress(min(0.49, fraction * 0.49),
+                                      text="Retrieving PubMed evidence...")
+            else:
+                progress_bar.progress(min(1.0, 0.5 + fraction * 0.5),
+                                      text="Generating and validating drafts...")
+            progress_label.caption(
+                f"{event['stage'].title()} · {event['completed']}/{event['total']} objectives · "
+                f"{event.get('objective', '')}"
+            )
+
         try:
-            with st.spinner("Searching PubMed and drafting cards..."):
+            with st.spinner("Working through the selected objectives..."):
                 result = generate_topic_cards(
-                    selected_topic[0], selected_topic[1], evidence_limit=evidence_limit,
+                    selected_topic[0],
+                    selected_topic[1],
+                    evidence_limit=evidence_limit,
                     exam_format=exam_format,
+                    max_objectives=max_objectives,
+                    generation_guidance=generation_guidance.strip(),
+                    progress_callback=update_generation_progress,
                 )
             st.session_state["generated_card_result"] = result
+            progress_bar.progress(1.0, text="Generation finished.")
+            st.rerun()
         except GenerationNotConfigured as exc:
-            st.error(str(exc))
+            st.error("AI provider configuration problem: " + str(exc))
         except KeyError as exc:
-            st.error(str(exc))
+            st.error("Curriculum selection problem: " + str(exc))
         except Exception as exc:
-            st.error(f"Generation failed safely; no card was saved: {exc}")
+            st.error(f"Generation failed safely; no content was approved or saved. Details: {exc}")
 
     generated = st.session_state.get("generated_card_result")
     if generated:
-        st.write(
-            f"Objectives: {generated['total_objectives']} · "
-            f"Drafts passing automated checks: {generated['draft_cards']} · "
-            f"Evidence/quality gated: {generated['rejected_or_evidence_gated']}"
-        )
+        st.divider()
+        st.subheader("Generation results")
+        r1, r2, r3 = st.columns(3)
+        r1.metric("Objectives processed", generated["total_objectives"])
+        r2.metric("Drafts passed automated checks", generated["draft_cards"])
+        r3.metric("Evidence / quality gated", generated["rejected_or_evidence_gated"])
         accepted = [
             item["card"] for item in generated["results"]
             if item.get("valid") and item.get("card")
         ]
-        if accepted and st.button("Save accepted cards to draft review", key="save-generated-drafts"):
+        if accepted and st.button(
+            "Save accepted items to draft review",
+            key="save-generated-drafts",
+            type="primary",
+        ):
             saved = save_generated_drafts(accepted, learner_id=learner_id)
             st.success(f"Saved {saved} new draft(s). They are not in your flashcard review queue.")
         for item in generated["results"]:
@@ -487,13 +584,13 @@ elif page == "AI Studio":
                             st.write("• " + criterion)
                     if card.get("viva_questions"):
                         st.markdown("**Viva questions**")
-                        for item in card["viva_questions"]:
-                            st.write("**" + item.get("question", "Question") + "**")
-                            st.write(item.get("expected_answer", ""))
+                        for viva_item in card["viva_questions"]:
+                            st.write("**" + viva_item.get("question", "Question") + "**")
+                            st.write(viva_item.get("expected_answer", ""))
                     if card.get("emq_items"):
                         st.markdown("**Extended matching items**")
-                        for item in card["emq_items"]:
-                            st.write(item["stem"] + " → " + item["correct_option_id"])
+                        for emq_item in card["emq_items"]:
+                            st.write(emq_item["stem"] + " → " + emq_item["correct_option_id"])
                     if card.get("options"):
                         for option in card["options"]:
                             prefix = "✓ " if option["id"] == card.get("correct_option_id") else "• "
