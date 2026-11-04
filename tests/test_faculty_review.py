@@ -4,7 +4,6 @@ import shutil
 
 import pytest
 
-from usiphu.answer_checker import check_mcq_answer
 from usiphu.faculty_review import (
     DATA_DIR,
     faculty_release_statuses,
@@ -12,6 +11,7 @@ from usiphu.faculty_review import (
     record_faculty_decision,
     review_history,
 )
+from usiphu.answer_checker import check_mcq_answer
 
 
 CLINICAL_CHECKS = {
