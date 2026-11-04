@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 import streamlit as st
 
 from usiphu.ai_answer_grader import AnswerGradingError, grade_assessment_answers
+from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
 from usiphu.ai_provider import (
     GenerationNotConfigured,
     generate_topic_cards,
@@ -22,7 +23,7 @@ from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.source_inbox import list_sources, save_source
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -594,6 +595,23 @@ elif page == "Review Editor":
                     + ("–" + str(selected.get("source_page_end")) if selected.get("source_page_end") != selected.get("source_page") else "")
                 )
                 st.text(selected.get("raw_text") or selected.get("stem_extracted") or "")
+                source_record = next(
+                    (item for item in list_sources() if item.get("source_id") == selected.get("source_id")),
+                    None,
+                )
+                if source_record:
+                    original_path = DEFAULT_SOURCE_DIR / source_record["stored_filename"]
+                    if original_path.is_file():
+                        st.download_button(
+                            "Download original source paper",
+                            data=original_path.read_bytes(),
+                            file_name=source_record.get("original_filename", "source-paper"),
+                            mime="application/pdf" if original_path.suffix.lower() == ".pdf" else "application/octet-stream",
+                            key="download-review-source-" + selected_id,
+                        )
+                if selected.get("original_extracted_stem") is not None:
+                    st.caption("First machine-extracted transcription (kept for audit):")
+                    st.text(selected.get("original_extracted_stem", ""))
             specialty_by_id = {item.id: item for item in curriculum.specialties}
             specialty_ids = list(specialty_by_id)
             default_specialty = selected.get("specialty_id")
@@ -613,14 +631,77 @@ elif page == "Review Editor":
                 default_topic = current_topics[0]
             if selected.get("question_type") == "single_best_answer":
                 existing_options = {str(item.get("id", "")).lower(): item.get("text", "") for item in selected.get("options", [])}
+                stem_widget_key = "dedicated-stem-" + selected_id
+                if stem_widget_key not in st.session_state:
+                    st.session_state[stem_widget_key] = selected.get("stem_extracted") or ""
+                for option_id in ["a", "b", "c", "d", "e"]:
+                    option_widget_key = "dedicated-option-" + selected_id + "-" + option_id
+                    if option_widget_key not in st.session_state:
+                        st.session_state[option_widget_key] = existing_options.get(option_id, "")
+
+                ai_review_state_key = "mcq-ai-review-" + selected_id
+                if st.button(
+                    "AI check extraction and suggest an answer",
+                    key="run-ai-mcq-review-" + selected_id,
+                    help="Checks parsed text against the extracted source text and proposes a non-verified answer for human checking.",
+                ):
+                    try:
+                        st.session_state[ai_review_state_key] = review_mcq_candidate(selected)
+                    except GenerationNotConfigured as exc:
+                        st.error(str(exc))
+                    except (QuestionReviewError, ValueError) as exc:
+                        st.error("AI source review could not be safely completed: " + str(exc))
+                ai_review = st.session_state.get(ai_review_state_key)
+                if ai_review:
+                    with st.expander("AI source-check suggestions — not verified", expanded=True):
+                        st.warning(ai_review["warning"])
+                        transcription_review = ai_review["transcription"]
+                        st.markdown("**Transcription check**")
+                        st.caption("AI confidence: " + transcription_review["confidence"])
+                        for issue in transcription_review["issues"]:
+                            st.write("• " + issue)
+                        st.text_area(
+                            "Suggested corrected stem",
+                            value=transcription_review["suggested_stem"],
+                            height=100,
+                            disabled=True,
+                            key="ai-suggested-stem-display-" + selected_id,
+                        )
+                        for option in transcription_review["suggested_options"]:
+                            st.write(option["id"].upper() + ". " + option["text"])
+                        answer_review = ai_review["answer_review"]
+                        st.markdown("**Answer-key check**")
+                        suggestion = answer_review["suggested_option_id"]
+                        st.write(
+                            "Suggested option: " + (suggestion.upper() if suggestion else "No defensible suggestion")
+                        )
+                        st.caption(
+                            "Basis: " + answer_review["basis"].replace("_", " ")
+                            + " · confidence: " + answer_review["confidence"]
+                        )
+                        if answer_review["source_evidence"]:
+                            st.write("Printed source evidence: " + answer_review["source_evidence"])
+                        if answer_review["rationale"]:
+                            st.write(answer_review["rationale"])
+                        for uncertainty in answer_review["uncertainties"]:
+                            st.warning(uncertainty)
+                        if st.button(
+                            "Use suggested transcription in editor",
+                            key="apply-ai-mcq-transcription-" + selected_id,
+                        ):
+                            st.session_state[stem_widget_key] = transcription_review["suggested_stem"]
+                            for option in transcription_review["suggested_options"]:
+                                st.session_state[
+                                    "dedicated-option-" + selected_id + "-" + option["id"]
+                                ] = option["text"]
+                            st.rerun()
                 with st.form("dedicated-mcq-editor-" + selected_id):
-                    stem = st.text_area("Question stem", value=selected.get("stem_extracted") or "", height=140)
+                    stem = st.text_area("Question stem", height=140, key=stem_widget_key)
                     option_values = {}
                     option_columns = st.columns(2)
                     for index, option_id in enumerate(["a", "b", "c", "d", "e"]):
                         option_values[option_id] = option_columns[index % 2].text_input(
                             "Option " + option_id.upper(),
-                            value=existing_options.get(option_id, ""),
                             key="dedicated-option-" + selected_id + "-" + option_id,
                         )
                     available_options = [key for key, value in option_values.items() if value.strip()]
@@ -686,6 +767,11 @@ elif page == "Review Editor":
                         value=selected.get("review_prompt") or (
                             "Modified essay question" if is_meq else selected.get("stem_extracted", "")
                         ),
+                    )
+                    corrected_source_text = st.text_area(
+                        "Corrected source transcription (keep wording faithful to the paper)",
+                        value=selected.get("reviewed_source_text") or selected.get("raw_text", ""),
+                        height=220,
                     )
                     scenario = st.text_area(
                         "Clinical scenario / source context",
@@ -782,6 +868,7 @@ elif page == "Review Editor":
                                 topic_id=topic_id,
                                 reviewer=reviewer,
                                 rubric_verified=rubric_verified,
+                                corrected_source_text=corrected_source_text,
                                 approve=action == "Approve assessment",
                             )
                             st.success(
