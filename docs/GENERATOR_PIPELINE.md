@@ -4,12 +4,13 @@
 
 The generator uses a local Ollama authoring path:
 
-1. Compile one brief per Suez curriculum learning objective, retaining specialty, topic, objective level, exam weight, and ILO mapping provenance.
-2. Search PubMed E-utilities for relevant records and retrieve citation metadata, publication types, dates, and abstracts.
-3. Send the objective and bounded evidence packet to the configured local Ollama model.
-4. Require claim-level PMID references and normalize all source URLs/titles/dates from retrieved records; model-invented URLs are not accepted.
-5. Run the generated card through the structural, ILO, evidence-source, and duplicate validation gates.
-6. Store accepted cards only in the learner-isolated `generated_drafts` table. They are not placed in the flashcard review queue and cannot self-approve.
+1. Compile one brief per medical curriculum learning objective, retaining specialty, topic, objective level, exam weight, ILO mapping provenance and the selected exam format.
+2. Load the specialty-specific assessment blueprint from `data/specialty_exam_blueprints.json`; the blueprint steers question style and safety checks but is not an approved faculty exam blueprint.
+3. Search PubMed E-utilities for relevant records and retrieve citation metadata, publication types, dates, and abstracts.
+4. Send the objective and bounded evidence packet to the configured local Ollama model.
+5. Require claim-level PMID references and normalize all source URLs/titles/dates from retrieved records; model-invented URLs are not accepted.
+6. Run the generated card through the structural, ILO, evidence-source, and duplicate validation gates.
+7. Store accepted cards only in the learner-isolated `generated_drafts` table. They are not placed in the flashcard review queue and cannot self-approve.
 
 ## Local setup
 
@@ -49,7 +50,7 @@ Optional `NCBI_EMAIL` and `NCBI_API_KEY` settings support PubMed E-utilities con
 - `GET /generator/status` reports configured provider, endpoint, and selected model without making a live health check. A configured endpoint does not guarantee Ollama is running or that the model is present.
 - `GET /generator/briefs?specialty=urology&topic=pujo` returns deterministic objective-level briefs without calling a model.
 - `POST /generator/generate` accepts
-  `{"specialty_id":"urology","topic_id":"pujo","evidence_limit":5}`.
+  `{"specialty_id":"urology","topic_id":"pujo","evidence_limit":5,"exam_format":"osce"}`. Supported formats are `mixed`, `mcq`, `short_answer`, `clinical_case`, `osce`, `viva` and `emq`. The same `exam_format` query parameter is available on `/generator/briefs`.
   It retrieves PubMed records and returns generated draft cards plus evidence-gated or quality-rejected objective results.
 - `POST /generator/validate` validates externally authored cards against briefs.
 
@@ -73,9 +74,13 @@ The Streamlit Generator tab offers the same flow and can persist accepted output
 
 ## Review and safety
 
-All generated content is stored as `draft`. The automated validator checks format, source traceability, allowed ILO references, MCQ option/answer-key consistency, and duplicate prompts. It does **not** establish clinical truth, guideline currency, safe prescribing, or exam validity.
+All generated content is stored as `draft`. The automated validator checks format-specific structure (including OSCE tasks/marking criteria, viva question sets and EMQ option/stem keys), source traceability, allowed ILO references, MCQ option/answer-key consistency, and duplicate prompts. It does **not** establish clinical truth, guideline currency, safe prescribing, or exam validity.
 
 A qualified clinical educator must verify every clinical claim against the full primary source/current guideline and local Suez/Egypt protocols before a card is promoted into the learner flashcard bank. This PR does not implement automated approval or a faculty sign-off workflow.
+
+## Curriculum coverage status
+
+The expanded blueprint includes 27 medical disciplines, 174 topics and 291 learning objectives. New basic-science, diagnostic, emergency, primary-care, forensic, geriatric, rehabilitation and genetics topics are explicitly marked `planned`. This is a broader working medical curriculum, not a claim that every university syllabus, every specialty subspecialty or every official Suez ILO has been exhaustively captured. Use the coverage API and topic status fields to track source mapping and faculty review.
 
 ## Known limitations / next quality gates
 
