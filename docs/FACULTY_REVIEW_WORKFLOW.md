@@ -11,7 +11,7 @@ A question is eligible for trusted scored practice only after both approvals. Cl
 
 ## Identity and permissions
 
-USIPHU uses **Auth0 as its OIDC identity provider**. Follow [Auth0 sign-in setup](GOOGLE_OIDC_SETUP.md) (the file is retained for compatibility with the existing PR path) to create the Auth0 application, configure its exact callback, and collect each reviewer's stable identity.
+USIPHU uses **Auth0 as its OIDC identity provider**. Follow [Auth0 sign-in setup](AUTH0_OIDC_SETUP.md) to create the Auth0 application, configure its exact callback, and collect each reviewer's stable identity.
 
 Required deployment configuration:
 
