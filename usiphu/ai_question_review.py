@@ -9,7 +9,7 @@ import json
 from typing import Any
 
 from usiphu.ai_provider import GenerationNotConfigured, _ollama_chat, provider_status
-from usiphu.open_access_evidence import retrieve_open_access_evidence
+from usiphu.open_access_evidence import OpenAccessEvidenceError, retrieve_open_access_evidence
 
 
 class QuestionReviewError(ValueError):
@@ -224,7 +224,13 @@ def review_mcq_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
     status = provider_status()
     if not status.get("configured"):
         raise GenerationNotConfigured("Configure the local Ollama provider before AI question review.")
-    evidence = retrieve_open_access_evidence(candidate)
+    try:
+        evidence = retrieve_open_access_evidence(candidate)
+    except OpenAccessEvidenceError as exc:
+        raise QuestionReviewError(
+            "Could not complete the open-access internet search. Check the app's outbound internet "
+            "connection and retry; no answer comparison was produced."
+        ) from exc
     raw = _ollama_chat(_prompt(candidate, evidence), status["model"])
     try:
         result = json.loads(raw)
