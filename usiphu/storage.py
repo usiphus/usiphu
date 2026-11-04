@@ -296,6 +296,47 @@ def question_bank_stats(
     }
 
 
+def question_topic_performance(
+    path: Path = DEFAULT_DB, learner_id: str = "local"
+) -> list[dict[str, int | float | str]]:
+    """Summarize verified learner-attempt records by question-bank topic."""
+    from usiphu.practice import load_questions
+
+    initialize(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT question_id, COUNT(*) AS attempted,
+                      SUM(is_correct) AS correct
+               FROM question_attempts WHERE owner_id=?
+               GROUP BY question_id""",
+            (learner_id,),
+        ).fetchall()
+
+    question_topics = {
+        question.id: question.topic_id for question in load_questions()
+    }
+    totals: dict[str, dict[str, int]] = {}
+    for row in rows:
+        topic_id = question_topics.get(row["question_id"])
+        if topic_id is None:
+            continue
+        topic = totals.setdefault(topic_id, {"attempted": 0, "correct": 0})
+        topic["attempted"] += int(row["attempted"])
+        topic["correct"] += int(row["correct"] or 0)
+
+    return [
+        {
+            "topic": topic_id,
+            "attempted": values["attempted"],
+            "correct": values["correct"],
+            "accuracy_percent": round(
+                100 * values["correct"] / values["attempted"], 1
+            ),
+        }
+        for topic_id, values in sorted(totals.items())
+    ]
+
+
 def question_attempt_history(
     path: Path = DEFAULT_DB, learner_id: str = "local", limit: int = 30
 ) -> list[dict]:
