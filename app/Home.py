@@ -8,6 +8,7 @@ from usiphu.ai_provider import (
     generate_topic_cards,
     provider_status,
 )
+from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
@@ -51,7 +52,8 @@ st.title("🩺 Usiphu 2.0")
 st.caption("A structured workspace for medical learning, exam practice, and long-term retention.")
 curriculum = load_curriculum()
 stats = dashboard_stats(learner_id=learner_id)
-coverage = coverage_summary(curriculum)
+coverage = {**coverage_summary(curriculum), **coverage_report()}
+coverage_register = load_coverage_register()
 
 st.caption(
     f"Curriculum validation: {coverage['topics_sourced']} sourced · "
@@ -72,6 +74,51 @@ with tab1:
     st.write(f"{coverage['domains']} domains · {coverage['topics']} topics · {coverage['objectives']} learning objectives")
     st.progress(coverage["objective_coverage_percent"] / 100,
                 text=f"{coverage['objective_coverage_percent']}% of listed topics have learning objectives")
+    st.subheader("Suez University course-outcome mapping")
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric(
+        "Official outcomes linked",
+        f"{coverage['official_outcomes_linked_at_topic_level']}/{coverage['course_outcomes_catalogued']}",
+        f"{coverage['official_outcome_mapping_percent']}% topic-level",
+    )
+    m2.metric("Outcomes not linked", coverage["official_outcomes_not_linked_in_current_crosswalk"])
+    m3.metric("Topics without verified ILO", coverage["topics_without_verified_outcome_mapping"])
+    m4.metric("External-only topics", coverage["topics_external_benchmark_only"])
+    st.caption(
+        "The 73-outcome catalogue is a first-pass, non-exhaustive extraction. "
+        "Topic-level links do not prove that each individual objective is fully mapped. "
+        "No objective has yet received individual faculty-verified mapping."
+    )
+    with st.expander("Official Suez outcomes not linked in the current topic crosswalk"):
+        unlinked = [
+            row for row in coverage_register["official_course_outcomes"]
+            if row["mapping_status"] == "not_linked_in_current_topic_crosswalk"
+        ]
+        st.dataframe(
+            [{"Outcome ID": row["outcome_id"], "Module": row["module_code"],
+              "Domain": row["domain"], "Outcome": row["text"]} for row in unlinked],
+            use_container_width=True, hide_index=True,
+        )
+    with st.expander("Topics still requiring verified course-outcome mapping"):
+        unmapped = [
+            row for row in coverage_register["topics"]
+            if row["course_outcome_mapping_status"] == "not_mapped_no_verified_course_outcome"
+        ]
+        st.dataframe(
+            [{"Specialty": row["specialty_title"], "Domain": row["domain_title"],
+              "Topic": row["topic_title"], "Objectives": len(row["objectives"])}
+             for row in unmapped],
+            use_container_width=True, hide_index=True,
+        )
+    with st.expander("Objective-level mapping status"):
+        st.write({
+            "Direct topic link only (not objective-specific)": coverage["objectives_with_topic_level_link_only"],
+            "Partial topic link only": coverage["objectives_partially_linked_at_topic_level"],
+            "External benchmark only": coverage["objectives_external_benchmark_only"],
+            "Module-only alignment": coverage["objectives_module_only_no_specific_ilo"],
+            "No verified mapping": coverage["objectives_without_verified_outcome_mapping"],
+            "Individually faculty-verified": coverage["objective_level_mapping_verified"],
+        })
     search = st.text_input("Search specialties, domains, and topics")
     rows = flatten_topics(curriculum)
     if search:
