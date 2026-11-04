@@ -211,10 +211,11 @@ def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path, mon
     record_question_attempt("uro-001", "b", True, db, learner_id="learner-b")
     stats_a = question_bank_stats(db, learner_id="learner-a")
     stats_b = question_bank_stats(db, learner_id="learner-b")
+    # All bundled questions are drafts, so attempts must not affect scored accuracy.
     assert stats_a == {
-        "attempts": 2, "correct": 1, "questions_attempted": 1, "accuracy_percent": 50.0
+        "attempts": 0, "correct": 0, "questions_attempted": 0, "accuracy_percent": 0.0
     }
-    assert stats_b["attempts"] == 1 and stats_b["accuracy_percent"] == 100.0
+    assert stats_b["attempts"] == 0 and stats_b["accuracy_percent"] == 0.0
     assert len(question_attempt_history(db, learner_id="learner-a")) == 2
     assert len(question_attempt_history(db, learner_id="learner-b")) == 1
 
