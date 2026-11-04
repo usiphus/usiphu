@@ -71,20 +71,22 @@ else:
 initialize()
 st.markdown("""
 <style>
-:root { --usiphu-ink:#172b4d; --usiphu-teal:#087e83; --usiphu-mist:#f2f6f8; }
-[data-testid="stAppViewContainer"] { background: #f5f8fa; }
-[data-testid="stHeader"] { background: rgba(245,248,250,.88); }
+:root { --usiphu-ink:#e6edf3; --usiphu-teal:#45c4c8; --usiphu-mist:#111820; }
+[data-testid="stAppViewContainer"] { background: #0e141b; color: #e6edf3; }
+[data-testid="stHeader"] { background: rgba(14,20,27,.94); }
 .block-container { max-width: 1440px; padding-top: 1.6rem; padding-bottom: 3rem; }
-h1, h2, h3 { color: var(--usiphu-ink); letter-spacing: -.025em; }
-[data-testid="stMetric"] { background: white; border: 1px solid #e3ebef; padding: 1rem 1.1rem; border-radius: 16px; box-shadow: 0 4px 18px rgba(20,45,70,.035); }
-[data-testid="stTabs"] [role="tablist"] { gap: .45rem; border-bottom: 1px solid #dce6eb; }
+h1, h2, h3 { color: #e6edf3; letter-spacing: -.025em; }
+[data-testid="stMetric"] { background: #18232e; color: #e6edf3; border: 1px solid #2b3b49; padding: 1rem 1.1rem; border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+[data-testid="stTabs"] [role="tablist"] { gap: .45rem; border-bottom: 1px solid #2b3b49; }
 [data-testid="stTabs"] button[role="tab"] { border-radius: 12px 12px 0 0; padding: .7rem 1rem; font-weight: 600; }
 [data-testid="stTabs"] button[aria-selected="true"] { color: var(--usiphu-teal); border-bottom: 3px solid var(--usiphu-teal); }
-[data-testid="stButton"] button[kind="primary"], .stButton button[kind="primary"] { background: var(--usiphu-teal); border-color: var(--usiphu-teal); border-radius: 11px; }
+[data-testid="stButton"] button[kind="primary"], .stButton button[kind="primary"] { background: #087e83; border-color: #087e83; border-radius: 11px; color: #ffffff; }
 [data-testid="stTextInput"] input, [data-testid="stSelectbox"] div[data-baseweb="select"] { border-radius: 10px; }
-[data-testid="stExpander"] { background: white; border: 1px solid #e3ebef; border-radius: 12px; }
-[data-testid="stSidebar"] { background: #edf3f5; }
+[data-testid="stExpander"] { background: #18232e; border: 1px solid #2b3b49; border-radius: 12px; }
+[data-testid="stSidebar"] { background: #121c26; }
 div[data-testid="stAlert"] { border-radius: 12px; }
+[data-testid="stAppViewContainer"] p, [data-testid="stAppViewContainer"] label, [data-testid="stAppViewContainer"] li { color: #d7e0e8; }
+[data-testid="stDataFrame"], [data-testid="stTable"] { color: #e6edf3; }
 </style>
 """, unsafe_allow_html=True)
 
