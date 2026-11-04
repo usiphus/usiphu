@@ -1,6 +1,7 @@
 """Regression tests for evidence-checked pilot question banks."""
 from collections import Counter
 
+from usiphu.curriculum import load_curriculum
 from usiphu.practice import load_questions
 
 
@@ -40,3 +41,19 @@ def test_pilot_questions_do_not_count_as_clinically_reviewed():
     assert pilot
     assert all(item.review_status == "draft" for item in pilot)
     assert not any(item.review_status in {"clinically_reviewed", "exam_validated"} for item in pilot)
+
+
+
+def test_pilot_topics_exist_in_the_current_medical_curriculum():
+    curriculum = load_curriculum()
+    valid_topics = {
+        topic.id
+        for specialty in curriculum.specialties
+        for domain in specialty.domains
+        for topic in domain.topics
+    }
+    pilot = [
+        item for item in load_questions()
+        if item.bank_id in {"pilot-urology-2026", "pilot-general-surgery-2026"}
+    ]
+    assert all(item.topic_id in valid_topics for item in pilot)
