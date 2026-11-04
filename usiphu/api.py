@@ -62,6 +62,25 @@ def questions(
     return [item.model_dump() for item in rows]
 
 
+@app.get("/practice/question-banks")
+def question_banks() -> list[dict]:
+    """List installed question banks and editorial-state counts."""
+    groups: dict[str, dict] = {}
+    for item in load_questions():
+        bank = groups.setdefault(item.bank_id, {
+            "bank_id": item.bank_id, "question_count": 0, "draft_count": 0,
+            "clinically_reviewed_count": 0, "exam_validated_count": 0,
+        })
+        bank["question_count"] += 1
+        if item.review_status == "draft":
+            bank["draft_count"] += 1
+        elif item.review_status == "clinically_reviewed":
+            bank["clinically_reviewed_count"] += 1
+        elif item.review_status == "exam_validated":
+            bank["exam_validated_count"] += 1
+    return sorted(groups.values(), key=lambda item: item["bank_id"])
+
+
 @app.get("/practice/cases")
 def cases(specialty: str | None = None) -> list[dict]:
     rows = [item.model_dump() for item in load_cases()]
