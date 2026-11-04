@@ -18,7 +18,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 5,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-cancer-clinical-examination",
+      "topic_id": "breast-lump",
       "stem": "Which clinical finding on breast examination is more suggestive of malignancy than a benign breast lesion?",
       "options": [
         {
@@ -79,7 +79,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 5,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-cancer-metastasis",
+      "topic_id": "breast-lump",
       "stem": "What is the most common site of distant metastasis in breast cancer?",
       "options": [
         {
@@ -140,7 +140,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 5,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-mass-imaging",
+      "topic_id": "breast-lump",
       "stem": "A 45-year-old woman presents with a new painless, hard breast lump. Which is the most appropriate initial imaging investigation?",
       "options": [
         {
@@ -202,7 +202,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 6,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-surgery-nerve-injury",
+      "topic_id": "breast-lump",
       "stem": "After modified radical mastectomy, a patient develops medial scapular winging and weakness of shoulder movement. Which nerve is most likely injured?",
       "options": [
         {
@@ -267,7 +267,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 6,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-axillary-lymph-nodes",
+      "topic_id": "breast-lump",
       "stem": "The three surgical levels of axillary lymph nodes are defined in relation to which anatomical structure?",
       "options": [
         {
@@ -328,7 +328,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 7,
       "specialty_id": "general-surgery",
-      "topic_id": "nipple-discharge",
+      "topic_id": "breast-lump",
       "stem": "Which is the most common benign cause of spontaneous bloody nipple discharge from a single duct?",
       "options": [
         {
@@ -389,7 +389,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 7,
       "specialty_id": "general-surgery",
-      "topic_id": "breast-cancer-histology",
+      "topic_id": "breast-lump",
       "stem": "Which is the most frequent histological type of breast carcinoma?",
       "options": [
         {
@@ -450,7 +450,7 @@
       "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
       "source_page": 10,
       "specialty_id": "general-surgery",
-      "topic_id": "paget-disease-breast",
+      "topic_id": "breast-lump",
       "stem": "Which clinical presentation is characteristic of mammary Paget disease?",
       "options": [
         {
