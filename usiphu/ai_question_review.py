@@ -182,10 +182,24 @@ def _validate_internet_review(
         })
     if seen != option_ids:
         raise QuestionReviewError("The internet evidence review must assess every option in the original order.")
+    assessment_by_id = {item["option_id"]: item for item in normalized}
     if existing_key is None and value.get("existing_key_assessment") != "no_existing_key":
         raise QuestionReviewError("The internet review must identify that no existing answer key is present.")
-    if existing_key is not None and value.get("existing_key_assessment") == "no_existing_key":
-        raise QuestionReviewError("The internet review incorrectly reports that no answer key exists.")
+    if existing_key is not None:
+        if existing_key not in option_ids:
+            raise QuestionReviewError("The existing answer key is not one of the extracted options.")
+        key_assessment = value.get("existing_key_assessment")
+        if key_assessment == "no_existing_key":
+            raise QuestionReviewError("The internet review incorrectly reports that no answer key exists.")
+        observed = assessment_by_id[existing_key]["assessment"]
+        if key_assessment == "supported" and observed != "supports":
+            raise QuestionReviewError("The existing key verdict conflicts with its option-level assessment.")
+        if key_assessment == "contradicted" and observed != "contradicts":
+            raise QuestionReviewError("The existing key verdict conflicts with its option-level assessment.")
+    if value["verdict"] == "insufficient_evidence" and proposed is not None:
+        raise QuestionReviewError("An insufficient-evidence review cannot propose an answer.")
+    if proposed is not None and assessment_by_id[proposed]["assessment"] != "supports":
+        raise QuestionReviewError("The proposed answer must be supported by the option-level evidence review.")
 
     sources = [{
         key: item.get(key)
