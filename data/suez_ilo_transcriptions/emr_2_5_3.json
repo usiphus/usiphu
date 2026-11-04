@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "E&MR 2.5.3",
+  "academic_year": "2022-2023",
+  "source_id": "suez-emergency-guide",
+  "source_file": "Emergency Course - Guide.pdf",
+  "source_page_count": 16,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from the supplied course specification text. Light spelling, punctuation and whitespace normalization only; source grouping is retained where one source bullet contains several related objectives. No additional clinical recommendations have been introduced.",
+  "scope_note": "Granular transcription of emergency clinical-session, workshop, PBL and TBL ILO statements from printed pages 4–9. The guide also documents MCQ, MEQ and OSCE assessment methods; these are assessment design information, not ILOs. Statements are grouped where the source groups related skills in one bullet.",
+  "outcomes": [
+    {
+      "id": "emr-001",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Demonstrate the approach to a patient presenting with chest pain in the emergency department."
+    },
+    {
+      "id": "emr-002",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Identify how to manage acute coronary syndrome in the emergency department."
+    },
+    {
+      "id": "emr-003",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Explain how to manage a patient with suspected pulmonary embolism in the emergency department."
+    },
+    {
+      "id": "emr-004",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Identify the approach to a patient presenting with dyspnoea in the emergency department."
+    },
+    {
+      "id": "emr-005",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Describe management of asthma exacerbation, COPD exacerbation and pneumothorax in the emergency department."
+    },
+    {
+      "id": "emr-006",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Explain management of hypertensive urgency and discuss management of different types of hypertensive emergency in the emergency department."
+    },
+    {
+      "id": "emr-007",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Explain the ABCD approach to a patient presenting with shock."
+    },
+    {
+      "id": "emr-008",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Identify the ABCD approach to a patient presenting with altered mental status."
+    },
+    {
+      "id": "emr-009",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Discuss emergency-department management of diabetic ketoacidosis, seizures and stroke."
+    },
+    {
+      "id": "emr-010",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Perform arterial blood sampling."
+    },
+    {
+      "id": "emr-011",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Recognize limitations of pulse oximetry."
+    },
+    {
+      "id": "emr-012",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 4,
+      "transcribed_text": "Interpret arterial blood-gas results using a five-step approach, including hypoxaemia, compensation, mixed disorders, and metabolic or respiratory acidosis or alkalosis."
+    },
+    {
+      "id": "emr-013",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Explain the approach to a patient with abdominal pain in the emergency department."
+    },
+    {
+      "id": "emr-014",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Demonstrate emergency-department management of acute appendicitis and acute biliary-tract problems."
+    },
+    {
+      "id": "emr-015",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Identify the approach to intestinal obstruction in the emergency department."
+    },
+    {
+      "id": "emr-016",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Identify management of isolated head, chest, abdominal and limb trauma in the emergency department."
+    },
+    {
+      "id": "emr-017",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Apply the ATLS approach to a patient with polytrauma."
+    },
+    {
+      "id": "emr-018",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Interpret ECGs showing tachyarrhythmia and bradyarrhythmia using the relevant algorithms."
+    },
+    {
+      "id": "emr-019",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Interpret ECGs to identify and localize myocardial infarction."
+    },
+    {
+      "id": "emr-020",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Interpret ECGs showing different conduction abnormalities."
+    },
+    {
+      "id": "emr-021",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 5,
+      "transcribed_text": "Apply electrical cardioversion."
+    },
+    {
+      "id": "emr-022",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 5,
+      "transcribed_text": "Interpret chest X-rays in traumatic and non-traumatic patients, including pneumothorax, pleural effusion, consolidation, tracheal deviation, widened mediastinum and pneumoperitoneum."
+    },
+    {
+      "id": "emr-023",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 5,
+      "transcribed_text": "Differentiate small and large bowel on abdominal X-ray and interpret small-bowel obstruction, sigmoid and caecal volvulus, Chilaiditi syndrome and pneumoperitoneum."
+    },
+    {
+      "id": "emr-024",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 5,
+      "transcribed_text": "Interpret CT brain in trauma and identify different types of intracranial haemorrhage."
+    },
+    {
+      "id": "emr-025",
+      "kind": "clinical_skill",
+      "domain": "radiology",
+      "source_page": 5,
+      "transcribed_text": "Interpret maxillofacial imaging in trauma and identify radiographic signs of blow-out fracture."
+    },
+    {
+      "id": "emr-026",
+      "kind": "clinical_skill",
+      "domain": "emergency-medicine",
+      "source_page": 6,
+      "transcribed_text": "Provide appropriate triage, including disaster triage, and determine proper disposition of patients from the emergency department."
+    },
+    {
+      "id": "emr-027",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 6,
+      "transcribed_text": "Recognize the basic-life-support algorithm, paediatric basic-life-support algorithm and choking algorithm."
+    },
+    {
+      "id": "emr-028",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 6,
+      "transcribed_text": "Recognize airway assessment in critically ill and trauma patients."
+    },
+    {
+      "id": "emr-029",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 6,
+      "transcribed_text": "Apply basic airway manoeuvres, adequate chest compressions, automated external defibrillation, back blows and abdominal thrusts."
+    },
+    {
+      "id": "emr-030",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 6,
+      "transcribed_text": "Apply bag-valve-mask ventilation, laryngeal-mask airway, endotracheal intubation and manual cervical-spine immobilization."
+    },
+    {
+      "id": "emr-031",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize breathing assessment in critically ill and trauma patients and identify assessment and management of life-threatening thoracic injuries."
+    },
+    {
+      "id": "emr-032",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Apply tube thoracostomy."
+    },
+    {
+      "id": "emr-033",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize circulation assessment in critically ill and trauma patients."
+    },
+    {
+      "id": "emr-034",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Differentiate hypertensive emergency from urgency and recognize signs of end-organ damage."
+    },
+    {
+      "id": "emr-035",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize the management algorithm for hypertensive emergency."
+    },
+    {
+      "id": "emr-036",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize assessment and management of abdominal trauma and application of the major-haemorrhage protocol."
+    },
+    {
+      "id": "emr-037",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Apply a pelvic binder and Thomas splint."
+    },
+    {
+      "id": "emr-038",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize disability and environmental assessment in critically ill and trauma patients."
+    },
+    {
+      "id": "emr-039",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Apply manual transfer of a trauma patient."
+    },
+    {
+      "id": "emr-040",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize the advanced-life-support and paediatric advanced-life-support algorithms."
+    },
+    {
+      "id": "emr-041",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Recognize and manage cardiac arrest in special circumstances including hyperthermia, hypothermia and drowning."
+    },
+    {
+      "id": "emr-042",
+      "kind": "procedural_skill",
+      "domain": "emergency-medicine",
+      "source_page": 7,
+      "transcribed_text": "Apply defibrillation."
+    },
+    {
+      "id": "emr-043",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Use clinical signs and symptoms in problem-based cases to identify a provisional diagnosis from the information provided."
+    },
+    {
+      "id": "emr-044",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Identify life-threatening causes of chest pain and list rule-out strategies for acute coronary syndrome."
+    },
+    {
+      "id": "emr-045",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Explain management plans for acute coronary syndrome and pulmonary embolism."
+    },
+    {
+      "id": "emr-046",
+      "kind": "knowledge",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "List common causes of acute dyspnoea."
+    },
+    {
+      "id": "emr-047",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Provide management plans for pulmonary oedema, acute asthma, COPD exacerbation, spontaneous pneumothorax and pleural effusion."
+    },
+    {
+      "id": "emr-048",
+      "kind": "clinical_reasoning",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Identify the approach to abdominal pain and list causes of acute abdominal pain."
+    },
+    {
+      "id": "emr-049",
+      "kind": "management",
+      "domain": "emergency-medicine",
+      "source_page": 8,
+      "transcribed_text": "Provide management of acute pancreatitis and intestinal obstruction; identify and manage acute appendicitis and acute biliary-tract problems."
+    },
+    {
+      "id": "emr-050",
+      "kind": "management",
+      "domain": "orthopedics",
+      "source_page": 9,
+      "transcribed_text": "Identify and manage different types of upper-limb and lower-limb injuries."
+    },
+    {
+      "id": "emr-051",
+      "kind": "management",
+      "domain": "orthopedics",
+      "source_page": 9,
+      "transcribed_text": "Provide appropriate management of pelvic fractures and shoulder dislocation."
+    },
+    {
+      "id": "emr-052",
+      "kind": "clinical_reasoning",
+      "domain": "orthopedics",
+      "source_page": 9,
+      "transcribed_text": "Identify unstable cervical-spine and thoracolumbar-spine fractures."
+    }
+  ]
+}
