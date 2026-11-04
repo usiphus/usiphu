@@ -40,10 +40,26 @@ def curriculum_topics(q: str | None = Query(default=None, min_length=1)) -> list
 
 
 @app.get("/practice/questions")
-def questions(specialty: str | None = None, topic: str | None = None) -> list[dict]:
+def questions(
+    specialty: str | None = None,
+    topic: str | None = None,
+    difficulty: str | None = None,
+    review_status: str | None = None,
+    q: str | None = Query(default=None, min_length=1, max_length=200),
+) -> list[dict]:
     rows = [item.model_dump() for item in load_questions()]
-    return [row for row in rows if (not specialty or row["specialty_id"] == specialty)
-            and (not topic or row["topic_id"] == topic)]
+    term = q.casefold().strip() if q else None
+    return [
+        row for row in rows
+        if (not specialty or row["specialty_id"] == specialty)
+        and (not topic or row["topic_id"] == topic)
+        and (not difficulty or row["difficulty"] == difficulty)
+        and (not review_status or row["review_status"] == review_status)
+        and (
+            not term
+            or term in f"{row['stem']} {row['topic_id']} {row['specialty_id']}".casefold()
+        )
+    ]
 
 
 @app.get("/practice/cases")
