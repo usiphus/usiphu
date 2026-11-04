@@ -21,7 +21,9 @@ _STOP_WORDS = {
     "have", "how", "into", "most", "other", "patient", "patients", "should",
     "that", "their", "there", "these", "this", "those", "through", "under",
     "using", "what", "when", "which", "with", "would", "following", "common",
-    "management", "diagnosis", "treatment",
+    "management", "diagnosis", "treatment", "year", "years", "old", "boy", "girl",
+    "man", "woman", "male", "female", "presents", "presented", "presenting",
+    "history", "showing", "shows", "without", "normal", "abnormal",
 }
 
 
@@ -74,11 +76,20 @@ def _full_text(article: ET.Element) -> str:
     body = article.find(".//body")
     if body is None:
         return ""
+    parent = {child: node for node in body.iter() for child in node}
+    excluded = {"ref-list", "fig", "table-wrap", "supplementary-material"}
     paragraphs: list[str] = []
     for section in body.iter():
-        if section.tag.rsplit("}", 1)[-1].casefold() in {"ref-list", "fig", "table-wrap", "supplementary-material"}:
+        if section.tag.rsplit("}", 1)[-1].casefold() != "p":
             continue
-        if section.tag.rsplit("}", 1)[-1].casefold() == "p":
+        ancestor = parent.get(section)
+        skip = False
+        while ancestor is not None and ancestor is not body:
+            if ancestor.tag.rsplit("}", 1)[-1].casefold() in excluded:
+                skip = True
+                break
+            ancestor = parent.get(ancestor)
+        if not skip:
             value = _plain_text(section)
             if value:
                 paragraphs.append(value)
