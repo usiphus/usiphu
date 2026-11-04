@@ -87,7 +87,7 @@ c2.metric("Curriculum topics", coverage["topics"])
 c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
 
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
     ["🧭 Learn", "📚 Resources", "📝 Practice", "🗂️ Flashcards", "📈 Progress", "✨ AI Studio", "🏦 Question Bank"])
 with tab1:
     st.subheader("Specialty curriculum")
