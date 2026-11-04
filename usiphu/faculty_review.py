@@ -268,8 +268,9 @@ def faculty_release_statuses(path: Path = DEFAULT_DB) -> dict[str, dict]:
     _ensure_schema(path)
     with connect(path) as db:
         rows = db.execute("SELECT * FROM faculty_question_reviews").fetchall()
-    return {
-        row["question_id"]: {
+    release = {}
+    for row in rows:
+        state = {
             "review_status": (
                 "exam_validated" if row["exam_status"] == "approved"
                 else "clinically_reviewed" if row["clinical_status"] == "approved"
@@ -281,5 +282,10 @@ def faculty_release_statuses(path: Path = DEFAULT_DB) -> dict[str, dict]:
             "exam_validated_by": row["exam_reviewer_name"],
             "exam_validated_at": row["exam_reviewed_at"],
             "faculty_review_comments": [row["clinical_comment"], row["exam_comment"]],
-        } for row in rows
-    }
+        }
+        # The learner-facing bank must use the exact version faculty approved,
+        # not the earlier JSON transcription if a reviewer corrected the item.
+        if row["content_snapshot_json"]:
+            state.update(json.loads(row["content_snapshot_json"]))
+        release[row["question_id"]] = state
+    return release
