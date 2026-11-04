@@ -16,7 +16,7 @@ PROFILE_FILE = ROOT / "data" / "suez_university_curriculum.json"
 ILO_FILE = ROOT / "data" / "suez_course_ilos.json"
 EXAM_BLUEPRINT_FILE = ROOT / "data" / "specialty_exam_blueprints.json"
 EXAM_FORMATS = {
-    "mixed": ["mcq", "short_answer", "clinical_case"],
+    "mixed": ["mcq", "short_answer", "clinical_case", "osce_station", "viva", "emq"],
     "mcq": ["mcq"],
     "short_answer": ["short_answer"],
     "clinical_case": ["clinical_case"],
@@ -158,8 +158,11 @@ def validate_generated_card(
         errors.append("Card specialty/topic does not match its generation brief")
     if card.get("review_status") != "draft":
         errors.append("Generated cards must enter the system as draft")
-    allowed_types = set(brief.get("output_contract", {}).get("allowed_card_types", EXAM_FORMATS["mixed"]))
-    if card.get("card_type") not in SUPPORTED_CARD_TYPES or card.get("card_type") not in allowed_types:
+    allowed_types = set(brief.get("output_contract", {}).get(
+        "allowed_card_types", EXAM_FORMATS["mixed"]
+    ))
+    if (card.get("card_type") not in SUPPORTED_CARD_TYPES
+            or card.get("card_type") not in allowed_types):
         errors.append("card_type is unsupported or does not match the requested exam format")
     for field in ("id", "prompt", "answer", "source_title", "source_url", "source_date"):
         if not isinstance(card.get(field), str) or not card[field].strip():
@@ -218,9 +221,14 @@ def validate_generated_card(
     if card.get("card_type") == "emq":
         options = card.get("options")
         items = card.get("emq_items")
-        if not isinstance(options, list) or len(options) < 5 or any(not isinstance(o, dict) or not o.get("id") or not o.get("text") for o in options):
+        if (not isinstance(options, list) or len(options) < 5
+                or any(not isinstance(o, dict) or not o.get("id") or not o.get("text")
+                       for o in options)):
             errors.append("emq requires at least five labelled options")
-        elif not isinstance(items, list) or len(items) < 2 or any(not isinstance(item, dict) or not item.get("stem") or item.get("correct_option_id") not in {o["id"] for o in options} for item in items):
+        elif (not isinstance(items, list) or len(items) < 2
+              or any(not isinstance(item, dict) or not item.get("stem")
+                     or item.get("correct_option_id") not in {o["id"] for o in options}
+                     for item in items)):
             errors.append("emq requires at least two stems keyed to the option list")
     if card.get("card_type") == "mcq":
         options = card.get("options")
