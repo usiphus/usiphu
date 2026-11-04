@@ -2634,7 +2634,7 @@
               ]
             },
             {
-              "id": "shock",
+              "id": "shock-emergency",
               "title": "Shock and hemodynamic emergencies",
               "exam_weight": "medium",
               "coverage_status": "planned",
@@ -2644,12 +2644,12 @@
               ],
               "objectives": [
                 {
-                  "id": "shock-1",
+                  "id": "shock-emergency-1",
                   "text": "Differentiate major shock categories using clinical assessment.",
                   "level": "understand"
                 },
                 {
-                  "id": "shock-2",
+                  "id": "shock-emergency-2",
                   "text": "Initiate cause-directed stabilization and monitor response using local protocols.",
                   "level": "apply"
                 }
