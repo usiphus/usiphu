@@ -152,8 +152,13 @@ def test_existing_single_learner_database_migrates(tmp_path: Path):
 
 def test_content_validator_checks_complete_starter_dataset():
     report = validate_content()
-    assert report["specialties"] == 13
-    assert report["topics"] == 62
+    assert report["specialties"] == 27
+    assert report["topics"] == 174
+    assert report["objectives"] == 291
+    assert report["course_outcomes_catalogued"] == 73
+    assert report["official_outcomes_linked_at_topic_level"] == 47
+    assert report["official_outcomes_not_linked_in_current_crosswalk"] == 26
+    assert report["topics_without_verified_outcome_mapping"] == 112
     assert report["questions"] == 3
     assert report["cases"] == 2
     assert report["topics_sourced"] == 0
