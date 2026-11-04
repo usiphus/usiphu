@@ -1,6 +1,6 @@
 # Usiphu 2.0
 
-A medical learning workspace for specialty-wide curriculum mapping, resource discovery, question practice, OSCE/viva cases, spaced repetition, and learner progress.
+A medical-only learning workspace spanning basic sciences, clinical specialties, question practice, OSCE/viva cases, spaced repetition, and learner progress.
 
 > **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. Course ILOs from the supplied Surgery I/II, Medicine I/II, Emergency/Medical Reporting and PHC/Obs documents are now catalogued with partial topic-level outcome references. Pediatrics currently has two external undergraduate benchmarks (Al-Azhar Damietta and Aswan University) only; it is not an official Suez University ILO source. This working crosswalk is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
 
@@ -35,12 +35,16 @@ The app connects to the Compose Ollama service on the private Compose network. T
 
 See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications now support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; the online pediatric material is explicitly external benchmark content. Internship duration and rotations remain unspecified in the uploaded bylaw.
 
+## Medical curriculum coverage
+
+The curriculum blueprint now contains 27 medical disciplines, 174 topics and 291 learning objectives across basic sciences, diagnostic disciplines, clinical specialties and supporting medical practice. Newly added topics are marked `planned`; they are not represented as official Suez outcomes or faculty-approved syllabus coverage. Continue mapping each topic to current course specifications, trusted references and local examination requirements. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
+
 ## Features
 
 - Specialty → domain → topic → measurable learning objectives.
 - Resource discovery across PubMed, PMC, NCBI Bookshelf, Cureus, AnkiWeb, DoctorDE search, guidelines, and medical challenge sites.
 - MCQ and structured clinical-case practice with explicit editorial status.
-- PubMed-grounded local Ollama card drafting with source traceability, Suez ILO safeguards, evidence-quality ranking, and isolated draft review storage.
+- Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
 - Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
