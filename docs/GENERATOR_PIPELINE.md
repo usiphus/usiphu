@@ -30,18 +30,17 @@ streamlit run app/Home.py
 
 The default model is `qwen2.5:7b`. Choose another model only after pulling it locally and setting `USIPHU_OLLAMA_MODEL` to its exact Ollama tag. No OpenAI SDK, API key, or paid model API is used. The first pull requires internet access and several GB of storage. Model loading and generation can be slow on CPU-only or low-memory devices.
 
-## Docker Compose
+## Local runtime
 
-1. Copy `.env.example` to `.env`.
-2. Optionally change `USIPHU_OLLAMA_MODEL` in `.env`.
-3. Start the stack: `docker compose up --build -d`.
-4. Pull the configured model into the persistent Ollama volume:
-   `docker compose exec ollama ollama pull qwen2.5:7b`
-5. Open the Usiphu Streamlit app on port 8501.
+Install Ollama directly on the same computer as USIPHU, start its local service, and pull the model:
 
-Compose connects the app to Ollama at `http://ollama:11434` on its private network. Ollama's host port is bound to `127.0.0.1:11434`, not exposed to other LAN devices. The model volume persists across container restarts. The model is not downloaded automatically when the stack starts. If you change the model tag, pull that exact tag in the Ollama container. When running the app inside a container but Ollama on the host, do not use `localhost`; configure a host-reachable address (for example, `host.docker.internal` where supported).
+```bash
+ollama pull qwen2.5:7b
+```
 
-For production, operate Ollama on a protected private network or the same host. Do not expose its unauthenticated API directly to the public internet. Use suitable CPU/GPU resources and monitor disk usage.
+Set `OLLAMA_BASE_URL=http://localhost:11434` and `USIPHU_OLLAMA_MODEL=qwen2.5:7b` in the shell/session that launches Streamlit. The application itself runs directly in the Python environment; no container runtime or remote model host is needed. The first model pull requires internet access and several GB of storage. Model loading and generation can be slow on CPU-only or low-memory devices.
+
+Do not expose Ollama's unauthenticated API or Streamlit's local port directly to the public internet.
 
 Optional `NCBI_EMAIL` and `NCBI_API_KEY` settings support PubMed E-utilities contact and higher request limits. PubMed retrieval requires outbound HTTPS to `eutils.ncbi.nlm.nih.gov`.
 
