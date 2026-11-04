@@ -28,12 +28,12 @@ def inventory(root: Path) -> dict[str, Path]:
 
 def migrate(source: Path, destination: Path, dry_run: bool = False) -> tuple[int, int]:
     source = source.resolve()
-    destination.mkdir(parents=True, exist_ok=True)
     destination = destination.resolve()
     if source == destination or source in destination.parents or destination in source.parents:
         raise ValueError("Source and destination must be separate, non-overlapping directories")
     if not source.is_dir():
         raise ValueError(f"Source directory does not exist: {source}")
+    destination.mkdir(parents=True, exist_ok=True)
 
     source_files = inventory(source)
     destination_files = inventory(destination)
