@@ -1,7 +1,7 @@
 import hashlib
+import io
 import importlib.util
 import json
-import os
 import sqlite3
 import tarfile
 from pathlib import Path
@@ -77,6 +77,7 @@ def test_source_migration_rejects_symlinks(tmp_path):
 
 
 def make_backup_pair(tmp_path: Path) -> tuple[Path, Path, Path]:
+    tmp_path.mkdir(parents=True, exist_ok=True)
     database = tmp_path / "backup.sqlite3"
     with sqlite3.connect(database) as connection:
         connection.execute("CREATE TABLE learners (id INTEGER PRIMARY KEY, name TEXT)")
@@ -160,7 +161,6 @@ def test_restore_rejects_path_traversal_even_with_valid_checksum(tmp_path):
         connection.execute("CREATE TABLE safe (id INTEGER)")
     archive = tmp_path / "unsafe.tar.gz"
     with tarfile.open(archive, "w:gz") as output:
-        import io
         import tarfile as tf
 
         payload = b"do not write outside"
