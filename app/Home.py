@@ -471,22 +471,29 @@ with tab7:
             st.caption("Tags: " + " · ".join(selected_question.tags))
         with st.container(border=True):
             st.markdown(f"#### {selected_question.stem}")
+            result_key = f"qb-result-{selected_question.id}"
+            previous_result = st.session_state.get(result_key)
             selected_option = st.radio(
                 "Select the single best answer",
                 selected_question.options,
                 format_func=lambda option: option.text,
                 key=f"qb-answer-{selected_question.id}",
+                disabled=previous_result is not None,
             )
-            if st.button("Submit answer", type="primary", key=f"qb-submit-{selected_question.id}"):
+            if st.button(
+                "Submit answer", type="primary",
+                key=f"qb-submit-{selected_question.id}",
+                disabled=previous_result is not None,
+            ):
                 correct = selected_option.id == selected_question.correct_option_id
                 record_question_attempt(
                     selected_question.id, selected_option.id, correct,
                     learner_id=learner_id,
                 )
-                st.session_state[f"qb-result-{selected_question.id}"] = {
+                st.session_state[result_key] = {
                     "selected": selected_option.id, "correct": correct,
                 }
-            result = st.session_state.get(f"qb-result-{selected_question.id}")
+            result = st.session_state.get(result_key)
             if result:
                 if result["correct"]:
                     st.success("Correct answer")
@@ -505,6 +512,9 @@ with tab7:
                     )
                 if selected_question.review_status == "draft":
                     st.caption("Editorial draft — clinical and examination review still required.")
+                if st.button("Retry this question", key=f"qb-retry-{selected_question.id}"):
+                    del st.session_state[result_key]
+                    st.rerun()
     else:
         st.info("No questions match the selected filters.")
 
