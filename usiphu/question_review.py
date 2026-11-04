@@ -86,10 +86,16 @@ def save_candidate_review(
     if not reviewer.strip():
         raise ValueError("Enter the name or identifier of the person reviewing this question.")
 
+    if answer_verified and not correct_option_id:
+        raise ValueError("Select an answer key before marking it as independently verified.")
+
     path = Path(candidate["extraction_path"])
     payload = json.loads(path.read_text(encoding="utf-8"))
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
+            # Keep the first machine extraction immutable as an audit baseline.
+            item.setdefault("original_extracted_stem", item.get("stem_extracted", ""))
+            item.setdefault("original_extracted_options", item.get("options", []))
             item.update({
                 "stem_extracted": stem.strip(),
                 "options": options,
@@ -99,6 +105,14 @@ def save_candidate_review(
                 "explanation": explanation.strip(),
                 "reviewer": reviewer.strip(),
                 "answer_verified_by_reviewer": bool(answer_verified),
+                "answer_status": (
+                    "human_verified" if answer_verified and correct_option_id
+                    else "proposed_unverified" if correct_option_id
+                    else "not_extracted_or_verified"
+                ),
+                "transcription_status": "human_reviewed",
+                "transcription_reviewed_by": reviewer.strip(),
+                "transcription_reviewed_at": datetime.now(UTC).isoformat(),
                 "difficulty": difficulty,
                 "review_state": "reviewed_pending_approval",
                 "reviewed_at": datetime.now(UTC).isoformat(),
