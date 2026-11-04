@@ -48,8 +48,28 @@ else:
     st.sidebar.warning("Local single-learner mode. Enable OIDC before deploying for multiple learners.")
 
 initialize()
-st.title("🩺 Usiphu 2.0")
-st.caption("A structured workspace for medical learning, exam practice, and long-term retention.")
+st.markdown("""
+<style>
+:root { --usiphu-ink:#172b4d; --usiphu-teal:#087e83; --usiphu-mist:#f2f6f8; }
+[data-testid="stAppViewContainer"] { background: #f5f8fa; }
+[data-testid="stHeader"] { background: rgba(245,248,250,.88); }
+.block-container { max-width: 1440px; padding-top: 1.6rem; padding-bottom: 3rem; }
+h1, h2, h3 { color: var(--usiphu-ink); letter-spacing: -.025em; }
+[data-testid="stMetric"] { background: white; border: 1px solid #e3ebef; padding: 1rem 1.1rem; border-radius: 16px; box-shadow: 0 4px 18px rgba(20,45,70,.035); }
+[data-testid="stTabs"] [role="tablist"] { gap: .45rem; border-bottom: 1px solid #dce6eb; }
+[data-testid="stTabs"] button[role="tab"] { border-radius: 12px 12px 0 0; padding: .7rem 1rem; font-weight: 600; }
+[data-testid="stTabs"] button[aria-selected="true"] { color: var(--usiphu-teal); border-bottom: 3px solid var(--usiphu-teal); }
+[data-testid="stButton"] button[kind="primary"], .stButton button[kind="primary"] { background: var(--usiphu-teal); border-color: var(--usiphu-teal); border-radius: 11px; }
+[data-testid="stTextInput"] input, [data-testid="stSelectbox"] div[data-baseweb="select"] { border-radius: 10px; }
+[data-testid="stExpander"] { background: white; border: 1px solid #e3ebef; border-radius: 12px; }
+[data-testid="stSidebar"] { background: #edf3f5; }
+div[data-testid="stAlert"] { border-radius: 12px; }
+</style>
+""", unsafe_allow_html=True)
+
+st.title("🩺 Usiphu")
+st.caption("Your medical learning workspace · Learn clearly. Practise deliberately. Track mastery.")
+
 curriculum = load_curriculum()
 stats = dashboard_stats(learner_id=learner_id)
 coverage = {**coverage_summary(curriculum), **coverage_report()}
@@ -68,7 +88,7 @@ c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
 
 tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
-    ["Curriculum", "Find resources", "Practice", "Flashcards", "Progress", "Generator"])
+    ["🧭 Learn", "📚 Resources", "📝 Practice", "🗂️ Flashcards", "📈 Progress", "✨ AI Studio", "🏦 Question Bank"])
 with tab1:
     st.subheader("Specialty curriculum")
     st.write(f"{coverage['domains']} domains · {coverage['topics']} topics · {coverage['objectives']} learning objectives")
@@ -386,3 +406,114 @@ with tab6:
                     st.write("• " + check)
             for source in draft.get("evidence_sources", []):
                 st.markdown(f"- [{source['source_title']}]({source['source_url']})")
+
+with tab7:
+    st.subheader("Medical question bank")
+    from usiphu.practice import filter_questions
+    from usiphu.storage import (
+        question_attempt_history, question_bank_stats, record_question_attempt,
+    )
+
+    bank_questions = load_questions()
+    bank_stats = question_bank_stats(learner_id=learner_id)
+    q1, q2, q3 = st.columns(3)
+    q1.metric("Questions available", len(bank_questions))
+    q2.metric("Your attempts", bank_stats["attempts"])
+    q3.metric("Your accuracy", f'{bank_stats["accuracy_percent"]}%')
+    draft_total = sum(item.review_status == "draft" for item in bank_questions)
+    if draft_total:
+        st.warning(
+            f"{draft_total} of {len(bank_questions)} questions are editorial drafts. "
+            "They are usable for testing the workflow, not approved exam material."
+        )
+
+    specialties = sorted({item.specialty_id for item in bank_questions})
+    f1, f2, f3, f4 = st.columns(4)
+    specialty_filter = f1.selectbox("Specialty", ["All", *specialties], key="qb-specialty")
+    specialty_questions = [
+        item for item in bank_questions
+        if specialty_filter == "All" or item.specialty_id == specialty_filter
+    ]
+    topics = sorted({item.topic_id for item in specialty_questions})
+    topic_filter = f2.selectbox("Topic", ["All", *topics], key="qb-topic")
+    difficulty_filter = f3.selectbox(
+        "Difficulty", ["All", "easy", "moderate", "hard"], key="qb-difficulty"
+    )
+    status_filter = f4.selectbox(
+        "Editorial status", ["All", "draft", "clinically_reviewed", "exam_validated"],
+        key="qb-status",
+    )
+    filtered_questions = filter_questions(
+        bank_questions,
+        specialty_id=None if specialty_filter == "All" else specialty_filter,
+        topic_id=None if topic_filter == "All" else topic_filter,
+        difficulty=None if difficulty_filter == "All" else difficulty_filter,
+        review_status=None if status_filter == "All" else status_filter,
+    )
+    st.caption(f"{len(filtered_questions)} questions match these filters.")
+    if filtered_questions:
+        selected_question = st.selectbox(
+            "Choose a question",
+            filtered_questions,
+            format_func=lambda item: f"{item.id} · {item.stem[:100]}",
+            key="qb-selected-question",
+        )
+        st.caption(
+            f"{selected_question.specialty_id} / {selected_question.topic_id} · "
+            f"{selected_question.difficulty.title()} · "
+            f"{selected_question.review_status.replace('_', ' ').title()}"
+        )
+        with st.container(border=True):
+            st.markdown(f"#### {selected_question.stem}")
+            selected_option = st.radio(
+                "Select the single best answer",
+                selected_question.options,
+                format_func=lambda option: option.text,
+                key=f"qb-answer-{selected_question.id}",
+            )
+            if st.button("Submit answer", type="primary", key=f"qb-submit-{selected_question.id}"):
+                correct = selected_option.id == selected_question.correct_option_id
+                record_question_attempt(
+                    selected_question.id, selected_option.id, correct,
+                    learner_id=learner_id,
+                )
+                st.session_state[f"qb-result-{selected_question.id}"] = {
+                    "selected": selected_option.id, "correct": correct,
+                }
+            result = st.session_state.get(f"qb-result-{selected_question.id}")
+            if result:
+                if result["correct"]:
+                    st.success("Correct answer")
+                else:
+                    st.error("Incorrect answer")
+                correct_option = next(
+                    item for item in selected_question.options
+                    if item.id == selected_question.correct_option_id
+                )
+                st.markdown(f"**Correct answer:** {correct_option.text}")
+                st.markdown("**Explanation**")
+                st.write(selected_question.explanation)
+                if selected_question.source_url:
+                    st.markdown(
+                        f"[{selected_question.source_title or 'Source'}]({selected_question.source_url})"
+                    )
+                if selected_question.review_status == "draft":
+                    st.caption("Editorial draft — clinical and examination review still required.")
+    else:
+        st.info("No questions match the selected filters.")
+
+    st.divider()
+    st.markdown("#### Recent question attempts")
+    history = question_attempt_history(learner_id=learner_id)
+    if history:
+        st.dataframe(
+            [{
+                "Question": item["question_id"],
+                "Selected option": item["selected_option_id"],
+                "Result": "Correct" if item["is_correct"] else "Incorrect",
+                "Attempted at": item["attempted_at"],
+            } for item in history],
+            use_container_width=True, hide_index=True,
+        )
+    else:
+        st.info("Your submitted answers will appear here.")
