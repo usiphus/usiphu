@@ -82,6 +82,7 @@ def save_non_mcq_review(
     topic_id: str,
     reviewer: str,
     rubric_verified: bool,
+    corrected_source_text: str | None = None,
     source_dir: Path = DEFAULT_SOURCE_DIR,
     bank_path: Path = ASSESSMENT_BANK_PATH,
     approve: bool = False,
@@ -120,9 +121,18 @@ def save_non_mcq_review(
     updated = False
     for item in payload.get(collection, []):
         if item.get("candidate_id") == candidate_id:
+            item.setdefault("original_extracted_text", item.get("raw_text", ""))
             item.update({
                 "review_prompt": prompt.strip(),
                 "review_scenario": scenario.strip(),
+                "reviewed_source_text": (
+                    str(corrected_source_text).strip()
+                    if corrected_source_text is not None
+                    else item.get("reviewed_source_text", item.get("raw_text", ""))
+                ),
+                "transcription_status": "human_reviewed",
+                "transcription_reviewed_by": reviewer.strip(),
+                "transcription_reviewed_at": datetime.now(UTC).isoformat(),
                 "review_parts": normalized_parts,
                 "specialty_id": specialty_id,
                 "topic_id": topic_id,
