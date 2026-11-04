@@ -63,7 +63,7 @@ See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubM
 
 ## Production
 
-See [production deployment](docs/DEPLOYMENT.md) for existing Source Inbox migration, paired backup/restore utilities, a restore-drill procedure and an isolated staging checklist. CI validates both Compose configurations and builds the Docker image. The production Compose setup remains a single-replica deployment using SQLite; **PostgreSQL is not yet connected to the application storage layer**. Do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
+See [production deployment](docs/DEPLOYMENT.md) for existing Source Inbox migration, paired backup/restore utilities, a restore-drill procedure and an isolated staging checklist. CI validates both Compose configurations and builds the Docker image; a separate disposable staging workflow exercises app health, mounted-volume persistence across restart, and backup/restore round-trip using synthetic data. The production Compose setup remains a single-replica deployment using SQLite; **PostgreSQL is not yet connected to the application storage layer**. Do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
 
 ## Checks
 
