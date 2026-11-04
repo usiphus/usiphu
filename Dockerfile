@@ -5,6 +5,7 @@ COPY pyproject.toml README.md ./
 COPY usiphu ./usiphu
 COPY data ./data
 COPY app ./app
+COPY scripts ./scripts
 RUN pip install --no-cache-dir . \
     && useradd --create-home --uid 10001 app \
     && mkdir -p /data /source-inbox \
