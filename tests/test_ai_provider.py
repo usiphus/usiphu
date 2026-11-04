@@ -30,9 +30,13 @@ def _model_response(prompt):
         "RETRIEVED PUBMED EVIDENCE", 1
     )[0].strip()
     permitted_refs = json.loads(refs_json)
+    brief_json = prompt.split("CURRICULUM BRIEF:", 1)[1].split(
+        "PERMITTED COURSE OUTCOME REFERENCES:", 1
+    )[0].strip()
+    brief = json.loads(brief_json)
     return json.dumps({
         "card_type": "mcq",
-        "prompt": f"Which investigation evaluates vesicoureteral reflux? ({prompt.split('CURRICULUM BRIEF:', 1)[1].split('PERMITTED COURSE OUTCOME REFERENCES:', 1)[0].strip()[:40]})",
+        "prompt": f"Which investigation evaluates vesicoureteral reflux? ({brief['brief_id']})",
         "answer": "A micturating cystourethrogram evaluates reflux in the appropriate clinical context.",
         "options": [
             {"id": "A", "text": "Renal biopsy"},
