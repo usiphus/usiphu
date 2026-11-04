@@ -15,13 +15,12 @@ from usiphu.models import ReviewState
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
+from usiphu.question_history import question_performance, record_question_attempts
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
     generated_drafts,
     initialize,
-    question_performance,
-    record_question_attempts,
     record_review,
     save_flashcard,
     save_generated_drafts,
