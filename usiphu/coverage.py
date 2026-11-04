@@ -51,8 +51,14 @@ def coverage_report(
         "objectives_with_topic_level_link_only": counts["objective_mapping_statuses"].get(
             "topic_level_link_only_not_objective_specific", 0
         ),
+        "objectives_partially_linked_at_topic_level": counts["objective_mapping_statuses"].get(
+            "partial_topic_level_link_not_objective_specific", 0
+        ),
         "objectives_external_benchmark_only": counts["objective_mapping_statuses"].get(
             "external_benchmark_only_not_official_suez", 0
+        ),
+        "objectives_module_only_no_specific_ilo": counts["objective_mapping_statuses"].get(
+            "module_alignment_only_no_specific_ilo", 0
         ),
         "objectives_without_verified_outcome_mapping": counts["objective_mapping_statuses"].get(
             "not_mapped_no_verified_course_outcome", 0
@@ -140,9 +146,10 @@ def validate_coverage_register(
     )) != len(rows):
         raise ValueError("Topic mapping status counts do not reconcile")
     if sum(report[key] for key in (
-        "objectives_with_topic_level_link_only", "objectives_external_benchmark_only",
+        "objectives_with_topic_level_link_only", "objectives_partially_linked_at_topic_level",
+        "objectives_external_benchmark_only", "objectives_module_only_no_specific_ilo",
         "objectives_without_verified_outcome_mapping",
-    )) + report["topics_module_only_no_specific_ilo"] != sum(
+    )) != sum(
         len(row["objectives"]) for row in rows
     ):
         raise ValueError("Objective mapping status counts do not reconcile")
