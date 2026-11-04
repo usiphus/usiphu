@@ -50,8 +50,14 @@ def valid_mcq(brief):
         "source_title": "Clinical guideline",
         "source_url": "https://example.org/guideline",
         "source_date": "2025-01-01",
+        "evidence_sources": [{
+            "source_id": "PMID:123", "source_title": "Clinical guideline",
+            "source_url": "https://example.org/guideline", "source_date": "2025-01-01",
+        }],
+        "learning_point": "Recognize the key clinical pattern.",
+        "difficulty": "intermediate",
         "course_outcome_refs": [row["id"] for row in brief["official_suez_outcomes"]],
-        "evidence_claims": [{"claim": "The key clinical claim.", "source_url": "https://example.org/guideline"}],
+        "evidence_claims": [{"claim": "The key clinical claim.", "source_id": "PMID:123", "source_url": "https://example.org/guideline"}],
         "review_status": "draft",
     }
 
@@ -152,3 +158,26 @@ def test_osce_station_requires_tasks_and_observable_marking_criteria():
     rejected = validate_generated_card(card, brief)
     assert not rejected["valid"]
     assert any("marking_criteria" in error for error in rejected["errors"])
+
+
+def test_valid_card_returns_specialty_specific_human_review_packet():
+    brief = build_generation_briefs(specialty_id="urology", topic_id="pujo")[0]
+    result = validate_generated_card(valid_mcq(brief), brief)
+    packet = result["review_packet"]
+    assert result["valid"]
+    assert packet["status"] == "human_review_required"
+    assert packet["automatic_approval_prohibited"] is True
+    assert any("adult from paediatric" in item.lower() or "obstruction" in item.lower()
+               for item in packet["specialty_safety_checks"])
+    assert packet["format_checks"]
+
+
+def test_validator_rejects_untraceable_claim_and_duplicate_mcq_options():
+    brief = build_generation_briefs(specialty_id="urology", topic_id="pujo")[0]
+    card = valid_mcq(brief)
+    card["evidence_claims"][0]["source_id"] = "PMID:999"
+    card["options"][4]["text"] = card["options"][0]["text"]
+    result = validate_generated_card(card, brief)
+    assert not result["valid"]
+    assert any("outside the retrieved packet" in error for error in result["errors"])
+    assert any("distinct text" in error for error in result["errors"])
