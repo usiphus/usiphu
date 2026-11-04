@@ -41,6 +41,17 @@ def load_questions(
     if directory.exists():
         for bank_path in sorted(directory.glob("*.json")):
             questions.extend(_read_question_file(bank_path, bank_path.stem))
+    # Pilot sign-off is stored in SQLite as an append-only faculty audit trail.
+    # Overlay the latest two-stage release state without mutating source JSON.
+    from usiphu.faculty_review import faculty_release_statuses
+
+    release_states = faculty_release_statuses()
+    questions = [
+        question.model_copy(update=release_states[question.id])
+        if question.id in release_states and question.bank_id.startswith("pilot-")
+        else question
+        for question in questions
+    ]
     identifiers = [question.id for question in questions]
     if len(identifiers) != len(set(identifiers)):
         raise ValueError("Question IDs must be unique across all installed banks")
