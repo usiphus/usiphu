@@ -255,6 +255,7 @@ elif page == "Practice":
                 result = check_assessment_answers(assessment, written_answers)
                 st.session_state["written-result-" + assessment["id"]] = result
                 st.session_state["written-answers-" + assessment["id"]] = written_answers
+                st.session_state.pop("written-ai-result-" + assessment["id"], None)
             result = st.session_state.get("written-result-" + assessment["id"])
             if result:
                 st.metric(
