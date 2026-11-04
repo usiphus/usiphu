@@ -135,6 +135,7 @@ def test_content_change_invalidates_previous_approvals(review_workspace):
     assert changed["faculty_release_status"] == "clinically_reviewed"
     visible = next(item for item in list_pilot_questions(db_path, bank_dir) if item["id"] == question_id)
     assert visible["stem"].startswith("UPDATED: ")
+    assert faculty_release_statuses(db_path)[question_id]["stem"].startswith("UPDATED: ")
 
 
 def test_request_changes_is_preserved_in_append_only_history(review_workspace):
