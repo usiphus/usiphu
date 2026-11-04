@@ -74,12 +74,18 @@ def test_short_answer_review_can_be_promoted_with_verified_rubric(tmp_path):
         topic_id="acute-retention",
         reviewer="Reviewer A",
         rubric_verified=True,
+        corrected_source_text="Corrected and verified question transcription.",
         source_dir=source_dir,
         bank_path=tmp_path / "assessments.json",
         approve=True,
     )
     assert result["review_status"] == "draft"
     assert result["source_page"] == 3
+    extraction = json.loads(next((source_dir / "extractions").glob("*.json")).read_text(encoding="utf-8"))
+    saved_candidate = extraction["mcq_candidates"][0]
+    assert saved_candidate["original_extracted_text"] == "Clinical scenario and extracted question text"
+    assert saved_candidate["reviewed_source_text"] == "Corrected and verified question transcription."
+    assert saved_candidate["transcription_status"] == "human_reviewed"
     assert len(load_assessments(tmp_path / "assessments.json")) == 1
 
 
