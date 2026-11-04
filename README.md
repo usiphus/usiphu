@@ -10,17 +10,14 @@ USIPHU runs directly with Python. Docker, Docker Compose, a server and a domain 
 
 **Requirements:** Python 3.11 or newer.
 
-### Windows (PowerShell)
+### Windows (one-click setup)
 
-```powershell
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -e ".[dev]"
-streamlit run app/Home.py
-```
+1. Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/windows/). Keep the Python Launcher option enabled.
+2. Extract/clone the USIPHU project folder to a location where you have write permission.
+3. Double-click `setup_windows.bat`. It creates the local `.venv`, installs USIPHU and its dependencies, then launches the app.
+4. Later, double-click `start_usiphu.bat` to open USIPHU without reinstalling dependencies.
 
-If PowerShell blocks virtual-environment activation, run `.venv\Scripts\python.exe -m pip install -e ".[dev]"` and then `.venv\Scripts\python.exe -m streamlit run app/Home.py`.
+Keep the launcher window open while using USIPHU; close it with Ctrl+C when finished. The app normally opens at http://localhost:8501. No PowerShell activation or Docker is required. The first setup needs internet access to download Python packages.
 
 ### macOS / Linux
 
