@@ -35,6 +35,10 @@ def test_practice_banks_and_resources():
     assert filtered.json()[0]["bank_id"] == "starter-medical-bank"
     bank_filtered = client.get("/practice/questions", params={"bank_id": "starter-medical-bank"})
     assert len(bank_filtered.json()) == 3
+    banks = client.get("/practice/question-banks")
+    assert banks.status_code == 200
+    assert banks.json()[0]["bank_id"] == "starter-medical-bank"
+    assert banks.json()[0]["question_count"] == 3
     assert cases.status_code == 200 and len(cases.json()) >= 2
     assert client.get("/resources", params={"topic":"x"}).status_code == 422
     assert client.get("/resources", params={"topic":"renal colic","specialty":"Urology"}).status_code == 200
