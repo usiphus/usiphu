@@ -642,6 +642,12 @@ elif page == "Pilot Dashboard":
         st.dataframe(report["source_rows"], use_container_width=True, hide_index=True)
     else:
         st.info("No uploaded source papers have been extracted yet. Add the two pilot papers in Question Bank.")
+    with st.expander("Candidate-level audit trail"):
+        if report["candidate_rows"]:
+            st.dataframe(report["candidate_rows"], use_container_width=True, hide_index=True)
+        else:
+            st.info("Candidate-level review details will appear after extraction.")
+
     with st.expander("How to interpret these metrics and current limitations"):
         for limitation in report["limitations"]:
             st.write("• " + limitation)
