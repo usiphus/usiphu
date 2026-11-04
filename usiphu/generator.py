@@ -14,6 +14,17 @@ from usiphu.curriculum import load_curriculum
 ROOT = Path(__file__).resolve().parent.parent
 PROFILE_FILE = ROOT / "data" / "suez_university_curriculum.json"
 ILO_FILE = ROOT / "data" / "suez_course_ilos.json"
+EXAM_BLUEPRINT_FILE = ROOT / "data" / "specialty_exam_blueprints.json"
+EXAM_FORMATS = {
+    "mixed": ["mcq", "short_answer", "clinical_case"],
+    "mcq": ["mcq"],
+    "short_answer": ["short_answer"],
+    "clinical_case": ["clinical_case"],
+    "osce": ["osce_station"],
+    "viva": ["viva"],
+    "emq": ["emq"],
+}
+SUPPORTED_CARD_TYPES = {item for values in EXAM_FORMATS.values() for item in values}
 VALID_MAPPING_STATUSES = {
     "direct_course_outcome", "partial_related_outcome",
     "external_benchmark_only", "module_only_no_specific_ilo",
@@ -48,10 +59,16 @@ def build_generation_briefs(
     curriculum_path: Path | None = None,
     profile_path: Path = PROFILE_FILE,
     catalog_path: Path = ILO_FILE,
+    exam_format: str = "mixed",
+    blueprint_path: Path = EXAM_BLUEPRINT_FILE,
 ) -> list[dict[str, Any]]:
     """Compile one bounded, traceable generation brief per learning objective."""
+    if exam_format not in EXAM_FORMATS:
+        raise ValueError(f"Unsupported exam_format: {exam_format}")
     curriculum = load_curriculum(curriculum_path) if curriculum_path else load_curriculum()
     profile = _load_json(profile_path)
+    exam_blueprints = _load_json(blueprint_path)
+    default_blueprint = exam_blueprints["default"]
     catalog = _load_json(catalog_path)
     official, external = _catalog_index(catalog)
     crosswalk = {row["topic_id"]: row for row in catalog["topic_crosswalk"]}
@@ -79,6 +96,9 @@ def build_generation_briefs(
                 outcomes = [index[ref] for ref in refs if ref in index]
                 if len(outcomes) != len(refs):
                     raise ValueError(f"Unresolved or incorrectly classified ILO refs for {topic.id}")
+                specialty_blueprint = exam_blueprints["specialties"].get(
+                    specialty.id, {**default_blueprint, "title": specialty.title}
+                )
                 for objective in topic.objectives:
                     brief_id = f"{specialty.id}:{topic.id}:{objective.id}"
                     briefs.append({
@@ -98,8 +118,10 @@ def build_generation_briefs(
                         "official_suez_outcomes": outcomes if not is_external else [],
                         "external_benchmark_outcomes": outcomes if is_external else [],
                         "generation_status": "brief_ready",
+                        "requested_exam_format": exam_format,
+                        "specialty_exam_blueprint": specialty_blueprint,
                         "output_contract": {
-                            "allowed_card_types": ["mcq", "short_answer", "clinical_case"],
+                            "allowed_card_types": EXAM_FORMATS[exam_format],
                             "required_review_status": "draft",
                             "required_provenance_fields": [
                                 "source_title", "source_url", "source_date",
@@ -136,8 +158,9 @@ def validate_generated_card(
         errors.append("Card specialty/topic does not match its generation brief")
     if card.get("review_status") != "draft":
         errors.append("Generated cards must enter the system as draft")
-    if card.get("card_type") not in {"mcq", "short_answer", "clinical_case"}:
-        errors.append("Unsupported card_type")
+    allowed_types = set(brief.get("output_contract", {}).get("allowed_card_types", EXAM_FORMATS["mixed"]))
+    if card.get("card_type") not in SUPPORTED_CARD_TYPES or card.get("card_type") not in allowed_types:
+        errors.append("card_type is unsupported or does not match the requested exam format")
     for field in ("id", "prompt", "answer", "source_title", "source_url", "source_date"):
         if not isinstance(card.get(field), str) or not card[field].strip():
             errors.append(f"{field} must be a non-empty string")
@@ -183,6 +206,22 @@ def validate_generated_card(
             errors.append("External Pediatrics benchmark cards must retain external_benchmark_only=true")
     elif card.get("external_benchmark_only", False):
         errors.append("Non-external topic cannot be labelled as an external-only benchmark")
+    if card.get("card_type") == "osce_station":
+        for field in ("station_tasks", "marking_criteria"):
+            value = card.get(field)
+            if not isinstance(value, list) or len(value) < 2 or any(not str(item).strip() for item in value):
+                errors.append(f"osce_station requires at least two non-empty {field}")
+    if card.get("card_type") == "viva":
+        questions = card.get("viva_questions")
+        if not isinstance(questions, list) or len(questions) < 2:
+            errors.append("viva requires at least two viva_questions")
+    if card.get("card_type") == "emq":
+        options = card.get("options")
+        items = card.get("emq_items")
+        if not isinstance(options, list) or len(options) < 5 or any(not isinstance(o, dict) or not o.get("id") or not o.get("text") for o in options):
+            errors.append("emq requires at least five labelled options")
+        elif not isinstance(items, list) or len(items) < 2 or any(not isinstance(item, dict) or not item.get("stem") or item.get("correct_option_id") not in {o["id"] for o in options} for item in items):
+            errors.append("emq requires at least two stems keyed to the option list")
     if card.get("card_type") == "mcq":
         options = card.get("options")
         if not isinstance(options, list) or len(options) != 5:
