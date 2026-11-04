@@ -6,6 +6,7 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
+from usiphu.curriculum import load_curriculum
 from usiphu.models import MCQ
 from usiphu.practice import DATA_DIR
 from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
@@ -24,6 +25,11 @@ def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
     """Return MCQ candidates from every source extraction, newest source first."""
     records = list_sources(source_dir)
     sources = {item["source_id"]: item for item in records}
+    curriculum = load_curriculum()
+    specialty_lookup = {
+        specialty.title.casefold(): specialty.id for specialty in curriculum.specialties
+    }
+    specialty_lookup.update({specialty.id.casefold(): specialty.id for specialty in curriculum.specialties})
     candidates = []
     extraction_dir = source_dir / "extractions"
     if not extraction_dir.exists():
@@ -39,6 +45,9 @@ def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
                 "source_title": item.get("source_title") or source.get("title") or payload.get("source_title"),
                 "source_filename": item.get("source_filename") or source.get("original_filename") or payload.get("source_filename"),
                 "specialty_label": source.get("specialty", ""),
+                "specialty_id": item.get("specialty_id") or specialty_lookup.get(
+                    str(source.get("specialty", "")).casefold()
+                ),
                 "extraction_path": str(path),
                 "review_state": item.get("review_state", "pending"),
             })
