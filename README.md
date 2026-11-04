@@ -33,11 +33,11 @@ The app connects to the Compose Ollama service on the private Compose network. T
 
 ## Curriculum target
 
-See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications now support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; the online pediatric material is explicitly external benchmark content. Internship duration and rotations remain unspecified in the uploaded bylaw.
+See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications now support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; the online pediatric material is explicitly external benchmark content. The working crosswalk remains partial and not faculty-verified.
 
 ## Medical curriculum coverage
 
-The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 learning objectives. The auditable [coverage register](data/curriculum_coverage.json) records 50 topics with direct course-outcome links, 6 partial links, 4 external-benchmark-only topics, 2 module-only topics and 112 topics without a verified outcome mapping. The current first-pass catalogue contains 73 grouped official Suez outcomes: 47 are linked to topics and 26 are not linked in the current crosswalk. These are topic-level links, not proof that individual objectives are mapped. Zero objectives have yet received individual faculty-verified mapping. The granular extraction workspace now contains 616 page-cited outcome statements across seven supplied source files: Surgery I (180), Medicine I (111), Medicine II (70), Surgery II (64), PHC/Obs 2.3.2 (112), Emergency Course Guide (52) and Medical Reporting/Toxicology proposal (27). Each record retains source, module, printed page and draft transcription status; none is faculty-verified. The 73-outcome extraction is explicitly non-exhaustive; the 112 new topics remain planned and are not represented as official Suez outcomes. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
+The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 learning objectives. The auditable [coverage register](data/curriculum_coverage.json) records 50 topics with direct course-outcome links, 6 partial links, 4 external-benchmark-only topics, 2 module-only topics and 112 topics without a verified outcome mapping. The current first-pass catalogue contains 73 grouped official Suez outcomes: 47 are linked to topics and 26 are not linked in the current crosswalk. These are topic-level links, not proof that individual objectives are mapped. Zero objectives have yet received individual faculty-verified mapping. The granular extraction workspace now contains 616 page-cited outcome statements across seven supplied source files; each retains source, module, printed page and draft transcription status, and none is faculty-verified. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
 
 ## Features
 
@@ -51,7 +51,7 @@ The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 lea
 - Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
-- Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite backups.
+- Docker image and hardened single-node production Compose deployment with Caddy HTTPS and SQLite + Source Inbox backups.
 
 ## Evidence-grounded AI generation
 
@@ -63,7 +63,7 @@ See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubM
 
 ## Production
 
-See [production deployment](docs/DEPLOYMENT.md). The production Compose setup is a single-replica deployment using persistent SQLite, OIDC, Caddy TLS, and verified online backups. **PostgreSQL is not yet connected to the application storage layer**; do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
+See [production deployment](docs/DEPLOYMENT.md). The production Compose setup is a single-replica deployment using persistent SQLite and Source Inbox volumes, OIDC, Caddy TLS, and paired database/source backups. **PostgreSQL is not yet connected to the application storage layer**; do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
 
 ## Checks
 
