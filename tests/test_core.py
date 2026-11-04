@@ -165,6 +165,7 @@ def test_content_validator_checks_complete_starter_dataset():
     assert report["official_outcomes_not_linked_in_current_crosswalk"] == 26
     assert report["topics_without_verified_outcome_mapping"] == 112
     assert report["questions"] == 3
+    assert report["question_banks"] == 1
     assert report["cases"] == 2
     assert report["topics_sourced"] == 0
     assert report["topics_reviewed"] == 0
