@@ -274,6 +274,23 @@ with tab6:
                         f"{card['card_type']} · {card.get('difficulty', 'difficulty not supplied')} · "
                         "DRAFT — clinical and exam review required"
                     )
+                    if card.get("station_tasks"):
+                        st.markdown("**Candidate tasks**")
+                        for task in card["station_tasks"]:
+                            st.write("• " + task)
+                    if card.get("marking_criteria"):
+                        st.markdown("**Marking criteria**")
+                        for criterion in card["marking_criteria"]:
+                            st.write("• " + criterion)
+                    if card.get("viva_questions"):
+                        st.markdown("**Viva questions**")
+                        for item in card["viva_questions"]:
+                            st.write("**" + item.get("question", "Question") + "**")
+                            st.write(item.get("expected_answer", ""))
+                    if card.get("emq_items"):
+                        st.markdown("**Extended matching items**")
+                        for item in card["emq_items"]:
+                            st.write(item["stem"] + " → " + item["correct_option_id"])
                     if card.get("options"):
                         for option in card["options"]:
                             prefix = "✓ " if option["id"] == card.get("correct_option_id") else "• "
