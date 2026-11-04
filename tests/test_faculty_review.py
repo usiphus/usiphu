@@ -13,7 +13,6 @@ from usiphu.faculty_review import (
     review_history,
 )
 
-
 CLINICAL_CHECKS = {
     "answer_verified": True,
     "rationale_verified": True,
