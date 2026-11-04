@@ -14,9 +14,11 @@ from usiphu.scheduler import schedule_review
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
+    generated_drafts,
     initialize,
     record_review,
     save_flashcard,
+    save_generated_drafts,
     set_topic_progress,
     topic_progress,
 )
@@ -163,3 +165,24 @@ def test_content_validator_checks_complete_starter_dataset():
     assert report["cases"] == 2
     assert report["topics_sourced"] == 0
     assert report["topics_reviewed"] == 0
+
+
+def test_saved_generated_draft_retains_human_review_packet(tmp_path: Path):
+    db = tmp_path / "review-packet.sqlite3"
+    card = {
+        "id": "review-card",
+        "specialty_id": "urology",
+        "topic_id": "pujo",
+        "prompt": "Interpret the clinical scenario.",
+        "answer": "A concise evidence-grounded rationale.",
+        "review_status": "draft",
+        "review_packet": {
+            "status": "human_review_required",
+            "automatic_approval_prohibited": True,
+            "specialty_safety_checks": ["Distinguish adult from paediatric pathways."],
+        },
+    }
+    assert save_generated_drafts([card], db, learner_id="learner-a") == 1
+    saved = generated_drafts(db, learner_id="learner-a")
+    assert saved[0]["review_packet"]["automatic_approval_prohibited"] is True
+    assert saved[0]["review_packet"]["specialty_safety_checks"]
