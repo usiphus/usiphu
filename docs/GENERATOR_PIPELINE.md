@@ -65,6 +65,27 @@ The Streamlit Generator tab offers the same flow and can persist accepted output
 - No-result retrieval returns `needs_evidence_review`; it does not fabricate a card.
 - A PubMed record is not automatically a high-quality or current guideline. Check publication status, methods, population, full text, currency, and applicability.
 
+## Open-access evidence review for past-paper MCQs
+
+The Review Editor's MCQ source-check action now performs a separate online evidence comparison:
+
+1. It searches Europe PMC for records explicitly marked open access and linked to a PubMed Central full-text record.
+2. It retrieves the PMC article XML, extracts the article text (or labels the record abstract-only if no body text is available), and records the article URL, publication date, journal, DOI/PMID/PMCID and exposed licence information.
+3. The local Ollama model compares the existing answer key and every option against the retrieved source packet. It must assess each option and provide exact short quotations for material evidence claims.
+4. The application validates each cited source ID and checks every quotation against the retrieved article text before displaying the result. Model-invented URLs or unverifiable quotations are rejected.
+5. The Review Editor displays the evidence verdict, assessment of the existing key, option-by-option reasoning, source links, dates, licence information and conflicts/limitations.
+
+Important boundaries:
+
+- This first retrieval adapter uses Europe PMC / PubMed Central open-access articles. It does not yet search every open medical website, and it may miss relevant sources or guidelines.
+- A PMC open-access article is not automatically a guideline or high-quality evidence. The app does not infer guideline status from a journal or article title.
+- Abstract-only records are visibly labelled and may be insufficient to verify a clinical answer.
+- Search results can be incomplete, outdated, irrelevant or based on populations that do not match the question. The AI must return an insufficient-evidence result when the packet does not support a defensible answer.
+- Source quotations are checked against retrieved text, but this does not independently verify the AI's interpretation of that text.
+- Retrieved text is transient review input; it is not promoted into the question bank or used to mark an answer as verified.
+- The original past-paper key and online clinical evidence are distinct. The paper's printed key is not overwritten by an internet consensus suggestion.
+- A qualified reviewer must compare the question with the original paper and check current specialty guidelines, local Egyptian/Suez protocols, contraindications and patient context before changing or approving a key.
+
 ## Curriculum alignment
 
 - Official Suez outcomes and external pediatric benchmarks remain separate.
