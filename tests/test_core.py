@@ -8,7 +8,7 @@ import pytest
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
-from usiphu.practice import load_cases, load_questions
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.storage import (
@@ -21,6 +21,9 @@ from usiphu.storage import (
     save_generated_drafts,
     set_topic_progress,
     topic_progress,
+    question_attempt_history,
+    question_bank_stats,
+    record_question_attempt,
 )
 from usiphu.validation import validate_content
 
@@ -186,3 +189,24 @@ def test_saved_generated_draft_retains_human_review_packet(tmp_path: Path):
     saved = generated_drafts(db, learner_id="learner-a")
     assert saved[0]["review_packet"]["automatic_approval_prohibited"] is True
     assert saved[0]["review_packet"]["specialty_safety_checks"]
+
+
+
+def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path):
+    questions = load_questions()
+    filtered = filter_questions(questions, specialty_id="urology", difficulty="easy")
+    assert [item.id for item in filtered] == ["uro-001"]
+    assert filter_questions(questions, review_status="exam_validated") == []
+
+    db = tmp_path / "question-bank.sqlite3"
+    record_question_attempt("uro-001", "b", True, db, learner_id="learner-a")
+    record_question_attempt("uro-001", "a", False, db, learner_id="learner-a")
+    record_question_attempt("uro-001", "b", True, db, learner_id="learner-b")
+    stats_a = question_bank_stats(db, learner_id="learner-a")
+    stats_b = question_bank_stats(db, learner_id="learner-b")
+    assert stats_a == {
+        "attempts": 2, "correct": 1, "questions_attempted": 1, "accuracy_percent": 50.0
+    }
+    assert stats_b["attempts"] == 1 and stats_b["accuracy_percent"] == 100.0
+    assert len(question_attempt_history(db, learner_id="learner-a")) == 2
+    assert len(question_attempt_history(db, learner_id="learner-b")) == 1
