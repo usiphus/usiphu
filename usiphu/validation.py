@@ -4,6 +4,7 @@ import json
 from usiphu.coverage import coverage_report, validate_coverage_register
 from usiphu.curriculum import coverage_summary, load_curriculum
 from usiphu.practice import load_cases, load_questions
+from usiphu.suez_ilo_transcription import validate_transcriptions
 
 
 def validate_content() -> dict[str, int | float | str | None]:
@@ -57,10 +58,12 @@ def validate_content() -> dict[str, int | float | str | None]:
 
     summary = coverage_summary(curriculum)
     coverage_integrity = validate_coverage_register()
+    transcription_integrity = validate_transcriptions()
     return {
         **summary,
         **coverage_report(),
         **coverage_integrity,
+        **transcription_integrity,
         "questions": len(questions),
         "cases": len(cases),
         "draft_questions": sum(item.review_status == "draft" for item in questions),
