@@ -62,7 +62,7 @@ def validate_transcriptions() -> dict[str, int]:
             page = outcome.get("source_page")
             if not isinstance(page, int) or not 1 <= page <= page_count:
                 raise ValueError(f"Invalid source page for {outcome_id}")
-            if not isinstance(outcome.get("verbatim_text"), str) or not outcome["verbatim_text"].strip():
+            if not isinstance(outcome.get("transcribed_text"), str) or not outcome["transcribed_text"].strip():
                 raise ValueError(f"Empty source text for {outcome_id}")
             if not outcome.get("kind") or not outcome.get("domain"):
                 raise ValueError(f"Missing classification for {outcome_id}")
