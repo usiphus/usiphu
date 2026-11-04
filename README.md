@@ -1,43 +1,79 @@
 # Usiphu 2.0
 
-A medical-only learning workspace spanning basic sciences, clinical specialties, question practice, OSCE/viva cases, spaced repetition, and learner progress.
+A local-first medical learning workspace spanning basic sciences, clinical specialties, question practice, OSCE/viva cases, spaced repetition, and learner progress.
 
-> **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. Course ILOs from the supplied Surgery I/II, Medicine I/II, Emergency/Medical Reporting and PHC/Obs documents are now catalogued with partial topic-level outcome references. Pediatrics currently has two external undergraduate benchmarks (Al-Azhar Damietta and Aswan University) only; it is not an official Suez University ILO source. This working crosswalk is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
+> **Curriculum status:** the starter blueprint is cross-referenced to the user-supplied Suez University Faculty of Medicine bylaw (جامعة السويس), not Suez Canal University. Course ILOs from the supplied Surgery I/II, Medicine I/II, Emergency/Medical Reporting and PHC/Obs documents are catalogued with partial topic-level outcome references. Pediatrics currently has two external undergraduate benchmarks only; it is not an official Suez University ILO source. This working crosswalk is not faculty-approved or exam-validated. Starter questions and cases remain editorial drafts.
 
-## Run locally
+## Run USIPHU locally
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
+USIPHU runs directly with Python. Docker, Docker Compose, a server and a domain are not required.
+
+**Requirements:** Python 3.11 or newer.
+
+### Windows (PowerShell)
+
+```powershell
+py -3.11 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
 pip install -e ".[dev]"
+streamlit run app/Home.py
 ```
 
-Install and start [Ollama](https://ollama.com), then pull the default model:
+If PowerShell blocks virtual-environment activation, run `.venv\Scripts\python.exe -m pip install -e ".[dev]"` and then `.venv\Scripts\python.exe -m streamlit run app/Home.py`.
+
+### macOS / Linux
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -e ".[dev]"
+streamlit run app/Home.py
+```
+
+Open the local address printed by Streamlit (normally http://localhost:8501). Keep the terminal window open while using USIPHU; press Ctrl+C to stop it.
+
+## Local AI (optional)
+
+The core learning platform, question extraction, review editor, and open-access evidence retrieval can run without a local language model. To enable AI-assisted authoring and rubric review, install [Ollama](https://ollama.com), start it on your computer, and pull the default model:
 
 ```bash
 ollama pull qwen2.5:7b
-OLLAMA_BASE_URL=http://localhost:11434 streamlit run app/Home.py
 ```
 
-Set `USIPHU_OLLAMA_MODEL` to another locally installed Ollama model if needed. No OpenAI API key or paid model API is required. The first model download requires internet access and several GB of disk space; inference speed depends on available RAM/VRAM and hardware.
+Set the model endpoint before launching USIPHU:
 
-## Docker Compose
+**Windows PowerShell**
+```powershell
+$env:OLLAMA_BASE_URL="http://localhost:11434"
+$env:USIPHU_OLLAMA_MODEL="qwen2.5:7b"
+streamlit run app/Home.py
+```
 
+**macOS / Linux**
 ```bash
-cp .env.example .env
-docker compose up --build -d
-docker compose exec ollama ollama pull qwen2.5:7b
+OLLAMA_BASE_URL=http://localhost:11434 USIPHU_OLLAMA_MODEL=qwen2.5:7b streamlit run app/Home.py
 ```
 
-The app connects to the Compose Ollama service on the private Compose network. The Ollama host port is bound to `127.0.0.1`, not exposed to the LAN. Pull the model once after starting the stack; the named volume retains model files. To use a different model, change `USIPHU_OLLAMA_MODEL` in `.env` and pull that exact model tag in the Ollama container. For host-run Usiphu, set `OLLAMA_BASE_URL=http://localhost:11434`; inside a container, `localhost` refers to that container, not the host.
+No paid model API key is required for the local Ollama workflow. The first model download requires internet access and several GB of disk space; inference speed depends on available RAM/VRAM and hardware.
+
+## Where your data is stored
+
+- SQLite learner database: `usiphu_data.sqlite3` in the project directory by default.
+- Uploaded examination papers, source metadata, extraction JSON and review history: `data/source_inbox/` by default.
+- Local backup files: `data/backups/` when using the backup script defaults.
+- OIDC secrets, if you later configure authentication: `.streamlit/secrets.toml` (never commit this file).
+
+These files remain on the computer running USIPHU. Back them up regularly. Do not expose the local Streamlit port directly to the public internet. See [local setup, backup and restore](docs/DEPLOYMENT.md).
 
 ## Curriculum target
 
-See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications now support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; the online pediatric material is explicitly external benchmark content. The working crosswalk remains partial and not faculty-verified.
+See [Suez University bylaw crosswalk](docs/SUEZ_UNIVERSITY_CURRICULUM.md), [course outcome mapping and source limitations](docs/SUEZ_COURSE_OUTCOME_MAPPING.md), [institutional profile](data/suez_university_curriculum.json), and [machine-readable course ILO catalog](data/suez_course_ilos.json). The bylaw specifies a five-year degree with Phase I (years 1–2) and Phase II (years 3–5), course/module codes, semesters and broad assessment structure. The uploaded course specifications support outcome-level mapping for several modules. The official Suez PHC/ped 2.3.1 ILO document is still missing; online pediatric material is explicitly external benchmark content. The working crosswalk remains partial and not faculty-verified.
 
 ## Medical curriculum coverage
 
-The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 learning objectives. The auditable [coverage register](data/curriculum_coverage.json) records 50 topics with direct course-outcome links, 6 partial links, 4 external-benchmark-only topics, 2 module-only topics and 112 topics without a verified outcome mapping. The current first-pass catalogue contains 73 grouped official Suez outcomes: 47 are linked to topics and 26 are not linked in the current crosswalk. These are topic-level links, not proof that individual objectives are mapped. Zero objectives have yet received individual faculty-verified mapping. The granular extraction workspace now contains 616 page-cited outcome statements across seven supplied source files; each retains source, module, printed page and draft transcription status, and none is faculty-verified. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
+The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 learning objectives. The auditable [coverage register](data/curriculum_coverage.json) records 50 topics with direct course-outcome links, 6 partial links, 4 external-benchmark-only topics, 2 module-only topics and 112 topics without a verified outcome mapping. The current first-pass catalogue contains 73 grouped official Suez outcomes: 47 are linked to topics and 26 are not linked in the current crosswalk. These are topic-level links, not proof that individual objectives are mapped. Zero objectives have yet received individual faculty-verified mapping. The granular extraction workspace contains 616 page-cited outcome statements across seven supplied source files; each retains source, module, printed page and draft transcription status, and none is faculty-verified. See [specialty exam blueprints](data/specialty_exam_blueprints.json).
 
 ## Features
 
@@ -51,7 +87,7 @@ The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 lea
 - Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
-- Docker image and hardened single-node production Compose deployment with Caddy HTTPS, persistent SQLite and Source Inbox volumes, plus paired database/source backups.
+- Local SQLite and Source Inbox storage with paired backup/restore utilities. The app runs directly under Python without a container runtime.
 
 ## Evidence-grounded AI generation
 
@@ -61,9 +97,9 @@ The generator retrieves PubMed abstracts and uses a locally hosted Ollama model 
 
 See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval. Every accepted draft stores a specialty- and format-specific human review packet with the card; see [the clinical/exam review rubric](data/clinical_exam_review_rubric.json).
 
-## Production
+## Hosting later
 
-See [production deployment](docs/DEPLOYMENT.md) for existing Source Inbox migration, paired backup/restore utilities, a restore-drill procedure and an isolated staging checklist. CI validates both Compose configurations and builds the Docker image; a separate disposable staging workflow exercises app health, mounted-volume persistence across restart, and backup/restore round-trip using synthetic data. The production Compose setup remains a single-replica deployment using SQLite; **PostgreSQL is not yet connected to the application storage layer**. Do not horizontally scale until a PostgreSQL adapter and migrations are implemented and tested.
+USIPHU is local-first at this stage; no remote server or public domain is configured. If you later want access from multiple devices or learners, choose a host with persistent disk or managed database/object storage, HTTPS and an authentication provider. Do not deploy this SQLite/local-file configuration to an ephemeral hosting filesystem or expose it publicly as-is. PostgreSQL is not yet connected to the application storage layer, so do not horizontally scale the app.
 
 ## Checks
 
@@ -79,5 +115,5 @@ python -m usiphu.validation
 - Obtain the official Suez University PHC/ped 2.3.1 course specification and any missing/current module specifications.
 - Confirm the uploaded specification versions apply to the target cohort.
 - Have departmental educators review the outcome crosswalk and all clinical content.
-- Configure real OIDC secrets, domain/DNS, backups, monitoring, and privacy controls.
+- Define authentication, backups, monitoring, privacy controls and a persistent hosting plan before inviting remote users.
 - Complete security, accessibility, and user-acceptance testing.
