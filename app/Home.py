@@ -721,7 +721,7 @@ elif page == "Question Bank":
             except ValueError as exc:
                 st.warning(f"{uploaded_file.name}: {exc}")
         if saved_count:
-            st.success(f"{saved_count} source file(s) added. They are ready for extraction.")
+            st.success(f"{saved_count} source file(s) added. Extraction results are saved for review where supported.")
             st.rerun()
 
     source_records = list_sources()
