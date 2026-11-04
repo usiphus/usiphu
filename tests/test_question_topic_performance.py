@@ -18,6 +18,17 @@ def test_question_topic_performance_groups_attempts_and_isolates_learners(tmp_pa
     monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
     database = tmp_path / "question-performance.sqlite3"
 
+    from usiphu.practice import load_questions
+
+    questions = load_questions()
+    reviewed_questions = [
+        question.model_copy(update={"review_status": "exam_validated"})
+        if question.id in {"uro-001", "uro-002"}
+        else question
+        for question in questions
+    ]
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: reviewed_questions)
+
     record_question_attempt(
         "uro-001", "b", True, database, learner_id="learner-a"
     )
