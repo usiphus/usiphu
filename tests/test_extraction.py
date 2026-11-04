@@ -38,9 +38,9 @@ def test_extract_source_writes_candidates_and_updates_inbox_status(tmp_path):
     saved = save_source(
         "urology-paper.txt",
         (
-            "1) Which of the following is correct?\n"
-            "A. Option one\nB. Option two\nC. Option three\n"
-        ).encode(),
+            b"1) Which of the following is correct?\n"
+            b"A. Option one\nB. Option two\nC. Option three\n"
+        ),
         specialty="Urology",
         source_dir=tmp_path,
     )
