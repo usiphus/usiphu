@@ -59,7 +59,7 @@ def migrate(source: Path, destination: Path, dry_run: bool = False) -> tuple[int
         try:
             shutil.copy2(original, temporary)
             if digest(original) != digest(temporary):
-                raise IOError(f"Checksum mismatch after copying: {relative}")
+                raise OSError(f"Checksum mismatch after copying: {relative}")
             os.link(temporary, target)
             temporary.unlink()
         finally:
@@ -72,10 +72,10 @@ def migrate(source: Path, destination: Path, dry_run: bool = False) -> tuple[int
     # Recheck both inventories after copying. The original directory is never deleted.
     final_files = inventory(destination)
     if set(final_files) != set(source_files):
-        raise IOError("Migration verification failed: destination file inventory differs")
+        raise OSError("Migration verification failed: destination file inventory differs")
     for relative, original in source_files.items():
         if digest(original) != digest(final_files[relative]):
-            raise IOError(f"Migration verification failed for {relative}")
+            raise OSError(f"Migration verification failed for {relative}")
     return copied, skipped
 
 
