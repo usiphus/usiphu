@@ -51,3 +51,6 @@ The Question Bank workspace includes a **Review and approve extracted questions*
 Saving review edits does not add a question to the practice bank. Promotion requires a reviewer identifier, a selected answer, an explanation and an explicit attestation that the answer was independently checked against the source or a reliable reference. Promoted questions are written to `data/question_banks/past_papers_reviewed.json`, which is loaded automatically by the question-bank loader. The source page and source ID are retained.
 
 **Promotion is not clinical approval.** Imported questions remain `review_status: "draft"` until a qualified clinical reviewer performs the appropriate review and sign-off. The UI does not automatically set `clinically_reviewed` or `exam_validated`. Incomplete MCQs, short-answer candidates and MEQ pages are not yet supported by this MCQ approval flow and remain in the extraction files for a later dedicated editor.
+
+
+When OIDC authentication is enabled, only identities whose OIDC `sub` value appears in the comma-separated `USIPHU_REVIEWER_SUBJECTS` environment variable can save review edits or promote questions. In local single-learner mode, review is available to the local operator. Configure this allowlist before enabling shared question review in a multi-user deployment.
