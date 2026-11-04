@@ -14,7 +14,6 @@ from usiphu.ai_provider import (
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
-from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
 from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
