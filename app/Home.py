@@ -419,6 +419,280 @@ elif page == "AI Studio":
             for source in draft.get("evidence_sources", []):
                 st.markdown(f"- [{source['source_title']}]({source['source_url']})")
 
+elif page == "Review Editor":
+    st.subheader("Question review editor")
+    st.write("A dedicated editorial workspace for extracted MCQs, short-answer questions and modified essay questions.")
+    mcq_candidates = list_review_candidates()
+    written_candidates = list_non_mcq_candidates()
+    all_candidates = [
+        item for item in mcq_candidates if item.get("review_state") != "approved"
+    ] + [
+        item for item in written_candidates if item.get("review_state") != "approved"
+    ]
+    mcq_pending = sum(item.get("question_type") == "single_best_answer" for item in all_candidates)
+    short_pending = sum(item.get("assessment_type") == "short_answer" for item in all_candidates)
+    meq_pending = sum(item.get("assessment_type") == "meq" for item in all_candidates)
+    m1, m2, m3 = st.columns(3)
+    m1.metric("MCQs", mcq_pending)
+    m2.metric("Short answers", short_pending)
+    m3.metric("MEQ pages", meq_pending)
+    st.caption("Every item retains its source and page. Nothing is published into the learner bank until a reviewer saves and explicitly approves it.")
+    if not all_candidates:
+        st.info("No extracted candidates are waiting. Upload a paper in Question Bank and run extraction first.")
+    else:
+        type_filter = st.selectbox(
+            "Candidate type",
+            ["All types", "MCQ", "Short answer", "MEQ"],
+            key="editor-type-filter",
+        )
+        filtered_candidates = [
+            item for item in all_candidates
+            if type_filter == "All types"
+            or (type_filter == "MCQ" and item.get("question_type") == "single_best_answer")
+            or (type_filter == "Short answer" and item.get("assessment_type") == "short_answer")
+            or (type_filter == "MEQ" and item.get("assessment_type") == "meq")
+        ]
+        source_filter = st.selectbox(
+            "Source paper",
+            ["All sources", *sorted({item.get("source_title") or item.get("source_filename") or "Source" for item in filtered_candidates})],
+            key="editor-source-filter",
+        )
+        filtered_candidates = [
+            item for item in filtered_candidates
+            if source_filter == "All sources"
+            or (item.get("source_title") or item.get("source_filename") or "Source") == source_filter
+        ]
+        if filtered_candidates:
+            labels = {
+                item["candidate_id"]: (
+                    str(item.get("source_title") or item.get("source_filename") or "Source")
+                    + " · p." + str(item.get("source_page", "?"))
+                    + " · " + item["candidate_id"]
+                    + " · " + ("MCQ" if item.get("question_type") == "single_best_answer" else item.get("assessment_type", "candidate").replace("_", " ").upper())
+                )
+                for item in filtered_candidates
+            }
+            selected_id = st.selectbox(
+                "Select candidate",
+                list(labels),
+                format_func=lambda value: labels[value],
+                key="editor-candidate",
+            )
+            selected = next(item for item in filtered_candidates if item["candidate_id"] == selected_id)
+            with st.expander("Original extracted content and provenance", expanded=True):
+                st.caption(
+                    str(selected.get("source_filename") or "Source file")
+                    + " · pages " + str(selected.get("source_page", "?"))
+                    + ("–" + str(selected.get("source_page_end")) if selected.get("source_page_end") != selected.get("source_page") else "")
+                )
+                st.text(selected.get("raw_text") or selected.get("stem_extracted") or "")
+            specialty_by_id = {item.id: item for item in curriculum.specialties}
+            specialty_ids = list(specialty_by_id)
+            default_specialty = selected.get("specialty_id")
+            if default_specialty not in specialty_by_id:
+                label = str(selected.get("specialty_label", "")).casefold()
+                default_specialty = next(
+                    (item.id for item in curriculum.specialties if item.title.casefold() == label),
+                    specialty_ids[0],
+                )
+            current_topics = [
+                topic.id
+                for domain in specialty_by_id[default_specialty].domains
+                for topic in domain.topics
+            ]
+            default_topic = selected.get("topic_id")
+            if default_topic not in current_topics:
+                default_topic = current_topics[0]
+            if selected.get("question_type") == "single_best_answer":
+                existing_options = {str(item.get("id", "")).lower(): item.get("text", "") for item in selected.get("options", [])}
+                with st.form("dedicated-mcq-editor-" + selected_id):
+                    stem = st.text_area("Question stem", value=selected.get("stem_extracted") or "", height=140)
+                    option_values = {}
+                    option_columns = st.columns(2)
+                    for index, option_id in enumerate(["a", "b", "c", "d", "e"]):
+                        option_values[option_id] = option_columns[index % 2].text_input(
+                            "Option " + option_id.upper(),
+                            value=existing_options.get(option_id, ""),
+                            key="dedicated-option-" + selected_id + "-" + option_id,
+                        )
+                    available_options = [key for key, value in option_values.items() if value.strip()]
+                    prior_key = selected.get("correct_option_id")
+                    answer_choices = ["Not verified", *available_options]
+                    answer = st.selectbox(
+                        "Answer key",
+                        answer_choices,
+                        index=answer_choices.index(prior_key) if prior_key in available_options else 0,
+                        format_func=lambda value: "Not verified" if value == "Not verified" else value.upper(),
+                    )
+                    specialty_id = st.selectbox(
+                        "Specialty", specialty_ids,
+                        index=specialty_ids.index(default_specialty),
+                        format_func=lambda value: specialty_by_id[value].title,
+                    )
+                    topic_rows = [
+                        (topic.id, domain.title, topic.title)
+                        for domain in specialty_by_id[specialty_id].domains
+                        for topic in domain.topics
+                    ]
+                    topic_ids = [row[0] for row in topic_rows]
+                    topic_id = st.selectbox(
+                        "Curriculum topic", topic_ids,
+                        index=topic_ids.index(default_topic) if default_topic in topic_ids else 0,
+                        format_func=lambda value: next(row[1] + " · " + row[2] for row in topic_rows if row[0] == value),
+                    )
+                    explanation = st.text_area("Explanation / rationale", value=selected.get("explanation") or "")
+                    reviewer = st.text_input("Reviewer", value=selected.get("reviewer") or "")
+                    verified = st.checkbox(
+                        "I independently verified the answer against the source or a reliable reference.",
+                        value=bool(selected.get("answer_verified_by_reviewer")),
+                    )
+                    action = st.radio("Action", ["Save review draft", "Approve into question bank"], horizontal=True)
+                    submitted = st.form_submit_button("Save MCQ review", type="primary")
+                if submitted:
+                    if not reviewer_access:
+                        st.error("Your account is not authorized to review shared content. Configure USIPHU_REVIEWER_SUBJECTS.")
+                    else:
+                        try:
+                            options = [{"id": key, "text": value.strip()} for key, value in option_values.items() if value.strip()]
+                            save_candidate_review(
+                                selected_id, stem=stem, options=options,
+                                specialty_id=specialty_id, topic_id=topic_id,
+                                correct_option_id=None if answer == "Not verified" else answer,
+                                explanation=explanation, reviewer=reviewer,
+                                answer_verified=verified,
+                            )
+                            if action == "Approve into question bank":
+                                promoted = approve_candidate(selected_id)
+                                st.success("Promoted " + promoted["id"] + " as an editorial draft.")
+                            else:
+                                st.success("Review draft saved; not yet added to the learner bank.")
+                            st.rerun()
+                        except (ValueError, KeyError) as exc:
+                            st.error(str(exc))
+            else:
+                is_meq = selected.get("assessment_type") == "meq"
+                old_parts = selected.get("review_parts") or []
+                with st.form("dedicated-written-editor-" + selected_id):
+                    prompt = st.text_input(
+                        "Case title" if is_meq else "Question prompt",
+                        value=selected.get("review_prompt") or (
+                            "Modified essay question" if is_meq else selected.get("stem_extracted", "")
+                        ),
+                    )
+                    scenario = st.text_area(
+                        "Clinical scenario / source context",
+                        value=selected.get("review_scenario") or (selected.get("raw_text", "") if is_meq else ""),
+                        height=170,
+                    )
+                    specialty_id = st.selectbox(
+                        "Specialty", specialty_ids,
+                        index=specialty_ids.index(default_specialty),
+                        format_func=lambda value: specialty_by_id[value].title,
+                    )
+                    topic_rows = [
+                        (topic.id, domain.title, topic.title)
+                        for domain in specialty_by_id[specialty_id].domains
+                        for topic in domain.topics
+                    ]
+                    topic_ids = [row[0] for row in topic_rows]
+                    topic_id = st.selectbox(
+                        "Curriculum topic", topic_ids,
+                        index=topic_ids.index(default_topic) if default_topic in topic_ids else 0,
+                        format_func=lambda value: next(row[1] + " · " + row[2] for row in topic_rows if row[0] == value),
+                    )
+                    part_count = st.number_input(
+                        "Number of answer parts",
+                        min_value=1, max_value=8,
+                        value=min(8, max(1, len(old_parts) or 1)),
+                        step=1,
+                    )
+                    parts_to_save = []
+                    for part_index in range(int(part_count)):
+                        old_part = old_parts[part_index] if part_index < len(old_parts) else {}
+                        with st.expander("Part " + str(part_index + 1), expanded=True):
+                            part_prompt = st.text_area(
+                                "Part prompt",
+                                value=old_part.get("prompt") or (
+                                    selected.get("stem_extracted", "") if not is_meq and part_index == 0
+                                    else "Part " + str(part_index + 1) + " — edit this prompt"
+                                ),
+                                key="editor-part-prompt-" + selected_id + "-" + str(part_index),
+                            )
+                            old_rubric = old_part.get("marking_points", [])
+                            rubric_default = "\n".join(
+                                str(point.get("point", "")) + " | "
+                                + "; ".join(point.get("acceptable_terms", [])) + " | "
+                                + str(point.get("marks", 1))
+                                for point in old_rubric
+                            )
+                            rubric_text = st.text_area(
+                                "Marking rubric (one line per point: description | accepted phrases separated by ; | marks)",
+                                value=rubric_default,
+                                height=110,
+                                key="editor-rubric-" + selected_id + "-" + str(part_index),
+                            )
+                        points = []
+                        for line in rubric_text.splitlines():
+                            if not line.strip():
+                                continue
+                            columns = [value.strip() for value in line.split("|")]
+                            if len(columns) != 3:
+                                continue
+                            try:
+                                marks = int(columns[2])
+                            except ValueError:
+                                marks = 1
+                            points.append({
+                                "point": columns[0],
+                                "acceptable_terms": [term.strip() for term in columns[1].split(";") if term.strip()],
+                                "marks": marks,
+                            })
+                        parts_to_save.append({
+                            "id": "part-" + str(part_index + 1),
+                            "prompt": part_prompt,
+                            "marking_points": points,
+                        })
+                    reviewer = st.text_input("Reviewer", value=selected.get("reviewer") or "")
+                    rubric_verified = st.checkbox(
+                        "I checked the marking points and acceptable variants against a reliable source.",
+                        value=bool(selected.get("rubric_verified_by_reviewer")),
+                    )
+                    action = st.radio("Action", ["Save review draft", "Approve assessment"], horizontal=True)
+                    submitted = st.form_submit_button("Save assessment review", type="primary")
+                if submitted:
+                    if not reviewer_access:
+                        st.error("Your account is not authorized to review shared content. Configure USIPHU_REVIEWER_SUBJECTS.")
+                    else:
+                        try:
+                            saved = save_non_mcq_review(
+                                selected_id,
+                                assessment_type=selected["assessment_type"],
+                                prompt=prompt,
+                                scenario=scenario,
+                                parts=parts_to_save,
+                                specialty_id=specialty_id,
+                                topic_id=topic_id,
+                                reviewer=reviewer,
+                                rubric_verified=rubric_verified,
+                                approve=action == "Approve assessment",
+                            )
+                            st.success(
+                                "Assessment promoted to the practice checker." if action == "Approve assessment"
+                                else "Assessment review draft saved; not yet in the learner practice bank."
+                            )
+                            st.rerun()
+                        except (ValueError, KeyError) as exc:
+                            st.error(str(exc))
+        else:
+            st.info("No candidates match this filter. Change the type/source or upload another paper.")
+    st.divider()
+    st.subheader("Reviewer guidance")
+    st.caption(
+        "The automatic checker uses exact option-key comparison for MCQs and reviewer-authored "
+        "acceptable phrases for written answers. It does not interpret clinical meaning. "
+        "Unmatched written answers must be checked manually; all written-answer marks are provisional."
+    )
+
 elif page == "Question Bank":
     st.subheader("Medical question bank")
     bank_questions = load_questions()
