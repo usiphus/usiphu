@@ -38,3 +38,14 @@ def test_content_validation_endpoint():
     assert result["draft_questions"] == 3
     assert result["draft_cases"] == 2
     assert result["target_syllabus"] is None
+
+def test_question_bank_search_and_filters():
+    filtered = client.get(
+        "/practice/questions",
+        params={"specialty": "urology", "difficulty": "easy", "review_status": "draft"},
+    )
+    assert filtered.status_code == 200
+    assert [item["id"] for item in filtered.json()] == ["uro-001"]
+    searched = client.get("/practice/questions", params={"q": "posterior urethral valves"})
+    assert searched.status_code == 200
+    assert [item["id"] for item in searched.json()] == ["uro-002"]
