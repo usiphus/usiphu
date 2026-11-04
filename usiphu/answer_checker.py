@@ -62,7 +62,13 @@ def check_rubric_answer(answer: str, marking_points: list[dict]) -> dict:
         marks = max(1, int(item.get("marks", 1)))
         possible += marks
         terms = [term for term in item.get("acceptable_terms", []) if normalize_answer(term)]
-        matches = [term for term in terms if normalize_answer(term) in normalized]
+        matches = [
+            term for term in terms
+            if re.search(
+                r"(?<!\\w)" + re.escape(normalize_answer(term)) + r"(?!\\w)",
+                normalized,
+            )
+        ]
         earned = marks if matches else 0
         awarded += earned
         results.append({
