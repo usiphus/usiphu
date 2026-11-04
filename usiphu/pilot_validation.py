@@ -171,12 +171,9 @@ def build_pilot_validation_report(
     )
     dated_sources = sum(bool(item.get("source_date")) for item in evidence_sources)
     answer_verified = answer_status.get("human_verified", 0)
-    mcq_reviewed = len(checked_mcqs)
-
     source_rows = []
     for source in sources:
         source_id = str(source.get("source_id", ""))
-        extraction = next((item for item in extractions if item.get("source_id") == source_id), {})
         candidates_for_source = [
             item for item in [*mcqs, *short_answers, *meqs] if item.get("source_id") == source_id
         ]
