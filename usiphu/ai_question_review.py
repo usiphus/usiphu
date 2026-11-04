@@ -303,6 +303,14 @@ def review_mcq_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
             "human_review_required": True,
             "official_answer_key": False,
         }
+        # Do not present an unsourced local-model guess as an internet-checked answer.
+        suggested_key = None
+        basis = "unclear"
+        source_evidence = ""
+        answer["rationale"] = (
+            "No answer suggestion was made because no relevant open-access medical source was retrieved."
+        )
+        answer["confidence"] = "low"
 
     return {
         "candidate_id": candidate.get("candidate_id"),
