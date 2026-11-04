@@ -57,7 +57,7 @@ st.caption(
     f"Curriculum validation: {coverage['topics_sourced']} sourced · "
     f"{coverage['topics_reviewed']} clinically reviewed · "
     f"{coverage['topics_exam_validated']} exam validated. "
-    "Mapped topics are not automatically syllabus-complete."
+    f"{coverage['topics_planned']} planned topics; mapped topics are not automatically syllabus-complete."
 )
 c1, c2, c3, c4 = st.columns(4)
 c1.metric("Specialties mapped", coverage["specialties"])
@@ -71,7 +71,7 @@ with tab1:
     st.subheader("Specialty curriculum")
     st.write(f"{coverage['domains']} domains · {coverage['topics']} topics · {coverage['objectives']} learning objectives")
     st.progress(coverage["objective_coverage_percent"] / 100,
-                text=f"{coverage['objective_coverage_percent']}% of mapped topics have objectives")
+                text=f"{coverage['objective_coverage_percent']}% of listed topics have learning objectives")
     search = st.text_input("Search specialties, domains, and topics")
     rows = flatten_topics(curriculum)
     if search:
