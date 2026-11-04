@@ -138,3 +138,77 @@ def test_model_output_must_be_json_object(monkeypatch, pubmed_record):
              "official_suez_outcomes": [], "external_benchmark_outcomes": []},
             [pubmed_record], "qwen2.5:7b"
         )
+
+
+
+def test_provider_health_reports_missing_model(monkeypatch):
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return json.dumps({"models": [{"name": "other-model:latest"}]}).encode()
+
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://ollama:11434")
+    monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
+    monkeypatch.setattr(ai, "urlopen", lambda request, timeout: Response())
+
+    health = ai.provider_health()
+
+    assert health["healthy"] is False
+    assert health["model_installed"] is False
+    assert "ollama pull qwen2.5:7b" in health["message"]
+
+
+def test_provider_health_confirms_running_model(monkeypatch):
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self):
+            return json.dumps({"models": [{"name": "qwen2.5:7b"}]}).encode()
+
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://ollama:11434")
+    monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
+    monkeypatch.setattr(ai, "urlopen", lambda request, timeout: Response())
+
+    health = ai.provider_health()
+
+    assert health["healthy"] is True
+    assert health["model_installed"] is True
+
+
+def test_generation_keeps_successful_objectives_when_one_model_call_fails(
+    monkeypatch, pubmed_record
+):
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
+    monkeypatch.setattr(ai, "retrieve_pubmed_evidence", lambda query, max_results: [pubmed_record])
+    calls = {"count": 0}
+
+    def author(brief, evidence, model, guidance=""):
+        calls["count"] += 1
+        if calls["count"] == 1:
+            raise ValueError("malformed model response")
+        return {"valid": True, "status": "draft_ready", "card": {"id": "good-draft"}}
+
+    monkeypatch.setattr(ai, "_author_one", author)
+    progress = []
+
+    result = generate_topic_cards(
+        "urology", "pujo", max_objectives=2,
+        generation_guidance="Emphasize clinical reasoning.",
+        progress_callback=progress.append,
+    )
+
+    assert result["total_objectives"] == 2
+    assert result["draft_cards"] == 1
+    assert result["results"][0]["status"] == "generation_error"
+    assert result["results"][1]["status"] == "draft_ready"
+    assert progress

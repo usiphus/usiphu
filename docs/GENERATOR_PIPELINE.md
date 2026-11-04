@@ -46,7 +46,7 @@ Optional `NCBI_EMAIL` and `NCBI_API_KEY` settings support PubMed E-utilities con
 
 ## Runtime/API
 
-- `GET /curriculum/coverage` reports topic/objective mapping status and current official outcome crosswalk coverage. `GET /content/validation` also checks that the coverage register still matches the curriculum and ILO source files.\n- `GET /generator/status` reports configured provider, endpoint, and selected model without making a live health check. A configured endpoint does not guarantee Ollama is running or that the model is present.
+- `GET /curriculum/coverage` reports topic/objective mapping status and current official outcome crosswalk coverage. `GET /content/validation` also checks that the coverage register still matches the curriculum and ILO source files.\n- `GET /generator/status` reports provider configuration and performs a short live Ollama/model-tag health check. A successful health check confirms service reachability and the configured model is installed; it does not guarantee generation quality.
 - `GET /generator/briefs?specialty=urology&topic=pujo` returns deterministic objective-level briefs without calling a model.
 - `POST /generator/generate` accepts
   `{"specialty_id":"urology","topic_id":"pujo","evidence_limit":5,"exam_format":"osce"}`. Supported formats are `mixed`, `mcq`, `short_answer`, `clinical_case`, `osce`, `viva` and `emq`. The same `exam_format` query parameter is available on `/generator/briefs`.
@@ -54,6 +54,22 @@ Optional `NCBI_EMAIL` and `NCBI_API_KEY` settings support PubMed E-utilities con
 - `POST /generator/validate` validates externally authored cards against briefs.
 
 The Streamlit Generator tab offers the same flow and can persist accepted outputs as drafts. The app labels them as drafts and keeps them outside the approved flashcard queue.
+
+## Generator workspace and runtime diagnostics
+
+The Streamlit sidebar has one **Generator** workspace for all curriculum-based AI draft formats:
+mixed assessment, MCQ, short answer, clinical case, OSCE, viva and EMQ. The page also includes specialty/topic selection, all-objective or quick-run scope, PubMed evidence depth, optional educator instructions, live progress, result review and saved drafts.
+
+The page performs a live Ollama check against `/api/tags`. It verifies both that the service responds and that the exact configured model tag is installed; a non-empty endpoint/model setting alone is not treated as readiness. If the model is missing, run `ollama pull qwen2.5:7b` (or pull the exact value configured in `USIPHU_OLLAMA_MODEL`). If the service is unreachable, start the Ollama desktop app/service and refresh the Generator page.
+
+Runtime behavior:
+- Ollama requests keep the model resident for five minutes and use a conservative temperature plus a bounded output budget.
+- `USIPHU_OLLAMA_TIMEOUT_SECONDS` controls the inference timeout (default 150 seconds).
+- PubMed retrieval uses a conservative single worker without an NCBI API key and a small worker pool when an API key is configured, respecting the different E-utilities rate limits.
+- Each objective reports its own evidence or generation failure. A malformed response or timeout for one objective does not discard valid drafts generated for other objectives.
+- The Generator page shows evidence-retrieval and model-generation progress separately. A quick run can limit the number of objectives to reduce wait time before running the full topic.
+
+A reachable model is still not a guarantee that every output will pass evidence and quality checks. Failed objectives remain visible with their reason; only accepted drafts can be saved, and they remain outside the approved flashcard queue.
 
 ## Evidence handling
 
