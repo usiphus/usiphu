@@ -21,7 +21,7 @@ The ENT and ophthalmology teaching outlines are also catalogued as **teaching sc
 
 ## Granular source transcription milestone
 
-A first page-cited granular transcription is now available for **Medicine I (MI 2.4.1, 2021–2022)** at `data/suez_ilo_transcriptions/mi_2_4_1.json`. It contains 127 individually identified outcome statements transcribed from source pages 6–26, spanning knowledge, clinical reasoning, management, clinical skills, professional skills, research and field training. Each row retains a source page and a stable transcription ID. The text has light spelling, punctuation and whitespace cleanup; multi-part bullets remain grouped where the source presents them as one outcome.
+A first page-cited granular transcription is now available for **Medicine I (MI 2.4.1, 2021–2022)** at `data/suez_ilo_transcriptions/mi_2_4_1.json`. It contains 111 individually identified outcome statements transcribed from source pages 6–26, spanning knowledge, clinical reasoning, management, clinical skills, professional skills, research and field training. Each row retains a source page and a stable transcription ID. The text has light spelling, punctuation and whitespace cleanup; multi-part bullets remain grouped where the source presents them as one outcome.
 
 The extraction is marked `transcribed_not_faculty_verified`. Automated validation checks source identity against the official Suez catalog, module identity, unique IDs, non-empty text and page bounds. This is a granular transcription milestone for Medicine I only; it does not yet complete the other official modules, prove that every phrase is independently mapped to a Usiphu objective, or confer faculty approval.
 
