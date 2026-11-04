@@ -88,6 +88,16 @@ def list_pilot_questions(path: Path = DEFAULT_DB, bank_dir: Path | None = None) 
         question["exam_reviewer_name"] = state.get("exam_reviewer_name")
         question["exam_comment"] = state.get("exam_comment")
         question["exam_reviewed_at"] = state.get("exam_reviewed_at")
+        if state.get("content_snapshot_json"):
+            saved_content = json.loads(state["content_snapshot_json"])
+            for key in (
+                "stem", "options", "correct_option_id", "explanation", "specialty_id",
+                "topic_id", "difficulty", "source_id", "source_page", "source_page_end",
+                "source_filename", "source_candidate_id", "transcription_status",
+                "evidence_sources", "editorial_notes"
+            ):
+                if key in saved_content:
+                    question[key] = saved_content[key]
         question["faculty_release_status"] = (
             "exam_validated" if question["exam_status"] == "approved"
             else "clinically_reviewed" if question["clinical_status"] == "approved"
@@ -126,7 +136,7 @@ def record_faculty_decision(
     if not reviewer_id.strip() or not reviewer_name.strip() or not comment.strip():
         raise ValueError("A stable reviewer identity, reviewer name and review comment are required.")
 
-    questions = {item["id"]: item for item in _pilot_questions(bank_dir)}
+    questions = {item["id"]: item for item in list_pilot_questions(path, bank_dir)}
     if question_id not in questions:
         raise KeyError(f"Unknown pilot question: {question_id}")
     question = questions[question_id]
@@ -166,8 +176,9 @@ def record_faculty_decision(
             "evidence_sources", "editorial_notes"
         )
     }
-    snapshot["review_attestations"] = checks
-    snapshot_json = json.dumps(snapshot, ensure_ascii=False, sort_keys=True)
+    content_snapshot_json = json.dumps(snapshot, ensure_ascii=False, sort_keys=True)
+    event_snapshot = {**snapshot, "review_attestations": checks}
+    event_snapshot_json = json.dumps(event_snapshot, ensure_ascii=False, sort_keys=True)
     now = _now()
     _ensure_schema(path)
     with connect(path) as db:
@@ -175,7 +186,7 @@ def record_faculty_decision(
             "SELECT * FROM faculty_question_reviews WHERE question_id=?", (question_id,)
         ).fetchone()
         previous_snapshot = state["content_snapshot_json"] if state else None
-        content_changed = previous_snapshot is not None and previous_snapshot != snapshot_json
+        content_changed = previous_snapshot is not None and previous_snapshot != content_snapshot_json
 
         clinical_status = state["clinical_status"] if state else "pending"
         clinical_id = state["clinical_reviewer_id"] if state else None
@@ -231,14 +242,14 @@ def record_faculty_decision(
                 updated_at=excluded.updated_at""",
             (question_id, clinical_status, clinical_id, clinical_name, clinical_comment,
              clinical_at, exam_status, exam_id, exam_name, exam_comment, exam_at,
-             snapshot_json, now),
+             content_snapshot_json, now),
         )
         db.execute(
             """INSERT INTO faculty_question_review_events
                (question_id,stage,decision,reviewer_id,reviewer_name,comment,
                 content_snapshot_json,created_at) VALUES(?,?,?,?,?,?,?,?)""",
             (question_id, stage, decision, reviewer_id, reviewer_name.strip(),
-             comment.strip(), snapshot_json, now),
+             comment.strip(), event_snapshot_json, now),
         )
 
     return {
