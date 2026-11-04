@@ -7,12 +7,12 @@ from datetime import UTC, datetime
 import streamlit as st
 
 from usiphu.ai_answer_grader import AnswerGradingError, grade_assessment_answers
-from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
 from usiphu.ai_provider import (
     GenerationNotConfigured,
     generate_topic_cards,
     provider_status,
 )
+from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
 from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
 from usiphu.coverage import coverage_report, load_coverage_register
@@ -883,9 +883,9 @@ elif page == "Review Editor":
     st.divider()
     st.subheader("Reviewer guidance")
     st.caption(
-        "The automatic checker uses exact option-key comparison for MCQs and reviewer-authored "
-        "acceptable phrases for written answers. It does not interpret clinical meaning. "
-        "Unmatched written answers must be checked manually; all written-answer marks are provisional."
+        "Check every transcription against the downloaded original paper. AI may flag parsing "
+        "mismatches and suggest an MCQ answer, but it cannot verify the official key. "
+        "Original extraction is retained; human confirmation is required before approval."
     )
 
 elif page == "Question Bank":
