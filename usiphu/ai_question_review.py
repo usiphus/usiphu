@@ -55,7 +55,7 @@ Required JSON shape:
 {{
   "transcription": {{
     "suggested_stem": "stem reconstructed from source text",
-    "suggested_options": [{{"id":"a","text":"..."} }],
+    "suggested_options": [{{"id":"a","text":"..."}}],
     "issues": ["specific parser/transcription mismatch, or explain no mismatch found"],
     "confidence": "high | medium | low"
   }},
