@@ -296,6 +296,15 @@ def faculty_release_statuses(path: Path = DEFAULT_DB) -> dict[str, dict]:
             "clinical_reviewed_at": row["clinical_reviewed_at"],
             "exam_validated_by": row["exam_reviewer_name"],
             "exam_validated_at": row["exam_reviewed_at"],
+            "reviewed_by": (
+                f"Clinical: {row['clinical_reviewer_name']}; Examination: {row['exam_reviewer_name']}"
+                if row["exam_status"] == "approved"
+                else row["clinical_reviewer_name"]
+            ),
+            "reviewed_at": (
+                row["exam_reviewed_at"] if row["exam_status"] == "approved"
+                else row["clinical_reviewed_at"]
+            ),
             "faculty_review_comments": [row["clinical_comment"], row["exam_comment"]],
         }
         # The learner-facing bank must use the exact version faculty approved,
