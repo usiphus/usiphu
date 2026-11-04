@@ -11,14 +11,16 @@ A question is eligible for trusted scored practice only after both approvals. Cl
 
 ## Identity and permissions
 
-Use Google as the default Streamlit OIDC provider. Follow [Google OIDC setup](GOOGLE_OIDC_SETUP.md) to create the OAuth client, configure the callback and collect each reviewer's stable identity. Then set:
+USIPHU uses **Auth0 as its OIDC identity provider**. Follow [Auth0 sign-in setup](GOOGLE_OIDC_SETUP.md) (the file is retained for compatibility with the existing PR path) to create the Auth0 application, configure its exact callback, and collect each reviewer's stable identity.
 
-- `USIPHU_AUTH_REQUIRED=true` (required for real sign-offs; local mode remains preview-only)
-- `USIPHU_REVIEWER_SUBJECTS` to a comma-separated allowlist of authenticated OIDC identities in `issuer:sub` form. Include the exact issuer URL and stable `sub` claim for each approved faculty account.
+Required deployment configuration:
 
-Only allowlisted accounts can submit decisions. The reviewer identity stored in the audit log is the authenticated issuer/subject pair; the displayed faculty name is an additional label, not the security identity.
+- `USIPHU_AUTH_REQUIRED=true` — required for real sign-offs; local/non-authenticated mode is preview-only and blocks faculty submissions.
+- `USIPHU_REVIEWER_SUBJECTS` — comma-separated allowlist of institution-verified OIDC identities in exact `issuer:sub` form.
 
-Do not use local single-user mode for real faculty sign-off. Local mode permits queue inspection but disables faculty submissions because typed names do not establish identity or independent reviewers.
+Only allowlisted authenticated accounts can submit decisions. The reviewer identity stored in the audit log is the authenticated issuer/subject pair; a displayed faculty name is an additional label, not the security identity. The institution must independently verify each reviewer's faculty role, specialty competence and authority before adding the identity to the allowlist.
+
+Do not use local single-user mode for real faculty sign-off. Typed names do not establish identity or independent reviewers. Auth0 login alone does not establish faculty authority.
 
 ## Audit and invalidation rules
 
@@ -33,9 +35,12 @@ Do not use local single-user mode for real faculty sign-off. Local mode permits 
 
 ## Pilot release checklist
 
-- [ ] OIDC provider configured and callback tested.
-- [ ] Clinical faculty accounts added to `USIPHU_REVIEWER_SUBJECTS`.
-- [ ] Examination faculty accounts added to `USIPHU_REVIEWER_SUBJECTS`.
+- [ ] Auth0 tenant and Regular Web Application configured.
+- [ ] Auth0 client credentials stored securely outside version control.
+- [ ] Exact local/hosted callback tested; hosted deployment uses HTTPS.
+- [ ] `USIPHU_AUTH_REQUIRED=true` enabled in the intended deployment.
+- [ ] Clinical faculty accounts independently verified and added to `USIPHU_REVIEWER_SUBJECTS`.
+- [ ] Examination faculty accounts independently verified and added to `USIPHU_REVIEWER_SUBJECTS`.
 - [ ] Clinical and examination reviewers are distinct for every question.
 - [ ] Source-paper page and answer transcription rechecked by faculty.
 - [ ] Every clinical approval includes all four clinical attestations.
@@ -43,6 +48,8 @@ Do not use local single-user mode for real faculty sign-off. Local mode permits 
 - [ ] CI passes before deployment.
 - [ ] SQLite audit database is backed up before and after the review cycle.
 
-## Operational limitation
+## Operational limitation and release gate
 
 The app records authenticated attestations and audit history; it cannot independently establish a faculty member's professional registration, specialty competence, institutional appointment or delegated authority. The institution must verify reviewer eligibility and maintain the allowlist. Formal institutional approval and local syllabus validation remain human responsibilities.
+
+Until Auth0 credentials are configured and tested and two distinct faculty identities are institutionally verified and allowlisted, the pilot remains preview-only. Only `exam_validated` items are eligible for scored practice. The pilot bank remains fixed at 17 questions (9 Urology and 8 General Surgery); no expansion is part of this workflow.
