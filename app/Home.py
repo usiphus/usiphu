@@ -92,9 +92,12 @@ c2.metric("Curriculum topics", coverage["topics"])
 c3.metric("Your flashcards", stats["flashcards"])
 c4.metric("Your reviews", stats["reviews_completed"])
 
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
-    ["🧭 Learn", "📚 Resources", "📝 Practice", "🗂️ Flashcards", "📈 Progress", "✨ AI Studio", "🏦 Question Bank"])
-with tab1:
+page = st.sidebar.radio(
+    "Workspace",
+    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank"],
+    label_visibility="visible",
+)
+if page == "Learn":
     st.subheader("Specialty curriculum")
     st.write(f"{coverage['domains']} domains · {coverage['topics']} topics · {coverage['objectives']} learning objectives")
     st.progress(coverage["objective_coverage_percent"] / 100,
@@ -158,7 +161,7 @@ with tab1:
                         st.write("• " + topic.title)
                         for objective in topic.objectives:
                             st.caption(f"  – {objective.text}")
-with tab2:
+elif page == "Resources":
     st.subheader("Discover learning sources")
     topic = st.text_input("Topic", placeholder="e.g. acute urinary retention")
     specialty = st.text_input("Specialty (optional)", placeholder="e.g. Urology")
@@ -166,7 +169,7 @@ with tab2:
         for resource in discover_resources(topic.strip(), specialty.strip() or None):
             st.markdown(f"**[{resource['name']}]({resource['url']})** · {resource['kind']}")
             st.caption(resource["note"])
-with tab3:
+elif page == "Practice":
     st.subheader("Question practice")
     questions = load_questions()
     draft_count = sum(question.review_status == "draft" for question in questions)
@@ -200,7 +203,7 @@ with tab3:
         with st.expander("Examiner discussion points"):
             for point in case.discussion_points:
                 st.write("• " + point)
-with tab4:
+elif page == "Flashcards":
     st.subheader("Create a flashcard")
     with st.form("new_card"):
         card_id = st.text_input("Unique card ID", placeholder="uro-001")
@@ -245,7 +248,7 @@ with tab4:
                 record_review(card["id"], grade, updated, learner_id=learner_id)
                 st.success(f"Review saved. Next due: {updated.due_date}")
                 st.rerun()
-with tab5:
+elif page == "Progress":
     st.subheader("Learner progress")
     p1, p2, p3 = st.columns(3)
     p1.metric("Topics tracked", stats["topics_tracked"])
@@ -263,12 +266,7 @@ with tab5:
     progress_rows = topic_progress(learner_id=learner_id)
     if progress_rows:
         st.dataframe(progress_rows, use_container_width=True, hide_index=True)
-st.divider()
-st.caption("Educational use only. Verify clinical information against current guidelines and local protocols.")
-
-
-
-with tab6:
+elif page == "AI Studio":
     st.subheader("Evidence-grounded exam-card generator")
     status = provider_status()
     if status["configured"]:
@@ -412,7 +410,7 @@ with tab6:
             for source in draft.get("evidence_sources", []):
                 st.markdown(f"- [{source['source_title']}]({source['source_url']})")
 
-with tab7:
+elif page == "Question Bank":
     st.subheader("Medical question bank")
     bank_questions = load_questions()
     bank_stats = question_bank_stats(learner_id=learner_id)
@@ -660,3 +658,9 @@ with tab7:
         )
     else:
         st.info("Your submitted answers will appear here.")
+
+st.divider()
+st.caption(
+    "Educational use only. Verify clinical information against current guidelines and local protocols. "
+    "Editorial drafts are not clinically approved."
+)
