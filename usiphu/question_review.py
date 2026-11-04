@@ -97,6 +97,24 @@ def save_candidate_review(
             original_stem = item.setdefault("original_extracted_stem", item.get("stem_extracted", ""))
             original_options = item.setdefault("original_extracted_options", item.get("options", []))
             cleaned_stem = stem.strip()
+            ai_history = item.get("ai_review_history", [])
+            latest_ai = ai_history[-1] if ai_history else {}
+            internet_review = latest_ai.get("internet_evidence_review", {})
+            ai_proposal = internet_review.get("proposed_option_id")
+            ai_comparison = None
+            if latest_ai:
+                ai_comparison = {
+                    "ai_evidence_verdict": internet_review.get("verdict", "unavailable"),
+                    "ai_existing_key_assessment": internet_review.get("existing_key_assessment", "not_assessed"),
+                    "ai_proposed_option_id": ai_proposal,
+                    "reviewer_selected_option_id": correct_option_id,
+                    "reviewer_answer_verified": bool(answer_verified),
+                    "reviewer_matches_ai_proposal": (
+                        correct_option_id == ai_proposal
+                        if answer_verified and ai_proposal else None
+                    ),
+                    "reviewed_at": datetime.now(UTC).isoformat(),
+                }
             item.update({
                 "stem_extracted": cleaned_stem,
                 "options": options,
@@ -111,6 +129,7 @@ def save_candidate_review(
                 "explanation": explanation.strip(),
                 "reviewer": reviewer.strip(),
                 "answer_verified_by_reviewer": bool(answer_verified),
+                "reviewer_ai_comparison": ai_comparison,
                 "answer_status": (
                     "human_verified" if answer_verified and correct_option_id
                     else "proposed_unverified" if correct_option_id
