@@ -481,13 +481,13 @@
       "evidence_review_status": "supported_with_editorial_revision",
       "evidence_sources": [
         {
-          "source_id": "MERCK-PAGET",
-          "title": "Paget Disease of the Nipple",
-          "url": "https://www.merckmanuals.com/professional/oncology/breast-cancer/paget-disease-of-the-nipple",
-          "publisher": "Merck Manual Professional Edition",
-          "source_type": "reference",
+          "source_id": "PMC-MAMMARY-PAGET-UPDATE",
+          "title": "Mammary Paget’s Disease: An Update",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9139704/",
+          "publisher": "Cancers (MDPI) / PubMed Central",
+          "source_type": "open_access_review",
           "accessed_at": "2026-11-04",
-          "supports": "Describes unilateral eczematous-to-psoriasiform plaque of nipple/areola associated with underlying ductal carcinoma."
+          "supports": "Describes mammary Paget disease as a usually unilateral eczematous, erythematous or scaly rash of the nipple-areolar complex."
         }
       ],
       "editorial_notes": [
@@ -499,8 +499,8 @@
       "human_signoff_status": "pending",
       "reviewed_by": null,
       "reviewed_at": null,
-      "source_url": "https://www.merckmanuals.com/professional/oncology/breast-cancer/paget-disease-of-the-nipple",
-      "source_title": "Paget Disease of the Nipple",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9139704/",
+      "source_title": "Mammary Paget’s Disease: An Update",
       "source_date": null,
       "jurisdiction": "International evidence; local faculty review required"
     }
