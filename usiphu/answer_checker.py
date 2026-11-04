@@ -65,7 +65,7 @@ def check_rubric_answer(answer: str, marking_points: list[dict]) -> dict:
         matches = [
             term for term in terms
             if re.search(
-                r"(?<!\\w)" + re.escape(normalize_answer(term)) + r"(?!\\w)",
+                r"(?<!\w)" + re.escape(normalize_answer(term)) + r"(?!\w)",
                 normalized,
             )
         ]
