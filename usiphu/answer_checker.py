@@ -23,7 +23,7 @@ def check_mcq_answer(
             "message": "No answer key is available; this question cannot be automatically marked.",
         }
     correct = normalize_answer(correct_option_id) == normalize_answer(selected_option_id)
-    trusted = review_status in {"clinically_reviewed", "exam_validated"}
+    trusted = review_status == "exam_validated"
     return {
         "markable": True,
         "correct": correct,
@@ -36,7 +36,7 @@ def check_mcq_answer(
             else "Your choice does not match the stored draft key."
         ),
         "caveat": None if trusted else (
-            "This key is still an editorial draft. The checker can compare it, "
+            "This key is not yet examination-validated. The checker can compare it, "
             "but cannot certify that the stored answer is clinically correct."
         ),
     }
