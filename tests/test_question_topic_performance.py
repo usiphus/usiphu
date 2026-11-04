@@ -6,8 +6,17 @@ from usiphu.storage import (
 )
 
 
-def test_question_topic_performance_groups_attempts_and_isolates_learners(tmp_path):
-    database = tmp_path / "question-performance.sqlite3"
+def test_question_topic_performance_groups_attempts_and_isolates_learners(tmp_path, monkeypatch):
+    from usiphu.practice import load_questions
+
+    questions = load_questions()
+    trusted_questions = [
+        item.model_copy(update={"review_status": "exam_validated"})
+        if item.id in {"uro-001", "uro-002"} else item
+        for item in questions
+    ]
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
+    database = tmp_path / "question-performance.sqlite3
 
     record_question_attempt(
         "uro-001", "b", True, database, learner_id="learner-a"
