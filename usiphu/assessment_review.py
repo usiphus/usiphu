@@ -121,14 +121,18 @@ def save_non_mcq_review(
     updated = False
     for item in payload.get(collection, []):
         if item.get("candidate_id") == candidate_id:
-            item.setdefault("original_extracted_text", item.get("raw_text", ""))
+            original_text = item.setdefault("original_extracted_text", item.get("raw_text", ""))
+            reviewed_text = (
+                str(corrected_source_text).strip()
+                if corrected_source_text is not None
+                else item.get("reviewed_source_text", item.get("raw_text", ""))
+            )
             item.update({
                 "review_prompt": prompt.strip(),
                 "review_scenario": scenario.strip(),
-                "reviewed_source_text": (
-                    str(corrected_source_text).strip()
-                    if corrected_source_text is not None
-                    else item.get("reviewed_source_text", item.get("raw_text", ""))
+                "reviewed_source_text": reviewed_text,
+                "transcription_accuracy_outcome": (
+                    "confirmed_as_extracted" if reviewed_text == original_text else "corrected"
                 ),
                 "transcription_status": "human_reviewed",
                 "transcription_reviewed_by": reviewer.strip(),
