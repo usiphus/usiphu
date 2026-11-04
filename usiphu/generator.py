@@ -307,15 +307,15 @@ def validate_generated_card(
         elif card.get("correct_option_id") not in {option["id"] for option in options}:
             errors.append("correct_option_id must reference one of the five options")
         elif len({
-            re.sub(r"\\W+", " ", option["text"].casefold()).strip()
+            re.sub(r"\W+", " ", option["text"].casefold()).strip()
             for option in options
         }) != 5:
             errors.append("MCQ options must have distinct text")
 
     if existing_cards:
-        normalized = re.sub(r"\\W+", " ", str(card.get("prompt", "")).casefold()).strip()
+        normalized = re.sub(r"\W+", " ", str(card.get("prompt", "")).casefold()).strip()
         for existing in existing_cards:
-            other = re.sub(r"\\W+", " ", str(existing.get("prompt", "")).casefold()).strip()
+            other = re.sub(r"\W+", " ", str(existing.get("prompt", "")).casefold()).strip()
             if normalized and normalized == other:
                 errors.append(
                     f"Duplicate prompt matches existing card {existing.get('id', 'unknown')}"
