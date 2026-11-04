@@ -14,7 +14,7 @@ from usiphu.generator import (
     build_generation_briefs,
     validate_generation_batch,
 )
-from usiphu.practice import load_cases, load_questions
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
 
@@ -45,10 +45,20 @@ def curriculum_topics(q: str | None = Query(default=None, min_length=1)) -> list
 
 
 @app.get("/practice/questions")
-def questions(specialty: str | None = None, topic: str | None = None) -> list[dict]:
-    rows = [item.model_dump() for item in load_questions()]
-    return [row for row in rows if (not specialty or row["specialty_id"] == specialty)
-            and (not topic or row["topic_id"] == topic)]
+def questions(
+    specialty: str | None = None,
+    topic: str | None = None,
+    difficulty: str | None = None,
+    review_status: str | None = None,
+    question_type: str | None = None,
+) -> list[dict]:
+    """Return filterable authored MCQs with editorial status and provenance metadata."""
+    rows = filter_questions(
+        load_questions(), specialty_id=specialty, topic_id=topic,
+        difficulty=difficulty, review_status=review_status,
+        question_type=question_type,
+    )
+    return [item.model_dump() for item in rows]
 
 
 @app.get("/practice/cases")
