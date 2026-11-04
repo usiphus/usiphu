@@ -12,6 +12,8 @@ from usiphu.ai_provider import (
     provider_status,
 )
 from usiphu.coverage import coverage_report, load_coverage_register
+from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
+from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
@@ -101,7 +103,7 @@ c4.metric("Your reviews", stats["reviews_completed"])
 
 page = st.sidebar.radio(
     "Workspace",
-    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank"],
+    ["Learn", "Resources", "Practice", "Flashcards", "Progress", "AI Studio", "Question Bank", "Review Editor"],
     label_visibility="visible",
 )
 if page == "Learn":
