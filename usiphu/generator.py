@@ -30,6 +30,7 @@ SUPPORTED_CARD_TYPES = {item for values in EXAM_FORMATS.values() for item in val
 VALID_MAPPING_STATUSES = {
     "direct_course_outcome", "partial_related_outcome",
     "external_benchmark_only", "module_only_no_specific_ilo",
+    "not_mapped_no_verified_course_outcome",
 }
 
 
@@ -72,7 +73,9 @@ def build_generation_briefs(
     if profile.get("institution", {}).get("name_en") != "Suez University":
         raise ValueError("Generation profile must target Suez University")
     coverage_register = load_coverage_register()
-    coverage_topics = {\n        (row["specialty_id"], row["topic_id"]): row for row in coverage_register["topics"]\n    }\n    exam_blueprints = _load_json(blueprint_path)
+    coverage_topics = {
+        (row["specialty_id"], row["topic_id"]): row for row in coverage_register["topics"]
+    }\n    exam_blueprints = _load_json(blueprint_path)
     default_blueprint = exam_blueprints["default"]
     catalog = _load_json(catalog_path)
     official, external = _catalog_index(catalog)
