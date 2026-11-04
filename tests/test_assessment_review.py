@@ -146,3 +146,16 @@ def test_assessment_checker_returns_part_and_overall_scores():
     assert result["marks_awarded"] == 3
     assert result["marks_available"] == 3
     assert result["manual_review_required"] is True
+
+
+def test_rubric_checker_requires_word_boundaries_for_short_terms():
+    result = check_rubric_answer(
+        "The patient should be given fluids.",
+        [{
+            "point": "Establish IV access",
+            "acceptable_terms": ["IV"],
+            "marks": 1,
+        }],
+    )
+    assert result["marks_awarded"] == 0
+    assert result["points"][0]["manual_check_recommended"] is True
