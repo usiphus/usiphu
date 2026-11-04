@@ -282,7 +282,7 @@ def question_bank_stats(
     initialize(path)
     trusted_ids = {
         question.id for question in load_questions()
-        if question.review_status in {"clinically_reviewed", "exam_validated"}
+        if question.review_status == "exam_validated"
     }
     with connect(path) as db:
         rows = db.execute(
@@ -328,7 +328,7 @@ def question_topic_performance(
     question_topics = {
         question.id: question.topic_id
         for question in load_questions()
-        if question.review_status in {"clinically_reviewed", "exam_validated"}
+        if question.review_status == "exam_validated"
     }
     totals: dict[str, dict[str, int]] = {}
     for row in rows:
