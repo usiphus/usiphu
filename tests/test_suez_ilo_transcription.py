@@ -1,6 +1,5 @@
 """Tests for page-cited official Suez ILO transcriptions."""
 import json
-from pathlib import Path
 
 import pytest
 
@@ -22,7 +21,7 @@ def test_transcription_validator_rejects_external_source_as_official(tmp_path, m
     from usiphu import suez_ilo_transcription as transcription
 
     source = json.loads(transcription.CATALOG_FILE.read_text(encoding="utf-8"))
-    source["sources"][0]["source_type"] = "external_public_benchmark_not_suez_official"
+    source["sources"][3]["source_type"] = "external_public_benchmark_not_suez_official"
     catalog = tmp_path / "catalog.json"
     catalog.write_text(json.dumps(source), encoding="utf-8")
     monkeypatch.setattr(transcription, "CATALOG_FILE", catalog)
