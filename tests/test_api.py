@@ -55,3 +55,11 @@ def test_content_validation_endpoint():
     assert result["draft_questions"] == 3
     assert result["draft_cases"] == 2
     assert result["target_syllabus"] is None
+
+def test_question_bank_text_search():
+    response = client.get(
+        "/practice/questions",
+        params={"q": "posterior urethral valves"},
+    )
+    assert response.status_code == 200
+    assert [item["id"] for item in response.json()] == ["uro-002"]
