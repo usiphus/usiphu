@@ -24,3 +24,22 @@ def test_generator_briefs_endpoint_rejects_unknown_topic():
 def test_generator_validate_endpoint_rejects_non_list_payload():
     response = client.post("/generator/validate", json={"cards": "not-a-list"})
     assert response.status_code == 422
+
+
+def test_generator_briefs_support_specialty_specific_osce_format():
+    response = client.get(
+        "/generator/briefs",
+        params={"specialty": "urology", "topic": "pujo", "exam_format": "osce"},
+    )
+    assert response.status_code == 200
+    brief = response.json()["briefs"][0]
+    assert brief["output_contract"]["allowed_card_types"] == ["osce_station"]
+    assert brief["specialty_exam_blueprint"]["title"] == "Urology"
+
+
+def test_generator_briefs_reject_unsupported_exam_format():
+    response = client.get(
+        "/generator/briefs",
+        params={"specialty": "urology", "topic": "pujo", "exam_format": "image_based"},
+    )
+    assert response.status_code == 422

@@ -1,0 +1,585 @@
+{
+  "schema_version": "1.1",
+  "bank_id": "pilot-urology-2026",
+  "title": "USIPHU Pilot Question Bank — Urology",
+  "description": "Pilot set derived from user-provided examination papers. Source-page transcription has been visually checked and editorial answers compared with open-access clinical references; all items remain draft pending qualified clinical/faculty sign-off.",
+  "source_policy": "Preserve candidate provenance and do not infer official past-paper answer keys. Editorial answer proposals are independently evidence-checked and are not faculty-approved.",
+  "review_policy": {
+    "review_status": "draft",
+    "evidence_checked": true,
+    "human_signoff_status": "pending",
+    "scoring_eligible": false
+  },
+  "questions": [
+    {
+      "id": "uro-pilot-0001",
+      "source_candidate_id": "paper2-mcq-0047",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 13,
+      "specialty_id": "urology",
+      "topic_id": "renal-colic",
+      "stem": "Which is the preferred initial diagnostic imaging study for suspected urolithiasis in a pregnant patient?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Kidney-ureter-bladder radiograph (KUB)"
+        },
+        {
+          "id": "b",
+          "text": "Intravenous pyelography"
+        },
+        {
+          "id": "c",
+          "text": "Renal ultrasonography"
+        },
+        {
+          "id": "d",
+          "text": "Spiral CT"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "Ultrasound is the preferred first-line imaging method for suspected renal colic in pregnancy because it avoids ionizing radiation. MRI may be used second-line; low-dose CT is reserved as a last-line option when necessary.",
+      "difficulty": "easy",
+      "tags": [
+        "renal-colic",
+        "pregnancy",
+        "imaging"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-UROLITHIASIS-2026",
+          "title": "EAU Guidelines on Urolithiasis — Diagnostic imaging during pregnancy",
+          "url": "https://uroweb.org/guidelines/urolithiasis/chapter/guidelines",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Recommends ultrasound as the preferred imaging method in pregnant women, MRI second-line and low-dose CT last-line."
+        }
+      ],
+      "editorial_notes": [
+        "Retained the source-paper concept and answer; wording standardized.",
+        "Topic linked to the current USIPHU curriculum topic 'renal-colic'.",
+        "The former testicular-cancer candidate was held out because the current curriculum has no corresponding topic entry.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/urolithiasis/chapter/guidelines",
+      "source_title": "EAU Guidelines on Urolithiasis — Diagnostic imaging during pregnancy",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0002",
+      "source_candidate_id": "paper2-mcq-0025",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 8,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "What is the most common presenting symptom in patients with bladder cancer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Urinary frequency from irritation"
+        },
+        {
+          "id": "b",
+          "text": "Reduced bladder capacity"
+        },
+        {
+          "id": "c",
+          "text": "Haematuria"
+        },
+        {
+          "id": "d",
+          "text": "Urinary tract infection"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "Haematuria is the most common finding in non-muscle-invasive bladder cancer. Visible haematuria is particularly important and warrants appropriate evaluation; irritative urinary symptoms can occur, including with carcinoma in situ.",
+      "difficulty": "easy",
+      "tags": [
+        "bladder",
+        "uro-oncology",
+        "haematuria"
+      ],
+      "evidence_review_status": "supported",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-NMIBC-DIAG",
+          "title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+          "url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "States haematuria is the most common finding in NMIBC and visible haematuria is associated with higher stage at diagnosis."
+        }
+      ],
+      "editorial_notes": [
+        "British spelling standardized; meaning retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+      "source_title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0003",
+      "source_candidate_id": "paper2-mcq-0027",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 8,
+      "specialty_id": "urology",
+      "topic_id": "rcc",
+      "stem": "A 70-year-old woman presents with painless total haematuria. Ultrasound shows a 5 × 7 cm right renal lesion and renal function is normal. What is the most appropriate next imaging investigation to characterize and stage a suspected renal cell carcinoma?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Repeat ultrasound after one month"
+        },
+        {
+          "id": "b",
+          "text": "PET scan"
+        },
+        {
+          "id": "c",
+          "text": "Multiphasic contrast-enhanced CT of the abdomen and chest"
+        },
+        {
+          "id": "d",
+          "text": "Renal artery embolization"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "A multiphasic contrast-enhanced CT is used to characterize a solid renal mass and assess local extension; chest imaging is used for staging. PET is not recommended for routine primary staging. The exact imaging protocol should be adapted to contrast contraindications and local pathways.",
+      "difficulty": "moderate",
+      "tags": [
+        "renal-mass",
+        "RCC",
+        "imaging"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-RCC-DIAG",
+          "title": "EAU Guidelines: Renal Cell Carcinoma — Diagnostic Evaluation",
+          "url": "https://uroweb.org/guidelines/renal-cell-carcinoma/chapter/diagnostic-evaluation",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Recommends multiphasic contrast-enhanced CT for diagnosis and staging of renal tumours; describes renal mass enhancement and extension assessment."
+        }
+      ],
+      "editorial_notes": [
+        "Stem narrowed to suspected RCC to remove diagnostic ambiguity.",
+        "Option C updated from generic contrast CT chest/abdomen/pelvis to multiphasic contrast-enhanced CT abdomen/chest, consistent with current EAU staging guidance.",
+        "Not a substitute for checking contrast allergy, renal function, or local imaging protocol.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/renal-cell-carcinoma/chapter/diagnostic-evaluation",
+      "source_title": "EAU Guidelines: Renal Cell Carcinoma — Diagnostic Evaluation",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0004",
+      "source_candidate_id": "paper2-mcq-0029",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 8,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "An older man who smokes presents with painless visible haematuria and clot passage. Which imaging test is most appropriate for evaluating the upper urinary tract for a suspected urothelial malignancy?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pelvic ultrasound alone"
+        },
+        {
+          "id": "b",
+          "text": "CT urography"
+        },
+        {
+          "id": "c",
+          "text": "Intravenous pyelography as the preferred modern test"
+        },
+        {
+          "id": "d",
+          "text": "Renal isotopic scan"
+        }
+      ],
+      "correct_option_id": "b",
+      "explanation": "CT urography is used to detect upper-tract urothelial lesions and provides more information than ultrasound or conventional intravenous urography. Cystoscopy is still required to assess the bladder; imaging does not replace it.",
+      "difficulty": "moderate",
+      "tags": [
+        "haematuria",
+        "CT-urography",
+        "uro-oncology"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-NMIBC-DIAG",
+          "title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+          "url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes CT urography for detecting papillary tumours in the urinary tract and states ultrasound cannot replace CT urography or rule out all causes of haematuria."
+        }
+      ],
+      "editorial_notes": [
+        "Stem clarified to ask specifically about upper-tract imaging.",
+        "Option B changed from 'CT with contrast' to the more precise 'CT urography'.",
+        "The original question's phrase 'main radiological investigation' was underspecified; cystoscopy remains necessary for bladder evaluation.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+      "source_title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0005",
+      "source_candidate_id": "paper2-mcq-0030",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 8,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "After an initial TURBT for non-muscle-invasive bladder cancer, which finding is an indication for a second resection (re-TURBT), subject to tumour-risk and histology exceptions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Detrusor muscle is absent from the specimen (except in selected low-risk Ta low-grade tumours and primary CIS)"
+        },
+        {
+          "id": "b",
+          "text": "There is no visible residual tumour and the initial specimen contains detrusor muscle"
+        },
+        {
+          "id": "c",
+          "text": "Every solitary Ta low-grade tumour with adequate muscle sampling"
+        },
+        {
+          "id": "d",
+          "text": "Urine cytology is negative after resection"
+        }
+      ],
+      "correct_option_id": "a",
+      "explanation": "Absence of detrusor muscle in the initial specimen is an indication for repeat resection in relevant risk groups because residual disease and understaging may otherwise be missed. Current EAU guidance includes exceptions, notably Ta low-grade/G1 tumours and primary CIS; repeat resection is also recommended for T1 disease and incomplete resection.",
+      "difficulty": "hard",
+      "tags": [
+        "bladder",
+        "TURBT",
+        "restaging"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-NMIBC-DIAG",
+          "title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+          "url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "States absence of detrusor muscle is associated with residual disease, recurrence and understaging; gives risk-specific repeat TURBT recommendations and exceptions."
+        }
+      ],
+      "editorial_notes": [
+        "Original options contained more than one potentially correct indication and an overbroad 'all of the above' distractor.",
+        "Options rewritten to create one defensible best answer and include current low-risk exceptions.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+      "source_title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0006",
+      "source_candidate_id": "paper2-mcq-0037",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 10,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "Which investigation is essential for direct assessment of a suspected bladder tumour and cannot be replaced by imaging or urine cytology?",
+      "options": [
+        {
+          "id": "a",
+          "text": "CT urography alone"
+        },
+        {
+          "id": "b",
+          "text": "Urine cytology alone"
+        },
+        {
+          "id": "c",
+          "text": "Cystoscopy with or without biopsy"
+        },
+        {
+          "id": "d",
+          "text": "Renal ultrasound alone"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "Cystoscopy, with biopsy when indicated, is necessary for diagnosis of bladder cancer. CT urography and ultrasound are useful adjuncts in haematuria evaluation but do not replace cystoscopy.",
+      "difficulty": "easy",
+      "tags": [
+        "bladder",
+        "cystoscopy",
+        "diagnosis"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-NMIBC-DIAG",
+          "title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+          "url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Strong recommendation: perform cystoscopy with or without biopsy in patients with symptoms suggestive of bladder cancer; it cannot be replaced by non-invasive tests."
+        }
+      ],
+      "editorial_notes": [
+        "Original two-option item expanded with clinically relevant distractors; answer remains cystourethroscopy/cystoscopy.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/non-muscle-invasive-bladder-cancer/chapter/diagnosis",
+      "source_title": "EAU Guidelines: Non-muscle-invasive Bladder Cancer — Diagnosis",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0007",
+      "source_candidate_id": "paper2-mcq-0034",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 9,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "A fit patient has cT2–T4a N0M0 muscle-invasive bladder cancer and is proceeding with standard surgical management. Which is the standard operation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Radical cystectomy with pelvic lymph-node dissection and urinary diversion"
+        },
+        {
+          "id": "b",
+          "text": "TURBT followed by intravesical BCG alone"
+        },
+        {
+          "id": "c",
+          "text": "TURBT alone"
+        },
+        {
+          "id": "d",
+          "text": "Radiotherapy alone"
+        }
+      ],
+      "correct_option_id": "a",
+      "explanation": "Radical cystectomy with pelvic lymph-node dissection and urinary diversion is the standard surgical treatment for suitable patients with T2–T4a N0M0 muscle-invasive bladder cancer. Selected patients may instead be offered bladder-preserving trimodality therapy after multidisciplinary assessment; therefore, the stem specifies the standard surgical pathway.",
+      "difficulty": "moderate",
+      "tags": [
+        "bladder",
+        "MIBC",
+        "cystectomy"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-MIBC-DM",
+          "title": "EAU Guidelines: Muscle-invasive and Metastatic Bladder Cancer — Disease Management",
+          "url": "https://uroweb.org/guidelines/muscle-invasive-and-metastatic-bladder-cancer/chapter/disease-management",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Recommends radical cystectomy for T2–T4a N0M0 disease and describes pelvic lymph-node dissection and urinary diversion."
+        }
+      ],
+      "editorial_notes": [
+        "Stem restricted to the standard surgical pathway; selected eligible patients may receive bladder-preserving trimodality therapy.",
+        "Option A expanded to include pelvic lymph-node dissection.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/muscle-invasive-and-metastatic-bladder-cancer/chapter/disease-management",
+      "source_title": "EAU Guidelines: Muscle-invasive and Metastatic Bladder Cancer — Disease Management",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0008",
+      "source_candidate_id": "paper2-mcq-0026",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 8,
+      "specialty_id": "urology",
+      "topic_id": "bladder-cancer",
+      "stem": "Which combination defines trimodality bladder-preserving treatment for appropriately selected patients with muscle-invasive bladder cancer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Radical cystectomy alone"
+        },
+        {
+          "id": "b",
+          "text": "Maximal TURBT followed by concurrent chemoradiotherapy"
+        },
+        {
+          "id": "c",
+          "text": "TURBT followed by intravesical BCG alone"
+        },
+        {
+          "id": "d",
+          "text": "Radiotherapy alone"
+        }
+      ],
+      "correct_option_id": "b",
+      "explanation": "Trimodality therapy consists of maximal transurethral resection of the bladder tumour followed by concurrent chemotherapy and radiotherapy. It is an option for carefully selected patients and requires ongoing cystoscopic surveillance and multidisciplinary selection.",
+      "difficulty": "moderate",
+      "tags": [
+        "bladder",
+        "trimodality",
+        "chemoradiotherapy"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-MIBC-DM",
+          "title": "EAU Guidelines: Muscle-invasive and Metastatic Bladder Cancer — Disease Management",
+          "url": "https://uroweb.org/guidelines/muscle-invasive-and-metastatic-bladder-cancer/chapter/disease-management",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "Defines trimodality therapy as TURBT followed by concurrent chemo-radiotherapy and describes patient selection."
+        }
+      ],
+      "editorial_notes": [
+        "Original option phrased the components as a sequence; revised to state that chemotherapy and radiotherapy are concurrent after maximal TURBT.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/muscle-invasive-and-metastatic-bladder-cancer/chapter/disease-management",
+      "source_title": "EAU Guidelines: Muscle-invasive and Metastatic Bladder Cancer — Disease Management",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "uro-pilot-0009",
+      "source_candidate_id": "paper2-mcq-0035",
+      "source_id": "paper2",
+      "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
+      "source_page": 9,
+      "specialty_id": "urology",
+      "topic_id": "rcc",
+      "stem": "A renal cell carcinoma extends beyond Gerota's fascia. What is its TNM T category?",
+      "options": [
+        {
+          "id": "a",
+          "text": "T2"
+        },
+        {
+          "id": "b",
+          "text": "T3"
+        },
+        {
+          "id": "c",
+          "text": "T3c"
+        },
+        {
+          "id": "d",
+          "text": "T4"
+        },
+        {
+          "id": "e",
+          "text": "M0"
+        }
+      ],
+      "correct_option_id": "d",
+      "explanation": "Under the renal cell carcinoma TNM classification, tumour invasion beyond Gerota's fascia (including contiguous extension into the ipsilateral adrenal gland) is T4. T3 disease extends into major veins or perinephric tissues but does not extend beyond Gerota's fascia.",
+      "difficulty": "moderate",
+      "tags": [
+        "RCC",
+        "TNM",
+        "staging"
+      ],
+      "evidence_review_status": "supported",
+      "evidence_sources": [
+        {
+          "source_id": "EAU-RCC-STAGE",
+          "title": "EAU Guidelines: Renal Cell Carcinoma — Staging and Classification Systems",
+          "url": "https://uroweb.org/guidelines/renal-cell-carcinoma/chapter/staging-and-classification-systems",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "TNM table defines T4 as tumour invading beyond Gerota fascia."
+        }
+      ],
+      "editorial_notes": [
+        "Stem clarified; answer options retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-urology-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://uroweb.org/guidelines/renal-cell-carcinoma/chapter/staging-and-classification-systems",
+      "source_title": "EAU Guidelines: Renal Cell Carcinoma — Staging and Classification Systems",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    }
+  ]
+}

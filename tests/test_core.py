@@ -8,15 +8,20 @@ import pytest
 
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.models import ReviewState
-from usiphu.practice import load_cases, load_questions
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
+    generated_drafts,
     initialize,
+    question_attempt_history,
+    question_bank_stats,
+    record_question_attempt,
     record_review,
     save_flashcard,
+    save_generated_drafts,
     set_topic_progress,
     topic_progress,
 )
@@ -152,9 +157,91 @@ def test_existing_single_learner_database_migrates(tmp_path: Path):
 
 def test_content_validator_checks_complete_starter_dataset():
     report = validate_content()
-    assert report["specialties"] == 13
-    assert report["topics"] == 62
-    assert report["questions"] == 3
+    assert report["specialties"] == 27
+    assert report["topics"] == 174
+    assert report["objectives"] == 291
+    assert report["course_outcomes_catalogued"] == 73
+    assert report["official_outcomes_linked_at_topic_level"] == 47
+    assert report["official_outcomes_not_linked_in_current_crosswalk"] == 26
+    assert report["topics_without_verified_outcome_mapping"] == 112
+    assert report["questions"] == 20
+    assert report["question_banks"] == 3
     assert report["cases"] == 2
     assert report["topics_sourced"] == 0
     assert report["topics_reviewed"] == 0
+
+
+def test_saved_generated_draft_retains_human_review_packet(tmp_path: Path):
+    db = tmp_path / "review-packet.sqlite3"
+    card = {
+        "id": "review-card",
+        "specialty_id": "urology",
+        "topic_id": "pujo",
+        "prompt": "Interpret the clinical scenario.",
+        "answer": "A concise evidence-grounded rationale.",
+        "review_status": "draft",
+        "review_packet": {
+            "status": "human_review_required",
+            "automatic_approval_prohibited": True,
+            "specialty_safety_checks": ["Distinguish adult from paediatric pathways."],
+        },
+    }
+    assert save_generated_drafts([card], db, learner_id="learner-a") == 1
+    saved = generated_drafts(db, learner_id="learner-a")
+    assert saved[0]["review_packet"]["automatic_approval_prohibited"] is True
+    assert saved[0]["review_packet"]["specialty_safety_checks"]
+
+
+
+def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path, monkeypatch):
+    questions = load_questions()
+    starter_questions = [item for item in questions if item.bank_id == "starter-medical-bank"]
+    trusted_questions = [
+        item.model_copy(update={"review_status": "exam_validated"})
+        for item in starter_questions
+    ]
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
+    filtered = filter_questions(starter_questions, specialty_id="urology", difficulty="easy")
+    assert [item.id for item in filtered] == ["uro-001"]
+    assert filter_questions(starter_questions, review_status="exam_validated") == []
+    assert filter_questions(starter_questions, bank_id="starter-medical-bank") == starter_questions
+
+    # Restore the starter draft bank before checking that draft attempts are unscored.
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: starter_questions)
+    db = tmp_path / "question-bank.sqlite3"
+    record_question_attempt("uro-001", "b", True, db, learner_id="learner-a")
+    record_question_attempt("uro-001", "a", False, db, learner_id="learner-a")
+    record_question_attempt("uro-001", "b", True, db, learner_id="learner-b")
+    stats_a = question_bank_stats(db, learner_id="learner-a")
+    stats_b = question_bank_stats(db, learner_id="learner-b")
+    # All bundled questions are drafts, so attempts must not affect scored accuracy.
+    assert stats_a == {
+        "attempts": 0, "correct": 0, "questions_attempted": 0, "accuracy_percent": 0.0
+    }
+    assert stats_b["attempts"] == 0 and stats_b["accuracy_percent"] == 0.0
+    assert len(question_attempt_history(db, learner_id="learner-a")) == 2
+    assert len(question_attempt_history(db, learner_id="learner-b")) == 1
+
+
+
+def test_question_bank_loader_merges_installable_json_banks(tmp_path: Path):
+    bank = {
+        "bank_id": "urology-import",
+        "title": "Imported Urology Bank",
+        "questions": [{
+            "id": "uro-import-001",
+            "specialty_id": "urology",
+            "topic_id": "puv",
+            "stem": "Which diagnosis is associated with posterior urethral obstruction?",
+            "options": [{"id": "a", "text": "Posterior urethral valves"},
+                        {"id": "b", "text": "Varicocele"}],
+            "correct_option_id": "a",
+            "explanation": "Draft item for bank-loader integration testing.",
+            "review_status": "draft"
+        }]
+    }
+    (tmp_path / "urology.json").write_text(json.dumps(bank), encoding="utf-8")
+    questions = load_questions(bank_dir=tmp_path)
+    imported = next(item for item in questions if item.id == "uro-import-001")
+    assert imported.bank_id == "urology-import"
+    assert len(questions) == 4

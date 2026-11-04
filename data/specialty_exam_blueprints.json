@@ -1,0 +1,538 @@
+{
+  "version": "1.0",
+  "description": "Specialty-aware medical assessment blueprint. These are question-design rules, not approved exam blueprints; local faculty and current assessment specifications must validate them.",
+  "default": {
+    "preferred_formats": [
+      "single-best-answer MCQ",
+      "short-answer",
+      "clinical case"
+    ],
+    "question_focus": [
+      "clinical reasoning",
+      "interpretation",
+      "diagnosis",
+      "management",
+      "complications"
+    ],
+    "quality_checks": [
+      "one defensible best answer",
+      "plausible non-overlapping distractors",
+      "explicit patient context",
+      "source-supported claims"
+    ]
+  },
+  "specialties": {
+    "internal-medicine": {
+      "title": "Internal Medicine",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "ECG/laboratory interpretation",
+        "problem-oriented clinical cases",
+        "management and differential diagnosis"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "ECG/laboratory interpretation",
+        "problem-oriented clinical cases",
+        "management and differential diagnosis"
+      ],
+      "safety_checks": [
+        "Check red flags and time-critical differentials.",
+        "Do not invent medication doses or laboratory thresholds."
+      ]
+    },
+    "general-surgery": {
+      "title": "General Surgery",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "acute surgical scenarios",
+        "operative decision-making viva",
+        "postoperative complication cases"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "acute surgical scenarios",
+        "operative decision-making viva",
+        "postoperative complication cases"
+      ],
+      "safety_checks": [
+        "Prioritize resuscitation and surgical red flags.",
+        "Do not invent operative indications or perioperative protocols."
+      ]
+    },
+    "urology": {
+      "title": "Urology",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "imaging and investigation interpretation",
+        "adult and paediatric urology cases",
+        "procedural OSCE and viva"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "imaging and investigation interpretation",
+        "adult and paediatric urology cases",
+        "procedural OSCE and viva"
+      ],
+      "safety_checks": [
+        "Distinguish adult from paediatric pathways.",
+        "Flag obstruction with infection, renal impairment, haematuria and retention as context-dependent emergencies."
+      ]
+    },
+    "obgyn": {
+      "title": "Obstetrics and Gynaecology",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "maternal-fetal and gynaecological cases",
+        "CTG and investigation interpretation",
+        "obstetric emergency OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "maternal-fetal and gynaecological cases",
+        "CTG and investigation interpretation",
+        "obstetric emergency OSCE"
+      ],
+      "safety_checks": [
+        "State gestational age and maternal/fetal context when relevant.",
+        "Do not invent drug doses, fetal thresholds or local obstetric protocols."
+      ]
+    },
+    "paediatrics": {
+      "title": "Paediatrics",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "age-specific clinical cases",
+        "growth/development interpretation",
+        "paediatric emergency OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "age-specific clinical cases",
+        "growth/development interpretation",
+        "paediatric emergency OSCE"
+      ],
+      "safety_checks": [
+        "Specify age, weight and developmental context when clinically material.",
+        "Never invent weight-based doses or age-specific thresholds."
+      ]
+    },
+    "orthopaedics": {
+      "title": "Orthopaedics",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "radiograph interpretation",
+        "injury and fracture scenarios",
+        "musculoskeletal examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "radiograph interpretation",
+        "injury and fracture scenarios",
+        "musculoskeletal examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "neurology-neurosurgery": {
+      "title": "Neurology and Neurosurgery",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "neurological localization cases",
+        "neuroimaging interpretation",
+        "neurological examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "neurological localization cases",
+        "neuroimaging interpretation",
+        "neurological examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "vascular-surgery": {
+      "title": "Vascular Surgery",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "vascular imaging and waveform interpretation",
+        "acute/chronic limb-ischaemia cases",
+        "vascular examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "vascular imaging and waveform interpretation",
+        "acute/chronic limb-ischaemia cases",
+        "vascular examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "anaesthesia-critical-care": {
+      "title": "Anaesthesia and Critical Care",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "airway and perioperative scenarios",
+        "physiology/monitoring interpretation",
+        "resuscitation and procedural OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "airway and perioperative scenarios",
+        "physiology/monitoring interpretation",
+        "resuscitation and procedural OSCE"
+      ],
+      "safety_checks": [
+        "Do not generate drug doses, airway settings or resuscitation parameters without source support."
+      ]
+    },
+    "ophthalmology": {
+      "title": "Ophthalmology",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "slit-lamp/fundus/image interpretation",
+        "visual acuity and field cases",
+        "ophthalmic examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "slit-lamp/fundus/image interpretation",
+        "visual acuity and field cases",
+        "ophthalmic examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "ent": {
+      "title": "Otolaryngology (ENT)",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "otoscopy/audiology/imaging interpretation",
+        "ENT emergency cases",
+        "head-and-neck examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "otoscopy/audiology/imaging interpretation",
+        "ENT emergency cases",
+        "head-and-neck examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "dermatology": {
+      "title": "Dermatology",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "clinical morphology and image interpretation",
+        "pattern-based differential diagnosis",
+        "dermatological examination OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "clinical morphology and image interpretation",
+        "pattern-based differential diagnosis",
+        "dermatological examination OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "psychiatry": {
+      "title": "Psychiatry",
+      "preferred_formats": [
+        "single-best-answer MCQs",
+        "structured psychiatric vignettes",
+        "mental-state examination",
+        "risk assessment and communication OSCE"
+      ],
+      "question_focus": [
+        "single-best-answer MCQs",
+        "structured psychiatric vignettes",
+        "mental-state examination",
+        "risk assessment and communication OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "anatomy": {
+      "title": "Anatomy",
+      "preferred_formats": [
+        "labelled anatomy and image-based questions",
+        "regional clinical anatomy cases",
+        "surface-landmark viva",
+        "procedural anatomy questions"
+      ],
+      "question_focus": [
+        "labelled anatomy and image-based questions",
+        "regional clinical anatomy cases",
+        "surface-landmark viva",
+        "procedural anatomy questions"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "physiology": {
+      "title": "Physiology",
+      "preferred_formats": [
+        "mechanism-based MCQs",
+        "graph and trace interpretation",
+        "integrated physiological cases",
+        "oral explanation of feedback systems"
+      ],
+      "question_focus": [
+        "mechanism-based MCQs",
+        "graph and trace interpretation",
+        "integrated physiological cases",
+        "oral explanation of feedback systems"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "biochemistry": {
+      "title": "Biochemistry and Molecular Medicine",
+      "preferred_formats": [
+        "pathway and mechanism MCQs",
+        "laboratory pattern interpretation",
+        "metabolic clinical cases",
+        "molecular method viva"
+      ],
+      "question_focus": [
+        "pathway and mechanism MCQs",
+        "laboratory pattern interpretation",
+        "metabolic clinical cases",
+        "molecular method viva"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "histology-embryology": {
+      "title": "Histology and Embryology",
+      "preferred_formats": [
+        "histology spotters",
+        "embryology anomaly cases",
+        "microscopy/image interpretation",
+        "developmental anatomy viva"
+      ],
+      "question_focus": [
+        "histology spotters",
+        "embryology anomaly cases",
+        "microscopy/image interpretation",
+        "developmental anatomy viva"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "pathology": {
+      "title": "Pathology",
+      "preferred_formats": [
+        "histopathology spotters",
+        "gross/microscopic image interpretation",
+        "clinicopathological correlation cases",
+        "mechanism-based MCQs"
+      ],
+      "question_focus": [
+        "histopathology spotters",
+        "gross/microscopic image interpretation",
+        "clinicopathological correlation cases",
+        "mechanism-based MCQs"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "pharmacology": {
+      "title": "Pharmacology",
+      "preferred_formats": [
+        "drug-mechanism MCQs",
+        "prescription and adverse-effect cases",
+        "interaction/contraindication scenarios",
+        "safe-prescribing OSCE"
+      ],
+      "question_focus": [
+        "drug-mechanism MCQs",
+        "prescription and adverse-effect cases",
+        "interaction/contraindication scenarios",
+        "safe-prescribing OSCE"
+      ],
+      "safety_checks": [
+        "Never infer a dose, route, contraindication or interaction beyond the retrieved source.",
+        "Require current local formulary verification."
+      ]
+    },
+    "microbiology-immunology": {
+      "title": "Microbiology and Immunology",
+      "preferred_formats": [
+        "organism and mechanism MCQs",
+        "microbiology result interpretation",
+        "infection-control scenarios",
+        "immunological pattern cases"
+      ],
+      "question_focus": [
+        "organism and mechanism MCQs",
+        "microbiology result interpretation",
+        "infection-control scenarios",
+        "immunological pattern cases"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "radiology": {
+      "title": "Radiology and Medical Imaging",
+      "preferred_formats": [
+        "image interpretation",
+        "systematic reporting exercises",
+        "modality-selection cases",
+        "radiology viva"
+      ],
+      "question_focus": [
+        "image interpretation",
+        "systematic reporting exercises",
+        "modality-selection cases",
+        "radiology viva"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "emergency-medicine": {
+      "title": "Emergency Medicine",
+      "preferred_formats": [
+        "time-critical single-best-answer MCQs",
+        "ABCDE/resuscitation cases",
+        "prioritization and disposition scenarios",
+        "emergency OSCE"
+      ],
+      "question_focus": [
+        "time-critical single-best-answer MCQs",
+        "ABCDE/resuscitation cases",
+        "prioritization and disposition scenarios",
+        "emergency OSCE"
+      ],
+      "safety_checks": [
+        "Prioritize immediate threats, stabilization and escalation.",
+        "Use current resuscitation guidance; do not fabricate algorithm steps."
+      ]
+    },
+    "family-medicine": {
+      "title": "Family Medicine and Primary Care",
+      "preferred_formats": [
+        "undifferentiated presentation cases",
+        "prevention and screening decisions",
+        "continuity-of-care scenarios",
+        "consultation and safety-netting OSCE"
+      ],
+      "question_focus": [
+        "undifferentiated presentation cases",
+        "prevention and screening decisions",
+        "continuity-of-care scenarios",
+        "consultation and safety-netting OSCE"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "forensic-medicine": {
+      "title": "Forensic Medicine and Medical Ethics",
+      "preferred_formats": [
+        "medicolegal scenario questions",
+        "injury documentation exercises",
+        "ethics and consent cases",
+        "structured oral examination"
+      ],
+      "question_focus": [
+        "medicolegal scenario questions",
+        "injury documentation exercises",
+        "ethics and consent cases",
+        "structured oral examination"
+      ],
+      "safety_checks": [
+        "Preserve consent, confidentiality, safeguarding and chain-of-custody principles.",
+        "Flag jurisdiction-specific legal duties for local verification."
+      ]
+    },
+    "geriatrics-palliative": {
+      "title": "Geriatrics and Palliative Medicine",
+      "preferred_formats": [
+        "multimorbidity and frailty cases",
+        "medication-review scenarios",
+        "communication and goals-of-care OSCE",
+        "symptom-control viva"
+      ],
+      "question_focus": [
+        "multimorbidity and frailty cases",
+        "medication-review scenarios",
+        "communication and goals-of-care OSCE",
+        "symptom-control viva"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "rehabilitation-medicine": {
+      "title": "Physical and Rehabilitation Medicine",
+      "preferred_formats": [
+        "functional assessment cases",
+        "goal-setting and rehabilitation plans",
+        "mobility/ADL interpretation",
+        "rehabilitation viva"
+      ],
+      "question_focus": [
+        "functional assessment cases",
+        "goal-setting and rehabilitation plans",
+        "mobility/ADL interpretation",
+        "rehabilitation viva"
+      ],
+      "safety_checks": [
+        "Do not invent doses, thresholds, guidelines or local protocols.",
+        "Use age, pregnancy, comorbidity and setting details when clinically relevant."
+      ]
+    },
+    "clinical-genetics": {
+      "title": "Clinical Genetics",
+      "preferred_formats": [
+        "pedigree interpretation",
+        "genetic counselling scenarios",
+        "variant interpretation cases",
+        "ethical communication OSCE"
+      ],
+      "question_focus": [
+        "pedigree interpretation",
+        "genetic counselling scenarios",
+        "variant interpretation cases",
+        "ethical communication OSCE"
+      ],
+      "safety_checks": [
+        "Communicate uncertainty; do not overstate variant pathogenicity.",
+        "Do not treat variants of uncertain significance as diagnostic."
+      ]
+    }
+  }
+}

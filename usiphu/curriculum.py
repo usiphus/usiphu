@@ -48,4 +48,8 @@ def coverage_summary(curriculum: Curriculum) -> dict[str, int | float]:
         "topics_reviewed": sum(topic.coverage_status in {"reviewed", "exam_validated"}
                                for topic in topics),
         "topics_exam_validated": sum(topic.coverage_status == "exam_validated" for topic in topics),
+        "topics_planned": sum(topic.coverage_status == "planned" for topic in topics),
+        "topics_without_primary_source_refs": sum(
+            not topic.source_refs for topic in topics
+        ),
     }

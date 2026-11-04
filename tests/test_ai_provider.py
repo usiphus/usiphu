@@ -65,6 +65,8 @@ def test_generation_uses_retrieved_sources_and_returns_unapproved_draft(monkeypa
     assert card["source_url"] == pubmed_record["source_url"]
     assert card["evidence_claims"][0]["source_id"] == "PMID:12345"
     assert result["results"][0]["clinical_review_required"] is True
+    assert result["results"][0]["review_packet"]["automatic_approval_prohibited"] is True
+    assert card["review_packet"]["status"] == "human_review_required"
     assert result["clinical_approval_granted"] is False
     assert result["provider"]["provider"] == "ollama"
 

@@ -6,10 +6,15 @@ from usiphu.ai_provider import (
     generate_topic_cards,
     provider_status,
 )
+from usiphu.coverage import coverage_report
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
-from usiphu.generator import build_generation_briefs, validate_generation_batch
-from usiphu.practice import load_cases, load_questions
+from usiphu.generator import (
+    EXAM_FORMATS,
+    build_generation_briefs,
+    validate_generation_batch,
+)
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
 
@@ -29,7 +34,7 @@ def curriculum() -> dict:
 
 @app.get("/curriculum/coverage")
 def curriculum_coverage() -> dict:
-    return coverage_summary(load_curriculum())
+    return {**coverage_summary(load_curriculum()), **coverage_report()}
 
 
 @app.get("/curriculum/topics")
@@ -40,10 +45,50 @@ def curriculum_topics(q: str | None = Query(default=None, min_length=1)) -> list
 
 
 @app.get("/practice/questions")
-def questions(specialty: str | None = None, topic: str | None = None) -> list[dict]:
-    rows = [item.model_dump() for item in load_questions()]
-    return [row for row in rows if (not specialty or row["specialty_id"] == specialty)
-            and (not topic or row["topic_id"] == topic)]
+def questions(
+    specialty: str | None = None,
+    topic: str | None = None,
+    difficulty: str | None = None,
+    review_status: str | None = None,
+    question_type: str | None = None,
+    bank_id: str | None = None,
+    q: str | None = Query(default=None, min_length=1, max_length=200),
+) -> list[dict]:
+    """Return filterable authored MCQs with editorial status and provenance metadata."""
+    rows = filter_questions(
+        load_questions(), specialty_id=specialty, topic_id=topic,
+        difficulty=difficulty, review_status=review_status,
+        question_type=question_type, bank_id=bank_id,
+    )
+    term = q.casefold().strip() if q else None
+    if term:
+        rows = [
+            item for item in rows
+            if term in " ".join([
+                item.stem, item.topic_id, item.specialty_id,
+                item.source_title or "", " ".join(item.tags),
+            ]).casefold()
+        ]
+    return [item.model_dump() for item in rows]
+
+
+@app.get("/practice/question-banks")
+def question_banks() -> list[dict]:
+    """List installed question banks and editorial-state counts."""
+    groups: dict[str, dict] = {}
+    for item in load_questions():
+        bank = groups.setdefault(item.bank_id, {
+            "bank_id": item.bank_id, "question_count": 0, "draft_count": 0,
+            "clinically_reviewed_count": 0, "exam_validated_count": 0,
+        })
+        bank["question_count"] += 1
+        if item.review_status == "draft":
+            bank["draft_count"] += 1
+        elif item.review_status == "clinically_reviewed":
+            bank["clinically_reviewed_count"] += 1
+        elif item.review_status == "exam_validated":
+            bank["exam_validated_count"] += 1
+    return sorted(groups.values(), key=lambda item: item["bank_id"])
 
 
 @app.get("/practice/cases")
@@ -67,12 +112,19 @@ def content_validation() -> dict:
 
 
 @app.get("/generator/briefs")
-def generator_briefs(specialty: str | None = None, topic: str | None = None) -> dict:
+def generator_briefs(
+    specialty: str | None = None, topic: str | None = None,
+    exam_format: str = "mixed",
+) -> dict:
     """Return deterministic, source-linked generation jobs; no AI provider is implied."""
     try:
-        briefs = build_generation_briefs(specialty_id=specialty, topic_id=topic)
+        briefs = build_generation_briefs(
+            specialty_id=specialty, topic_id=topic, exam_format=exam_format
+        )
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     status = provider_status()
     return {
         "provider_configured": status["configured"],
@@ -112,12 +164,17 @@ def generator_generate(payload: dict) -> dict:
         raise HTTPException(status_code=422, detail="specialty_id is required")
     if not isinstance(topic, str) or not topic.strip() or len(topic) > 160:
         raise HTTPException(status_code=422, detail="topic_id is required")
+    exam_format = payload.get("exam_format", "mixed")
+    if not isinstance(exam_format, str) or exam_format not in EXAM_FORMATS:
+        raise HTTPException(status_code=422, detail="exam_format must be one of the supported formats")
     evidence_limit = payload.get("evidence_limit", 5)
     if not isinstance(evidence_limit, int) or not 1 <= evidence_limit <= 10:
         raise HTTPException(status_code=422, detail="evidence_limit must be between 1 and 10")
     try:
-        return generate_topic_cards(specialty.strip(), topic.strip(),
-                                    evidence_limit=evidence_limit)
+        return generate_topic_cards(
+            specialty.strip(), topic.strip(), evidence_limit=evidence_limit,
+            exam_format=exam_format,
+        )
     except GenerationNotConfigured as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
     except KeyError as exc:

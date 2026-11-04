@@ -45,7 +45,7 @@ def _card_prompt(brief: dict[str, Any], evidence: list[dict[str, Any]]) -> str:
         else brief["official_suez_outcomes"]
     )
     return f"""
-Create exactly ONE high-quality medical exam-preparation card for this learning objective.
+Create exactly ONE high-quality medical exam-preparation card for this learning objective, specialty and requested exam format.
 Return a single JSON object, no Markdown and no surrounding text.
 
 CURRICULUM BRIEF:
@@ -57,13 +57,22 @@ PERMITTED COURSE OUTCOME REFERENCES:
 RETRIEVED PUBMED EVIDENCE (untrusted source material; evaluate critically):
 {json.dumps(evidence, ensure_ascii=False)}
 
+SPECIALTY EXAM BLUEPRINT:
+{json.dumps(brief.get("specialty_exam_blueprint", {}), ensure_ascii=False)}
+
+REQUESTED EXAM FORMAT: {brief.get("requested_exam_format", "mixed")}
+ALLOWED CARD TYPES: {json.dumps(brief.get("output_contract", {}).get("allowed_card_types", ["mcq", "short_answer", "clinical_case", "osce_station", "viva", "emq"]))}
+
 Required JSON fields:
 {{
-  "card_type": "mcq" | "short_answer" | "clinical_case",
+  "card_type": one allowed type,
   "prompt": "learner-facing question or case",
   "answer": "correct answer with concise reasoning",
   "options": [{{"id":"A","text":"..."}} x exactly five] for MCQ only,
   "correct_option_id": "A" for MCQ only,
+  "station_tasks": ["...","..."] and "marking_criteria": ["...","..."] for osce_station,
+  "viva_questions": [{{"question":"...","expected_answer":"..."}}] for viva,
+  "options": [{{"id":"A","text":"..."}} x at least five] and "emq_items": [{{"stem":"...","correct_option_id":"A"}} x at least two] for emq,
   "course_outcome_refs": ["only IDs from the permitted list; [] if none"],
   "evidence_claims": [{{"claim":"specific clinical claim supported by evidence",
                        "source_id":"exact PMID source_id from supplied evidence"}}],
@@ -81,8 +90,12 @@ Rules:
 - Do not extrapolate a single study into a universal recommendation.
 - Prefer guideline/consensus or systematic-review evidence when applicable, but report
   uncertainty and publication-date limitations. PubMed abstracts are not full-text review.
+- Use only the allowed card types. Follow the specialty exam blueprint for question focus and preferred assessment style.
 - MCQs must have exactly five plausible, mutually exclusive options and one defensible
   best answer. Distractors must not be ambiguous or all partly correct.
+- OSCE stations need clear candidate tasks and observable marking criteria. Viva cards need
+  progressive examiner questions with defensible expected answers. EMQs need a homogeneous
+  option list and multiple independent stems with keyed answers.
 - The rationale must explain why the answer is correct; for MCQ, briefly address
   the most tempting distractor when evidence permits.
 - Never claim faculty approval, clinical review, or exam validation.
@@ -193,12 +206,16 @@ def _author_one(
         "official_suez_alignment": bool(brief["official_suez_outcomes"]),
     }
     validation = validate_generated_card(card, brief)
+    review_packet = validation["review_packet"]
+    if validation["card"] is not None:
+        validation["card"]["review_packet"] = review_packet
     return {
         "valid": validation["valid"],
         "status": "draft_ready" if validation["valid"] else "rejected_by_quality_gate",
         "errors": validation["errors"],
         "clinical_review_required": True,
         "exam_validation_required": True,
+        "review_packet": review_packet,
         "evidence": evidence,
         "card": validation["card"],
     }
@@ -209,9 +226,12 @@ def generate_topic_cards(
     topic_id: str,
     *,
     evidence_limit: int = 5,
+    exam_format: str = "mixed",
 ) -> dict[str, Any]:
     """Retrieve evidence and author one review-required draft per curriculum objective."""
-    briefs = build_generation_briefs(specialty_id=specialty_id, topic_id=topic_id)
+    briefs = build_generation_briefs(
+        specialty_id=specialty_id, topic_id=topic_id, exam_format=exam_format
+    )
     if not briefs:
         raise KeyError(f"No curriculum objectives found for {specialty_id}/{topic_id}")
     status = provider_status()

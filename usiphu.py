@@ -1,8 +1,9 @@
 import os
 import sqlite3
 from pathlib import Path
-import streamlit as st
+
 import ollama
+import streamlit as st
 
 # Try importing FPDF for PDF exports
 try:
@@ -393,8 +394,8 @@ def get_rag_engine():
     if data_path.exists() and any(data_path.iterdir()):
         try:
             from llama_index.core import Settings, SimpleDirectoryReader, VectorStoreIndex
-            from llama_index.llms.ollama import Ollama
             from llama_index.embeddings.ollama import OllamaEmbedding
+            from llama_index.llms.ollama import Ollama
             Settings.llm = Ollama(model="llama3.2", request_timeout=60.0)
             Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
             docs = SimpleDirectoryReader("./data").load_data()
@@ -412,11 +413,16 @@ for key in ['messages', 'current_case_id', 'case_data', 'diff_graded', 'diff_cri
     if key not in st.session_state:
         st.session_state[key] = [] if key == 'messages' else None if key == 'current_case_id' else "" if key in ['diff_critique', 'user_diff_input'] else False
 
-if 'flashcard_index' not in st.session_state: st.session_state['flashcard_index'] = 0
-if 'card_flipped' not in st.session_state: st.session_state['card_flipped'] = False
-if 'selected_flashcard_specialty' not in st.session_state: st.session_state['selected_flashcard_specialty'] = "All Specialties"
-if 'selected_flashcard_rating' not in st.session_state: st.session_state['selected_flashcard_rating'] = "All Ratings"
-if 'editable_anki_cards' not in st.session_state: st.session_state['editable_anki_cards'] = []
+if 'flashcard_index' not in st.session_state:
+    st.session_state['flashcard_index'] = 0
+if 'card_flipped' not in st.session_state:
+    st.session_state['card_flipped'] = False
+if 'selected_flashcard_specialty' not in st.session_state:
+    st.session_state['selected_flashcard_specialty'] = "All Specialties"
+if 'selected_flashcard_rating' not in st.session_state:
+    st.session_state['selected_flashcard_rating'] = "All Ratings"
+if 'editable_anki_cards' not in st.session_state:
+    st.session_state['editable_anki_cards'] = []
 
 # --- 5. SIDEBAR DESIGN SYSTEM ---
 with st.sidebar:
@@ -792,7 +798,7 @@ elif nav_mode == "Anki Card Bank":
         bank_rows = [{"Select": False, "ID": cid, "Specialty": spec, "Front": front, "Back": back, "Tags": tags, "Created": ts} for cid, ts, spec, front, back, tags in saved_cards]
         edited_bank_df = st.data_editor(pd.DataFrame(bank_rows), column_config={"Select": st.column_config.CheckboxColumn("Select", default=False), "ID": st.column_config.NumberColumn("ID", disabled=True)}, disabled=["ID", "Specialty", "Front", "Back", "Tags", "Created"], hide_index=True, use_container_width=True, key="bank_batch_editor")
         
-        selected_rows = edited_bank_df[edited_bank_df["Select"] == True]
+        selected_rows = edited_bank_df[edited_bank_df["Select"]]
         selected_ids = selected_rows["ID"].tolist()
         
         col_act1, col_act2 = st.columns(2)

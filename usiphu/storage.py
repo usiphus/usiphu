@@ -52,6 +52,15 @@ def initialize(path: Path = DEFAULT_DB) -> None:
           grade INTEGER NOT NULL CHECK(grade BETWEEN 0 AND 5),
           reviewed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, next_due TEXT NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS question_attempts (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, owner_id TEXT NOT NULL,
+          question_id TEXT NOT NULL, selected_option_id TEXT NOT NULL,
+          is_correct INTEGER NOT NULL CHECK(is_correct IN (0,1)),
+          session_id TEXT, elapsed_seconds INTEGER,
+          attempted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+        CREATE INDEX IF NOT EXISTS idx_question_attempts_owner
+          ON question_attempts(owner_id, attempted_at);
         CREATE TABLE IF NOT EXISTS topic_progress (
           topic_id TEXT PRIMARY KEY, status TEXT NOT NULL DEFAULT 'not_started',
           confidence INTEGER NOT NULL DEFAULT 0 CHECK(confidence BETWEEN 0 AND 5),
@@ -237,3 +246,123 @@ def dashboard_stats(path: Path = DEFAULT_DB, learner_id: str = "local") -> dict[
                 WHERE owner_id=? AND status='mastered'
             """, (learner_id,)).fetchone()[0],
         }
+
+
+def record_question_attempt(
+    question_id: str,
+    selected_option_id: str,
+    is_correct: bool,
+    path: Path = DEFAULT_DB,
+    learner_id: str = "local",
+    session_id: str | None = None,
+    elapsed_seconds: int | None = None,
+) -> None:
+    """Persist one MCQ response in the learner's isolated question-bank history."""
+    if not question_id.strip() or not selected_option_id.strip():
+        raise ValueError("question_id and selected_option_id are required")
+    if elapsed_seconds is not None and elapsed_seconds < 0:
+        raise ValueError("elapsed_seconds cannot be negative")
+    initialize(path)
+    with connect(path) as db:
+        db.execute(
+            """INSERT INTO question_attempts
+               (owner_id,question_id,selected_option_id,is_correct,session_id,elapsed_seconds)
+               VALUES(?,?,?,?,?,?)""",
+            (learner_id, question_id, selected_option_id, int(is_correct),
+             session_id, elapsed_seconds),
+        )
+
+
+def question_bank_stats(
+    path: Path = DEFAULT_DB, learner_id: str = "local"
+) -> dict[str, int | float]:
+    """Return learner accuracy using only clinically reviewed or exam-validated keys."""
+    from usiphu.practice import load_questions
+
+    initialize(path)
+    trusted_ids = {
+        question.id for question in load_questions()
+        if question.review_status == "exam_validated"
+    }
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT question_id, COUNT(*) AS attempted,
+                      SUM(is_correct) AS correct
+               FROM question_attempts WHERE owner_id=?
+               GROUP BY question_id""",
+            (learner_id,),
+        ).fetchall()
+    attempts = 0
+    correct = 0
+    questions_attempted = 0
+    for row in rows:
+        if row["question_id"] not in trusted_ids:
+            continue
+        attempts += int(row["attempted"])
+        correct += int(row["correct"] or 0)
+        questions_attempted += 1
+    return {
+        "attempts": attempts,
+        "correct": correct,
+        "questions_attempted": questions_attempted,
+        "accuracy_percent": round(correct / attempts * 100, 1) if attempts else 0.0,
+    }
+
+
+def question_topic_performance(
+    path: Path = DEFAULT_DB, learner_id: str = "local"
+) -> list[dict[str, int | float | str]]:
+    """Summarize verified learner-attempt records by question-bank topic."""
+    from usiphu.practice import load_questions
+
+    initialize(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT question_id, COUNT(*) AS attempted,
+                      SUM(is_correct) AS correct
+               FROM question_attempts WHERE owner_id=?
+               GROUP BY question_id""",
+            (learner_id,),
+        ).fetchall()
+
+    question_topics = {
+        question.id: question.topic_id
+        for question in load_questions()
+        if question.review_status == "exam_validated"
+    }
+    totals: dict[str, dict[str, int]] = {}
+    for row in rows:
+        topic_id = question_topics.get(row["question_id"])
+        if topic_id is None:
+            continue
+        topic = totals.setdefault(topic_id, {"attempted": 0, "correct": 0})
+        topic["attempted"] += int(row["attempted"])
+        topic["correct"] += int(row["correct"] or 0)
+
+    return [
+        {
+            "topic": topic_id,
+            "attempted": values["attempted"],
+            "correct": values["correct"],
+            "accuracy_percent": round(
+                100 * values["correct"] / values["attempted"], 1
+            ),
+        }
+        for topic_id, values in sorted(totals.items())
+    ]
+
+
+def question_attempt_history(
+    path: Path = DEFAULT_DB, learner_id: str = "local", limit: int = 30
+) -> list[dict]:
+    """Return recent learner-owned question attempts without answer-key leakage."""
+    initialize(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT question_id,selected_option_id,is_correct,session_id,
+                      elapsed_seconds,attempted_at
+               FROM question_attempts WHERE owner_id=?
+               ORDER BY attempted_at DESC,id DESC LIMIT ?""",
+            (learner_id, max(1, min(limit, 200))),
+        ).fetchall()
+    return [dict(row) for row in rows]

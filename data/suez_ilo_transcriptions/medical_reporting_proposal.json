@@ -1,0 +1,203 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "E&MR 2.5.3",
+  "academic_year": "Not stated in supplied document",
+  "source_id": "suez-medical-reporting-ilos",
+  "source_file": "Proposal - Medical Reporting and Emergency Module - ILOs.pdf",
+  "source_page_count": 3,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from supplied DOCX/PDF text. Light spelling, punctuation and whitespace normalization only. Where the source presents a multi-part ILO as one statement, its related components remain grouped; topic headings and assessment methods are not relabelled as ILOs.",
+  "scope_note": "Granular transcription of the Medical Reporting and Emergency Module proposal ILOs for medicolegal reports, death certificates, acute intoxication and drug abuse from printed pages 1–3. The gastric-lavage skill-lab heading is not converted into an ILO because the proposal does not state a corresponding outcome.",
+  "outcomes": [
+    {
+      "id": "mr-001",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Describe different types of injuries."
+    },
+    {
+      "id": "mr-002",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Identify causative instruments in different types of injuries."
+    },
+    {
+      "id": "mr-003",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "List the main components of a primary medicolegal report template."
+    },
+    {
+      "id": "mr-004",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Identify consequences of an unsound primary medicolegal report."
+    },
+    {
+      "id": "mr-005",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Define the main components of a death certificate."
+    },
+    {
+      "id": "mr-006",
+      "kind": "clinical_reasoning",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Illustrate how to write a medicolegal report."
+    },
+    {
+      "id": "mr-007",
+      "kind": "clinical_reasoning",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Differentiate between different types of wounds."
+    },
+    {
+      "id": "mr-008",
+      "kind": "clinical_reasoning",
+      "domain": "forensic-medicine",
+      "source_page": 1,
+      "transcribed_text": "Interpret different types of injuries and elicit their causative instrument."
+    },
+    {
+      "id": "mr-009",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 2,
+      "transcribed_text": "List common mistakes in writing a medicolegal report."
+    },
+    {
+      "id": "mr-010",
+      "kind": "knowledge",
+      "domain": "forensic-medicine",
+      "source_page": 2,
+      "transcribed_text": "Define common mistakes in writing a death certificate."
+    },
+    {
+      "id": "mr-011",
+      "kind": "clinical_reasoning",
+      "domain": "forensic-medicine",
+      "source_page": 2,
+      "transcribed_text": "Illustrate how to edit a medicolegal report."
+    },
+    {
+      "id": "mr-012",
+      "kind": "clinical_reasoning",
+      "domain": "forensic-medicine",
+      "source_page": 2,
+      "transcribed_text": "Illustrate how to edit a death certificate."
+    },
+    {
+      "id": "mr-013",
+      "kind": "clinical_reasoning",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Define steps of clinical assessment of an acutely intoxicated patient."
+    },
+    {
+      "id": "mr-014",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "List common clinical toxidromes and common household poisonings."
+    },
+    {
+      "id": "mr-015",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Identify life-saving measures in cases of poisoning."
+    },
+    {
+      "id": "mr-016",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Describe ICU admission criteria for intoxicated patients."
+    },
+    {
+      "id": "mr-017",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "List common antidotes and define methods of elimination."
+    },
+    {
+      "id": "mr-018",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "List common mistakes in treatment of intoxicated patients."
+    },
+    {
+      "id": "mr-019",
+      "kind": "management",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Illustrate treatment of an acutely intoxicated patient."
+    },
+    {
+      "id": "mr-020",
+      "kind": "clinical_reasoning",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Differentiate gastrointestinal, topical and respiratory decontamination."
+    },
+    {
+      "id": "mr-021",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "List common drugs of abuse."
+    },
+    {
+      "id": "mr-022",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Describe clinical pictures of different types of drug abuse."
+    },
+    {
+      "id": "mr-023",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Determine detection periods of different drugs of abuse."
+    },
+    {
+      "id": "mr-024",
+      "kind": "knowledge",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Identify threshold concentrations of various drugs of abuse."
+    },
+    {
+      "id": "mr-025",
+      "kind": "diagnostic_investigations",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Illustrate how to investigate a person with drug abuse."
+    },
+    {
+      "id": "mr-026",
+      "kind": "management",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Illustrate how to treat a person with drug abuse."
+    },
+    {
+      "id": "mr-027",
+      "kind": "clinical_reasoning",
+      "domain": "toxicology",
+      "source_page": 3,
+      "transcribed_text": "Differentiate tolerance, psychological dependence and physical dependence."
+    }
+  ]
+}

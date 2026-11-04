@@ -1,0 +1,462 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "SII 2.5.2",
+  "academic_year": "Not stated in supplied document",
+  "source_id": "suez-sii-course",
+  "source_file": "Surgery II guide last edition.docx",
+  "source_page_count": 12,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from the supplied course specification text. Light spelling, punctuation and whitespace normalization only; source grouping is retained where one source bullet contains several related objectives. No additional clinical recommendations have been introduced.",
+  "scope_note": "Granular transcription of the knowledge and psychomotor ILO statements for ENT, Ophthalmology and Orthopedics from printed pages 4–11. Topics lists are not counted as outcomes. The source is titled Surgery II, for fifth-year students; its year/semester/module metadata is taken from the guide/catalogue. Assessment methods are not transcribed as ILOs.",
+  "outcomes": [
+    {
+      "id": "sii-ent-001",
+      "kind": "knowledge",
+      "domain": "otolaryngology",
+      "source_page": 4,
+      "transcribed_text": "Describe the causes of otitis externa, acute and chronic otitis media, otosclerosis, acute and chronic rhinosinusitis, chronic rhinitis, acute and chronic tonsillitis, laryngeal carcinoma, neck swellings and facial nerve paralysis."
+    },
+    {
+      "id": "sii-ent-002",
+      "kind": "knowledge",
+      "domain": "otolaryngology",
+      "source_page": 5,
+      "transcribed_text": "Explain the pathogenesis and clinical presentation of otitis externa, acute and chronic otitis media, otosclerosis, acute and chronic rhinosinusitis, chronic rhinitis, acute and chronic tonsillitis, laryngeal carcinoma, neck swellings and facial nerve paralysis."
+    },
+    {
+      "id": "sii-ent-003",
+      "kind": "management",
+      "domain": "otolaryngology",
+      "source_page": 5,
+      "transcribed_text": "Describe management of acute and chronic otitis media, otosclerosis, acute and chronic rhinosinusitis, chronic rhinitis, acute and chronic tonsillitis, laryngeal carcinoma, neck swellings and facial nerve paralysis."
+    },
+    {
+      "id": "sii-ent-004",
+      "kind": "management",
+      "domain": "otolaryngology",
+      "source_page": 5,
+      "transcribed_text": "Outline management plans for common ENT diseases and acute emergencies."
+    },
+    {
+      "id": "sii-oph-001",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 5,
+      "transcribed_text": "Describe the basic structure of the eye and explain the normal function of its different parts."
+    },
+    {
+      "id": "sii-oph-002",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Explain the rationale and interpretation of red-reflex testing and recognize the importance of dilated fundus examination."
+    },
+    {
+      "id": "sii-oph-003",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Describe the normal fundus appearance of the optic disc, macula and major vessels."
+    },
+    {
+      "id": "sii-oph-004",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Explain aqueous-humour circulation in the normal eye and in primary open-angle and primary angle-closure glaucoma."
+    },
+    {
+      "id": "sii-oph-005",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Identify important causes of reduced vision, abnormal fundus appearance and other abnormal findings associated with serious ocular or systemic disease."
+    },
+    {
+      "id": "sii-oph-006",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize risk factors, signs and symptoms of primary open-angle and angle-closure glaucoma and know principles and lines of management."
+    },
+    {
+      "id": "sii-oph-007",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Understand principles of abnormal ocular alignment, including exotropia and esotropia, and identify the risk of amblyopia in children."
+    },
+    {
+      "id": "sii-oph-008",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize that infants and children with loss of red reflex require immediate ophthalmological evaluation."
+    },
+    {
+      "id": "sii-oph-009",
+      "kind": "knowledge_and_management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize the definition, symptoms, signs and principles of treatment for congenital glaucoma (buphthalmos)."
+    },
+    {
+      "id": "sii-oph-010",
+      "kind": "knowledge_and_management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Define congenital nasolacrimal duct obstruction in terms of symptoms, signs and lines of treatment."
+    },
+    {
+      "id": "sii-oph-011",
+      "kind": "knowledge_and_management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Explain signs, symptoms and lines of management of common causes of red eye."
+    },
+    {
+      "id": "sii-oph-012",
+      "kind": "knowledge_and_management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Identify signs, symptoms and lines of treatment for infectious and non-infectious keratitis."
+    },
+    {
+      "id": "sii-oph-013",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize symptoms and ophthalmic signs of cataract."
+    },
+    {
+      "id": "sii-oph-014",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize signs and symptoms of primary open-angle and angle-closure glaucoma."
+    },
+    {
+      "id": "sii-oph-015",
+      "kind": "knowledge",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Explain pathogenesis and clinical picture of dry eye."
+    },
+    {
+      "id": "sii-oph-016",
+      "kind": "diagnostic_investigations",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize signs, symptoms and investigations of uveitis."
+    },
+    {
+      "id": "sii-oph-017",
+      "kind": "knowledge_and_management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Explain general principles of cataract surgery and correction of aphakia."
+    },
+    {
+      "id": "sii-oph-018",
+      "kind": "management",
+      "domain": "ophthalmology",
+      "source_page": 6,
+      "transcribed_text": "Recognize principles and lines of management of glaucoma and lines of treatment of uveitis."
+    },
+    {
+      "id": "sii-ort-001",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Describe the histology of bone and cartilage."
+    },
+    {
+      "id": "sii-ort-002",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Recognize the physiology of normal walking."
+    },
+    {
+      "id": "sii-ort-003",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Describe the basic anatomical structure of the upper and lower limbs and the spine."
+    },
+    {
+      "id": "sii-ort-004",
+      "kind": "diagnostic_investigations",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Select suitable laboratory investigations and imaging studies for fractures and joint dislocations or instability in adults and children, including upper-limb fractures, lower-limb fractures, pelvic fractures and dorso-lumbar spine fractures."
+    },
+    {
+      "id": "sii-ort-005",
+      "kind": "diagnostic_investigations",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Select suitable laboratory investigations and imaging studies for tendon and peripheral nerve injuries and swollen joints."
+    },
+    {
+      "id": "sii-ort-006",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Define mechanisms and classifications of fractures and joint injuries (dislocation and instability) in adults and children, including upper-limb fractures, lower-limb fractures, cervical-spine injuries, pelvic fractures and dorso-lumbar spine fractures."
+    },
+    {
+      "id": "sii-ort-007",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Describe causes, pathogenesis and clinical picture of acute and chronic osteomyelitis and pyogenic and tuberculous septic arthritis."
+    },
+    {
+      "id": "sii-ort-008",
+      "kind": "knowledge_and_management",
+      "domain": "orthopedics",
+      "source_page": 7,
+      "transcribed_text": "Recognize different types of common bone and bone-like tumours and describe their principles of management."
+    },
+    {
+      "id": "sii-ent-005",
+      "kind": "clinical_reasoning",
+      "domain": "otolaryngology",
+      "source_page": 7,
+      "transcribed_text": "Demonstrate problem-solving in ENT cases by defining surgical problems, prioritizing issues, interpreting clinical data and investigations, analysing findings from history and examination, and evaluating information objectively while recognizing its limitations."
+    },
+    {
+      "id": "sii-ent-006",
+      "kind": "clinical_skill",
+      "domain": "otolaryngology",
+      "source_page": 8,
+      "transcribed_text": "Perform oropharyngeal examination, otoscopic ear examination and anterior rhinoscopy."
+    },
+    {
+      "id": "sii-ent-007",
+      "kind": "clinical_skill",
+      "domain": "otolaryngology",
+      "source_page": 8,
+      "transcribed_text": "Register and attend neonatal hearing screening."
+    },
+    {
+      "id": "sii-ent-008",
+      "kind": "clinical_skill",
+      "domain": "otolaryngology",
+      "source_page": 8,
+      "transcribed_text": "Perform tuning-fork tests."
+    },
+    {
+      "id": "sii-ent-009",
+      "kind": "clinical_reasoning",
+      "domain": "otolaryngology",
+      "source_page": 8,
+      "transcribed_text": "Identify the clinical presentation of otitis externa, acute and chronic otitis media, otosclerosis, acute and chronic rhinosinusitis, chronic rhinitis, acute and chronic tonsillitis, laryngeal carcinoma, neck swellings and facial nerve paralysis."
+    },
+    {
+      "id": "sii-oph-019",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Measure and record near visual acuity in adults with near correction and understand principles of distance-acuity measurement in adults and children."
+    },
+    {
+      "id": "sii-oph-020",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Assess pupillary reflexes and evaluate ocular motility."
+    },
+    {
+      "id": "sii-oph-021",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Use a direct ophthalmoscope to assess the red reflex, optic nerve and posterior fundus; dilate the pupils."
+    },
+    {
+      "id": "sii-oph-022",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Perform and evaluate visual fields by confrontation in four quadrants."
+    },
+    {
+      "id": "sii-oph-023",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Interpret intraocular-pressure measurements."
+    },
+    {
+      "id": "sii-oph-024",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Evert the upper eyelid, assess corneal clarity and limbus circumferentially with a penlight, assess anterior-chamber depth and angle narrowness, and assess conjunctival discharge."
+    },
+    {
+      "id": "sii-oph-025",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 8,
+      "transcribed_text": "Assess proptosis, ocular motility, eyelid position, function and margin; examine the lens and abnormal lens features by direct ophthalmoscopy."
+    },
+    {
+      "id": "sii-oph-026",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Perform basic cranial-nerve examination and tests of ductions and versions; recognize acute-onset cranial-nerve III, IV and VI palsies requiring immediate referral."
+    },
+    {
+      "id": "sii-oph-027",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Examine the optic disc with a direct ophthalmoscope and recognize optic-nerve pallor, papilledema and signs of glaucomatous optic neuropathy."
+    },
+    {
+      "id": "sii-oph-028",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Diagnose primary acute angle-closure glaucoma using history and penlight examination."
+    },
+    {
+      "id": "sii-oph-029",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Assess visual acuity in preverbal children by fixation and recognize fixation preference."
+    },
+    {
+      "id": "sii-oph-030",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Perform Hirschberg testing for ocular misalignment and recognize leukocoria by red-reflex examination."
+    },
+    {
+      "id": "sii-oph-031",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Perform penlight eye examination for congenital glaucoma and the regurgitation test in a child with congenital nasolacrimal duct obstruction."
+    },
+    {
+      "id": "sii-oph-032",
+      "kind": "clinical_skill",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Assess upper-eyelid position using margin-reflex distance, palpebral-fissure height and levator function; inspect eyelids, periocular and medial-canthal areas."
+    },
+    {
+      "id": "sii-oph-033",
+      "kind": "clinical_reasoning",
+      "domain": "ophthalmology",
+      "source_page": 9,
+      "transcribed_text": "Interpret the most important symptoms and signs in ophthalmic patients and demonstrate management approaches to different ophthalmic conditions."
+    },
+    {
+      "id": "sii-ort-009",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 9,
+      "transcribed_text": "Take an accurate, problem-focused musculoskeletal history, including a focused history based on the mechanism of injury or illness in orthopaedic emergencies."
+    },
+    {
+      "id": "sii-ort-010",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Perform a screening musculoskeletal examination such as GALS (Gait, Arms, Legs, Spine)."
+    },
+    {
+      "id": "sii-ort-011",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Examine major joints and spine, including specific pathology tests."
+    },
+    {
+      "id": "sii-ort-012",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Examine an acutely injured patient, including a focused neurological examination."
+    },
+    {
+      "id": "sii-ort-013",
+      "kind": "clinical_reasoning",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Interpret musculoskeletal examination findings, including deformities, and relate them to history across spine, hip and pelvis, knee, ankle and foot, shoulder, elbow, wrist and hand, peripheral nerves and paediatric orthopaedic examination."
+    },
+    {
+      "id": "sii-ort-014",
+      "kind": "diagnostic_investigations",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Select suitable laboratory investigations and imaging for back and neck pain; painful shoulder, elbow, hand and wrist, heel, ankle, hip and knee conditions; limping child; common bone tumours; and orthopaedic deformities."
+    },
+    {
+      "id": "sii-ort-015",
+      "kind": "procedural_skill",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Assist in first aid for orthopaedic trauma and in applying bandages, POP casts and slabs, skin and skeletal traction, Thomas and Bohler splints, joint aspiration and injections."
+    },
+    {
+      "id": "sii-ort-016",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "List causes of a limping child."
+    },
+    {
+      "id": "sii-ort-017",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 10,
+      "transcribed_text": "Describe the basic clinical picture of musculoskeletal painful conditions, including spinal pain, common shoulder, elbow, hand and wrist disorders, heel and ankle disorders, and hip and knee disorders."
+    },
+    {
+      "id": "sii-ort-018",
+      "kind": "management",
+      "domain": "orthopedics",
+      "source_page": 11,
+      "transcribed_text": "Recognize principles of management of tendon and peripheral-nerve injuries."
+    },
+    {
+      "id": "sii-ort-019",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 11,
+      "transcribed_text": "Define common skeletal deformities during clinical examination sessions."
+    },
+    {
+      "id": "sii-ort-020",
+      "kind": "clinical_skill",
+      "domain": "orthopedics",
+      "source_page": 11,
+      "transcribed_text": "Describe bedside preoperative and postoperative care during ward rounds."
+    },
+    {
+      "id": "sii-ort-021",
+      "kind": "knowledge_and_management",
+      "domain": "orthopedics",
+      "source_page": 11,
+      "transcribed_text": "Recognize common bone and bone-like tumours and describe their principles of management."
+    },
+    {
+      "id": "sii-ort-022",
+      "kind": "knowledge",
+      "domain": "orthopedics",
+      "source_page": 11,
+      "transcribed_text": "Recognize different types of common orthopaedic implants."
+    }
+  ]
+}

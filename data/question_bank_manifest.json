@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "title": "Usiphu Medical Question Bank Registry",
+  "scope": "Medical education and clinical examination preparation only.",
+  "default_bank_id": "starter-medical-bank",
+  "loader_contract": {
+    "primary_file": "data/questions.json",
+    "additional_bank_directory": "data/question_banks/",
+    "accepted_formats": [
+      "A JSON array of MCQ objects",
+      "A JSON object with bank_id, title, and questions array"
+    ],
+    "globally_unique_question_ids": true,
+    "required_fields": [
+      "id",
+      "specialty_id",
+      "topic_id",
+      "stem",
+      "options",
+      "correct_option_id",
+      "explanation"
+    ],
+    "optional_metadata": [
+      "bank_id",
+      "question_type",
+      "module_code",
+      "tags",
+      "difficulty",
+      "source_url",
+      "source_title",
+      "source_date",
+      "jurisdiction",
+      "source_id",
+      "source_page",
+      "review_status",
+      "reviewed_by",
+      "reviewed_at"
+    ]
+  },
+  "supported_question_types": {
+    "single_best_answer": "Implemented in the current learner question-bank interface.",
+    "extended_matching": "Model type reserved; learner interaction still to be implemented.",
+    "short_answer": "Model type reserved; learner interaction still to be implemented."
+  },
+  "editorial_policy": {
+    "statuses": [
+      "draft",
+      "clinically_reviewed",
+      "exam_validated",
+      "retired"
+    ],
+    "default_status": "draft",
+    "publication_rule": "Only qualified human clinical review and local faculty/exam validation can promote items. Automated checks never approve clinical content.",
+    "provenance_rule": "Retain original author/source attribution and licence. Do not import copyrighted commercial question-bank dumps without permission.",
+    "explanation_required": true,
+    "source_required_for_approval": true
+  },
+  "current_content": {
+    "primary_file": "data/questions.json",
+    "question_count": 20,
+    "status": "starter_plus_evidence_checked_draft_pilot",
+    "note": "Three starter questions plus 17 evidence-checked pilot MCQs (9 Urology, 8 General Surgery). All remain draft and are excluded from scored accuracy until qualified human clinical/faculty sign-off. All selected source pages were visually checked against rendered PDFs; source annotations are not treated as proof of answer correctness.",
+    "installed_banks": [
+      {
+        "bank_id": "starter-medical-bank",
+        "title": "Starter medical bank",
+        "question_count": 3,
+        "status": "draft"
+      },
+      {
+        "bank_id": "pilot-urology-2026",
+        "title": "USIPHU Pilot Question Bank — Urology",
+        "question_count": 9,
+        "status": "draft",
+        "human_signoff_status": "pending"
+      },
+      {
+        "bank_id": "pilot-general-surgery-2026",
+        "title": "USIPHU Pilot Question Bank — General Surgery",
+        "question_count": 8,
+        "status": "draft",
+        "human_signoff_status": "pending"
+      }
+    ]
+  },
+  "pilot_governance": {
+    "answer_basis": "Open-access clinical guidelines, government health information and open-access medical literature, cited per question.",
+    "human_signoff_required": true,
+    "visual_source_page_check_required": false,
+    "ai_or_editorial_review_is_clinical_approval": false,
+    "scored_practice_allowed": false,
+    "visual_source_page_check_completed": true
+  }
+}

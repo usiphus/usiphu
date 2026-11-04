@@ -1,0 +1,1274 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "SI 2.4.2",
+  "academic_year": "2022-2023",
+  "source_id": "suez-si-2022-23",
+  "source_file": "Surgery course last 2023.pdf",
+  "source_page_count": 20,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from the supplied course specification text. Light spelling, punctuation and whitespace normalization only. Related sub-points remain grouped where the source presents them as one ILO; topic headings and assessment descriptions are not relabelled as outcomes. No external clinical content has been added.",
+  "scope_note": "Granular transcription of the knowledge ILOs (printed pages 3–11), psychomotor ILOs (printed pages 12–16), and PBL/seminar/TBL ILOs plus research project ILOs (printed page 17) for SI 2.4.2. The separate topic headings are not counted as ILOs. This is not faculty-verified.",
+  "outcomes": [
+    {
+      "id": "si-ilo-001",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Define shock, classify shock and describe its clinical presentations."
+    },
+    {
+      "id": "si-ilo-002",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Discuss causes, pathogenesis, diagnosis and management of shock, including complications and mechanisms of irreversible shock."
+    },
+    {
+      "id": "si-ilo-003",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Define haemostasis and explain its mechanisms."
+    },
+    {
+      "id": "si-ilo-004",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Explain causes, pathogenesis, types and management of haemorrhage."
+    },
+    {
+      "id": "si-ilo-005",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Summarize causes, clinical presentations, diagnosis and management of common coagulopathies."
+    },
+    {
+      "id": "si-ilo-006",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Illustrate indications, precautions and complications of blood transfusion."
+    },
+    {
+      "id": "si-ilo-007",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 3,
+      "transcribed_text": "Discuss fluid and electrolyte balance and imbalance."
+    },
+    {
+      "id": "si-ilo-008",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss acid-base balance and imbalance."
+    },
+    {
+      "id": "si-ilo-009",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss anabolic and catabolic states of the surgical patient and causes, pathogenesis and management of short-bowel syndrome."
+    },
+    {
+      "id": "si-ilo-010",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Outline enteral and parenteral nutrition principles, types, indications, contraindications, benefits and complications."
+    },
+    {
+      "id": "si-ilo-011",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Classify specific and non-specific surgical infections."
+    },
+    {
+      "id": "si-ilo-012",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Explain clinical presentation, diagnosis and management of specific and non-specific surgical infections."
+    },
+    {
+      "id": "si-ilo-013",
+      "kind": "knowledge_and_management",
+      "domain": "pharmacology",
+      "source_page": 4,
+      "transcribed_text": "Analyse antibiotic-therapy principles, types, administration policies and antimicrobial resistance."
+    },
+    {
+      "id": "si-ilo-014",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Classify neoplasms and describe their pathogenesis, diagnosis, grading, spread and common malignant presentations."
+    },
+    {
+      "id": "si-ilo-015",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Outline indications, limitations and principles of organ transplantation and summarize common surgical transplantation techniques."
+    },
+    {
+      "id": "si-ilo-016",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Identify stem-cell therapy and explain recent expectations of stem-cell therapy in surgery."
+    },
+    {
+      "id": "si-ilo-017",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Define dysphagia, formulate its differential diagnosis and plan management."
+    },
+    {
+      "id": "si-ilo-018",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss causes, clinical presentations and management of achalasia."
+    },
+    {
+      "id": "si-ilo-019",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss causes, pathogenesis, diagnosis and management of gastro-oesophageal reflux disease and reflux oesophagitis."
+    },
+    {
+      "id": "si-ilo-020",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Explain types, causes, diagnosis and management of hiatus hernia."
+    },
+    {
+      "id": "si-ilo-021",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Outline pathogenesis and management of corrosive oesophageal stricture, oesophageal foreign body and oesophageal trauma."
+    },
+    {
+      "id": "si-ilo-022",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss incidence, risk factors, causes, classification, diagnosis and management of oesophageal cancer."
+    },
+    {
+      "id": "si-ilo-023",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Define oesophageal replacement surgery and describe its indications, common techniques and complications."
+    },
+    {
+      "id": "si-ilo-024",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss causes, pathogenesis, clinical presentations, diagnosis, complications and management of peptic ulcer disease."
+    },
+    {
+      "id": "si-ilo-025",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Formulate classifications of gastric neoplasms."
+    },
+    {
+      "id": "si-ilo-026",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Discuss incidence, risk factors, causes, clinical presentations, diagnosis and management of gastric carcinoma."
+    },
+    {
+      "id": "si-ilo-027",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 4,
+      "transcribed_text": "Summarize common gastrectomy techniques and post-gastrectomy complications."
+    },
+    {
+      "id": "si-ilo-028",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Define morbid obesity and list its complications and indications for bariatric surgery."
+    },
+    {
+      "id": "si-ilo-029",
+      "kind": "management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Explain multidisciplinary approaches to management of patients with morbid obesity."
+    },
+    {
+      "id": "si-ilo-030",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Outline bariatric procedures, including indications, techniques, side effects, complications and limitations."
+    },
+    {
+      "id": "si-ilo-031",
+      "kind": "management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss surgical management of inflammatory bowel disease."
+    },
+    {
+      "id": "si-ilo-032",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss causes, clinical presentations, diagnosis and management of intestinal diverticular disease and intestinal vascular disease."
+    },
+    {
+      "id": "si-ilo-033",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss incidence, risk factors, causes, pathology, clinical presentation, diagnosis and management of small-bowel tumours."
+    },
+    {
+      "id": "si-ilo-034",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss incidence, risk factors, causes, clinical presentations, classifications, pathogenesis, diagnosis and management of colonic tumours."
+    },
+    {
+      "id": "si-ilo-035",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Outline causes and types of gastrointestinal trauma, fistulae and stomas."
+    },
+    {
+      "id": "si-ilo-036",
+      "kind": "management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Explain management of gastrointestinal fistulae."
+    },
+    {
+      "id": "si-ilo-037",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss pathogenesis, clinical presentation, diagnosis, differential diagnosis and management of appendicitis."
+    },
+    {
+      "id": "si-ilo-038",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss pathogenesis, clinical presentation, diagnosis and management of appendiceal neoplasms."
+    },
+    {
+      "id": "si-ilo-039",
+      "kind": "procedural_skill",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Demonstrate indications, techniques and complications of appendectomy."
+    },
+    {
+      "id": "si-ilo-040",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Describe anorectal problems including fissure, haemorrhoids, prolapse, perianal abscess and perianal fistula."
+    },
+    {
+      "id": "si-ilo-041",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss clinical presentations, pathogenesis, diagnosis and management of common anorectal problems."
+    },
+    {
+      "id": "si-ilo-042",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Discuss incidence, risk factors, causes, clinical presentations, diagnosis and management of anorectal tumours and outline causes, diagnosis and management of faecal incontinence."
+    },
+    {
+      "id": "si-ilo-043",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Illustrate surgical anatomy of the hepatobiliary region."
+    },
+    {
+      "id": "si-ilo-044",
+      "kind": "management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Outline causes, classification and management of liver trauma."
+    },
+    {
+      "id": "si-ilo-045",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Formulate classifications of neoplastic liver lesions and list their incidence, risk factors and causes."
+    },
+    {
+      "id": "si-ilo-046",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Plan management of focal liver lesions and formulate differential diagnoses of neoplastic and non-neoplastic liver lesions."
+    },
+    {
+      "id": "si-ilo-047",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Explain pathogenesis, clinical presentations, diagnostic procedures and management approaches for neoplastic liver lesions; discuss diagnosis and management of liver metastases."
+    },
+    {
+      "id": "si-ilo-048",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "List indications and types of hepatic resection and identify causes of portal hypertension."
+    },
+    {
+      "id": "si-ilo-049",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 5,
+      "transcribed_text": "Explain pathogenesis, clinical presentations and management of portal hypertension."
+    },
+    {
+      "id": "si-ilo-050",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Discuss causes, pathogenesis, clinical presentations and management of benign gallbladder disease and incidence, risk factors, causes, diagnosis and management of gallbladder carcinoma."
+    },
+    {
+      "id": "si-ilo-051",
+      "kind": "procedural_skill",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Illustrate indications and different techniques of cholecystectomy and outline post-cholecystectomy complications."
+    },
+    {
+      "id": "si-ilo-052",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Discuss causes, pathogenesis, clinical presentations, diagnostic procedures and management of pancreatitis."
+    },
+    {
+      "id": "si-ilo-053",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Outline causes, classification, diagnosis and management of pancreatic trauma, pancreatic fistulae and pancreatic pseudocyst."
+    },
+    {
+      "id": "si-ilo-054",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Identify incidence, risk factors and causes of pancreatic carcinoma; explain its pathogenesis, clinical presentations, diagnostic procedures and management."
+    },
+    {
+      "id": "si-ilo-055",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "List pancreatic endocrine tumours and discuss incidence, site, clinical presentations, diagnosis and management."
+    },
+    {
+      "id": "si-ilo-056",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Discuss diagnosis and management of gastric and intestinal lymphoma and gastrointestinal stromal tumour."
+    },
+    {
+      "id": "si-ilo-057",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Describe incidence, types, clinical presentation, diagnosis and management of congenital splenic diseases, splenic infarction, infection, trauma and tumours."
+    },
+    {
+      "id": "si-ilo-058",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "List causes of hypersplenism and splenomegaly; demonstrate indications and techniques of splenectomy and outline its complications."
+    },
+    {
+      "id": "si-ilo-059",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Discuss incidence, causes, pathogenesis, diagnosis and management of thyroglossal cyst, thyroglossal fistula and ectopic thyroid tissue."
+    },
+    {
+      "id": "si-ilo-060",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Formulate differential diagnoses of goitre and discuss causes, pathology, clinical presentations, diagnosis and management of simple goitre."
+    },
+    {
+      "id": "si-ilo-061",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Explain pathogenesis, clinical presentations, diagnosis and management of toxic goitre and autoimmune or inflammatory thyroid disease."
+    },
+    {
+      "id": "si-ilo-062",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 6,
+      "transcribed_text": "Identify types, causes and management of benign thyroid neoplasms."
+    },
+    {
+      "id": "si-ilo-063",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Discuss incidence, types, causes, pathology, clinical presentations, diagnosis and management of malignant thyroid neoplasms and plan management of a solitary thyroid nodule."
+    },
+    {
+      "id": "si-ilo-064",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Discuss pathogenesis, classifications, clinical presentations and management of hyperparathyroidism and hypoparathyroidism."
+    },
+    {
+      "id": "si-ilo-065",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Discuss causes, classifications and pathogenesis of adrenal disorders and formulate a differential diagnosis for adrenal masses."
+    },
+    {
+      "id": "si-ilo-066",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Discuss management of adrenal disorders, including adrenocortical carcinoma, pheochromocytoma and neuroblastoma."
+    },
+    {
+      "id": "si-ilo-067",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Outline congenital anomalies of the breast and discuss pathology and management of traumatic fat necrosis."
+    },
+    {
+      "id": "si-ilo-068",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Identify causes and clinical presentations of inflammatory breast disease and select diagnostic procedures and management approaches."
+    },
+    {
+      "id": "si-ilo-069",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Describe types, pathogenesis, clinical presentations and management of fibrocystic breast disease and gynaecomastia."
+    },
+    {
+      "id": "si-ilo-070",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Outline clinical presentation and management of phyllodes tumour and intraductal papilloma; classify breast cancer and discuss its incidence, risk factors, causes, clinical presentations, diagnosis, grading and management."
+    },
+    {
+      "id": "si-ilo-071",
+      "kind": "public-health",
+      "domain": "general-surgery",
+      "source_page": 7,
+      "transcribed_text": "Design a plan for early detection of breast cancer in the community."
+    },
+    {
+      "id": "si-ilo-072",
+      "kind": "knowledge",
+      "domain": "pediatric-surgery",
+      "source_page": 7,
+      "transcribed_text": "Understand differences between adult and paediatric surgery in surgical decisions, preoperative preparation, operative techniques and postoperative follow-up and management."
+    },
+    {
+      "id": "si-ilo-073",
+      "kind": "knowledge_and_management",
+      "domain": "pediatric-surgery",
+      "source_page": 7,
+      "transcribed_text": "Explain incidence, causes, types, diagnosis and management of oesophageal atresia, tracheo-oesophageal fistula and oesophageal diverticulum."
+    },
+    {
+      "id": "si-ilo-074",
+      "kind": "knowledge_and_management",
+      "domain": "pediatric-surgery",
+      "source_page": 7,
+      "transcribed_text": "Explain incidence, types, clinical presentations, diagnosis and management of congenital hypertrophic pyloric stenosis and duodenal atresia."
+    },
+    {
+      "id": "si-ilo-075",
+      "kind": "knowledge_and_management",
+      "domain": "pediatric-surgery",
+      "source_page": 7,
+      "transcribed_text": "Discuss incidence, causes, clinical presentation, diagnosis and management of Meckel diverticulum, intestinal atresia, malrotation, intussusception and necrotizing enterocolitis."
+    },
+    {
+      "id": "si-ilo-076",
+      "kind": "knowledge_and_management",
+      "domain": "pediatric-surgery",
+      "source_page": 8,
+      "transcribed_text": "Discuss incidence, causes, clinical presentations, diagnosis and management of anorectal congenital malformations and Hirschsprung disease."
+    },
+    {
+      "id": "si-ilo-077",
+      "kind": "knowledge_and_management",
+      "domain": "pediatric-surgery",
+      "source_page": 8,
+      "transcribed_text": "Discuss incidence, diagnosis and management of biliary atresia and choledochal cyst."
+    },
+    {
+      "id": "si-ilo-078",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "Discuss classification, pathogenesis and management of haemangiomas and vascular malformations."
+    },
+    {
+      "id": "si-ilo-079",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "List types and causes of ischaemia and explain its pathogenesis, clinical presentations, diagnosis and management."
+    },
+    {
+      "id": "si-ilo-080",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "Discuss causes, pathogenesis and management of aneurysms; plan management of arterial injuries and discuss pathogenesis and management of vasculitis."
+    },
+    {
+      "id": "si-ilo-081",
+      "kind": "knowledge",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "List causes and classification of varicose veins."
+    },
+    {
+      "id": "si-ilo-082",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "Explain pathogenesis, clinical presentations, diagnosis and management of varicose veins and outline management of venous ulcers."
+    },
+    {
+      "id": "si-ilo-083",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "Discuss causes, pathogenesis, diagnosis and management of deep-vein thrombosis and pulmonary embolism."
+    },
+    {
+      "id": "si-ilo-084",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 8,
+      "transcribed_text": "Outline classification, causes, pathogenesis, diagnosis and management of lymphoedema."
+    },
+    {
+      "id": "si-ilo-085",
+      "kind": "knowledge",
+      "domain": "plastic-surgery",
+      "source_page": 8,
+      "transcribed_text": "Define burn injury, identify causes and explain burn pathogenesis."
+    },
+    {
+      "id": "si-ilo-086",
+      "kind": "clinical_reasoning",
+      "domain": "plastic-surgery",
+      "source_page": 8,
+      "transcribed_text": "Differentiate burn degrees by depth, healing pattern, clinical presentation, local management and complications."
+    },
+    {
+      "id": "si-ilo-087",
+      "kind": "management",
+      "domain": "plastic-surgery",
+      "source_page": 8,
+      "transcribed_text": "Understand recent advances in local burn management and skin substitutes and discuss general and long-term multidisciplinary management of burned patients."
+    },
+    {
+      "id": "si-ilo-088",
+      "kind": "public-health",
+      "domain": "plastic-surgery",
+      "source_page": 8,
+      "transcribed_text": "Design a health-education brochure for burn prevention and local management of burn injuries in the community."
+    },
+    {
+      "id": "si-ilo-089",
+      "kind": "knowledge",
+      "domain": "plastic-surgery",
+      "source_page": 8,
+      "transcribed_text": "Classify common skin and subcutaneous lesions and explain how to differentiate them."
+    },
+    {
+      "id": "si-ilo-090",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Discuss aetiology, clinical presentations, complications and management of common skin and soft-tissue infections."
+    },
+    {
+      "id": "si-ilo-091",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Discuss causes, types, clinical presentations, diagnosis and management of sialadenitis, sialectasis, sialolithiasis, autoimmune salivary disease, salivary trauma and fistulae."
+    },
+    {
+      "id": "si-ilo-092",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Outline classification of benign and malignant salivary tumours and discuss incidence, causes, pathogenesis, clinical presentations, diagnosis and management."
+    },
+    {
+      "id": "si-ilo-093",
+      "kind": "clinical_reasoning",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Classify jaw swellings and describe clinical and radiological findings of common jaw swellings."
+    },
+    {
+      "id": "si-ilo-094",
+      "kind": "management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Describe common surgical techniques used in management of jaw swellings."
+    },
+    {
+      "id": "si-ilo-095",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Classify head and neck malignancies, explain clinical presentations and management, and identify types of block neck dissection."
+    },
+    {
+      "id": "si-ilo-096",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Identify neck-trauma zones, describe mechanisms and clinical presentations, and design a management protocol for neck trauma."
+    },
+    {
+      "id": "si-ilo-097",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Discuss management of facial and scalp soft-tissue trauma and clinical/radiological findings, classifications and principles of management of facial-bone fractures."
+    },
+    {
+      "id": "si-ilo-098",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Describe classifications of congenital craniofacial clefts, multidisciplinary management, and indications, timing and principles of surgery."
+    },
+    {
+      "id": "si-ilo-099",
+      "kind": "knowledge",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Describe surgical anatomy of the hand and hand spaces."
+    },
+    {
+      "id": "si-ilo-100",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Discuss clinical presentations and management of hand infections, diabetic hand, common hand swellings, hand tenosynovitis and Dupuytren contracture."
+    },
+    {
+      "id": "si-ilo-101",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 9,
+      "transcribed_text": "Define aesthetic surgery, identify common surgical and non-surgical techniques, and discuss indications and complications."
+    },
+    {
+      "id": "si-ilo-102",
+      "kind": "clinical_skill",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Categorize and differentiate urological complaints and identify different urological investigations, including commonly used radiological investigations."
+    },
+    {
+      "id": "si-ilo-103",
+      "kind": "procedural_skill",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Perform male and female urinary catheterization and explain indications and complications of catheterization."
+    },
+    {
+      "id": "si-ilo-104",
+      "kind": "procedural_skill",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Illustrate indications and techniques of suprapubic catheterization and nephrostomy tube placement."
+    },
+    {
+      "id": "si-ilo-105",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Outline principles, indications and techniques of circumcision, post-circumcision complications, and medico-legal aspects of female circumcision."
+    },
+    {
+      "id": "si-ilo-106",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Discuss aetiology, clinical presentation, diagnosis and management of renal agenesis, pelvi-ureteric junction obstruction, vesicoureteral reflux, duplication, ectopic ureter, ureterocele, undescended testis, hypospadias, posterior urethral valve and exstrophy-epispadias complex."
+    },
+    {
+      "id": "si-ilo-107",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Explain mechanisms, clinical presentation, diagnostic approach and management of urinary trauma, testicular torsion, penile fracture and priapism."
+    },
+    {
+      "id": "si-ilo-108",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Discuss causes, pathogenesis, clinical presentations, complications, diagnostic procedures and management of obstructive uropathy, urinary retention, anuria and haematuria."
+    },
+    {
+      "id": "si-ilo-109",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Explain pathogenesis, clinical presentations, diagnosis and management of pyelonephritis, renal abscess, cystitis, prostatitis and sexually transmitted diseases."
+    },
+    {
+      "id": "si-ilo-110",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Discuss incidence, risk factors, causes, diagnosis and management of renal tumours and bladder cancer."
+    },
+    {
+      "id": "si-ilo-111",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "Explain theories, clinical presentation, diagnosis and management of benign prostatic hyperplasia and discuss incidence, risk factors, causes, diagnosis and management of prostate cancer."
+    },
+    {
+      "id": "si-ilo-112",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 10,
+      "transcribed_text": "List causes, clinical presentations, diagnosis and management of impotence and male infertility; identify penile prosthesis types and clinical presentation and management of varicocele."
+    },
+    {
+      "id": "si-ilo-113",
+      "kind": "knowledge",
+      "domain": "urology",
+      "source_page": 11,
+      "transcribed_text": "Define voiding dysfunction, describe neurological bladder control and the micturition cycle, and classify voiding disorders."
+    },
+    {
+      "id": "si-ilo-114",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 11,
+      "transcribed_text": "Describe clinical presentations and management of urinary incontinence and nocturnal enuresis."
+    },
+    {
+      "id": "si-ilo-115",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 11,
+      "transcribed_text": "Explain urinary-stone aetiology and theories of formation, composition of common stones, clinical presentation, management options and recurrence prevention."
+    },
+    {
+      "id": "si-ilo-116",
+      "kind": "knowledge_and_management",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Explain mechanisms and types of chest trauma and illustrate clinical and radiological presentations; design a diagnostic and management plan."
+    },
+    {
+      "id": "si-ilo-117",
+      "kind": "knowledge_and_management",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Discuss aetiology, clinical presentation, radiological findings and complications of inflammatory lung and pleural conditions."
+    },
+    {
+      "id": "si-ilo-118",
+      "kind": "knowledge",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "List benign and malignant lung tumours and discuss clinical presentations and radiological findings of lung neoplasms."
+    },
+    {
+      "id": "si-ilo-119",
+      "kind": "knowledge_and_management",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Describe indications, complications and principles of lung and pleural surgery."
+    },
+    {
+      "id": "si-ilo-120",
+      "kind": "knowledge",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Describe types of congenital heart disease and explain surgical principles of congenital heart surgery."
+    },
+    {
+      "id": "si-ilo-121",
+      "kind": "knowledge",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "List valvular diseases and valve-replacement surgery; describe indications, limitations and techniques of coronary artery bypass; outline cardiac pacemakers and cardiopulmonary bypass."
+    },
+    {
+      "id": "si-ilo-122",
+      "kind": "clinical_reasoning",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Formulate differential diagnoses and outline diagnostic and management approaches for mediastinal masses."
+    },
+    {
+      "id": "si-ilo-123",
+      "kind": "knowledge_and_management",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 11,
+      "transcribed_text": "Discuss causes, pathogenesis, diagnosis and management of thoracic outlet syndrome."
+    },
+    {
+      "id": "si-ilo-124",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 11,
+      "transcribed_text": "Outline incidence, types, causes, clinical presentation, diagnosis and management of Chiari malformation, Dandy–Walker malformation and dysraphism."
+    },
+    {
+      "id": "si-ilo-125",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Define craniosynostosis and describe clinical presentations, types, causes, diagnosis and management."
+    },
+    {
+      "id": "si-ilo-126",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Discuss mechanisms, types, causes, clinical presentation, diagnosis and management of skull fractures, extradural haematoma, acute and chronic subdural haematoma, intraparenchymal injury and other extra-axial collections."
+    },
+    {
+      "id": "si-ilo-127",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Explain mechanisms, causes, diagnosis and management of cervical-spine injuries, thoracolumbar-spine injuries and spinal-cord injury."
+    },
+    {
+      "id": "si-ilo-128",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Outline incidence, causes, diagnosis and management of primary and metastatic brain tumours, cranial and peripheral nerve tumours, and spinal and spinal-cord tumours."
+    },
+    {
+      "id": "si-ilo-129",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Explain causes, clinical presentation, diagnosis and management of stroke, intracerebral haemorrhage, subarachnoid haemorrhage, venous sinus thrombosis and cerebral aneurysms."
+    },
+    {
+      "id": "si-ilo-130",
+      "kind": "knowledge_and_management",
+      "domain": "neurosurgery",
+      "source_page": 12,
+      "transcribed_text": "Discuss causes, clinical presentation and management of hydrocephalus and describe mechanisms of cerebrospinal-fluid diversion."
+    },
+    {
+      "id": "si-ilo-131",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 12,
+      "transcribed_text": "Understand the importance of history taking in diagnosis of surgical diseases and take and record a structured patient-centred history."
+    },
+    {
+      "id": "si-ilo-132",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 12,
+      "transcribed_text": "Apply and present systematic abdominal examination and understand the pathogenesis of positive physical findings."
+    },
+    {
+      "id": "si-ilo-133",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 12,
+      "transcribed_text": "Understand the importance and scientific background of per-rectal examination and apply and interpret the examination."
+    },
+    {
+      "id": "si-ilo-134",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 12,
+      "transcribed_text": "Perform and present systematic clinical assessment of swellings."
+    },
+    {
+      "id": "si-ilo-135",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Outline trauma types, define multiple-trauma patients, triage and causes of death in trauma, and describe management of life-threatening traumatic conditions."
+    },
+    {
+      "id": "si-ilo-136",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Illustrate and apply recent trauma life-support guidelines."
+    },
+    {
+      "id": "si-ilo-137",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Discuss diagnosis and management of crush syndrome and compartment syndromes and explain damage-control surgery and conservative management."
+    },
+    {
+      "id": "si-ilo-138",
+      "kind": "professional_skill",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Understand patient health education regarding surgical options, side effects, complications, informed consent, photography, fasting, positioning and follow-up."
+    },
+    {
+      "id": "si-ilo-139",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Discuss preoperative investigations and preparation, DVT-prophylaxis guidance, precautions for selected comorbidities/therapies, intraoperative precautions and management of common postoperative complications."
+    },
+    {
+      "id": "si-ilo-140",
+      "kind": "knowledge",
+      "domain": "radiology",
+      "source_page": 13,
+      "transcribed_text": "Understand scientific background, indications, complications and limitations of recent imaging techniques and common interventional radiology."
+    },
+    {
+      "id": "si-ilo-141",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Understand laser theory, differentiate types of light therapies and describe indications, complications and limitations of phototherapy in surgery."
+    },
+    {
+      "id": "si-ilo-142",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Define minimally invasive surgery and describe indications, common techniques, complications and limitations."
+    },
+    {
+      "id": "si-ilo-143",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Identify basic surgical instruments, tubes and drains and describe indications, contraindications and complications."
+    },
+    {
+      "id": "si-ilo-144",
+      "kind": "procedural_skill",
+      "domain": "general-surgery",
+      "source_page": 13,
+      "transcribed_text": "Understand differences between suture types and suturing techniques, explain indications and apply common suturing techniques."
+    },
+    {
+      "id": "si-ilo-145",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Define and classify causes of surgical jaundice, explain pathogenesis and diagnosis, and design a management plan."
+    },
+    {
+      "id": "si-ilo-146",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Describe causes, clinical presentations and management of cholangitis."
+    },
+    {
+      "id": "si-ilo-147",
+      "kind": "knowledge",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Illustrate indications, advantages, disadvantages, side effects and complications of different abdominal incisions and describe their anatomical layers."
+    },
+    {
+      "id": "si-ilo-148",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Perform and interpret thyroid examination and describe signs of thyrotoxicosis."
+    },
+    {
+      "id": "si-ilo-149",
+      "kind": "knowledge_and_management",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Discuss indications and types of thyroidectomy, explain operative steps and outline postoperative complications and their management."
+    },
+    {
+      "id": "si-ilo-150",
+      "kind": "clinical_skill",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Understand the importance and scientific background of routine breast examination and perform and interpret breast examination."
+    },
+    {
+      "id": "si-ilo-151",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 14,
+      "transcribed_text": "Formulate differential diagnoses of nipple discharge and explain management approaches."
+    },
+    {
+      "id": "si-ilo-152",
+      "kind": "clinical_skill",
+      "domain": "vascular-surgery",
+      "source_page": 14,
+      "transcribed_text": "Perform examination of distal pulses and describe symptoms and signs of acute and chronic ischaemia, varicose veins, DVT and post-phlebitic limb."
+    },
+    {
+      "id": "si-ilo-153",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 14,
+      "transcribed_text": "Define gangrene and its types, describe pathogenesis and management, explain indications for amputation, and recognize amputation levels and complications."
+    },
+    {
+      "id": "si-ilo-154",
+      "kind": "procedural_skill",
+      "domain": "vascular-surgery",
+      "source_page": 14,
+      "transcribed_text": "Define vascular access, describe indications and performance, and describe complications of different access types and their management."
+    },
+    {
+      "id": "si-ilo-155",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 14,
+      "transcribed_text": "Explain indications, techniques, complications and limitations of angiography and angioplasty; interpret arterial and venous angiograms; explain selective embolization and the role of angiography in trauma."
+    },
+    {
+      "id": "si-ilo-156",
+      "kind": "knowledge_and_management",
+      "domain": "vascular-surgery",
+      "source_page": 15,
+      "transcribed_text": "Identify diabetic foot and outline causes and management of diabetic-foot infections, including multidisciplinary care."
+    },
+    {
+      "id": "si-ilo-157",
+      "kind": "knowledge",
+      "domain": "vascular-surgery",
+      "source_page": 15,
+      "transcribed_text": "List types and indications of sympathectomy and illustrate techniques."
+    },
+    {
+      "id": "si-ilo-158",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Discuss causes and pathogenesis of wounds, wound-healing mechanisms and factors, complications and abnormal healing, wound assessment, recent wound protocols and scar-management modalities."
+    },
+    {
+      "id": "si-ilo-159",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Explain tissue-reconstruction aims and techniques, graft and flap definitions/classifications/indications/limitations, recent techniques and decision-making for tissue defects."
+    },
+    {
+      "id": "si-ilo-160",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Explain pressure-ulcer pathogenesis and prevention, describe clinical grades and complications, and explain management."
+    },
+    {
+      "id": "si-ilo-161",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Describe causes and clinical presentation of lymphadenopathy and management of lymphadenopathy and carcinoma of unknown primary; classify lymphomas and explain their presentation and the surgical role in diagnosis and management."
+    },
+    {
+      "id": "si-ilo-162",
+      "kind": "clinical_reasoning",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Describe neck triangles and differentiate common anterior and lateral neck swellings by clinical presentation and management."
+    },
+    {
+      "id": "si-ilo-163",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 15,
+      "transcribed_text": "Define and classify hernias, discuss clinical presentations and complications, outline management principles and recent abdominal-wall reconstruction principles."
+    },
+    {
+      "id": "si-ilo-164",
+      "kind": "knowledge_and_management",
+      "domain": "plastic-surgery",
+      "source_page": 16,
+      "transcribed_text": "Describe indications and types of mastectomy, conservative breast surgery and breast reconstruction, including precautions, timing and limitations; identify mammoplasty and mastopexy and describe surgical techniques for gynaecomastia."
+    },
+    {
+      "id": "si-ilo-165",
+      "kind": "clinical_skill",
+      "domain": "urology",
+      "source_page": 16,
+      "transcribed_text": "Categorize and differentiate urological complaints and identify different urological and commonly used radiological investigations."
+    },
+    {
+      "id": "si-ilo-166",
+      "kind": "procedural_skill",
+      "domain": "urology",
+      "source_page": 16,
+      "transcribed_text": "Perform male and female urinary catheterization; explain indications and complications and illustrate indications and techniques of suprapubic catheterization and nephrostomy."
+    },
+    {
+      "id": "si-ilo-167",
+      "kind": "knowledge_and_management",
+      "domain": "urology",
+      "source_page": 16,
+      "transcribed_text": "Outline principles, indications and techniques of circumcision and post-circumcision complications and illustrate indications and medico-legal aspects of female circumcision."
+    },
+    {
+      "id": "si-ilo-168",
+      "kind": "clinical_skill",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 16,
+      "transcribed_text": "Describe scientific background of chest radiology, indications and complications of chest-tube insertion, chest-tube mechanism and removal, and perform chest-tube insertion."
+    },
+    {
+      "id": "si-ilo-169",
+      "kind": "knowledge",
+      "domain": "cardiothoracic-surgery",
+      "source_page": 16,
+      "transcribed_text": "Discuss indications for thoracotomy and identify different types of thoracotomy."
+    },
+    {
+      "id": "si-ilo-170",
+      "kind": "clinical_skill",
+      "domain": "neurosurgery",
+      "source_page": 16,
+      "transcribed_text": "Understand the scientific background of neurological examination and clinical signs and apply and interpret neurological examination."
+    },
+    {
+      "id": "si-ilo-171",
+      "kind": "clinical_skill",
+      "domain": "neurosurgery",
+      "source_page": 16,
+      "transcribed_text": "Interpret plain X-rays, CT and MRI of the skull and spine."
+    },
+    {
+      "id": "si-ilo-172",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 17,
+      "transcribed_text": "Define acute abdomen, formulate its differential diagnosis and plan its management; classify gastrointestinal bleeding and design diagnostic and management plans."
+    },
+    {
+      "id": "si-ilo-173",
+      "kind": "clinical_reasoning",
+      "domain": "general-surgery",
+      "source_page": 17,
+      "transcribed_text": "Describe classifications and clinical presentations of gastrointestinal obstruction (paediatric/adult, acute/chronic, mechanical/functional) and demonstrate diagnosis and management."
+    },
+    {
+      "id": "si-ilo-174",
+      "kind": "clinical_skill",
+      "domain": "urology",
+      "source_page": 17,
+      "transcribed_text": "Apply clinical tests to differentiate inguinal, inguinoscrotal and scrotal swellings."
+    },
+    {
+      "id": "si-ilo-175",
+      "kind": "clinical_reasoning",
+      "domain": "urology",
+      "source_page": 17,
+      "transcribed_text": "Discuss aetiology, pathology, clinical presentation, diagnosis and management of inguinoscrotal swellings and explain presentation and management of acute scrotum, testicular torsion, testicular trauma and inflammatory testicular conditions."
+    },
+    {
+      "id": "si-ilo-176",
+      "kind": "clinical_reasoning",
+      "domain": "neurosurgery",
+      "source_page": 17,
+      "transcribed_text": "Explain causes, diagnosis and management of low-back pain, radiculopathy, cervical disc herniation, thoracic/lumbar degenerative disc disease, degenerative cervical disc disease, cervical myelopathy, adult spinal deformity and degenerative scoliosis."
+    },
+    {
+      "id": "si-ilo-177",
+      "kind": "clinical_reasoning",
+      "domain": "neurosurgery",
+      "source_page": 17,
+      "transcribed_text": "Describe clinical presentations of metastatic carcinoma and explain management of metastatic prostatic carcinoma."
+    },
+    {
+      "id": "si-ilo-178",
+      "kind": "management",
+      "domain": "general-surgery",
+      "source_page": 17,
+      "transcribed_text": "Design guidelines for management of a bed-ridden patient."
+    },
+    {
+      "id": "si-ilo-179",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 17,
+      "transcribed_text": "Understand the scientific principles of research."
+    },
+    {
+      "id": "si-ilo-180",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 17,
+      "transcribed_text": "Understand the ethical aspects of research."
+    }
+  ]
+}

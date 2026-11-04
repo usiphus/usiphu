@@ -52,6 +52,18 @@ class Option(BaseModel):
     text: str
 
 
+class EvidenceSource(BaseModel):
+    """Traceable external evidence used for an editorial answer check."""
+    source_id: str
+    title: str
+    url: str
+    publisher: str
+    source_type: Literal["guideline", "government_health_source", "open_access_review", "reference"]
+    published_date: str | None = None
+    accessed_at: str | None = None
+    supports: str
+
+
 class MCQ(BaseModel):
     id: str
     specialty_id: str
@@ -68,6 +80,30 @@ class MCQ(BaseModel):
     reviewed_at: str | None = None
     review_status: ReviewStatus = "draft"
     difficulty: Literal["easy", "moderate", "hard"] = "moderate"
+    question_type: Literal["single_best_answer", "extended_matching", "short_answer"] = "single_best_answer"
+    bank_id: str = "starter-medical-bank"
+    module_code: str | None = None
+    tags: list[str] = Field(default_factory=list)
+    source_id: str | None = None
+    source_page: int | None = None
+    source_page_end: int | None = None
+    source_filename: str | None = None
+    source_candidate_id: str | None = None
+    transcription_status: Literal[
+        "not_checked", "text_layer_checked_not_image_verified", "visually_verified", "corrected"
+    ] = "not_checked"
+    evidence_review_status: Literal[
+        "not_checked", "supported", "supported_with_editorial_revision",
+        "mixed", "insufficient_evidence", "contradicted"
+    ] = "not_checked"
+    human_signoff_status: Literal["pending", "approved", "rejected"] = "pending"
+    clinical_reviewed_by: str | None = None
+    clinical_reviewed_at: str | None = None
+    exam_validated_by: str | None = None
+    exam_validated_at: str | None = None
+    faculty_review_comments: list[str | None] = Field(default_factory=list)
+    evidence_sources: list[EvidenceSource] = Field(default_factory=list)
+    editorial_notes: list[str] = Field(default_factory=list)
 
     @field_validator("options")
     @classmethod

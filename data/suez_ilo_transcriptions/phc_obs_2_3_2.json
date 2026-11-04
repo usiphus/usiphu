@@ -1,0 +1,798 @@
+{
+  "schema_version": "1.0",
+  "institution": "Suez University, Faculty of Medicine",
+  "module_code": "PHC/Obs 2.3.2",
+  "academic_year": "2020-2021",
+  "source_id": "suez-phc-obs-2020-21",
+  "source_file": "3rd year-study-guide-2nd.pdf",
+  "source_page_count": 19,
+  "extraction_status": "transcribed_not_faculty_verified",
+  "transcription_method": "Manual transcription from the supplied course-guide text. Light spelling, punctuation and whitespace normalization only; grouped source statements remain grouped. No clinical content has been added. The listed topic headings are not relabelled as ILOs.",
+  "scope_note": "Granular transcription of knowledge ILOs for Obstetrics/Gynaecology, Family Medicine and Occupational Medicine (printed pages 6–13); psychomotor ILOs (printed pages 13–15); attitude/behaviour ILOs (page 16); and research/field-training ILOs (page 17). This is PHC/Obs 2.3.2, not Pediatrics PHC/ped 2.3.1.",
+  "outcomes": [
+    {
+      "id": "phcobs-001",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Define and list types of miscarriage, differentiate between miscarriage types and discuss management."
+    },
+    {
+      "id": "phcobs-002",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Describe diagnosis and identify management of ectopic pregnancy and define, diagnose and manage molar pregnancy."
+    },
+    {
+      "id": "phcobs-003",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "List causes of antepartum haemorrhage and describe diagnosis of placenta praevia and placental abruption."
+    },
+    {
+      "id": "phcobs-004",
+      "kind": "management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Identify management of antepartum haemorrhage and describe diagnosis and management of vasa praevia."
+    },
+    {
+      "id": "phcobs-005",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Define and classify hypertensive disorders in pregnancy and list their types."
+    },
+    {
+      "id": "phcobs-006",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Discuss diagnosis and management of pre-eclampsia and eclampsia."
+    },
+    {
+      "id": "phcobs-007",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 6,
+      "transcribed_text": "Define diabetes mellitus in pregnancy and discuss its diagnosis, complications and management."
+    },
+    {
+      "id": "phcobs-008",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Classify and discuss diagnosis and management of haematological disorders during pregnancy."
+    },
+    {
+      "id": "phcobs-009",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "List types and discuss diagnosis and management of renal disorders during pregnancy, including UTI and asymptomatic bacteriuria."
+    },
+    {
+      "id": "phcobs-010",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "List types and discuss diagnosis and management of cardiac disorders during pregnancy."
+    },
+    {
+      "id": "phcobs-011",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define and discuss diagnosis and management of emesis and hyperemesis gravidarum."
+    },
+    {
+      "id": "phcobs-012",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "List types of maternal infection during pregnancy and their fetal sequelae."
+    },
+    {
+      "id": "phcobs-013",
+      "kind": "management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Discuss diagnosis and management of maternal infection during pregnancy."
+    },
+    {
+      "id": "phcobs-014",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define and list causes and types of fetal hydrops."
+    },
+    {
+      "id": "phcobs-015",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define and discuss diagnosis and management of Rh isoimmunization."
+    },
+    {
+      "id": "phcobs-016",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define intrauterine growth restriction, list its causes and discuss its management."
+    },
+    {
+      "id": "phcobs-017",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "List causes of intrauterine fetal death and discuss its diagnosis and management."
+    },
+    {
+      "id": "phcobs-018",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define preterm delivery, list causes and discuss management."
+    },
+    {
+      "id": "phcobs-019",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Define post-term delivery and discuss its management."
+    },
+    {
+      "id": "phcobs-020",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Identify causes and antenatal diagnosis of congenital fetal malformations and identify amniotic-fluid abnormalities and their management."
+    },
+    {
+      "id": "phcobs-021",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Identify anatomy of the passages and passenger, define normal labour and identify its stages."
+    },
+    {
+      "id": "phcobs-022",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 7,
+      "transcribed_text": "Describe mechanism and management of normal labour and identify methods of antepartum and intrapartum fetal surveillance."
+    },
+    {
+      "id": "phcobs-023",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "List causes of malpositions and malpresentations and identify management of labour with malposition or malpresentation."
+    },
+    {
+      "id": "phcobs-024",
+      "kind": "management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Describe management of multiple pregnancy during pregnancy and delivery."
+    },
+    {
+      "id": "phcobs-025",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Define shoulder dystocia and identify its management."
+    },
+    {
+      "id": "phcobs-026",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "List complications of the third stage of labour and identify their management."
+    },
+    {
+      "id": "phcobs-027",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Define induction of labour and identify methods of induction."
+    },
+    {
+      "id": "phcobs-028",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "List indications, identify technique and describe complications of caesarean section."
+    },
+    {
+      "id": "phcobs-029",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Describe normal puerperium and list causes of postpartum pyrexia and collapse."
+    },
+    {
+      "id": "phcobs-030",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Describe disorders of puberty and define, list types and causes of amenorrhoea and identify its management."
+    },
+    {
+      "id": "phcobs-031",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "List causes of abnormal uterine bleeding and describe its management."
+    },
+    {
+      "id": "phcobs-032",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Define and identify types of dysmenorrhoea and describe its management."
+    },
+    {
+      "id": "phcobs-033",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Define and list causes of infertility and explain management of male and female infertility."
+    },
+    {
+      "id": "phcobs-034",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 8,
+      "transcribed_text": "Identify polycystic ovary syndrome and discuss its diagnosis and management; discuss diagnosis and treatment of endometriosis."
+    },
+    {
+      "id": "phcobs-035",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "Describe diagnosis and management of pelvic inflammatory disease and list its complications."
+    },
+    {
+      "id": "phcobs-036",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List causes of sexually transmitted diseases and discuss diagnosis and treatment of STDs."
+    },
+    {
+      "id": "phcobs-037",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List types of uterine fibroid, discuss diagnosis and treatment and identify complications."
+    },
+    {
+      "id": "phcobs-038",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "Describe screening for cervical cancer and discuss diagnosis and treatment of cervical and endometrial cancer."
+    },
+    {
+      "id": "phcobs-039",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List types of ovarian cancer and discuss diagnosis and treatment."
+    },
+    {
+      "id": "phcobs-040",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List causes of female urinary incontinence and identify its diagnosis and treatment."
+    },
+    {
+      "id": "phcobs-041",
+      "kind": "knowledge_and_management",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List types and causes of female genital-organ prolapse and describe diagnosis and treatment of pelvic-organ prolapse."
+    },
+    {
+      "id": "phcobs-042",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "Identify different types of hormonal contraception, describe mechanical and barrier methods, and identify male and female sterilization."
+    },
+    {
+      "id": "phcobs-043",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "List causes of chronic pelvic pain and describe its diagnosis and treatment."
+    },
+    {
+      "id": "phcobs-044",
+      "kind": "knowledge",
+      "domain": "obstetrics-gynecology",
+      "source_page": 9,
+      "transcribed_text": "Identify the role of ultrasound in obstetrics and gynaecology."
+    },
+    {
+      "id": "phcobs-045",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Describe the family physician's role in premarital and preconception care for women of reproductive age."
+    },
+    {
+      "id": "phcobs-046",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Describe the family physician's role in antenatal care, including pregnancy diagnosis, screening tests, physiological changes, clinical and laboratory assessment, common complaints, danger signs, vaccination and routine follow-up."
+    },
+    {
+      "id": "phcobs-047",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Describe the family physician's role in postpartum health maintenance."
+    },
+    {
+      "id": "phcobs-048",
+      "kind": "professional_skill",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Discuss the family physician's role in family-planning counselling and women's health maintenance."
+    },
+    {
+      "id": "phcobs-049",
+      "kind": "professional_skill",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "List steps for breaking bad news, define family in crisis, name its stages and identify the family physician's role in supporting families in crisis."
+    },
+    {
+      "id": "phcobs-050",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Identify premenstrual tension syndrome and dysmenorrhoea and describe the family physician's role in their diagnosis and management."
+    },
+    {
+      "id": "phcobs-051",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 10,
+      "transcribed_text": "Differentiate causes of vaginal bleeding across age groups and discuss an appropriate primary-care management plan."
+    },
+    {
+      "id": "phcobs-052",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 11,
+      "transcribed_text": "List common causes of vaginitis, diagnose and manage vaginitis, and differentiate bacterial vaginosis, fungal infection and trichomoniasis."
+    },
+    {
+      "id": "phcobs-053",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 11,
+      "transcribed_text": "Identify common breast problems and the family physician's role in diagnosis, management and breast-cancer screening."
+    },
+    {
+      "id": "phcobs-054",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 11,
+      "transcribed_text": "Identify symptoms and signs of menopause and the family physician's role in diagnosis and management of common complaints; discuss screening and hormone-replacement therapy."
+    },
+    {
+      "id": "phcobs-055",
+      "kind": "clinical_skill",
+      "domain": "occupational-medicine",
+      "source_page": 11,
+      "transcribed_text": "Take an occupational and environmental history."
+    },
+    {
+      "id": "phcobs-056",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define occupational health and assess the workplace environment for contaminants."
+    },
+    {
+      "id": "phcobs-057",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Identify common occupational and environmental exposures, including physical, chemical, biological, ergonomic and psychological exposures."
+    },
+    {
+      "id": "phcobs-058",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define and compare airborne occupational exposure terms including dust, fumes, mist, smoke, smog and fog."
+    },
+    {
+      "id": "phcobs-059",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define occupational accidents and ergonomics."
+    },
+    {
+      "id": "phcobs-060",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Discuss health effects of occupational and environmental exposure to noise, temperature variation and ionizing and non-ionizing radiation."
+    },
+    {
+      "id": "phcobs-061",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Describe hazards of occupational and environmental exposure to chemicals, including heavy metals such as lead, pesticides and toxic gases."
+    },
+    {
+      "id": "phcobs-062",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define and compare occupational and environmental health standards including TWA, TLV, STEL and MAC."
+    },
+    {
+      "id": "phcobs-063",
+      "kind": "public-health",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Discuss principles of prevention in occupational-health settings, pre-placement and periodic medical examination, industrial hygiene and prevention of workplace psychosocial hazards."
+    },
+    {
+      "id": "phcobs-064",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Explain epidemiology of occupational accidents and identify psychosocial workplace factors and their effects."
+    },
+    {
+      "id": "phcobs-065",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define occupational and work-related diseases and recognize their aetiological classification; define disability and impairment."
+    },
+    {
+      "id": "phcobs-066",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Define categories of occupational lung diseases."
+    },
+    {
+      "id": "phcobs-067",
+      "kind": "knowledge_and_management",
+      "domain": "occupational-medicine",
+      "source_page": 12,
+      "transcribed_text": "Describe pathological changes, management and prevention of silicosis."
+    },
+    {
+      "id": "phcobs-068",
+      "kind": "knowledge_and_management",
+      "domain": "occupational-medicine",
+      "source_page": 13,
+      "transcribed_text": "Describe pathological changes, management and prevention of hypersensitivity pneumonitis and byssinosis."
+    },
+    {
+      "id": "phcobs-069",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 13,
+      "transcribed_text": "Define pulmonary-function tests and their role in diagnosis of lung diseases."
+    },
+    {
+      "id": "phcobs-070",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 13,
+      "transcribed_text": "Define the International Labour Organization classification of pneumoconiosis."
+    },
+    {
+      "id": "phcobs-071",
+      "kind": "knowledge",
+      "domain": "occupational-medicine",
+      "source_page": 13,
+      "transcribed_text": "Recognize roles of occupational-health team members: physician, nurse, hygienist and ergonomist."
+    },
+    {
+      "id": "phcobs-072",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 13,
+      "transcribed_text": "Obtain a history from normal pregnant women and pregnant women with minor complaints or medical disorders in family-practice settings."
+    },
+    {
+      "id": "phcobs-073",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 13,
+      "transcribed_text": "Take a complete history from a female patient presenting with an obstetric or gynaecological complaint."
+    },
+    {
+      "id": "phcobs-074",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Perform appropriate clinical examinations for normal pregnant women and pregnant women with minor complaints or medical disorders in family-practice settings."
+    },
+    {
+      "id": "phcobs-075",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Perform clinical assessment of infertile women in family-practice settings."
+    },
+    {
+      "id": "phcobs-076",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Perform clinical assessment of menopausal women attending family-practice settings."
+    },
+    {
+      "id": "phcobs-077",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Perform general and systemic physical examinations and focused examinations for gynaecological disease."
+    },
+    {
+      "id": "phcobs-078",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Distinguish significant positive and negative gynaecological findings systematically and interpret clinical examination, procedures and diagnostic tests at antenatal visits."
+    },
+    {
+      "id": "phcobs-079",
+      "kind": "clinical_skill",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Apply appropriate evidence-based screening tests in pregnancy."
+    },
+    {
+      "id": "phcobs-080",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Distinguish investigations for female reproductive infertility factors: ovarian, tubal, uterine, cervical and endocrine."
+    },
+    {
+      "id": "phcobs-081",
+      "kind": "clinical_reasoning",
+      "domain": "obstetrics-gynecology",
+      "source_page": 14,
+      "transcribed_text": "Explain how to assess a pregnant woman for high-risk pregnancy."
+    },
+    {
+      "id": "phcobs-082",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 14,
+      "transcribed_text": "Identify methods to confirm pregnancy using symptoms, signs and laboratory investigations."
+    },
+    {
+      "id": "phcobs-083",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 14,
+      "transcribed_text": "Take a pregnancy history including vaccination status, calculate expected date of delivery, list follow-up dates and recognize steps of obstetric examination."
+    },
+    {
+      "id": "phcobs-084",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 14,
+      "transcribed_text": "Assess danger signs during pregnancy and list and apply screening tests for women by age and guideline recommendations and tests recommended during pregnancy."
+    },
+    {
+      "id": "phcobs-085",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 14,
+      "transcribed_text": "Perform obstetric examination during clinical training."
+    },
+    {
+      "id": "phcobs-086",
+      "kind": "management",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Outline common pregnancy health problems and their management, including heartburn, vomiting, UTI, vaginitis, anaemia, back pain and constipation."
+    },
+    {
+      "id": "phcobs-087",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Identify high-risk pregnancy, including hypertension and diabetes, and describe management in primary care and when to refer."
+    },
+    {
+      "id": "phcobs-088",
+      "kind": "management",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Recognize management plans for PROM during pregnancy and indications for referral."
+    },
+    {
+      "id": "phcobs-089",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Differentiate causes of early and late pregnancy bleeding."
+    },
+    {
+      "id": "phcobs-090",
+      "kind": "professional_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Apply audit of antenatal-care medical records and deliver a health-education seminar or poster."
+    },
+    {
+      "id": "phcobs-091",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Recognize postpartum screening programmes and identify common postpartum complaints, including breast problems, depression and haemorrhage, and their management."
+    },
+    {
+      "id": "phcobs-092",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Take a menstrual-cycle and gynaecological history."
+    },
+    {
+      "id": "phcobs-093",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Recognize symptoms of premenstrual syndrome and dysmenorrhoea and their management."
+    },
+    {
+      "id": "phcobs-094",
+      "kind": "professional_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Recognize recommendations for preconception counselling."
+    },
+    {
+      "id": "phcobs-095",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Take a history of primary or secondary amenorrhoea and formulate differential diagnosis, work-up and management."
+    },
+    {
+      "id": "phcobs-096",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Differentiate causes of galactorrhoea and outline symptoms, signs and management of menopause."
+    },
+    {
+      "id": "phcobs-097",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Take a history of vaginal discharge and differentiate vaginitis types by symptoms and signs and evidence-based treatment."
+    },
+    {
+      "id": "phcobs-098",
+      "kind": "clinical_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Take a history of female infertility and list investigations required for diagnosis."
+    },
+    {
+      "id": "phcobs-099",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Outline selection criteria for family-planning methods according to risk factors and WHO guidance and common contraceptive problems and their management."
+    },
+    {
+      "id": "phcobs-100",
+      "kind": "procedural_skill",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Observe insertion and removal of an intrauterine device under physician supervision and adopt appropriate infection-control measures."
+    },
+    {
+      "id": "phcobs-101",
+      "kind": "clinical_reasoning",
+      "domain": "family-medicine",
+      "source_page": 15,
+      "transcribed_text": "Take a history of vaginal bleeding and formulate an evidence-based management plan."
+    },
+    {
+      "id": "phcobs-102",
+      "kind": "professional_skill",
+      "domain": "professionalism",
+      "source_page": 16,
+      "transcribed_text": "Demonstrate ability to give and receive feedback and respect self and peers."
+    },
+    {
+      "id": "phcobs-103",
+      "kind": "professional_skill",
+      "domain": "professionalism",
+      "source_page": 16,
+      "transcribed_text": "Demonstrate empathy and care for patients and respect individuality and values of patients, colleagues and other health professionals."
+    },
+    {
+      "id": "phcobs-104",
+      "kind": "professional_skill",
+      "domain": "professionalism",
+      "source_page": 16,
+      "transcribed_text": "Organize and distribute tasks, exchange opinions and knowledge, develop responsible communication and etiquette, and equip oneself for teamwork."
+    },
+    {
+      "id": "phcobs-105",
+      "kind": "professional_skill",
+      "domain": "professionalism",
+      "source_page": 16,
+      "transcribed_text": "Attend classes regularly."
+    },
+    {
+      "id": "phcobs-106",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 17,
+      "transcribed_text": "Understand the scientific principles of research."
+    },
+    {
+      "id": "phcobs-107",
+      "kind": "research_skill",
+      "domain": "research-project",
+      "source_page": 17,
+      "transcribed_text": "Understand the ethical aspects of research."
+    },
+    {
+      "id": "phcobs-108",
+      "kind": "clinical_skill",
+      "domain": "field-training",
+      "source_page": 17,
+      "transcribed_text": "Apply principles of the physician–patient relationship in history taking."
+    },
+    {
+      "id": "phcobs-109",
+      "kind": "clinical_skill",
+      "domain": "field-training",
+      "source_page": 17,
+      "transcribed_text": "Perform general and local clinical examination on patients."
+    },
+    {
+      "id": "phcobs-110",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 17,
+      "transcribed_text": "Identify primary, secondary and tertiary prevention."
+    },
+    {
+      "id": "phcobs-111",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 17,
+      "transcribed_text": "Identify common health problems attending primary health care."
+    },
+    {
+      "id": "phcobs-112",
+      "kind": "public-health",
+      "domain": "field-training",
+      "source_page": 17,
+      "transcribed_text": "Identify the most prevalent diseases."
+    }
+  ]
+}

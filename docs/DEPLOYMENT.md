@@ -1,47 +1,94 @@
-# Production deployment (single-node pilot)
+# Local setup, backup and restore
 
-This deployment hardens the existing Streamlit + SQLite application for a **single application replica** behind Caddy-managed HTTPS. It is suitable as a controlled initial deployment once real OIDC credentials, domain/DNS, backups, and institutional approval are configured. It is not a horizontally scalable multi-tenant platform.
+USIPHU is currently designed to run directly on one computer with Python and SQLite. It does not require Docker, Docker Compose, a public server or a domain.
 
-## Architecture
+## 1. Install and run
 
-- Caddy reverse proxy: public ports 80/443, automatic TLS, websocket proxying to Streamlit.
-- Usiphu app: private Docker network only; non-root image from Dockerfile; OIDC required.
-- SQLite: persistent named volume, one writer/application replica.
-- Backups: consistent SQLite online backup to a separate named volume using Python's SQLite backup API.
+Requirements: Python 3.11 or newer.
 
-## Deploy
+**Windows (one-click setup)**
 
-1. Point the chosen domain's DNS A/AAAA records to the host.
-2. Copy `.env.production.example` to `.env` and set `USIPHU_DOMAIN` and `TZ`.
-3. Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml`; configure a real OIDC provider, strong cookie secret, and redirect URI `https://YOUR-DOMAIN/oauth2callback`.
-4. Register the same exact redirect URI with the identity provider; enable MFA and restrict allowed users/groups where supported.
-5. Start: `docker compose -f compose.production.yaml up -d --build`.
-6. Verify `https://YOUR-DOMAIN/_stcore/health`, sign-in, sign-out, and learner isolation with two test identities.
+1. Install Python 3.11 or newer from [python.org](https://www.python.org/downloads/windows/) and keep the Python Launcher option enabled.
+2. Double-click `setup_windows.bat` in the USIPHU project folder. It creates `.venv`, installs the project dependencies and launches USIPHU.
+3. For later sessions, double-click `start_usiphu.bat`. It reuses the installed environment and does not reinstall packages.
 
-Do not commit `.env` or `.streamlit/secrets.toml`. Use a host secret manager for production secrets where available. Keep the host and Docker engine patched.
+Keep the launcher window open while using USIPHU; press Ctrl+C to stop it. The first setup requires internet access to download dependencies.
 
-## Backups and restore
-
-Run a manual consistent backup:
+**macOS / Linux**
 
 ```bash
-docker compose -f compose.production.yaml run --rm backup
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -e ".[dev]"
+streamlit run app/Home.py
 ```
 
-Backups are written to the `usiphu-backups` volume; the script retains the most recent 30 daily files. Configure the host scheduler (cron/systemd timer or platform scheduler) to run the command daily, and copy encrypted backups off-host. Periodically test restore into a separate staging volume. A local backup volume on the same host is not disaster recovery.
+Open the local URL printed by Streamlit, normally http://localhost:8501. Keep the terminal open while the app is running. Press Ctrl+C to stop it.
 
-Restore procedure (maintenance window): stop the app, copy a selected backup to the data volume as `usiphu.sqlite3`, verify ownership/permissions, then restart. Never overwrite the live database while the app is running.
+Optional AI authoring uses Ollama installed directly on the same computer. Pull the model with `ollama pull qwen2.5:7b`, then set `OLLAMA_BASE_URL=http://localhost:11434` and `USIPHU_OLLAMA_MODEL=qwen2.5:7b` before launching Streamlit. The core app does not require Ollama.
 
-## Operational controls
+## 2. Local data locations
 
-- One app replica only while using SQLite. Do not scale the service horizontally or mount the same SQLite file across hosts.
-- Restrict host firewall to 80/443 and administrative SSH from trusted IPs. The app port is not published.
-- Enable host-level disk, CPU, memory, certificate-expiry, and container-restart monitoring.
-- Set log retention/rotation at the host/container runtime; avoid logging patient-identifiable data.
-- Define privacy notice, lawful basis, retention/deletion, incident response, access review, and backup retention before real learner data is collected.
-- Run dependency/security scanning and a restore drill before launch.
-- Clinical content must be reviewed by qualified educators; infrastructure readiness does not confer clinical validation.
+Default paths when launched from the repository root:
 
-## Multi-replica / institutional scale
+- SQLite learner database: `usiphu_data.sqlite3`.
+- Uploaded papers, source manifest, extraction JSON and review history: `data/source_inbox/`.
+- Paired backup files: `data/backups/`.
 
-The current learner storage module is SQLite-specific. PostgreSQL is **not yet wired into the application data layer**. Before multi-replica deployment, implement and test a PostgreSQL storage adapter/migrations, use managed PostgreSQL with TLS and least-privilege credentials, add schema migration automation, connection pooling, encrypted backups/PITR, and test concurrent learner writes. Do not merely add a PostgreSQL container and assume the application is using it.
+You can override these locations with `USIPHU_DB_PATH`, `USIPHU_SOURCE_DIR` and `USIPHU_BACKUP_DIR`. Use absolute paths for custom locations. Keep the database and Source Inbox on a reliable local disk, not a temporary folder or removable drive that may disconnect while the app is running.
+
+## 3. Create a backup
+
+Stop USIPHU before making a coordinated backup so uploads and reviews cannot change during the snapshot. With the Python environment activated, run:
+
+```bash
+python scripts/backup_sqlite.py
+```
+
+By default, the script creates:
+- `data/backups/usiphu-<timestamp>.sqlite3`: a SQLite online backup checked with `PRAGMA integrity_check`.
+- `data/backups/usiphu-sources-<timestamp>.tar.gz`: the complete Source Inbox, including uploaded originals, manifest, extraction outputs and review history.
+- A matching `.sha256` checksum file for the Source Inbox archive.
+
+Copy all three files to a second, encrypted location (external drive or trusted cloud storage). A backup on the same computer is not protection against disk failure or theft. Restart USIPHU after the backup is complete.
+
+## 4. Restore a backup
+
+Restore into a new, empty directory. Do not overwrite the live database or current Source Inbox.
+
+```bash
+mkdir -p restore-drill
+python scripts/restore_backup.py \
+  --database-backup data/backups/usiphu-TIMESTAMP.sqlite3 \
+  --source-archive data/backups/usiphu-sources-TIMESTAMP.tar.gz \
+  --checksum data/backups/usiphu-sources-TIMESTAMP.tar.gz.sha256 \
+  --database-target restore-drill/usiphu_data.sqlite3 \
+  --source-target restore-drill/source-inbox
+```
+
+Replace `TIMESTAMP` in all three paths with the same timestamp. The restore utility checks SQLite integrity and the archive SHA-256, rejects unsafe archive paths and symlinks, and refuses to overwrite a database or non-empty Source Inbox. Inspect the restored manifest, open several original papers, and review extracted candidate JSON before relying on the restored copy.
+
+## 5. Move USIPHU to another computer
+
+1. Stop USIPHU on the old computer.
+2. Create a fresh backup using the procedure above.
+3. Copy the three backup files to the new computer.
+4. Install the same USIPHU version and Python dependencies on the new computer.
+5. Restore into a clean directory and verify the files and database.
+6. Set `USIPHU_DB_PATH` and `USIPHU_SOURCE_DIR` to the restored paths before launching the app.
+
+The migration utility can also copy an existing Source Inbox without deleting the original:
+
+```bash
+python scripts/migrate_source_inbox.py --source OLD_SOURCE_INBOX --destination NEW_SOURCE_INBOX --dry-run
+python scripts/migrate_source_inbox.py --source OLD_SOURCE_INBOX --destination NEW_SOURCE_INBOX
+```
+
+It verifies SHA-256 for every copied file, supports safe reruns and refuses conflicting destination files or symlinks.
+
+## 6. Privacy and future hosting
+
+The default app is a local single-operator workspace. Keep the computer account protected, enable full-disk encryption, install operating-system security updates and store backups encrypted. Do not expose Streamlit's local port directly to the public internet or use real patient-identifiable information without institutional privacy approval.
+
+If you later want remote access or multiple learners, hosting must be designed separately. It will need persistent storage, HTTPS, authentication, access controls, monitored backups and a tested restore process. The current learner data layer uses SQLite; PostgreSQL is not yet wired into the application. A free host with an ephemeral filesystem is not suitable for uploaded papers or learner records.

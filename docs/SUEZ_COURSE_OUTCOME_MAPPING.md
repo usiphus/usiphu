@@ -19,9 +19,27 @@ This update ingests the course specifications and teaching guides supplied for t
 
 The ENT and ophthalmology teaching outlines are also catalogued as **teaching schedules**, not independent ILO specifications. The PHC/Obs guide is not the Pediatrics module.
 
+## Granular source transcription milestone
+
+The granular transcription workspace now contains **616 individually identified, page-cited outcome statements across seven supplied source files**:
+
+| Module/source | Statements | Printed pages |
+|---|---:|---:|
+| Surgery I (SI 2.4.2, 2022–2023) | 180 | 3–17 |
+| Medicine I (MI 2.4.1, 2021–2022) | 111 | 7–26 |
+| Medicine II (MII 2.5.1) | 70 | 4–16 |
+| Surgery II (SII 2.5.2) | 64 | 4–11 |
+| PHC/Obs 2.3.2 (2020–2021) | 112 | 6–17 |
+| Emergency Course Guide (E&MR 2.5.3) | 52 | 4–9 |
+| Medical Reporting/Toxicology proposal (E&MR 2.5.3) | 27 | 1–3 |
+
+Each statement has a stable transcription ID, source ID, module code, classification and printed page. Source wording has light spelling, punctuation and whitespace normalization; multi-part statements remain grouped where the source groups them. Topic outlines and assessment methods are not counted as ILOs. The Emergency guide and Medical Reporting proposal are separate source documents within the same module.
+
+All records remain `transcribed_not_faculty_verified`. Automated validation checks source identity against the official Suez catalogue, module identity, unique IDs, non-empty text and page bounds. Granular transcription is not the same as objective-to-curriculum mapping or faculty approval. These seven files do not establish that every official course specification has been obtained. PHC/Obs 2.3.2 is explicitly the Obstetrics/Gynaecology, Family Medicine and Occupational Medicine module; it is not the Pediatrics PHC/ped 2.3.1 module.
+
 ## Outcome mapping
 
-The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Outcome statements are concise normalized paraphrases of the uploaded source ILOs, not verbatim transcriptions; source file, institution and module provenance are retained for traceability. The 73 official Suez outcome records are a first-pass grouped catalog: some closely related source bullets have been combined. This is not yet a line-by-line exhaustive transcription of every individual ILO in every supplied course specification; complete outcome-by-outcome extraction and mapping remains a follow-up. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
+The catalog distinguishes knowledge, intellectual/clinical reasoning, clinical skills and procedural skills. Outcome statements are concise normalized paraphrases of the uploaded source ILOs, not verbatim transcriptions; source file, institution and module provenance are retained for traceability. The 73 official Suez outcome records are a first-pass grouped catalog: some closely related source bullets have been combined. This is not yet a line-by-line exhaustive transcription of every individual ILO in every supplied course specification; complete outcome-by-outcome extraction and mapping remains a follow-up for the remaining modules. Starter topics receive explicit `course_outcome_refs` only where the uploaded course specifications support a direct or clearly related outcome. Each topic also receives a `course_outcome_mapping_status`.
 
 - `direct_course_outcome`: an explicit course outcome addresses the topic.
 - `partial_related_outcome`: the source supports a related but broader outcome.

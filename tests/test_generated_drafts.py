@@ -1,7 +1,9 @@
-import pytest
-from pathlib import Path
-import tempfile
 import json
+import sqlite3
+import tempfile
+from pathlib import Path
+
+import pytest
 
 # Import your actual functions from your package (adjust import path if needed)
 # from usiphu.db import initialize, generate_drafts, validate_generated_drafts, connect
@@ -26,7 +28,6 @@ def test_validate_generated_draft_success():
         "evidence_sources": [{"title": "Guidelines"}],
         "card_type": "standard"
     }
-    brief = {"specialty_id": "ophthalmology"}
     
     # Mock or call your actual validation function
     # result = validate_generated_drafts(card, brief)

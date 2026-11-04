@@ -1,0 +1,537 @@
+{
+  "schema_version": "1.1",
+  "bank_id": "pilot-general-surgery-2026",
+  "title": "USIPHU Pilot Question Bank — General Surgery",
+  "description": "Pilot set derived from user-provided examination papers. Source-page transcription has been visually checked and editorial answers compared with open-access clinical references; all items remain draft pending qualified clinical/faculty sign-off.",
+  "source_policy": "Preserve candidate provenance and do not infer official past-paper answer keys. Editorial answer proposals are independently evidence-checked and are not faculty-approved.",
+  "review_policy": {
+    "review_status": "draft",
+    "evidence_checked": true,
+    "human_signoff_status": "pending",
+    "scoring_eligible": false
+  },
+  "questions": [
+    {
+      "id": "gs-pilot-0001",
+      "source_candidate_id": "paper1-mcq-0009",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 5,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "Which clinical finding on breast examination is more suggestive of malignancy than a benign breast lesion?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Excessive mobility within breast tissue"
+        },
+        {
+          "id": "b",
+          "text": "Tenderness over a soft mass"
+        },
+        {
+          "id": "c",
+          "text": "Fixation or tethering to underlying pectoral structures"
+        },
+        {
+          "id": "d",
+          "text": "Variation in size through the menstrual cycle"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "A mass fixed to the skin or chest wall/pectoral structures is a concerning feature for malignancy. Mobility and cyclical variation are more often associated with benign lesions, although no single examination feature establishes the diagnosis.",
+      "difficulty": "moderate",
+      "tags": [
+        "breast",
+        "clinical-examination",
+        "malignancy"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-BREAST-SKIN-TETHERING",
+          "title": "The Pushing Sign for Early Skin Tethering in Breast Cancer",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8682950/",
+          "publisher": "Journal of Breast Cancer / PubMed Central",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes skin tethering as a recognized clinical manifestation of breast cancer and distinguishes tethering from dimpling and direct skin fixation."
+        },
+        {
+          "source_id": "PMC-BREAST-EXAM-FIXITY",
+          "title": "Validation of Different Techniques in Physical Examination of Breast",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5473793/",
+          "publisher": "Journal of Clinical and Diagnostic Research / PubMed Central",
+          "source_type": "reference",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes the clinical manoeuvre used to assess fixation of a breast lump to the pectoralis major muscle."
+        }
+      ],
+      "editorial_notes": [
+        "Option C clarified from 'tethering to underlying muscular structures' to distinguish fixation/tethering from skin dimpling.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Added a second open-access source specifically describing assessment of a lump's fixation to pectoralis major; the original skin-tethering reference remains contextual support."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8682950/",
+      "source_title": "The Pushing Sign for Early Skin Tethering in Breast Cancer",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0002",
+      "source_candidate_id": "paper1-mcq-0011",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 5,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "What is the most common site of distant metastasis in breast cancer?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Brain"
+        },
+        {
+          "id": "b",
+          "text": "Bone"
+        },
+        {
+          "id": "c",
+          "text": "Lung"
+        },
+        {
+          "id": "d",
+          "text": "Liver"
+        }
+      ],
+      "correct_option_id": "b",
+      "explanation": "Bone is a common and the most frequent distant metastatic site listed for breast cancer in the NCI overview. The pattern of spread varies with tumour biology and subtype.",
+      "difficulty": "easy",
+      "tags": [
+        "breast",
+        "oncology",
+        "metastasis"
+      ],
+      "evidence_review_status": "supported",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-BREAST-BONE-METASTASIS",
+          "title": "Bone metastasis risk factors in breast cancer",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5295847/",
+          "publisher": "ecancermedicalscience / PubMed Central",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Identifies bone as the single most frequent site of metastasis in breast cancer."
+        }
+      ],
+      "editorial_notes": [
+        "Wording standardized; options retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Replaced the broad NCI metastatic-cancer overview with a breast-cancer-specific open-access review directly supporting bone as the most frequent metastatic site."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5295847/",
+      "source_title": "Bone metastasis risk factors in breast cancer",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0003",
+      "source_candidate_id": "paper1-mcq-0014",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 5,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "A 45-year-old woman presents with a new painless, hard breast lump. Which is the most appropriate initial imaging investigation?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Fine-needle aspiration"
+        },
+        {
+          "id": "b",
+          "text": "MRI of the breast"
+        },
+        {
+          "id": "c",
+          "text": "Diagnostic mammography"
+        },
+        {
+          "id": "d",
+          "text": "Breast ultrasound alone"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "For a woman aged 40 years or older with a palpable breast mass, diagnostic mammography (or diagnostic tomosynthesis) is usually appropriate as initial imaging. Ultrasound may be added depending on the findings; biopsy is guided by the imaging and clinical assessment.",
+      "difficulty": "moderate",
+      "tags": [
+        "breast",
+        "imaging",
+        "triple-assessment"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "ACR-PALPABLE-MASS",
+          "title": "ACR Appropriateness Criteria: Palpable Breast Masses",
+          "url": "https://acsearch.acr.org/docs/69495/Narrative",
+          "publisher": "American College of Radiology",
+          "source_type": "guideline",
+          "accessed_at": "2026-11-04",
+          "supports": "For adult women aged 40 or older with a palpable breast mass, diagnostic mammography/tomosynthesis is usually appropriate initial imaging."
+        }
+      ],
+      "editorial_notes": [
+        "Stem changed from 'most appropriate next investigation' to 'initial imaging investigation' to avoid conflating imaging with tissue diagnosis.",
+        "Option C specified as diagnostic mammography; ultrasound may be complementary.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://acsearch.acr.org/docs/69495/Narrative",
+      "source_title": "ACR Appropriateness Criteria: Palpable Breast Masses",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0004",
+      "source_candidate_id": "paper1-mcq-0015",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 6,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "After modified radical mastectomy, a patient develops medial scapular winging and weakness of shoulder movement. Which nerve is most likely injured?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Long thoracic nerve"
+        },
+        {
+          "id": "b",
+          "text": "Thoracodorsal nerve"
+        },
+        {
+          "id": "c",
+          "text": "Intercostobrachial nerve"
+        },
+        {
+          "id": "d",
+          "text": "Ulnar nerve"
+        },
+        {
+          "id": "e",
+          "text": "Median nerve"
+        }
+      ],
+      "correct_option_id": "a",
+      "explanation": "The long thoracic nerve supplies serratus anterior. Injury causes serratus anterior palsy and medial scapular winging, and may impair shoulder elevation/abduction.",
+      "difficulty": "moderate",
+      "tags": [
+        "breast-surgery",
+        "nerve-injury",
+        "winged-scapula"
+      ],
+      "evidence_review_status": "supported",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-LTN-WINGED-SCAPULA",
+          "title": "Long-term Improvements of Neuroplasty and Scalene Muscle Resection in LTN-injured Winged Scapula Patients",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7929713/",
+          "publisher": "Plastic and Reconstructive Surgery Global Open",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes long thoracic nerve injury as a cause of scapular winging and impaired shoulder movement."
+        },
+        {
+          "source_id": "PMC-SCAPULAR-WINGING-REVIEW",
+          "title": "Scapular winging: anatomical review, diagnosis, and treatments",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2684151/",
+          "publisher": "Clinical Orthopaedics and Related Research / PubMed Central",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Links medial scapular winging to serratus anterior paralysis and identifies long thoracic nerve injury as its cause."
+        }
+      ],
+      "editorial_notes": [
+        "Minor grammar correction only; options retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness.",
+        "Added an open-access anatomical review that explicitly distinguishes medial winging from other scapular winging patterns and links it to long thoracic nerve injury."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7929713/",
+      "source_title": "Long-term Improvements of Neuroplasty and Scalene Muscle Resection in LTN-injured Winged Scapula Patients",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0005",
+      "source_candidate_id": "paper1-mcq-0016",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 6,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "The three surgical levels of axillary lymph nodes are defined in relation to which anatomical structure?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Axillary artery"
+        },
+        {
+          "id": "b",
+          "text": "Axillary vein"
+        },
+        {
+          "id": "c",
+          "text": "Nerve to latissimus dorsi"
+        },
+        {
+          "id": "d",
+          "text": "Pectoralis minor muscle"
+        }
+      ],
+      "correct_option_id": "d",
+      "explanation": "Berg levels I, II and III are defined by the position of axillary nodes relative to pectoralis minor: lateral/inferior, behind, and medial/superior to the muscle, respectively.",
+      "difficulty": "easy",
+      "tags": [
+        "breast",
+        "axilla",
+        "lymph-node-levels"
+      ],
+      "evidence_review_status": "supported",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-AXILLARY-LEVELS",
+          "title": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+          "publisher": "Ultrasound",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes the three surgical axillary levels relative to pectoralis minor."
+        }
+      ],
+      "editorial_notes": [
+        "Stem clarified; option set retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11909697/",
+      "source_title": "Sonographic localisation of lymph nodes suspicious of metastatic breast cancer to surgical axillary levels",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0006",
+      "source_candidate_id": "paper1-mcq-0022",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 7,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "Which is the most common benign cause of spontaneous bloody nipple discharge from a single duct?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Paget disease of the nipple"
+        },
+        {
+          "id": "b",
+          "text": "Breast carcinoma"
+        },
+        {
+          "id": "c",
+          "text": "Intraductal papilloma"
+        },
+        {
+          "id": "d",
+          "text": "Fibroadenosis"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "Intraductal papilloma is a common and often the most frequent benign cause of pathological nipple discharge, including bloody single-duct discharge. Duct ectasia is another important benign cause; malignancy must still be excluded.",
+      "difficulty": "moderate",
+      "tags": [
+        "breast",
+        "nipple-discharge",
+        "papilloma"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-NIPPLE-DISCHARGE",
+          "title": "Nipple discharge: The state of the art",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7592406/",
+          "publisher": "British Journal of Radiology Open",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Defines pathological discharge and reports intraductal papilloma and duct ectasia as common benign causes; papilloma is frequent in single-duct bloody discharge."
+        }
+      ],
+      "editorial_notes": [
+        "Stem narrowed to benign cause of pathological single-duct discharge; malignancy remains an important differential and requires assessment.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7592406/",
+      "source_title": "Nipple discharge: The state of the art",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0007",
+      "source_candidate_id": "paper1-mcq-0025",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 7,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "Which is the most frequent histological type of breast carcinoma?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Infiltrating papillary carcinoma"
+        },
+        {
+          "id": "b",
+          "text": "Invasive ductal carcinoma"
+        },
+        {
+          "id": "c",
+          "text": "Invasive lobular carcinoma"
+        },
+        {
+          "id": "d",
+          "text": "Colloid (mucinous) carcinoma"
+        }
+      ],
+      "correct_option_id": "b",
+      "explanation": "Invasive ductal carcinoma (also termed invasive carcinoma of no special type in contemporary classification) is the most common histological type of breast cancer. Invasive lobular carcinoma is the next most common major type.",
+      "difficulty": "easy",
+      "tags": [
+        "breast",
+        "pathology",
+        "histology"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "NCI-BREAST-HISTOLOGY",
+          "title": "Breast Cancer Treatment (PDQ®) — Histopathological Classification",
+          "url": "https://www.cancer.gov/types/breast/hp/breast-treatment-pdq",
+          "publisher": "US National Cancer Institute",
+          "source_type": "government_health_source",
+          "accessed_at": "2026-11-04",
+          "supports": "States invasive ductal cancer is the most common histological type, comprising approximately 70–80% of cases."
+        }
+      ],
+      "editorial_notes": [
+        "Terminology modernized from 'infiltrating ductal' to 'invasive ductal'; option meaning retained.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://www.cancer.gov/types/breast/hp/breast-treatment-pdq",
+      "source_title": "Breast Cancer Treatment (PDQ®) — Histopathological Classification",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    },
+    {
+      "id": "gs-pilot-0008",
+      "source_candidate_id": "paper1-mcq-0039",
+      "source_id": "paper1",
+      "source_filename": "Questions(Paper1-MCQ-MEQ)2.0.pdf",
+      "source_page": 10,
+      "specialty_id": "general-surgery",
+      "topic_id": "breast-lump",
+      "stem": "Which clinical presentation is characteristic of mammary Paget disease?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A mass beneath the nipple without skin change"
+        },
+        {
+          "id": "b",
+          "text": "Bleeding from the nipple only"
+        },
+        {
+          "id": "c",
+          "text": "A unilateral red, scaly eczematous nipple lesion"
+        },
+        {
+          "id": "d",
+          "text": "Bilateral itchy red vesicles"
+        }
+      ],
+      "correct_option_id": "c",
+      "explanation": "Mammary Paget disease typically presents as a unilateral eczematous or psoriasiform lesion of the nipple-areolar complex and is frequently associated with underlying DCIS or invasive carcinoma. Diagnosis requires biopsy; management depends on associated breast pathology.",
+      "difficulty": "moderate",
+      "tags": [
+        "breast",
+        "Paget-disease",
+        "oncology"
+      ],
+      "evidence_review_status": "supported_with_editorial_revision",
+      "evidence_sources": [
+        {
+          "source_id": "PMC-MAMMARY-PAGET-UPDATE",
+          "title": "Mammary Paget’s Disease: An Update",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9139704/",
+          "publisher": "Cancers (MDPI) / PubMed Central",
+          "source_type": "open_access_review",
+          "accessed_at": "2026-11-04",
+          "supports": "Describes mammary Paget disease as a usually unilateral eczematous, erythematous or scaly rash of the nipple-areolar complex."
+        }
+      ],
+      "editorial_notes": [
+        "Terminology and stem clarified; source's 'unilateral red scaly nipple' option preserved in meaning.",
+        "Rendered source PDF page visually checked against the extracted stem/options; any source underlining/highlighting was treated as an annotation, not as independent proof of answer correctness."
+      ],
+      "transcription_status": "visually_verified",
+      "bank_id": "pilot-general-surgery-2026",
+      "review_status": "draft",
+      "human_signoff_status": "pending",
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9139704/",
+      "source_title": "Mammary Paget’s Disease: An Update",
+      "source_date": null,
+      "jurisdiction": "International evidence; local faculty review required"
+    }
+  ]
+}
