@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from usiphu.answer_checker import check_mcq_answer
 from usiphu.faculty_review import (
     DATA_DIR,
     faculty_release_statuses,
@@ -133,6 +134,8 @@ def test_content_change_invalidates_previous_approvals(review_workspace):
     assert changed["clinical_status"] == "approved"
     assert changed["exam_status"] == "pending"
     assert changed["faculty_release_status"] == "clinically_reviewed"
+    visible = next(item for item in list_pilot_questions(db_path, bank_dir) if item["id"] == question_id)
+    assert visible["stem"].startswith("UPDATED: ")
 
 
 def test_request_changes_is_preserved_in_append_only_history(review_workspace):
@@ -152,3 +155,17 @@ def test_request_changes_is_preserved_in_append_only_history(review_workspace):
     assert len(events) == 1
     assert events[0]["decision"] == "request_changes"
     assert "relevant exception" in events[0]["comment"]
+
+
+def test_clinical_approval_is_provisional_until_exam_validation():
+    clinical = check_mcq_answer(
+        selected_option_id="c", correct_option_id="c", review_status="clinically_reviewed"
+    )
+    assert clinical["status"] == "provisional_key"
+    assert clinical["trusted_key"] is False
+
+    validated = check_mcq_answer(
+        selected_option_id="c", correct_option_id="c", review_status="exam_validated"
+    )
+    assert validated["status"] == "marked"
+    assert validated["trusted_key"] is True
