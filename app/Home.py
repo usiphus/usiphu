@@ -19,8 +19,8 @@ from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.models import ReviewState
-from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
+from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
