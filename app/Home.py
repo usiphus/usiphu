@@ -588,6 +588,13 @@ elif page == "Pilot Dashboard":
     a2.metric("AI reviews contradicting existing key", totals["ai_key_contradictions"])
     a3.metric("Reviewed, awaiting approval", totals["reviewed_pending_approval"])
     a4.metric("Approved candidates", totals["approved_candidates"])
+    agree1, agree2, agree3 = st.columns(3)
+    agree1.metric("Human decisions compared with AI", totals["reviewer_ai_comparisons"])
+    agree2.metric("Human/AI suggestion agreement", totals["reviewer_ai_agreements"])
+    agree3.metric("Human/AI suggestion disagreement", totals["reviewer_ai_disagreements"])
+    st.caption(
+        "Agreement compares a human-verified answer with the AI's proposed option; it is not a measure of correctness."
+    )
     verdict_rows = [
         {"AI evidence verdict": key.replace("_", " ").title(), "Reviews": value}
         for key, value in report["ai_evidence_verdict_counts"].items()
