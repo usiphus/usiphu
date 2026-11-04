@@ -8,7 +8,11 @@ from usiphu.ai_provider import (
 )
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.evidence import EvidenceRetrievalError
-from usiphu.generator import EXAM_FORMATS, build_generation_briefs, validate_generation_batch
+from usiphu.generator import (
+    EXAM_FORMATS,
+    build_generation_briefs,
+    validate_generation_batch,
+)
 from usiphu.practice import load_cases, load_questions
 from usiphu.resources import discover_resources
 from usiphu.validation import validate_content
