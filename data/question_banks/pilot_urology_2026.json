@@ -13,53 +13,55 @@
   "questions": [
     {
       "id": "uro-pilot-0001",
-      "source_candidate_id": "paper2-mcq-0004",
+      "source_candidate_id": "paper2-mcq-0047",
       "source_id": "paper2",
       "source_filename": "Questions(Paper2-MCQ-MEQ)2.0.pdf",
-      "source_page": 3,
+      "source_page": 13,
       "specialty_id": "urology",
-      "topic_id": "testicular-cancer-risk",
-      "stem": "Which of the following is an established risk factor for testicular cancer?",
+      "topic_id": "renal-colic",
+      "stem": "Which is the preferred initial diagnostic imaging study for suspected urolithiasis in a pregnant patient?",
       "options": [
         {
           "id": "a",
-          "text": "Varicocele"
+          "text": "Kidney-ureter-bladder radiograph (KUB)"
         },
         {
           "id": "b",
-          "text": "Hydrocele"
+          "text": "Intravenous pyelography"
         },
         {
           "id": "c",
-          "text": "Cryptorchidism"
+          "text": "Renal ultrasonography"
         },
         {
           "id": "d",
-          "text": "Epididymitis"
+          "text": "Spiral CT"
         }
       ],
       "correct_option_id": "c",
-      "explanation": "Cryptorchidism (an undescended testis) is an established risk factor for testicular cancer. The association remains relevant even after orchiopexy; orchiopexy facilitates examination and earlier detection but does not eliminate the excess risk.",
+      "explanation": "Ultrasound is the preferred first-line imaging method for suspected renal colic in pregnancy because it avoids ionizing radiation. MRI may be used second-line; low-dose CT is reserved as a last-line option when necessary.",
       "difficulty": "easy",
       "tags": [
-        "testis",
-        "oncology",
-        "risk-factors"
+        "renal-colic",
+        "pregnancy",
+        "imaging"
       ],
-      "evidence_review_status": "supported",
+      "evidence_review_status": "supported_with_editorial_revision",
       "evidence_sources": [
         {
-          "source_id": "NCI-TESTIS-RISK",
-          "title": "Testicular Cancer: Causes and Risk Factors",
-          "url": "https://www.cancer.gov/types/testicular/causes-risk-factors",
-          "publisher": "US National Cancer Institute",
-          "source_type": "government_health_source",
+          "source_id": "EAU-UROLITHIASIS-2026",
+          "title": "EAU Guidelines on Urolithiasis — Diagnostic imaging during pregnancy",
+          "url": "https://uroweb.org/guidelines/urolithiasis/chapter/guidelines",
+          "publisher": "European Association of Urology",
+          "source_type": "guideline",
           "accessed_at": "2026-11-04",
-          "supports": "Lists an undescended testicle (cryptorchidism) among established testicular-cancer risk factors."
+          "supports": "Recommends ultrasound as the preferred imaging method in pregnant women, MRI second-line and low-dose CT last-line."
         }
       ],
       "editorial_notes": [
-        "Stem lightly edited for clarity; option set retained."
+        "Retained the source-paper concept and answer; wording standardized.",
+        "Topic linked to the current USIPHU curriculum topic 'renal-colic'.",
+        "The former testicular-cancer candidate was held out because the current curriculum has no corresponding topic entry."
       ],
       "transcription_status": "text_layer_checked_not_image_verified",
       "bank_id": "pilot-urology-2026",
@@ -67,8 +69,8 @@
       "human_signoff_status": "pending",
       "reviewed_by": null,
       "reviewed_at": null,
-      "source_url": "https://www.cancer.gov/types/testicular/causes-risk-factors",
-      "source_title": "Testicular Cancer: Causes and Risk Factors",
+      "source_url": "https://uroweb.org/guidelines/urolithiasis/chapter/guidelines",
+      "source_title": "EAU Guidelines on Urolithiasis — Diagnostic imaging during pregnancy",
       "source_date": null,
       "jurisdiction": "International evidence; local faculty review required"
     },
