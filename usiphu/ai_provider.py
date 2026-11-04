@@ -4,13 +4,17 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Any, Callable
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from usiphu.evidence import EvidenceRetrievalError, retrieve_pubmed_evidence
-from usiphu.generator import build_generation_briefs, validate_generated_card
+from usiphu.generator import (
+    build_generation_briefs,
+    validate_generated_card,
+    validate_generation_batch,
+)
 
 
 class GenerationNotConfigured(RuntimeError):
@@ -304,7 +308,8 @@ def generate_topic_cards(
     with ThreadPoolExecutor(max_workers=retrieval_workers) as pool:
         futures = {pool.submit(retrieve_one, brief): brief for brief in briefs}
         finished = 0
-        for future, brief in futures.items():
+        for future in as_completed(futures):
+            brief = futures[future]
             try:
                 brief_id, evidence = future.result()
                 evidence_by_id[brief_id] = evidence
@@ -339,11 +344,51 @@ def generate_topic_cards(
             })
             notify("generation", index, brief, "This objective failed; continuing with the rest")
 
+    # Revalidate the completed batch so duplicates across separate objectives
+    # cannot slip through the per-card validator.
+    draft_items = [
+        item for item in results if item.get("valid") and item.get("card")
+    ]
+    batch = validate_generation_batch(
+        [item["card"] for item in draft_items],
+        briefs,
+    )
+    for item, checked in zip(draft_items, batch["results"], strict=True):
+        if not checked["valid"]:
+            item["valid"] = False
+            item["status"] = "rejected_by_batch_quality_gate"
+            item["errors"] = checked["errors"]
+            item["reason"] = "; ".join(checked["errors"])
+            item["card"] = None
+        else:
+            item["card"] = checked["card"]
+            item["review_packet"] = checked["review_packet"]
+
     cards = [item["card"] for item in results if item.get("valid") and item.get("card")]
+    covered_brief_ids = {
+        item["brief_id"] for item in results if item.get("valid") and item.get("card")
+    }
+    uncovered_brief_ids = [
+        brief["brief_id"] for brief in briefs if brief["brief_id"] not in covered_brief_ids
+    ]
+    objective_coverage = {
+        "requested": len(briefs),
+        "covered_by_valid_draft": len(covered_brief_ids),
+        "uncovered": len(uncovered_brief_ids),
+        "coverage_percent": round(100 * len(covered_brief_ids) / len(briefs)),
+        "uncovered_brief_ids": uncovered_brief_ids,
+    }
     return {
         "specialty_id": specialty_id, "topic_id": topic_id,
         "provider": provider_status(), "generation_mode": "pubmed_grounded_ollama_draft",
         "total_objectives": len(briefs), "draft_cards": len(cards),
         "rejected_or_evidence_gated": len(results) - len(cards),
+        "objective_coverage": objective_coverage,
+        "batch_validation": {
+            "total_checked": batch["total"],
+            "accepted_as_draft": batch["accepted_as_draft"],
+            "rejected": batch["rejected"],
+            "clinical_approval_granted": False,
+        },
         "clinical_approval_granted": False, "results": results,
     }
