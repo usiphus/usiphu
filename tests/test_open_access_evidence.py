@@ -13,6 +13,7 @@ def test_retrieves_only_open_access_pmc_full_text(monkeypatch):
                     {"isOpenAccess": "N", "pmcid": "PMC000"},
                     {"isOpenAccess": "Y", "pmcid": "PMC123", "title": "Clinical study",
                      "firstPublicationDate": "2024-03-01", "journalTitle": "Example Journal",
+                     "abstractText": "Imaging and radiology assessment study.",
                      "doi": "10.1000/example", "pmid": "12345"},
                 ]}
             }
@@ -58,7 +59,8 @@ def test_abstract_is_used_when_open_access_full_text_body_missing(monkeypatch):
     def fake_request(url, *, json_response=False):
         if json_response:
             return {"resultList": {"result": [
-                {"isOpenAccess": "Y", "pmcid": "PMC456", "title": "Abstract-only article"}
+                {"isOpenAccess": "Y", "pmcid": "PMC456", "title": "Abstract-only article",
+                 "abstractText": "Acute kidney injury management."}
             ]}}
         return evidence.ET.fromstring("""
         <article><front><article-meta>
