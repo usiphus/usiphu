@@ -55,7 +55,7 @@ The generator retrieves PubMed abstracts and uses a locally hosted Ollama model 
 
 ## Card generation
 
-See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval. Every accepted draft includes a specialty- and format-specific human review packet; see [the clinical/exam review rubric](data/clinical_exam_review_rubric.json).
+See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval. Every accepted draft stores a specialty- and format-specific human review packet with the card; see [the clinical/exam review rubric](data/clinical_exam_review_rubric.json).
 
 ## Production
 
