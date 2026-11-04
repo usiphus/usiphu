@@ -8,8 +8,8 @@ from usiphu.extraction import extract_source, load_extraction
 from usiphu.source_inbox import list_sources, save_source
 from usiphu.storage import initialize, question_attempt_history, record_question_attempt
 
-SOURCE_DIR = Path(os.environ.get("USIPHU_SOURCE_DIR", "/source-inbox"))
-DB_PATH = Path(os.environ.get("USIPHU_DB_PATH", "/data/usiphu.sqlite3"))
+SOURCE_DIR = Path(os.environ.get("USIPHU_SOURCE_DIR", "data/source_inbox"))
+DB_PATH = Path(os.environ.get("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
 TITLE = "USIPHU staging persistence smoke test"
 LEARNER = "staging-smoke-learner"
 QUESTION = "staging-smoke-question"
