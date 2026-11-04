@@ -176,11 +176,14 @@ def validate_generated_card(
     card: dict[str, Any], brief: dict[str, Any], *,
     existing_cards: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """Validate structure, provenance, alignment and duplicates; never approve clinically."""
+    """Validate structure and provenance; clinical approval remains human-only."""
     errors: list[str] = []
-    required = {"id", "card_type", "specialty_id", "topic_id", "prompt", "answer",
-                "source_title", "source_url", "source_date", "course_outcome_refs",
-                "evidence_claims", "evidence_sources", "learning_point", "difficulty", "review_status"}
+    required = {
+        "id", "card_type", "specialty_id", "topic_id", "prompt", "answer",
+        "source_title", "source_url", "source_date", "course_outcome_refs",
+        "evidence_claims", "evidence_sources", "learning_point", "difficulty",
+        "review_status",
+    }
     missing = sorted(required - card.keys())
     if missing:
         errors.append("Missing required fields: " + ", ".join(missing))
@@ -194,44 +197,68 @@ def validate_generated_card(
     if (card.get("card_type") not in SUPPORTED_CARD_TYPES
             or card.get("card_type") not in allowed_types):
         errors.append("card_type is unsupported or does not match the requested exam format")
-    for field in ("id", "prompt", "answer", "source_title", "source_url", "source_date", "learning_point"):
+    for field in (
+        "id", "prompt", "answer", "source_title", "source_url",
+        "source_date", "learning_point",
+    ):
         if not isinstance(card.get(field), str) or not card[field].strip():
             errors.append(f"{field} must be a non-empty string")
     if isinstance(card.get("source_url"), str) and not re.match(r"^https?://", card["source_url"]):
         errors.append("source_url must be an HTTP(S) URL")
-    if card.get("difficulty") not in {"basic", "intermediate", "advanced"}:\n        errors.append("difficulty must be basic, intermediate, or advanced")\n    if not isinstance(card.get("evidence_claims"), list) or not card.get("evidence_claims"):
+    if card.get("difficulty") not in {"basic", "intermediate", "advanced"}:
+        errors.append("difficulty must be basic, intermediate, or advanced")
+
+    claims = card.get("evidence_claims")
+    if not isinstance(claims, list) or not claims:
         errors.append("At least one traceable evidence_claim is required")
-    elif any(not isinstance(claim, dict) or not claim.get("claim") or
-             not claim.get("source_url") for claim in card["evidence_claims"]):
-        errors.append("Each evidence_claim needs claim and source_url")
+        claims = []
+    elif any(
+        not isinstance(claim, dict) or not claim.get("claim")
+        or not claim.get("source_url") or not claim.get("source_id")
+        for claim in claims
+    ):
+        errors.append("Each evidence_claim needs claim, source_id and source_url")
+
     evidence_sources = card.get("evidence_sources")
-    if evidence_sources is not None:
-        if not isinstance(evidence_sources, list) or not evidence_sources:
-            errors.append("evidence_sources must be a non-empty list when supplied")
-        else:
-            source_urls = {item.get("source_url") for item in evidence_sources
-                           if isinstance(item, dict) and item.get("source_id")}
-            source_ids = {item.get("source_id") for item in evidence_sources
-                          if isinstance(item, dict) and item.get("source_id")}
-            if card.get("source_url") not in source_urls:
-                errors.append("Primary source URL must come from the retrieved evidence packet")
-            for claim in card.get("evidence_claims", []):
-                if isinstance(claim, dict) and (
-                    claim.get("source_url") not in source_urls or
-                    claim.get("source_id") not in source_ids
-                ):
-                    errors.append("Evidence claim references a source outside the retrieved packet")
-                    break
+    source_by_id: dict[str, dict[str, Any]] = {}
+    if not isinstance(evidence_sources, list) or not evidence_sources:
+        errors.append("evidence_sources must contain the retrieved evidence packet")
+    else:
+        for source in evidence_sources:
+            if not isinstance(source, dict) or not source.get("source_id") or not source.get("source_url"):
+                errors.append("Each evidence source needs source_id and source_url")
+                continue
+            source_by_id[source["source_id"]] = source
+        primary = source_by_id.get(next(
+            (source.get("source_id") for source in evidence_sources
+             if isinstance(source, dict) and source.get("source_url") == card.get("source_url")),
+            "",
+        ))
+        if not primary:
+            errors.append("Primary source URL must come from the retrieved evidence packet")
+        elif primary.get("source_title") != card.get("source_title"):
+            errors.append("Primary source title must match the retrieved evidence packet")
+        for claim in claims:
+            if not isinstance(claim, dict):
+                continue
+            source = source_by_id.get(claim.get("source_id"))
+            if not source or source.get("source_url") != claim.get("source_url"):
+                errors.append("Evidence claim references a source outside the retrieved packet")
+                break
+
     allowed_refs = {
         item["id"] for item in (
-            brief["external_benchmark_outcomes"] if brief["course_outcome_mapping_status"] ==
-            "external_benchmark_only" else brief["official_suez_outcomes"]
+            brief["external_benchmark_outcomes"]
+            if brief["course_outcome_mapping_status"] == "external_benchmark_only"
+            else brief["official_suez_outcomes"]
         )
     }
     refs = card.get("course_outcome_refs")
     if (not isinstance(refs, list) or (allowed_refs and not refs)
             or any(ref not in allowed_refs for ref in refs)):
-        errors.append("course_outcome_refs must include only permitted outcomes and cannot be empty when mapped")
+        errors.append(
+            "course_outcome_refs must include only permitted outcomes and cannot be empty when mapped"
+        )
     if brief["course_outcome_mapping_status"] == "external_benchmark_only":
         if card.get("official_suez_alignment") not in (None, False):
             errors.append("External benchmark content cannot claim official Suez alignment")
@@ -239,10 +266,13 @@ def validate_generated_card(
             errors.append("External Pediatrics benchmark cards must retain external_benchmark_only=true")
     elif card.get("external_benchmark_only", False):
         errors.append("Non-external topic cannot be labelled as an external-only benchmark")
+
     if card.get("card_type") == "osce_station":
         for field in ("station_tasks", "marking_criteria"):
             value = card.get(field)
-            if not isinstance(value, list) or len(value) < 2 or any(not str(item).strip() for item in value):
+            if not isinstance(value, list) or len(value) < 2 or any(
+                not isinstance(item, str) or not item.strip() for item in value
+            ):
                 errors.append(f"osce_station requires at least two non-empty {field}")
     if card.get("card_type") == "viva":
         questions = card.get("viva_questions")
@@ -254,31 +284,42 @@ def validate_generated_card(
         options = card.get("options")
         items = card.get("emq_items")
         if (not isinstance(options, list) or len(options) < 5
-                or any(not isinstance(o, dict) or not o.get("id") or not o.get("text")
-                       for o in options)
-                or len({o.get("id") for o in options if isinstance(o, dict)}) != len(options)):
-            errors.append("emq requires at least five labelled options")
+                or any(not isinstance(option, dict) or not option.get("id")
+                       or not option.get("text") for option in options)
+                or len({option.get("id") for option in options
+                        if isinstance(option, dict)}) != len(options)):
+            errors.append("emq requires at least five uniquely labelled options")
         elif (not isinstance(items, list) or len(items) < 2
               or any(not isinstance(item, dict) or not item.get("stem")
-                     or item.get("correct_option_id") not in {o["id"] for o in options}
-                     for item in items)):
+                     or item.get("correct_option_id") not in {
+                         option["id"] for option in options
+                     } for item in items)):
             errors.append("emq requires at least two stems keyed to the option list")
     if card.get("card_type") == "mcq":
         options = card.get("options")
         if not isinstance(options, list) or len(options) != 5:
             errors.append("MCQ requires exactly five options")
-        elif (any(not isinstance(option, dict) or not option.get("id") or
-                  not option.get("text") for option in options) or
-              len({option.get("id") for option in options if isinstance(option, dict)}) != 5):
+        elif (any(not isinstance(option, dict) or not option.get("id")
+                  or not option.get("text") for option in options)
+              or len({option.get("id") for option in options
+                      if isinstance(option, dict)}) != 5):
             errors.append("MCQ options require five unique IDs and non-empty text")
         elif card.get("correct_option_id") not in {option["id"] for option in options}:
             errors.append("correct_option_id must reference one of the five options")
+        elif len({
+            re.sub(r"\\W+", " ", option["text"].casefold()).strip()
+            for option in options
+        }) != 5:
+            errors.append("MCQ options must have distinct text")
+
     if existing_cards:
-        normalized = re.sub(r"\W+", " ", str(card.get("prompt", "")).casefold()).strip()
+        normalized = re.sub(r"\\W+", " ", str(card.get("prompt", "")).casefold()).strip()
         for existing in existing_cards:
-            other = re.sub(r"\W+", " ", str(existing.get("prompt", "")).casefold()).strip()
+            other = re.sub(r"\\W+", " ", str(existing.get("prompt", "")).casefold()).strip()
             if normalized and normalized == other:
-                errors.append(f"Duplicate prompt matches existing card {existing.get('id', 'unknown')}")
+                errors.append(
+                    f"Duplicate prompt matches existing card {existing.get('id', 'unknown')}"
+                )
                 break
     return {
         "valid": not errors,
@@ -286,6 +327,7 @@ def validate_generated_card(
         "review_status": "draft",
         "clinical_review_required": True,
         "exam_validation_required": True,
+        "review_packet": build_review_packet(card.get("card_type"), brief),
         "card": card if not errors else None,
     }
 
