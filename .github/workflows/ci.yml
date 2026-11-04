@@ -31,6 +31,7 @@ jobs:
       - run: pytest -q
       - name: Validate Docker Compose files
         run: |
+          cp .streamlit/secrets.toml.example .streamlit/secrets.toml
           docker compose version
           docker compose -f compose.yaml config --quiet
           USIPHU_DOMAIN=staging.example.invalid ACME_EMAIL=ops@example.invalid docker compose -f compose.production.yaml config --quiet
