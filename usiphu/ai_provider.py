@@ -4,11 +4,12 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-from typing import Any
+from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Callable
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-from usiphu.evidence import retrieve_pubmed_evidence
+from usiphu.evidence import EvidenceRetrievalError, retrieve_pubmed_evidence
 from usiphu.generator import build_generation_briefs, validate_generated_card
 
 
@@ -38,7 +39,34 @@ def provider_status() -> dict[str, Any]:
     }
 
 
-def _card_prompt(brief: dict[str, Any], evidence: list[dict[str, Any]]) -> str:
+def provider_health() -> dict[str, Any]:
+    """Check that Ollama responds and the configured model is actually installed."""
+    base_url, model = _ollama_settings()
+    request = Request(f"{base_url}/api/tags", headers={"Accept": "application/json"}, method="GET")
+    try:
+        with urlopen(request, timeout=3) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return {
+            "healthy": False, "model_installed": False, "models": [],
+            "message": f"Cannot reach Ollama at {base_url}. Start the Ollama app/service, then refresh this page.",
+        }
+    models = [
+        str(item.get("name") or item.get("model") or "")
+        for item in payload.get("models", []) if isinstance(item, dict)
+    ] if isinstance(payload, dict) else []
+    installed = model in models
+    return {
+        "healthy": installed, "model_installed": installed, "models": models,
+        "message": (
+            f"Ollama is ready and {model} is installed."
+            if installed else
+            f"Ollama is running, but {model} is not installed. Run: ollama pull {model}"
+        ),
+    }
+
+
+def _card_prompt(brief: dict[str, Any], evidence: list[dict[str, Any]], guidance: str = "") -> str:
     allowed_outcomes = (
         brief["external_benchmark_outcomes"]
         if brief["course_outcome_mapping_status"] == "external_benchmark_only"
@@ -61,6 +89,8 @@ SPECIALTY EXAM BLUEPRINT:
 {json.dumps(brief.get("specialty_exam_blueprint", {}), ensure_ascii=False)}
 
 REQUESTED EXAM FORMAT: {brief.get("requested_exam_format", "mixed")}
+ADDITIONAL EDUCATOR PREFERENCES (follow only when consistent with the clinical evidence and safety rules):
+{guidance or "No additional preferences."}
 ALLOWED CARD TYPES: {json.dumps(brief.get("output_contract", {}).get("allowed_card_types", ["mcq", "short_answer", "clinical_case", "osce_station", "viva", "emq"]))}
 
 Required JSON fields:
@@ -122,7 +152,8 @@ def _ollama_chat(prompt: str, model: str) -> str:
             },
             {"role": "user", "content": prompt},
         ],
-        "options": {"temperature": 0.2},
+        "keep_alive": "5m",
+        "options": {"temperature": 0.15, "num_predict": 1200},
     }
     request = Request(
         f"{base_url}/api/chat",
@@ -131,7 +162,7 @@ def _ollama_chat(prompt: str, model: str) -> str:
         method="POST",
     )
     try:
-        with urlopen(request, timeout=180) as response:
+        with urlopen(request, timeout=float(os.getenv("USIPHU_OLLAMA_TIMEOUT_SECONDS", "150"))) as response:
             body = json.loads(response.read().decode("utf-8"))
     except (HTTPError, URLError, TimeoutError, OSError) as exc:
         raise GenerationNotConfigured(
@@ -150,9 +181,10 @@ def _ollama_chat(prompt: str, model: str) -> str:
 
 
 def _author_one(
-    brief: dict[str, Any], evidence: list[dict[str, Any]], model: str
+    brief: dict[str, Any], evidence: list[dict[str, Any]], model: str,
+    guidance: str = "",
 ) -> dict[str, Any]:
-    result = json.loads(_ollama_chat(_card_prompt(brief, evidence), model))
+    result = json.loads(_ollama_chat(_card_prompt(brief, evidence, guidance), model))
     if not isinstance(result, dict):
         raise ValueError("Ollama output must be a JSON object")
     if result.get("needs_evidence_review"):
@@ -227,43 +259,90 @@ def generate_topic_cards(
     *,
     evidence_limit: int = 5,
     exam_format: str = "mixed",
+    max_objectives: int | None = None,
+    generation_guidance: str = "",
+    progress_callback: Callable[[dict[str, Any]], None] | None = None,
 ) -> dict[str, Any]:
-    """Retrieve evidence and author one review-required draft per curriculum objective."""
+    """Retrieve evidence and author review-required drafts with per-objective progress."""
     briefs = build_generation_briefs(
         specialty_id=specialty_id, topic_id=topic_id, exam_format=exam_format
     )
     if not briefs:
         raise KeyError(f"No curriculum objectives found for {specialty_id}/{topic_id}")
+    if not 1 <= evidence_limit <= 10:
+        raise ValueError("evidence_limit must be between 1 and 10")
+    if max_objectives is not None:
+        if not isinstance(max_objectives, int) or not 1 <= max_objectives <= len(briefs):
+            raise ValueError(f"max_objectives must be between 1 and {len(briefs)}")
+        briefs = briefs[:max_objectives]
+    if not isinstance(generation_guidance, str) or len(generation_guidance) > 1200:
+        raise ValueError("generation_guidance must be 1200 characters or fewer")
     status = provider_status()
     if not status["configured"]:
         raise GenerationNotConfigured("Configure OLLAMA_BASE_URL and USIPHU_OLLAMA_MODEL.")
     model = status["model"]
+    total = len(briefs)
+
+    def notify(stage: str, index: int, brief: dict[str, Any], detail: str = "") -> None:
+        if progress_callback:
+            progress_callback({
+                "stage": stage, "completed": index, "total": total,
+                "objective": brief.get("objective", brief.get("topic", "")),
+                "detail": detail,
+            })
+
+    # PubMed retrieval is network-bound; a small worker pool reduces waiting time
+    # while staying conservative about NCBI request rates.
+    evidence_by_id: dict[str, list[dict[str, Any]]] = {}
+    retrieval_errors: dict[str, str] = {}
+
+    def retrieve_one(brief: dict[str, Any]) -> tuple[str, list[dict[str, Any]]]:
+        query = f'"{brief["topic"]}" AND ({brief["objective"]})'
+        return brief["brief_id"], retrieve_pubmed_evidence(query, max_results=evidence_limit)
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = {pool.submit(retrieve_one, brief): brief for brief in briefs}
+        finished = 0
+        for future, brief in futures.items():
+            try:
+                brief_id, evidence = future.result()
+                evidence_by_id[brief_id] = evidence
+            except (EvidenceRetrievalError, ValueError, OSError) as exc:
+                retrieval_errors[brief["brief_id"]] = str(exc)[:500]
+                evidence_by_id[brief["brief_id"]] = []
+            finished += 1
+            notify("evidence", finished, brief, "Evidence retrieval complete")
 
     results = []
-    for brief in briefs:
-        query = f'"{brief["topic"]}" AND ({brief["objective"]})'
-        evidence = retrieve_pubmed_evidence(query, max_results=evidence_limit)
+    for index, brief in enumerate(briefs, start=1):
+        evidence = evidence_by_id.get(brief["brief_id"], [])
         if not evidence:
+            reason = retrieval_errors.get(
+                brief["brief_id"], "PubMed returned no usable abstracts; no card was generated."
+            )
             results.append({
-                "valid": False,
-                "status": "needs_evidence_review",
-                "reason": "PubMed returned no usable abstracts; no card was generated.",
-                "brief_id": brief["brief_id"],
-                "evidence": [],
-                "card": None,
+                "valid": False, "status": "needs_evidence_review", "reason": reason,
+                "brief_id": brief["brief_id"], "evidence": [], "card": None,
             })
+            notify("generation", index, brief, "No usable evidence for this objective")
             continue
-        results.append(_author_one(brief, evidence, model))
+        try:
+            results.append(_author_one(brief, evidence, model, generation_guidance))
+            notify("generation", index, brief, "Draft validation complete")
+        except Exception as exc:
+            # Preserve successful objectives when one model response is malformed or times out.
+            results.append({
+                "valid": False, "status": "generation_error",
+                "reason": f"{type(exc).__name__}: {str(exc)}"[:700],
+                "brief_id": brief["brief_id"], "evidence": evidence, "card": None,
+            })
+            notify("generation", index, brief, "This objective failed; continuing with the rest")
 
     cards = [item["card"] for item in results if item.get("valid") and item.get("card")]
     return {
-        "specialty_id": specialty_id,
-        "topic_id": topic_id,
-        "provider": provider_status(),
-        "generation_mode": "pubmed_grounded_ollama_draft",
-        "total_objectives": len(briefs),
-        "draft_cards": len(cards),
+        "specialty_id": specialty_id, "topic_id": topic_id,
+        "provider": provider_status(), "generation_mode": "pubmed_grounded_ollama_draft",
+        "total_objectives": len(briefs), "draft_cards": len(cards),
         "rejected_or_evidence_gated": len(results) - len(cards),
-        "clinical_approval_granted": False,
-        "results": results,
+        "clinical_approval_granted": False, "results": results,
     }
