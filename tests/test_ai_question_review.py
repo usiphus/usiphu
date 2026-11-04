@@ -58,6 +58,7 @@ def test_review_returns_advisory_answer_and_transcription(monkeypatch, candidate
 
 
 def test_explicit_source_key_requires_a_quote(monkeypatch, candidate):
+    candidate["raw_text"] += "\\nAnswer: B"
     monkeypatch.setattr(review, "provider_status", lambda: {"configured": True, "model": "test-model"})
     monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: _response("b", "explicit_source_key"))
     result = review.review_mcq_candidate(candidate)
