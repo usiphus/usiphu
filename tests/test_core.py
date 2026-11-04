@@ -164,8 +164,8 @@ def test_content_validator_checks_complete_starter_dataset():
     assert report["official_outcomes_linked_at_topic_level"] == 47
     assert report["official_outcomes_not_linked_in_current_crosswalk"] == 26
     assert report["topics_without_verified_outcome_mapping"] == 112
-    assert report["questions"] == 3
-    assert report["question_banks"] == 1
+    assert report["questions"] == 20
+    assert report["question_banks"] == 3
     assert report["cases"] == 2
     assert report["topics_sourced"] == 0
     assert report["topics_reviewed"] == 0
@@ -195,18 +195,19 @@ def test_saved_generated_draft_retains_human_review_packet(tmp_path: Path):
 
 def test_question_bank_filters_and_persists_learner_attempts(tmp_path: Path, monkeypatch):
     questions = load_questions()
+    starter_questions = [item for item in questions if item.bank_id == "starter-medical-bank"]
     trusted_questions = [
         item.model_copy(update={"review_status": "exam_validated"})
-        for item in questions
+        for item in starter_questions
     ]
     monkeypatch.setattr("usiphu.practice.load_questions", lambda: trusted_questions)
-    filtered = filter_questions(questions, specialty_id="urology", difficulty="easy")
+    filtered = filter_questions(starter_questions, specialty_id="urology", difficulty="easy")
     assert [item.id for item in filtered] == ["uro-001"]
-    assert filter_questions(questions, review_status="exam_validated") == []
-    assert filter_questions(questions, bank_id="starter-medical-bank") == questions
+    assert filter_questions(starter_questions, review_status="exam_validated") == []
+    assert filter_questions(starter_questions, bank_id="starter-medical-bank") == starter_questions
 
-    # Restore the real draft bank before checking that draft attempts are unscored.
-    monkeypatch.setattr("usiphu.practice.load_questions", lambda: questions)
+    # Restore the starter draft bank before checking that draft attempts are unscored.
+    monkeypatch.setattr("usiphu.practice.load_questions", lambda: starter_questions)
     db = tmp_path / "question-bank.sqlite3"
     record_question_attempt("uro-001", "b", True, db, learner_id="learner-a")
     record_question_attempt("uro-001", "a", False, db, learner_id="learner-a")
