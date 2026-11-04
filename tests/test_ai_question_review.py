@@ -1,10 +1,15 @@
-"""Tests for advisory source-transcription and MCQ answer review."""
+"""Tests for advisory transcription and open-access MCQ evidence review."""
 import json
 
 import pytest
 
 import usiphu.ai_question_review as review
 from usiphu.ai_provider import GenerationNotConfigured
+
+
+@pytest.fixture(autouse=True)
+def no_network(monkeypatch):
+    monkeypatch.setattr(review, "retrieve_open_access_evidence", lambda candidate: [])
 
 
 @pytest.fixture
@@ -53,18 +58,19 @@ def test_review_returns_advisory_answer_and_transcription(monkeypatch, candidate
     assert result["transcription"]["suggested_stem"] == candidate["stem_extracted"]
     assert result["answer_review"]["suggested_option_id"] == "b"
     assert result["answer_review"]["basis"] == "clinical_reasoning"
+    assert result["internet_evidence_review"]["verdict"] == "insufficient_evidence"
+    assert result["internet_evidence_review"]["proposed_option_id"] is None
     assert result["official_answer_key"] is False
     assert result["human_review_required"] is True
 
 
 def test_explicit_source_key_requires_a_quote(monkeypatch, candidate):
-    candidate["raw_text"] += "\\nAnswer: B"
+    candidate["raw_text"] += "\nAnswer: B"
     monkeypatch.setattr(review, "provider_status", lambda: {"configured": True, "model": "test-model"})
     monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: _response("b", "explicit_source_key"))
     result = review.review_mcq_candidate(candidate)
     assert result["answer_review"]["basis"] == "explicit_source_key"
     assert result["answer_review"]["source_evidence"] == "Answer: B"
-
 
 
 def test_claimed_printed_key_quote_must_exist_in_source(monkeypatch, candidate):
@@ -75,6 +81,7 @@ def test_claimed_printed_key_quote_must_exist_in_source(monkeypatch, candidate):
     result = review.review_mcq_candidate(candidate)
     assert result["answer_review"]["basis"] == "unclear"
     assert result["answer_review"]["suggested_option_id"] is None
+
 
 def test_unknown_option_ids_are_rejected(monkeypatch, candidate):
     payload = json.loads(_response())
@@ -109,4 +116,71 @@ def test_review_requires_original_text(candidate):
 def test_review_requires_configured_local_model(monkeypatch, candidate):
     monkeypatch.setattr(review, "provider_status", lambda: {"configured": False, "model": "test-model"})
     with pytest.raises(GenerationNotConfigured):
+        review.review_mcq_candidate(candidate)
+
+
+def test_internet_review_validates_sources_quotes_and_all_options(monkeypatch, candidate):
+    evidence = [{
+        "source_id": "PMC:PMC123",
+        "source_title": "Open access clinical study",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC123/",
+        "source_date": "2024-01-01",
+        "journal": "Example Journal",
+        "doi": "10.1000/example",
+        "pmid": "12345",
+        "pmcid": "PMC123",
+        "license": "CC BY",
+        "full_text_available": True,
+        "evidence_text": "Computed tomography is recommended for this clinical presentation.",
+        "source_database": "Europe PMC / PubMed Central",
+        "limitations": "Study-specific evidence.",
+    }]
+    monkeypatch.setattr(review, "retrieve_open_access_evidence", lambda candidate: evidence)
+    monkeypatch.setattr(review, "provider_status", lambda: {"configured": True, "model": "test-model"})
+    payload = json.loads(_response())
+    payload["internet_evidence_review"] = {
+        "verdict": "supported",
+        "existing_key_assessment": "no_existing_key",
+        "proposed_option_id": "b",
+        "summary": "The source supports CT in the stated context.",
+        "option_assessments": [
+            {"option_id": "a", "assessment": "neutral", "reasoning": "Not addressed.", "citations": []},
+            {"option_id": "b", "assessment": "supports", "reasoning": "The article recommends CT.",
+             "citations": [{"source_id": "PMC:PMC123", "quote": "Computed tomography is recommended for this clinical presentation."}]},
+            {"option_id": "c", "assessment": "neutral", "reasoning": "Not addressed.", "citations": []},
+        ],
+        "conflicts": [],
+    }
+    monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: json.dumps(payload))
+    result = review.review_mcq_candidate(candidate)
+    internet = result["internet_evidence_review"]
+    assert internet["proposed_option_id"] == "b"
+    assert internet["option_assessments"][1]["citations"][0]["source_url"] == evidence[0]["source_url"]
+    assert internet["official_answer_key"] is False
+
+
+def test_internet_review_rejects_fabricated_quotes(monkeypatch, candidate):
+    evidence = [{
+        "source_id": "PMC:PMC123", "source_title": "Article",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC123/",
+        "source_date": "2024", "journal": "Journal", "doi": None, "pmid": None,
+        "pmcid": "PMC123", "license": "CC BY", "full_text_available": True,
+        "evidence_text": "A source statement about the first treatment.",
+        "source_database": "Europe PMC / PubMed Central", "limitations": "Study-specific.",
+    }]
+    monkeypatch.setattr(review, "retrieve_open_access_evidence", lambda candidate: evidence)
+    monkeypatch.setattr(review, "provider_status", lambda: {"configured": True, "model": "test-model"})
+    payload = json.loads(_response())
+    payload["internet_evidence_review"] = {
+        "verdict": "supported", "existing_key_assessment": "no_existing_key",
+        "proposed_option_id": "b", "summary": "Claimed support.",
+        "option_assessments": [
+            {"option_id": "a", "assessment": "neutral", "reasoning": "", "citations": []},
+            {"option_id": "b", "assessment": "supports", "reasoning": "Claimed support.",
+             "citations": [{"source_id": "PMC:PMC123", "quote": "This fabricated quote is not in the source."}]},
+            {"option_id": "c", "assessment": "neutral", "reasoning": "", "citations": []},
+        ], "conflicts": [],
+    }
+    monkeypatch.setattr(review, "_ollama_chat", lambda prompt, model: json.dumps(payload))
+    with pytest.raises(review.QuestionReviewError, match="quotation could not be verified"):
         review.review_mcq_candidate(candidate)
