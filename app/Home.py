@@ -220,6 +220,16 @@ with tab6:
         format_func=lambda item: f"{item[2]} · {item[3]}",
         key="generator-topic",
     )
+    exam_format = st.selectbox(
+        "Examination format",
+        ["mixed", "mcq", "short_answer", "clinical_case", "osce", "viva", "emq"],
+        format_func=lambda value: {
+            "mixed": "Mixed assessment", "mcq": "Single-best-answer MCQ",
+            "short_answer": "Short answer", "clinical_case": "Clinical case",
+            "osce": "OSCE station", "viva": "Viva / oral examination",
+            "emq": "Extended matching questions",
+        }[value],
+    )
     evidence_limit = st.slider("PubMed records per learning objective", 1, 10, 5)
     if st.button(
         "Generate evidence-grounded draft cards",
@@ -229,7 +239,8 @@ with tab6:
         try:
             with st.spinner("Searching PubMed and drafting cards..."):
                 result = generate_topic_cards(
-                    selected_topic[0], selected_topic[1], evidence_limit=evidence_limit
+                    selected_topic[0], selected_topic[1], evidence_limit=evidence_limit,
+                    exam_format=exam_format,
                 )
             st.session_state["generated_card_result"] = result
         except GenerationNotConfigured as exc:
