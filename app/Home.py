@@ -428,7 +428,8 @@ with tab7:
         )
 
     specialties = sorted({item.specialty_id for item in bank_questions})
-    f1, f2, f3, f4 = st.columns(4)
+    bank_ids = sorted({item.bank_id for item in bank_questions})
+    f1, f2, f3, f4, f5 = st.columns(5)
     specialty_filter = f1.selectbox("Specialty", ["All", *specialties], key="qb-specialty")
     specialty_questions = [
         item for item in bank_questions
@@ -443,12 +444,14 @@ with tab7:
         "Editorial status", ["All", "draft", "clinically_reviewed", "exam_validated"],
         key="qb-status",
     )
+    bank_filter = f5.selectbox("Question bank", ["All", *bank_ids], key="qb-bank")
     filtered_questions = filter_questions(
         bank_questions,
         specialty_id=None if specialty_filter == "All" else specialty_filter,
         topic_id=None if topic_filter == "All" else topic_filter,
         difficulty=None if difficulty_filter == "All" else difficulty_filter,
         review_status=None if status_filter == "All" else status_filter,
+        bank_id=None if bank_filter == "All" else bank_filter,
     )
     st.caption(f"{len(filtered_questions)} questions match these filters.")
     if filtered_questions:
@@ -461,8 +464,11 @@ with tab7:
         st.caption(
             f"{selected_question.specialty_id} / {selected_question.topic_id} · "
             f"{selected_question.difficulty.title()} · "
-            f"{selected_question.review_status.replace('_', ' ').title()}"
+            f"{selected_question.review_status.replace('_', ' ').title()} · "
+            f"Bank: {selected_question.bank_id}"
         )
+        if selected_question.tags:
+            st.caption("Tags: " + " · ".join(selected_question.tags))
         with st.container(border=True):
             st.markdown(f"#### {selected_question.stem}")
             selected_option = st.radio(
