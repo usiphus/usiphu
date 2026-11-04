@@ -166,6 +166,7 @@ def record_faculty_decision(
             "evidence_sources", "editorial_notes"
         )
     }
+    snapshot["review_attestations"] = checks
     snapshot_json = json.dumps(snapshot, ensure_ascii=False, sort_keys=True)
     now = _now()
     _ensure_schema(path)
