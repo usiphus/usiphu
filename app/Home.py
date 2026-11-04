@@ -585,12 +585,15 @@ with tab7:
                         st.write(item.stem)
                         chosen = st.radio(
                             f"Answer {number}",
-                            item.options,
-                            format_func=lambda option: f"{option.id.upper()}. {option.text}",
+                            [None, *item.options],
+                            format_func=lambda option: (
+                                "— Choose an answer —"
+                                if option is None else f"{option.id.upper()}. {option.text}"
+                            ),
                             key=f"qb-exam-{exam['run_id']}-{item.id}",
-                            index=None,
+                            index=0,
                         )
-                        if chosen:
+                        if chosen is not None:
                             exam["answers"][item.id] = chosen.id
                     st.session_state["qb-exam"] = exam
                     if st.button("Submit mock exam", type="primary", use_container_width=True):
