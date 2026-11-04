@@ -68,12 +68,12 @@ def restore(
             raise ValueError(f"Backup input does not exist: {path}")
     if database_target.exists():
         raise ValueError(f"Refusing to overwrite database target: {database_target}")
+    verify_database(database_backup)
+    verify_archive(source_archive, checksum_file)
+
     source_target.mkdir(parents=True, exist_ok=True)
     if any(source_target.iterdir()):
         raise ValueError(f"Refusing to restore into a non-empty Source Inbox: {source_target}")
-
-    verify_database(database_backup)
-    verify_archive(source_archive, checksum_file)
     database_target.parent.mkdir(parents=True, exist_ok=True)
     temporary_database = database_target.with_name(f".{database_target.name}.restore-tmp")
     staging = Path(tempfile.mkdtemp(prefix=".usiphu-restore-", dir=source_target))
