@@ -9,3 +9,7 @@ __pycache__
 *.sqlite3
 data/source_inbox/
 .streamlit/secrets.toml
+
+migration-source-inbox/
+restore-drill/
+.env.staging
