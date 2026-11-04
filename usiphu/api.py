@@ -51,12 +51,13 @@ def questions(
     difficulty: str | None = None,
     review_status: str | None = None,
     question_type: str | None = None,
+    bank_id: str | None = None,
 ) -> list[dict]:
     """Return filterable authored MCQs with editorial status and provenance metadata."""
     rows = filter_questions(
         load_questions(), specialty_id=specialty, topic_id=topic,
         difficulty=difficulty, review_status=review_status,
-        question_type=question_type,
+        question_type=question_type, bank_id=bank_id,
     )
     return [item.model_dump() for item in rows]
 
