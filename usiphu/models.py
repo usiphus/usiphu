@@ -69,6 +69,7 @@ class MCQ(BaseModel):
     review_status: ReviewStatus = "draft"
     difficulty: Literal["easy", "moderate", "hard"] = "moderate"
     question_type: Literal["single_best_answer", "extended_matching", "short_answer"] = "single_best_answer"
+    bank_id: str = "starter-medical-bank"
     module_code: str | None = None
     tags: list[str] = Field(default_factory=list)
     source_id: str | None = None
