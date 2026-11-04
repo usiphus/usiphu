@@ -193,8 +193,18 @@ elif page == "Practice":
             st.session_state[f"chosen-{selected.id}"] = answer.id
         if st.session_state.get(f"checked-{selected.id}", False):
             chosen = st.session_state.get(f"chosen-{selected.id}")
-            correct = chosen == selected.correct_option_id
-            st.success("Correct") if correct else st.error("Not quite — review the explanation.")
+            marking = check_mcq_answer(
+                selected_option_id=chosen,
+                correct_option_id=selected.correct_option_id,
+                review_status=selected.review_status,
+            )
+            if not marking["markable"]:
+                st.warning(marking["message"])
+            elif marking["status"] == "provisional_key":
+                st.info(marking["message"])
+                st.caption(marking["caveat"])
+            else:
+                st.success(marking["message"]) if marking["correct"] else st.error(marking["message"])
             st.markdown("**Explanation**")
             st.write(selected.explanation)
             if selected.source_url:
@@ -212,6 +222,62 @@ elif page == "Practice":
         with st.expander("Examiner discussion points"):
             for point in case.discussion_points:
                 st.write("• " + point)
+
+    st.divider()
+    st.subheader("Short-answer and MEQ practice")
+    written_assessments = load_assessments()
+    if not written_assessments:
+        st.info("No reviewed short-answer or MEQ assessments have been added yet.")
+    for assessment in written_assessments:
+        with st.expander(
+            str(assessment.get("prompt", "Written assessment"))
+            + " · " + assessment.get("assessment_type", "assessment").upper()
+            + " · " + str(assessment.get("source_page", "?")),
+        ):
+            st.caption(
+                str(assessment.get("source_title", "Past paper"))
+                + " · Editorial status: " + assessment.get("review_status", "draft")
+            )
+            if assessment.get("scenario"):
+                st.write(assessment["scenario"])
+            with st.form("written-practice-" + assessment["id"]):
+                written_answers = {}
+                for part in assessment.get("parts", []):
+                    st.markdown("**" + part["prompt"] + "**")
+                    written_answers[part["id"]] = st.text_area(
+                        "Your answer",
+                        key="written-answer-" + assessment["id"] + "-" + part["id"],
+                        height=110,
+                    )
+                submitted_written = st.form_submit_button("Check written answer")
+            if submitted_written:
+                result = check_assessment_answers(assessment, written_answers)
+                st.session_state["written-result-" + assessment["id"]] = result
+            result = st.session_state.get("written-result-" + assessment["id"])
+            if result:
+                st.metric(
+                    "Automated rubric screen",
+                    str(result["marks_awarded"]) + " / " + str(result["marks_available"]) + " marks",
+                    str(result["percentage"]) + "%",
+                )
+                st.warning(
+                    "Provisional keyword-based marking only. The checker cannot judge clinical meaning "
+                    "or recognize every equivalent phrase. Review all unmatched points manually."
+                )
+                for part_result in result["parts"]:
+                    st.markdown("**" + part_result["prompt"] + "**")
+                    st.write(
+                        str(part_result.get("marks_awarded", 0))
+                        + " / " + str(part_result.get("marks_available", 0)) + " marks"
+                    )
+                    for point in part_result.get("points", []):
+                        status = "Matched" if point["marks_awarded"] else "Needs manual check"
+                        st.write(
+                            status + ": " + point["point"]
+                            + " (" + str(point["marks_awarded"])
+                            + "/" + str(point["marks_available"]) + ")"
+                        )
+                st.caption("This score is a study aid, not an official examination mark.")
 elif page == "Flashcards":
     st.subheader("Create a flashcard")
     with st.form("new_card"):
