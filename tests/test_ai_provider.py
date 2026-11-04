@@ -85,6 +85,8 @@ def test_generation_returns_evidence_gate_without_making_a_card(monkeypatch):
     assert result["draft_cards"] == 0
     assert all(item["status"] == "needs_evidence_review" for item in result["results"])
     assert all(item["card"] is None for item in result["results"])
+    assert result["objective_coverage"]["coverage_percent"] == 0
+    assert result["objective_coverage"]["uncovered"] == result["total_objectives"]
 
 
 def test_generation_fails_when_ollama_endpoint_is_not_configured(monkeypatch):
