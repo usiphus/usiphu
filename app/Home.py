@@ -641,9 +641,9 @@ elif page == "Review Editor":
 
                 ai_review_state_key = "mcq-ai-review-" + selected_id
                 if st.button(
-                    "AI check extraction and suggest an answer",
+                    "AI check extraction and compare answers with open-access sources",
                     key="run-ai-mcq-review-" + selected_id,
-                    help="Checks parsed text against the extracted source text and proposes a non-verified answer for human checking.",
+                    help="Checks the transcription and compares every answer option with retrieved open-access medical sources. Suggestions remain unverified.",
                 ):
                     try:
                         st.session_state[ai_review_state_key] = review_mcq_candidate(selected)
