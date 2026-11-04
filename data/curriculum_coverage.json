@@ -27,9 +27,10 @@
       "not_mapped_no_verified_course_outcome": 112
     },
     "objective_mapping_statuses": {
-      "topic_level_link_only_not_objective_specific": 61,
+      "topic_level_link_only_not_objective_specific": 55,
       "external_benchmark_only_not_official_suez": 4,
       "module_alignment_only_no_specific_ilo": 2,
+      "partial_topic_level_link_not_objective_specific": 6,
       "not_mapped_no_verified_course_outcome": 224
     },
     "official_course_outcomes": 73,
@@ -1317,7 +1318,7 @@
           "objective_id": "air-1",
           "objective_text": "Assess airway risk and describe a structured airway management plan.",
           "level": "perform",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
@@ -1387,7 +1388,7 @@
           "objective_id": "vent-1",
           "objective_text": "Interpret basic ventilator parameters and recognize common complications.",
           "level": "understand",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
@@ -1467,7 +1468,7 @@
           "objective_id": "dr-1",
           "objective_text": "Classify diabetic retinopathy and explain screening and referral.",
           "level": "understand",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
@@ -1521,7 +1522,7 @@
           "objective_id": "epi-1",
           "objective_text": "Stabilize and manage epistaxis using a stepwise approach.",
           "level": "perform",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
@@ -1547,7 +1548,7 @@
           "objective_id": "ua-1",
           "objective_text": "Recognize threatened airway and coordinate urgent airway support.",
           "level": "perform",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
@@ -1674,7 +1675,7 @@
           "objective_id": "ag-1",
           "objective_text": "Assess medical causes and manage immediate safety with de-escalation principles.",
           "level": "perform",
-          "mapping_status": "topic_level_link_only_not_objective_specific"
+          "mapping_status": "partial_topic_level_link_not_objective_specific"
         }
       ]
     },
