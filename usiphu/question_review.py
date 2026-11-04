@@ -99,7 +99,11 @@ def save_candidate_review(
     return get_review_candidate(candidate_id, source_dir) or {}
 
 
-def approve_candidate(candidate_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict:
+def approve_candidate(
+    candidate_id: str,
+    source_dir: Path = DEFAULT_SOURCE_DIR,
+    bank_path: Path = QUESTION_BANK_PATH,
+) -> dict:
     """Promote one fully reviewed MCQ to the installable past-paper bank."""
     candidate = get_review_candidate(candidate_id, source_dir)
     if candidate is None:
@@ -147,7 +151,6 @@ def approve_candidate(candidate_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) 
     except ValidationError as exc:
         raise ValueError(f"Question does not meet the bank schema: {exc}") from exc
 
-    bank_path = QUESTION_BANK_PATH
     if bank_path.exists():
         bank = json.loads(bank_path.read_text(encoding="utf-8"))
     else:
