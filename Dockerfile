@@ -7,10 +7,11 @@ COPY data ./data
 COPY app ./app
 RUN pip install --no-cache-dir . \
     && useradd --create-home --uid 10001 app \
-    && mkdir -p /data \
-    && chown -R app:app /app /data
+    && mkdir -p /data /source-inbox \
+    && chown -R app:app /app /data /source-inbox
 USER app
 EXPOSE 8501
-VOLUME ["/data"]
+VOLUME ["/data", "/source-inbox"]
 ENV USIPHU_DB_PATH=/data/usiphu.sqlite3
+ENV USIPHU_SOURCE_DIR=/source-inbox
 CMD ["streamlit", "run", "app/Home.py", "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true"]
