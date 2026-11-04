@@ -11,8 +11,8 @@ from usiphu.ai_provider import (
     generate_topic_cards,
     provider_status,
 )
-from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
+from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
