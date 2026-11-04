@@ -794,8 +794,8 @@ elif page == "Faculty Review":
                 decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
                 submitted = st.form_submit_button("Record clinical decision", type="primary")
             if submitted:
-                if not reviewer_access:
-                    st.error("Reviewer access is required.")
+                if not AUTH_REQUIRED or not reviewer_access:
+                    st.error("Authenticated reviewer access is required. Enable OIDC and add this account to USIPHU_REVIEWER_SUBJECTS.")
                 else:
                     try:
                         result = record_faculty_decision(
@@ -831,8 +831,8 @@ elif page == "Faculty Review":
                 decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
                 submitted = st.form_submit_button("Record examination decision", type="primary")
             if submitted:
-                if not reviewer_access:
-                    st.error("Reviewer access is required.")
+                if not AUTH_REQUIRED or not reviewer_access:
+                    st.error("Authenticated reviewer access is required. Enable OIDC and add this account to USIPHU_REVIEWER_SUBJECTS.")
                 else:
                     try:
                         result = record_faculty_decision(
