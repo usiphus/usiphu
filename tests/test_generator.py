@@ -114,3 +114,41 @@ def test_generated_card_rejects_evidence_sources_outside_retrieved_packet():
     result = validate_generated_card(card, brief)
     assert not result["valid"]
     assert any("retrieved evidence packet" in error for error in result["errors"])
+
+
+def test_expanded_curriculum_and_specialty_blueprint_are_used():
+    briefs = build_generation_briefs(
+        specialty_id="anatomy", topic_id="upper-limb-anatomy", exam_format="osce"
+    )
+    assert len(briefs) == 2
+    brief = briefs[0]
+    assert brief["requested_exam_format"] == "osce"
+    assert brief["output_contract"]["allowed_card_types"] == ["osce_station"]
+    assert "surface-landmark viva" in brief["specialty_exam_blueprint"]["preferred_formats"]
+
+
+def test_unsupported_exam_format_fails_closed():
+    try:
+        build_generation_briefs(exam_format="image_based")
+    except ValueError as exc:
+        assert "Unsupported exam_format" in str(exc)
+    else:
+        raise AssertionError("Unsupported exam format should fail closed")
+
+
+def test_osce_station_requires_tasks_and_observable_marking_criteria():
+    brief = build_generation_briefs(
+        specialty_id="anatomy", topic_id="upper-limb-anatomy", exam_format="osce"
+    )[0]
+    card = valid_mcq(brief)
+    card.update({
+        "card_type": "osce_station",
+        "station_tasks": ["Take a focused history", "Demonstrate relevant examination"],
+        "marking_criteria": ["Identifies key findings", "Explains anatomical localization"],
+    })
+    result = validate_generated_card(card, brief)
+    assert result["valid"]
+    card["marking_criteria"] = []
+    rejected = validate_generated_card(card, brief)
+    assert not rejected["valid"]
+    assert any("marking_criteria" in error for error in rejected["errors"])
