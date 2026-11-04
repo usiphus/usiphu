@@ -751,7 +751,6 @@ elif page == "Faculty Review":
                 for note in selected["editorial_notes"]:
                     st.write("• " + note)
         clinical_done = selected["clinical_status"] == "approved"
-        default_stage = "Examination validation" if clinical_done else "Clinical approval"
         stage_label = st.selectbox(
             "Review stage",
             ["Clinical approval", "Examination validation"] if clinical_done else ["Clinical approval"],
