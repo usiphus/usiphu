@@ -9,3 +9,8 @@ venv/
 data/source_inbox/
 .streamlit/secrets.toml
 .DS_Store
+
+# Local migration and restore-drill data
+migration-source-inbox/
+restore-drill/
+.env.staging
