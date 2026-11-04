@@ -427,7 +427,7 @@ with tab7:
 
     specialties = sorted({item.specialty_id for item in bank_questions})
     bank_ids = sorted({item.bank_id for item in bank_questions})
-    f1, f2, f3, f4, f5 = st.columns(5)
+    f1, f2, f3 = st.columns(3)
     specialty_filter = f1.selectbox("Specialty", ["All", *specialties], key="qb-specialty")
     specialty_questions = [
         item for item in bank_questions
@@ -435,86 +435,210 @@ with tab7:
     ]
     topics = sorted({item.topic_id for item in specialty_questions})
     topic_filter = f2.selectbox("Topic", ["All", *topics], key="qb-topic")
-    difficulty_filter = f3.selectbox(
+    bank_filter = f3.selectbox("Question bank", ["All", *bank_ids], key="qb-bank")
+    f4, f5, f6 = st.columns(3)
+    difficulty_filter = f4.selectbox(
         "Difficulty", ["All", "easy", "moderate", "hard"], key="qb-difficulty"
     )
-    status_filter = f4.selectbox(
+    status_filter = f5.selectbox(
         "Editorial status", ["All", "draft", "clinically_reviewed", "exam_validated"],
         key="qb-status",
     )
-    bank_filter = f5.selectbox("Question bank", ["All", *bank_ids], key="qb-bank")
+    type_filter = f6.selectbox(
+        "Question format",
+        ["All", "single_best_answer", "extended_matching", "short_answer"],
+        format_func=lambda value: {
+            "All": "All formats",
+            "single_best_answer": "Single best answer",
+            "extended_matching": "Extended matching",
+            "short_answer": "Short answer",
+        }[value],
+        key="qb-type",
+    )
+    search_term = st.text_input(
+        "Search question text, tags or source", placeholder="e.g. hydronephrosis, vascular, past paper",
+        key="qb-search",
+    )
     filtered_questions = filter_questions(
         bank_questions,
         specialty_id=None if specialty_filter == "All" else specialty_filter,
         topic_id=None if topic_filter == "All" else topic_filter,
         difficulty=None if difficulty_filter == "All" else difficulty_filter,
         review_status=None if status_filter == "All" else status_filter,
+        question_type=None if type_filter == "All" else type_filter,
         bank_id=None if bank_filter == "All" else bank_filter,
     )
+    if search_term.strip():
+        term = search_term.casefold().strip()
+        filtered_questions = [
+            item for item in filtered_questions
+            if term in " ".join([
+                item.stem, item.topic_id, item.specialty_id, item.source_title or "",
+                " ".join(item.tags),
+            ]).casefold()
+        ]
     st.caption(f"{len(filtered_questions)} questions match these filters.")
+
     if filtered_questions:
-        selected_question = st.selectbox(
-            "Choose a question",
-            filtered_questions,
-            format_func=lambda item: f"{item.id} · {item.stem[:100]}",
-            key="qb-selected-question",
+        session_mode = st.radio(
+            "How do you want to practise?",
+            ["Practice one question", "Mock exam"],
+            horizontal=True,
+            key="qb-session-mode",
         )
-        st.caption(
-            f"{selected_question.specialty_id} / {selected_question.topic_id} · "
-            f"{selected_question.difficulty.title()} · "
-            f"{selected_question.review_status.replace('_', ' ').title()} · "
-            f"Bank: {selected_question.bank_id}"
-        )
-        if selected_question.tags:
-            st.caption("Tags: " + " · ".join(selected_question.tags))
-        with st.container(border=True):
-            st.markdown(f"#### {selected_question.stem}")
-            result_key = f"qb-result-{selected_question.id}"
-            previous_result = st.session_state.get(result_key)
-            selected_option = st.radio(
-                "Select the single best answer",
-                selected_question.options,
-                format_func=lambda option: option.text,
-                key=f"qb-answer-{selected_question.id}",
-                disabled=previous_result is not None,
+        if session_mode == "Practice one question":
+            selected_question = st.selectbox(
+                "Choose a question",
+                filtered_questions,
+                format_func=lambda item: f"{item.id} · {item.stem[:100]}",
+                key="qb-selected-question",
             )
-            if st.button(
-                "Submit answer", type="primary",
-                key=f"qb-submit-{selected_question.id}",
-                disabled=previous_result is not None,
-            ):
-                correct = selected_option.id == selected_question.correct_option_id
-                record_question_attempt(
-                    selected_question.id, selected_option.id, correct,
-                    learner_id=learner_id,
+            st.caption(
+                f"{selected_question.specialty_id} / {selected_question.topic_id} · "
+                f"{selected_question.difficulty.title()} · "
+                f"{selected_question.review_status.replace('_', ' ').title()} · "
+                f"Bank: {selected_question.bank_id}"
+            )
+            if selected_question.tags:
+                st.caption("Tags: " + " · ".join(selected_question.tags))
+            if selected_question.review_status == "draft":
+                st.info("This item is an editorial draft. Its answer and explanation have not been clinically approved.")
+            with st.container(border=True):
+                st.markdown(f"#### {selected_question.stem}")
+                result_key = f"qb-result-{selected_question.id}"
+                previous_result = st.session_state.get(result_key)
+                selected_option = st.radio(
+                    "Select the single best answer",
+                    selected_question.options,
+                    format_func=lambda option: f"{option.id.upper()}. {option.text}",
+                    key=f"qb-answer-{selected_question.id}",
+                    disabled=previous_result is not None,
                 )
-                st.session_state[result_key] = {
-                    "selected": selected_option.id, "correct": correct,
-                }
-            result = st.session_state.get(result_key)
-            if result:
-                if result["correct"]:
-                    st.success("Correct answer")
-                else:
-                    st.error("Incorrect answer")
-                correct_option = next(
-                    item for item in selected_question.options
-                    if item.id == selected_question.correct_option_id
-                )
-                st.markdown(f"**Correct answer:** {correct_option.text}")
-                st.markdown("**Explanation**")
-                st.write(selected_question.explanation)
-                if selected_question.source_url:
-                    st.markdown(
-                        f"[{selected_question.source_title or 'Source'}]({selected_question.source_url})"
+                if st.button(
+                    "Submit answer", type="primary",
+                    key=f"qb-submit-{selected_question.id}",
+                    disabled=previous_result is not None,
+                ):
+                    correct = selected_option.id == selected_question.correct_option_id
+                    record_question_attempt(
+                        selected_question.id, selected_option.id, correct,
+                        learner_id=learner_id,
                     )
-                if selected_question.review_status == "draft":
-                    st.caption("Editorial draft — clinical and examination review still required.")
-                if st.button("Retry this question", key=f"qb-retry-{selected_question.id}"):
-                    del st.session_state[result_key]
-                    st.rerun()
+                    st.session_state[result_key] = {
+                        "selected": selected_option.id, "correct": correct,
+                    }
+                result = st.session_state.get(result_key)
+                if result:
+                    if result["correct"]:
+                        st.success("Correct answer")
+                    else:
+                        st.error("Incorrect answer")
+                    correct_option = next(
+                        item for item in selected_question.options
+                        if item.id == selected_question.correct_option_id
+                    )
+                    st.markdown(f"**Correct answer:** {correct_option.text}")
+                    st.markdown("**Explanation**")
+                    st.write(selected_question.explanation)
+                    if selected_question.source_url:
+                        st.markdown(
+                            f"[{selected_question.source_title or 'Source'}]({selected_question.source_url})"
+                        )
+                    if st.button("Retry this question", key=f"qb-retry-{selected_question.id}"):
+                        del st.session_state[result_key]
+                        st.rerun()
+        else:
+            st.caption("Mock exam mode is currently untimed. Answers and explanations stay hidden until submission.")
+            exam_col1, exam_col2 = st.columns(2)
+            exam_count = exam_col1.number_input(
+                "Number of questions", min_value=1, max_value=len(filtered_questions),
+                value=min(10, len(filtered_questions)), step=1, key="qb-exam-count",
+            )
+            random_order = exam_col2.toggle("Randomize order", value=True, key="qb-exam-random")
+            if st.button("Start mock exam", type="primary", key="qb-start-exam"):
+                exam_questions = list(filtered_questions)
+                if random_order:
+                    random.shuffle(exam_questions)
+                exam_questions = exam_questions[:int(exam_count)]
+                st.session_state["qb-exam"] = {
+                    "ids": [item.id for item in exam_questions],
+                    "answers": {},
+                    "submitted": False,
+                    "run_id": datetime.now(timezone.utc).isoformat(),
+                }
+                st.rerun()
+
+            exam = st.session_state.get("qb-exam")
+            if exam:
+                question_lookup = {item.id: item for item in bank_questions}
+                exam_questions = [
+                    question_lookup[item_id] for item_id in exam["ids"]
+                    if item_id in question_lookup
+                ]
+                st.divider()
+                st.markdown(f"#### Mock exam · {len(exam_questions)} questions")
+                if not exam["submitted"]:
+                    for number, item in enumerate(exam_questions, start=1):
+                        st.markdown(f"**Question {number}**")
+                        st.write(item.stem)
+                        chosen = st.radio(
+                            f"Answer {number}",
+                            item.options,
+                            format_func=lambda option: f"{option.id.upper()}. {option.text}",
+                            key=f"qb-exam-{exam['run_id']}-{item.id}",
+                            index=None,
+                        )
+                        if chosen:
+                            exam["answers"][item.id] = chosen.id
+                    st.session_state["qb-exam"] = exam
+                    if st.button("Submit mock exam", type="primary", use_container_width=True):
+                        for item in exam_questions:
+                            selected_id = exam["answers"].get(item.id)
+                            if selected_id:
+                                record_question_attempt(
+                                    item.id,
+                                    selected_id,
+                                    selected_id == item.correct_option_id,
+                                    learner_id=learner_id,
+                                    session_id=exam["run_id"],
+                                )
+                        exam["submitted"] = True
+                        st.session_state["qb-exam"] = exam
+                        st.rerun()
+                else:
+                    correct_total = sum(
+                        exam["answers"].get(item.id) == item.correct_option_id
+                        for item in exam_questions
+                    )
+                    answered_total = len(exam["answers"])
+                    percentage = round(100 * correct_total / len(exam_questions)) if exam_questions else 0
+                    st.metric("Mock exam result", f"{correct_total}/{len(exam_questions)} · {percentage}%")
+                    st.caption(f"{answered_total} of {len(exam_questions)} questions answered")
+                    for number, item in enumerate(exam_questions, start=1):
+                        selected_id = exam["answers"].get(item.id)
+                        correct = selected_id == item.correct_option_id
+                        st.markdown(f"**{number}. {'Correct' if correct else 'Review this answer'}**")
+                        st.write(item.stem)
+                        if selected_id:
+                            selected_text = next(option.text for option in item.options if option.id == selected_id)
+                            st.write(f"Your answer: {selected_text}")
+                        else:
+                            st.write("Your answer: Not answered")
+                        correct_option = next(
+                            option for option in item.options if option.id == item.correct_option_id
+                        )
+                        st.write(f"Correct answer: {correct_option.text}")
+                        st.caption(item.explanation)
+                        if item.source_url:
+                            st.markdown(f"[{item.source_title or 'Source'}]({item.source_url})")
+                        if item.review_status == "draft":
+                            st.caption("Editorial draft — clinical review required.")
+                        st.divider()
+                    if st.button("Close exam review", key="qb-close-exam"):
+                        st.session_state.pop("qb-exam", None)
+                        st.rerun()
     else:
-        st.info("No questions match the selected filters.")
+        st.info("No questions match the selected filters. Try broadening your search.")
 
     st.divider()
     st.markdown("#### Recent question attempts")
