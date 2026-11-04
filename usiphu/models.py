@@ -97,6 +97,11 @@ class MCQ(BaseModel):
         "mixed", "insufficient_evidence", "contradicted"
     ] = "not_checked"
     human_signoff_status: Literal["pending", "approved", "rejected"] = "pending"
+    clinical_reviewed_by: str | None = None
+    clinical_reviewed_at: str | None = None
+    exam_validated_by: str | None = None
+    exam_validated_at: str | None = None
+    faculty_review_comments: list[str | None] = Field(default_factory=list)
     evidence_sources: list[EvidenceSource] = Field(default_factory=list)
     editorial_notes: list[str] = Field(default_factory=list)
 
