@@ -19,3 +19,22 @@ def load_questions(path: Path = DATA_DIR / "questions.json") -> list[MCQ]:
 def load_cases(path: Path = DATA_DIR / "cases.json") -> list[ClinicalCase]:
     with path.open(encoding="utf-8") as stream:
         return [ClinicalCase.model_validate(item) for item in json.load(stream)]
+
+
+def filter_questions(
+    questions: list[MCQ],
+    specialty_id: str | None = None,
+    topic_id: str | None = None,
+    difficulty: str | None = None,
+    review_status: str | None = None,
+    question_type: str | None = None,
+) -> list[MCQ]:
+    """Return a deterministic filtered view of the authored bank."""
+    return [
+        question for question in questions
+        if (not specialty_id or question.specialty_id == specialty_id)
+        and (not topic_id or question.topic_id == topic_id)
+        and (not difficulty or question.difficulty == difficulty)
+        and (not review_status or question.review_status == review_status)
+        and (not question_type or question.question_type == question_type)
+    ]
