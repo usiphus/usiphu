@@ -181,3 +181,15 @@ def test_validator_rejects_untraceable_claim_and_duplicate_mcq_options():
     assert not result["valid"]
     assert any("outside the retrieved packet" in error for error in result["errors"])
     assert any("distinct text" in error for error in result["errors"])
+
+
+def test_new_medical_topics_are_explicitly_unmapped_in_generation_briefs():
+    briefs = build_generation_briefs(
+        specialty_id="anatomy", topic_id="upper-limb-anatomy", exam_format="mcq"
+    )
+    assert briefs
+    brief = briefs[0]
+    assert brief["course_outcome_mapping_status"] == "not_mapped_no_verified_course_outcome"
+    assert brief["objective_mapping_status"] == "not_mapped_no_verified_course_outcome"
+    assert brief["official_suez_outcomes"] == []
+    assert brief["external_benchmark_outcomes"] == []
