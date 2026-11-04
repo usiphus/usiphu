@@ -46,6 +46,10 @@ def validate_content() -> dict[str, int | float | str | None]:
 
     questions = load_questions()
     cases = load_cases()
+    bank_manifest_path = __import__("pathlib").Path(__file__).resolve().parents[1] / "data" / "question_bank_manifest.json"
+    bank_manifest = json.loads(bank_manifest_path.read_text(encoding="utf-8"))
+    if bank_manifest["current_content"]["question_count"] != len(questions):
+        raise ValueError("Question bank manifest count does not match loaded question content")
     for item in [*questions, *cases]:
         if (item.specialty_id, item.topic_id) not in topic_pairs:
             raise ValueError(f"Practice item {item.id} points to an unknown specialty/topic")
@@ -65,6 +69,7 @@ def validate_content() -> dict[str, int | float | str | None]:
         **coverage_integrity,
         **transcription_integrity,
         "questions": len(questions),
+        "question_banks": len({item.bank_id for item in questions}),
         "cases": len(cases),
         "draft_questions": sum(item.review_status == "draft" for item in questions),
         "draft_cases": sum(item.review_status == "draft" for item in cases),
