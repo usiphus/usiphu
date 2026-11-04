@@ -64,6 +64,9 @@ def migrate(source: Path, destination: Path, dry_run: bool = False) -> tuple[int
             temporary.unlink(missing_ok=True)
         copied += 1
 
+    if dry_run:
+        return copied, skipped
+
     # Recheck both inventories after copying. The original directory is never deleted.
     final_files = inventory(destination)
     if set(final_files) != set(source_files):
