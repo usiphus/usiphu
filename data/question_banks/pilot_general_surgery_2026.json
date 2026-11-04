@@ -49,13 +49,13 @@
       "evidence_review_status": "supported_with_editorial_revision",
       "evidence_sources": [
         {
-          "source_id": "NCBI-PALPABLE-BREAST",
-          "title": "New Palpable Breast Mass",
-          "url": "https://www.ncbi.nlm.nih.gov/books/NBK560757/",
-          "publisher": "NCBI Bookshelf / StatPearls",
-          "source_type": "reference",
+          "source_id": "PMC-BREAST-SKIN-TETHERING",
+          "title": "The Pushing Sign for Early Skin Tethering in Breast Cancer",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8682950/",
+          "publisher": "Journal of Breast Cancer / PubMed Central",
+          "source_type": "open_access_review",
           "accessed_at": "2026-11-04",
-          "supports": "Describes inspection for tethering to underlying structures and the need for structured clinical assessment; fixed masses are concerning."
+          "supports": "Describes skin tethering as a recognized clinical manifestation of breast cancer and distinguishes tethering from dimpling and direct skin fixation."
         }
       ],
       "editorial_notes": [
@@ -67,8 +67,8 @@
       "human_signoff_status": "pending",
       "reviewed_by": null,
       "reviewed_at": null,
-      "source_url": "https://www.ncbi.nlm.nih.gov/books/NBK560757/",
-      "source_title": "New Palpable Breast Mass",
+      "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8682950/",
+      "source_title": "The Pushing Sign for Early Skin Tethering in Breast Cancer",
       "source_date": null,
       "jurisdiction": "International evidence; local faculty review required"
     },
