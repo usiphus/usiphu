@@ -17,9 +17,9 @@ if errorlevel 1 (
     exit /b 1
 )
 
-py -3.11 --version >nul 2>nul
+py -3 -c "import sys; raise SystemExit(sys.version_info < (3, 11))" >nul 2>nul
 if errorlevel 1 (
-    echo ERROR: Python 3.11 was not found.
+    echo ERROR: Python 3.11 or newer was not found.
     echo Install Python 3.11 or newer, then run this setup again.
     pause
     exit /b 1
@@ -27,7 +27,7 @@ if errorlevel 1 (
 
 if not exist ".venv\Scripts\python.exe" (
     echo Creating the local Python environment...
-    py -3.11 -m venv .venv
+    py -3 -m venv .venv
     if errorlevel 1 goto :failed
 )
 
