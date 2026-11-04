@@ -59,7 +59,7 @@
     "primary_file": "data/questions.json",
     "question_count": 20,
     "status": "starter_plus_evidence_checked_draft_pilot",
-    "note": "Three starter questions plus 17 evidence-checked pilot MCQs (9 Urology, 8 General Surgery). All remain draft and are excluded from scored accuracy until qualified human clinical/faculty sign-off. The pilot source PDFs were checked through their selectable text layer; visual page verification remains pending.",
+    "note": "Three starter questions plus 17 evidence-checked pilot MCQs (9 Urology, 8 General Surgery). All remain draft and are excluded from scored accuracy until qualified human clinical/faculty sign-off. All selected source pages were visually checked against rendered PDFs; source annotations are not treated as proof of answer correctness.",
     "installed_banks": [
       {
         "bank_id": "starter-medical-bank",
@@ -86,8 +86,9 @@
   "pilot_governance": {
     "answer_basis": "Open-access clinical guidelines, government health information and open-access medical literature, cited per question.",
     "human_signoff_required": true,
-    "visual_source_page_check_required": true,
+    "visual_source_page_check_required": false,
     "ai_or_editorial_review_is_clinical_approval": false,
-    "scored_practice_allowed": false
+    "scored_practice_allowed": false,
+    "visual_source_page_check_completed": true
   }
 }
