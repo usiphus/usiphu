@@ -1,0 +1,65 @@
+name: Local persistence and recovery smoke test
+
+on:
+  push:
+    branches: ["feat/medical-curriculum-specialty-generator"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: local-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  local-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev]"
+      - name: Prepare isolated local data folders
+        run: mkdir -p "$RUNNER_TEMP/usiphu-smoke/source" "$RUNNER_TEMP/usiphu-smoke/backups"
+      - name: Seed local Source Inbox and learner database
+        env:
+          USIPHU_DB_PATH: ${{ runner.temp }}/usiphu-smoke/usiphu.sqlite3
+          USIPHU_SOURCE_DIR: ${{ runner.temp }}/usiphu-smoke/source
+        run: python scripts/local_smoke.py seed
+      - name: Verify persistence in a fresh Python process
+        env:
+          USIPHU_DB_PATH: ${{ runner.temp }}/usiphu-smoke/usiphu.sqlite3
+          USIPHU_SOURCE_DIR: ${{ runner.temp }}/usiphu-smoke/source
+        run: python scripts/local_smoke.py verify
+      - name: Create paired local backup
+        env:
+          USIPHU_DB_PATH: ${{ runner.temp }}/usiphu-smoke/usiphu.sqlite3
+          USIPHU_SOURCE_DIR: ${{ runner.temp }}/usiphu-smoke/source
+          USIPHU_BACKUP_DIR: ${{ runner.temp }}/usiphu-smoke/backups
+        run: python scripts/backup_sqlite.py
+      - name: Restore into a separate local folder
+        env:
+          BACKUP_DIR: ${{ runner.temp }}/usiphu-smoke/backups
+          RESTORE_DIR: ${{ runner.temp }}/usiphu-smoke/restored
+        run: |
+          mkdir -p "$RESTORE_DIR/source"
+          DB_BACKUP=$(find "$BACKUP_DIR" -maxdepth 1 -name 'usiphu-*.sqlite3' -print -quit)
+          SOURCE_ARCHIVE=$(find "$BACKUP_DIR" -maxdepth 1 -name 'usiphu-sources-*.tar.gz' -print -quit)
+          CHECKSUM="$SOURCE_ARCHIVE.sha256"
+          test -n "$DB_BACKUP" && test -f "$SOURCE_ARCHIVE" && test -f "$CHECKSUM"
+          python scripts/restore_backup.py \
+            --database-backup "$DB_BACKUP" \
+            --source-archive "$SOURCE_ARCHIVE" \
+            --checksum "$CHECKSUM" \
+            --database-target "$RESTORE_DIR/usiphu.sqlite3" \
+            --source-target "$RESTORE_DIR/source"
+      - name: Verify restored paper, extraction and learner activity
+        env:
+          USIPHU_DB_PATH: ${{ runner.temp }}/usiphu-smoke/restored/usiphu.sqlite3
+          USIPHU_SOURCE_DIR: ${{ runner.temp }}/usiphu-smoke/restored/source
+        run: python scripts/local_smoke.py verify
