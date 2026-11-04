@@ -6,5 +6,6 @@ __pycache__/
 venv/
 .env
 *.sqlite3
+data/source_inbox/
 .streamlit/secrets.toml
 .DS_Store
