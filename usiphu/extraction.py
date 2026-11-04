@@ -11,12 +11,12 @@ from pypdf import PdfReader
 
 from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
 
-QUESTION_START = re.compile(r"^\\s*(\\d{1,3})[).]\\s+\\S", re.M)
-OPTION_LINE = re.compile(r"^\\s*([A-E])[.)]\\s*(.+?)\\s*$", re.M)
+QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
+OPTION_LINE = re.compile(r"^\s*([A-E])[.)]\s*(.+?)\s*$", re.M)
 QUESTION_CUE = re.compile(
-    r"\\?|\\b(which|what|when|where|why|how|name|mention|define|describe|"
+    r"\?|\b(which|what|when|where|why|how|name|mention|define|describe|"
     r"classify|enumerate|discuss|outline|state|list|diagnos|management|"
-    r"investigation|treatment|complication|cause|most common|next step)\\b",
+    r"investigation|treatment|complication|cause|most common|next step)\b",
     re.I,
 )
 FOOTER = re.compile(r"Back to index|Model Answer|Collage TBL|Manual - MEQ Book", re.I)
@@ -36,7 +36,7 @@ def _document_pages(filename: str, content: bytes) -> list[str]:
         paragraphs = []
         for paragraph in root.findall(".//w:p", ns):
             paragraphs.append("".join(node.text or "" for node in paragraph.findall(".//w:t", ns)))
-        return ["\\n".join(paragraphs)]
+        return ["\n".join(paragraphs)]
     raise ValueError("Automatic text extraction supports PDF, DOCX and TXT. This file needs manual extraction or OCR.")
 
 
@@ -46,7 +46,7 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
     meq_pages = []
     meq_page_numbers = set()
     for page_number, page_text in enumerate(pages, start=1):
-        if re.search(r"\\bMEQ\\s*\\d*|modified essay question", page_text, re.I):
+        if re.search(r"\bMEQ\s*\d*|modified essay question", page_text, re.I):
             meq_page_numbers.add(page_number)
             cleaned = [line.rstrip() for line in page_text.splitlines()
                        if line.strip() and not FOOTER.search(line)]
@@ -56,7 +56,7 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
                     "source_page": page_number,
                     "source_page_end": page_number,
                     "question_type": "modified_essay_question",
-                    "raw_text": "\\n".join(cleaned).strip(),
+                    "raw_text": "\n".join(cleaned).strip(),
                     "extraction_status": "transcribed_needs_human_review",
                     "answer_status": "not_extracted_or_verified",
                 })
@@ -72,7 +72,7 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
         if block[0][0] in meq_page_numbers:
             continue
         raw_lines = [line for _, line in block if line.strip() and not FOOTER.search(line)]
-        raw_text = "\\n".join(raw_lines).strip()
+        raw_text = "\n".join(raw_lines).strip()
         if not raw_text:
             continue
         # Do not treat MEQ sub-questions as MCQs unless they contain actual option lines.
@@ -81,7 +81,7 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
             for match in OPTION_LINE.finditer(raw_text)
         ]
         first_line = raw_lines[0].strip()
-        number_match = re.match(r"^(\\d{1,3})[).]", first_line)
+        number_match = re.match(r"^(\d{1,3})[).]", first_line)
         if not number_match:
             continue
         if len(options) < 2 and not QUESTION_CUE.search(raw_text):
@@ -149,7 +149,7 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
     extraction_dir.mkdir(parents=True, exist_ok=True)
     extraction_path = extraction_dir / f"{source_id}.json"
     temporary = extraction_path.with_suffix(".json.tmp")
-    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(extraction_path)
     question_count = payload["summary"]["question_candidates"] + payload["summary"]["meq_page_candidates"]
     _update_source(source_dir, source_id, {
@@ -170,7 +170,7 @@ def _update_source(source_dir: Path, source_id: str, updates: dict) -> None:
             record.update(updates)
             break
     temporary = source_dir / ".sources.json.tmp"
-    temporary.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+    temporary.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     temporary.replace(manifest)
 
 
