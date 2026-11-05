@@ -247,7 +247,7 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
     monkeypatch.setattr(source_inbox, "get_object_storage", lambda _root: fake)
     record = source_inbox.save_source(
         "faculty-paper.txt",
-        b"1) What is the diagnosis?\n",
+        b"1) What is the diagnosis?\nA) Option one\nB) Option two\n",
         specialty="Urology",
         uploaded_by="https://auth.example/:faculty-clinical",
     )
