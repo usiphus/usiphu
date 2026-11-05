@@ -93,6 +93,8 @@ python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir 
 
 The apply path creates a local pre-import SQLite/Source Inbox/bank/report archive and verifies its SHA-256 before writing. It preserves source IDs and provenance, verifies local source checksums, refuses conflicting remote source IDs/checksums and refuses to overwrite a different remote bank/report document. It is resumable for records already imported and leaves original local data untouched. Store the backup on an encrypted, access-restricted disk and copy an encrypted backup off-provider; the utility local archive is not itself encrypted.
 
+Important: this utility imports Source Inbox objects, promoted JSON banks and the latest pilot report only. It does **not** migrate the SQLite learner/faculty tables. If any real learner progress, attempts, flashcards, generated drafts, reviewer roles or audit events exist, a separately reviewed SQLite-to-PostgreSQL data migration and reconciliation must be completed before switching that deployment. The repository may contain more than one SQLite file; identify the authoritative `USIPHU_DB_PATH` before any migration and pass it explicitly with `--database`.
+
 Run the utility first against a disposable Supabase project using synthetic files. Inspect the remote object inventory and PostgreSQL metadata after import. Do not use --apply against a live dataset until the restore procedure has been rehearsed.
 
 ### 4. Auth0 and Streamlit configuration
