@@ -141,7 +141,11 @@ class SupabaseObjectStorage:
             raise ObjectStorageError("Supabase did not return a signed download URL.")
         if signed_path.startswith("https://"):
             return signed_path
-        return f"{self.project_url}{signed_path if signed_path.startswith('/') else '/' + signed_path}"
+        if signed_path.startswith("/storage/v1/"):
+            return f"{self.project_url}{signed_path}"
+        if signed_path.startswith("/"):
+            return f"{self.project_url}/storage/v1{signed_path}"
+        return f"{self.project_url}/storage/v1/{signed_path}"
 
 
 def get_object_storage(root: Path) -> LocalObjectStorage | SupabaseObjectStorage:
