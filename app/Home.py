@@ -64,7 +64,11 @@ from usiphu.faculty_review import (
 )
 from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
-from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
+from usiphu.pilot_validation import (
+    build_pilot_validation_report,
+    record_ai_review,
+    save_pilot_validation_report,
+)
 from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
@@ -839,6 +843,8 @@ elif page == "Pilot Dashboard":
         file_name="usiphu-pilot-validation-report.json",
         mime="application/json",
         type="secondary",
+        on_click=save_pilot_validation_report,
+        args=(report,),
     )
 
 elif page == "Faculty Review":
