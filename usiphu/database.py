@@ -96,7 +96,7 @@ class PostgresConnection:
             if statement.strip():
                 self.execute(statement)
 
-    def __enter__(self) -> "PostgresConnection":
+    def __enter__(self) -> PostgresConnection:
         self._connection.__enter__()
         return self
 
