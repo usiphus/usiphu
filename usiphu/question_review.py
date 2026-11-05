@@ -9,7 +9,7 @@ from pydantic import ValidationError
 from usiphu.curriculum import load_curriculum
 from usiphu.models import MCQ
 from usiphu.practice import DATA_DIR
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.source_inbox import (\n    DEFAULT_SOURCE_DIR,\n    list_extractions,\n    list_sources,\n    load_extraction,\n    write_extraction,\n)
 
 QUESTION_BANK_PATH = DATA_DIR / "question_banks" / "past_papers_reviewed.json"
 
@@ -23,21 +23,14 @@ def _atomic_json(path: Path, payload: dict) -> None:
 
 def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
     """Return MCQ candidates from every source extraction, newest source first."""
-    records = list_sources(source_dir)
-    sources = {item["source_id"]: item for item in records}
     curriculum = load_curriculum()
     specialty_lookup = {
         specialty.title.casefold(): specialty.id for specialty in curriculum.specialties
     }
     specialty_lookup.update({specialty.id.casefold(): specialty.id for specialty in curriculum.specialties})
     candidates = []
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.exists():
-        return []
-    for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        source_id = payload.get("source_id") or path.stem
-        source = sources.get(source_id, {})
+    for source, payload in list_extractions(source_dir):
+        source_id = payload.get("source_id") or source.get("source_id", "")
         for item in payload.get("mcq_candidates", []):
             candidates.append({
                 **item,
@@ -48,7 +41,7 @@ def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
                 "specialty_id": item.get("specialty_id") or specialty_lookup.get(
                     str(source.get("specialty", "")).casefold()
                 ),
-                "extraction_path": str(path),
+                "extraction_path": source.get("extraction_file") or f"extractions/{source_id}.json",
                 "review_state": item.get("review_state", "pending"),
             })
     return candidates
@@ -89,8 +82,9 @@ def save_candidate_review(
     if answer_verified and not correct_option_id:
         raise ValueError("Select an answer key before marking it as independently verified.")
 
-    path = Path(candidate["extraction_path"])
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = load_extraction(candidate["source_id"], source_dir)
+    if payload is None:
+        raise FileNotFoundError("The stored extraction is missing.")
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
             # Keep the first machine extraction immutable as an audit baseline.
@@ -143,7 +137,7 @@ def save_candidate_review(
                 "reviewed_at": datetime.now(UTC).isoformat(),
             })
             break
-    _atomic_json(path, payload)
+    write_extraction(candidate["source_id"], payload, source_dir)
     return get_review_candidate(candidate_id, source_dir) or {}
 
 
@@ -212,13 +206,14 @@ def approve_candidate(
     bank.setdefault("questions", []).append(validated.model_dump())
     _atomic_json(bank_path, bank)
 
-    extraction_path = Path(candidate["extraction_path"])
-    payload = json.loads(extraction_path.read_text(encoding="utf-8"))
+    payload = load_extraction(candidate["source_id"], source_dir)
+    if payload is None:
+        raise FileNotFoundError("The stored extraction is missing.")
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
             item["review_state"] = "approved"
             item["approved_question_id"] = validated.id
             item["approved_at"] = datetime.now(UTC).isoformat()
             break
-    _atomic_json(extraction_path, payload)
+    write_extraction(candidate["source_id"], payload, source_dir)
     return validated.model_dump()
