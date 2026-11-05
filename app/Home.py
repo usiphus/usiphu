@@ -6,6 +6,25 @@ from datetime import UTC, datetime
 
 import streamlit as st
 
+# Streamlit Community Cloud exposes deployment configuration through st.secrets,
+# while the existing modules read their settings from environment variables.
+# Bridge only the non-OIDC application settings before importing those modules.
+for _setting in (
+    "USIPHU_AUTH_REQUIRED",
+    "USIPHU_DB_PATH",
+    "USIPHU_SOURCE_DIR",
+    "USIPHU_BACKUP_DIR",
+    "USIPHU_ADMIN_SUBJECTS",
+    "USIPHU_CLINICAL_REVIEWER_SUBJECTS",
+    "USIPHU_EXAM_REVIEWER_SUBJECTS",
+):
+    try:
+        _secret_value = st.secrets.get(_setting)
+    except (AttributeError, FileNotFoundError):
+        _secret_value = None
+    if _secret_value is not None:
+        os.environ.setdefault(_setting, str(_secret_value))
+
 from usiphu.ai_answer_grader import AnswerGradingError, grade_assessment_answers
 from usiphu.ai_provider import (
     GenerationNotConfigured,
