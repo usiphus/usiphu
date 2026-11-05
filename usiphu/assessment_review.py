@@ -5,6 +5,9 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from usiphu.practice import DATA_DIR
+from usiphu.database import is_postgres
+from usiphu.extraction import load_extraction, save_extraction
+from usiphu.storage import DEFAULT_DB, connect, initialize
 from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
 
 ASSESSMENT_BANK_PATH = DATA_DIR / "question_banks" / "reviewed_assessments.json"
@@ -20,12 +23,23 @@ def _atomic_json(path: Path, payload: dict) -> None:
 def list_non_mcq_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
     """Return extracted short-answer candidates and page-level MEQ candidates."""
     extraction_dir = source_dir / "extractions"
-    if not extraction_dir.exists():
+    if not is_postgres() and not extraction_dir.exists():
         return []
-    sources = {item["source_id"]: item for item in list_sources(source_dir)}
+    source_records = list_sources(source_dir)
+    sources = {item["source_id"]: item for item in source_records}
     results = []
-    for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
-        payload = json.loads(path.read_text(encoding="utf-8"))
+    extraction_rows = (
+        [(source["source_id"], load_extraction(source["source_id"], source_dir))
+         for source in source_records]
+        if is_postgres()
+        else [(path.stem, json.loads(path.read_text(encoding="utf-8")))
+              for path in sorted(extraction_dir.glob("*.json"),
+                                 key=lambda item: item.stat().st_mtime, reverse=True)]
+    )
+    for extraction_id, payload in extraction_rows:
+        if not payload:
+            continue
+        path = extraction_dir / f"{extraction_id}.json"
         source = sources.get(payload.get("source_id"), {})
         for collection, kind in (
             ("mcq_candidates", "short_answer"),
@@ -115,8 +129,9 @@ def save_non_mcq_review(
         if approve:
             raise ValueError("Confirm that the marking rubric has been independently checked before approval.")
 
-    path = Path(candidate["extraction_path"])
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = load_extraction(candidate["source_id"], source_dir)
+    if payload is None:
+        raise FileNotFoundError("The source extraction is no longer available.")
     collection = "meq_page_candidates" if assessment_type == "meq" else "mcq_candidates"
     updated = False
     for item in payload.get(collection, []):
@@ -149,7 +164,7 @@ def save_non_mcq_review(
             break
     if not updated:
         raise KeyError(f"Could not update candidate: {candidate_id}")
-    _atomic_json(path, payload)
+    save_extraction(candidate["source_id"], payload, source_dir)
 
     assessment = {
         "id": re.sub(r"[^a-zA-Z0-9_-]", "-", f"assess-{candidate_id}"),
@@ -172,26 +187,44 @@ def save_non_mcq_review(
     if approve:
         if not rubric_verified:
             raise ValueError("A verified rubric is required before approval.")
-        bank = json.loads(bank_path.read_text(encoding="utf-8")) if bank_path.exists() else {
-            "bank_id": "reviewed-short-answer-meq",
-            "title": "Reviewed Short Answer and MEQ Assessments",
-            "assessments": [],
-        }
-        if any(item.get("candidate_id") == candidate_id for item in bank.get("assessments", [])):
-            raise ValueError("This assessment has already been promoted.")
-        bank.setdefault("assessments", []).append(assessment)
-        _atomic_json(bank_path, bank)
+        if is_postgres():
+            initialize(DEFAULT_DB)
+            with connect(DEFAULT_DB) as db:
+                inserted = db.execute(
+                    """INSERT INTO approved_assessment_bank(assessment_id,payload_json)
+                       VALUES(?,?) ON CONFLICT(assessment_id) DO NOTHING RETURNING assessment_id""",
+                    (assessment["id"], json.dumps(assessment, ensure_ascii=False)),
+                ).fetchone()
+            if not inserted:
+                raise ValueError("This assessment has already been promoted.")
+        else:
+            bank = json.loads(bank_path.read_text(encoding="utf-8")) if bank_path.exists() else {
+                "bank_id": "reviewed-short-answer-meq",
+                "title": "Reviewed Short Answer and MEQ Assessments",
+                "assessments": [],
+            }
+            if any(item.get("candidate_id") == candidate_id for item in bank.get("assessments", [])):
+                raise ValueError("This assessment has already been promoted.")
+            bank.setdefault("assessments", []).append(assessment)
+            _atomic_json(bank_path, bank)
         for item in payload.get(collection, []):
             if item.get("candidate_id") == candidate_id:
                 item["review_state"] = "approved"
                 item["approved_assessment_id"] = assessment["id"]
                 item["approved_at"] = datetime.now(UTC).isoformat()
                 break
-        _atomic_json(path, payload)
+        save_extraction(candidate["source_id"], payload, source_dir)
     return assessment
 
 
 def load_assessments(path: Path = ASSESSMENT_BANK_PATH) -> list[dict]:
+    if is_postgres():
+        initialize(DEFAULT_DB)
+        with connect(DEFAULT_DB) as db:
+            rows = db.execute(
+                "SELECT payload_json FROM approved_assessment_bank ORDER BY created_at, assessment_id"
+            ).fetchall()
+        return [json.loads(row["payload_json"]) for row in rows]
     if not path.is_file():
         return []
     payload = json.loads(path.read_text(encoding="utf-8"))
