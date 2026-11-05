@@ -1,4 +1,4 @@
--- Durable JSON banks and report snapshots; objects are stored in a private bucket.
+-- Durable JSON banks and report snapshots stored in a private bucket.
 CREATE TABLE IF NOT EXISTS app_documents (
   document_key TEXT PRIMARY KEY,
   object_key TEXT NOT NULL UNIQUE,
