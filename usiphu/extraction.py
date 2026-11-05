@@ -1,6 +1,5 @@
 """Extract question candidates from uploaded source documents without inventing answers."""
 import io
-import json
 import re
 import zipfile
 from datetime import UTC, datetime
@@ -11,7 +10,7 @@ from pypdf import PdfReader
 
 from usiphu.source_inbox import (
     DEFAULT_SOURCE_DIR,
-    _update_source,
+    _update_source as update_source_record,
     list_sources,
     load_extraction as load_stored_extraction,
     read_source_bytes,
@@ -164,12 +163,6 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
         "extraction_error": None,
     })
     return payload
-
-
-def _update_source(source_dir: Path, source_id: str, updates: dict) -> None:
-    from usiphu.source_inbox import _update_source as update_source_record
-
-    update_source_record(source_dir, source_id, updates)
 
 
 def load_extraction(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict | None:
