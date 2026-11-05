@@ -1,8 +1,9 @@
 import io
 import tarfile
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 from scripts.restore_supabase import safe_extract_archive
 
