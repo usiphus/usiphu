@@ -111,7 +111,10 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
         )
         objects_dir = temp / "objects"
         for item in manifest.get("objects", []):
-            source = objects_dir / item["key"]
+            object_key = Path(item["key"])
+            if object_key.is_absolute() or ".." in object_key.parts:
+                raise ValueError("Backup manifest contains an unsafe Storage object key.")
+            source = objects_dir / object_key
             content = source.read_bytes()
             if len(content) != item["size"] or hashlib.sha256(content).hexdigest() != item["sha256"]:
                 raise ValueError(f"Backup object checksum failed: {item['key']}")
