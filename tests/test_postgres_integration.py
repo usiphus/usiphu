@@ -310,10 +310,10 @@ def test_postgres_durable_json_documents_use_private_object_storage(monkeypatch,
             "SELECT object_key, content_sha256 FROM app_documents WHERE document_key = %s",
             ("question-banks/test.json",),
         ).fetchone()
-    assert row["object_key"] in fake.objects
-    assert len(row["content_sha256"]) == 64
+    assert row[0] in fake.objects
+    assert len(row[1]) == 64
 
-    fake.objects[row["object_key"]] = b'{"bank_id":"tampered"}'
+    fake.objects[row[0]] = b'{"bank_id":"tampered"}'
     with pytest.raises(RuntimeError, match="checksum mismatch"):
         durable_documents.load_json_document("question-banks/test.json", path)
 
