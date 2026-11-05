@@ -49,5 +49,5 @@ def test_pg_service_file_is_private_and_does_not_require_credentials_in_argument
     content = path.read_text(encoding="utf-8")
     assert "[usiphu_backup]" in content
     assert "host=db.example.supabase.co" in content
-    assert "password=very-secret" in content
+    assert 'password="very-secret"' in content
     assert "sslmode=require" in content
