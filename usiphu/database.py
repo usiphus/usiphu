@@ -61,7 +61,7 @@ class PostgresConnection:
     def __init__(self, connection: Any):
         self._connection = connection
 
-    def __enter__(self) -> "PostgresConnection":
+    def __enter__(self) -> PostgresConnection:
         return self
 
     def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> None:
