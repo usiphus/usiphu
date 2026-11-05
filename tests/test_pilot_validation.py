@@ -143,8 +143,8 @@ def test_empty_inbox_returns_zeroed_report(tmp_path):
 def test_save_pilot_validation_report_keeps_latest_and_archive(tmp_path):
     report = {"generated_at": "2026-11-05T12:00:00+00:00", "totals": {"mcq_candidates": 3}}
     keys = save_pilot_validation_report(report, source_dir=tmp_path)
-    latest = tmp_path / "reports" / "pilot-validation-latest.json"
-    archive = tmp_path / "reports" / "pilot-validation-2026-11-05T12-00-00-00-00.json"
+    latest = tmp_path / "reports" / "pilot-validation" / "latest.json"
+    archive = tmp_path / "reports" / "pilot-validation" / "2026-11-05T12-00-00-00-00.json"
     assert latest.is_file()
     assert archive.is_file()
     assert json.loads(latest.read_text(encoding="utf-8")) == report
