@@ -64,7 +64,11 @@ from usiphu.faculty_review import (
 )
 from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
-from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
+from usiphu.pilot_validation import (
+    build_pilot_validation_report,
+    record_ai_review,
+    save_pilot_validation_report,
+)
 from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
@@ -840,6 +844,15 @@ elif page == "Pilot Dashboard":
         mime="application/json",
         type="secondary",
     )
+
+    if reviewer_access and st.button("Save report to durable storage", type="secondary"):
+        try:
+            saved_keys = save_pilot_validation_report(report)
+            st.success("Pilot report saved: " + saved_keys["latest"])
+        except Exception as save_error:
+            st.error("The pilot report could not be saved: " + str(save_error))
+    elif not reviewer_access:
+        st.caption("Faculty reviewer access is required to save shared pilot reports.")
 
 elif page == "Faculty Review":
     st.subheader("Generated and extracted assessment review")
