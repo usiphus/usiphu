@@ -307,7 +307,7 @@ def test_postgres_durable_json_documents_use_private_object_storage(monkeypatch,
 
     with psycopg.connect(DATABASE_URL, sslmode=os.getenv("USIPHU_DATABASE_SSLMODE", "disable")) as conn:
         row = conn.execute(
-            "SELECT object_key, content_sha256 FROM app_documents WHERE document_key = ?",
+            "SELECT object_key, content_sha256 FROM app_documents WHERE document_key = %s",
             ("question-banks/test.json",),
         ).fetchone()
     assert row["object_key"] in fake.objects
