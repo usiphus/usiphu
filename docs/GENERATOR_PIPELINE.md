@@ -112,6 +112,22 @@ Important boundaries:
 - Topics with partial or module-only mappings retain those statuses.
 - The supplied ILO extraction is grouped and non-exhaustive. Generated cards must not imply the catalog is a complete transcription of the official course files.
 
+## Faculty roles and two-stage approval
+
+The first faculty sign-off implementation currently covers the two curated pilot MCQ banks (urology and general surgery). It does not yet route generated OSCE/viva/EMQ cards or all newly extracted source candidates through this queue; those formats remain editorial drafts until their review adapters are implemented.
+
+Enable OIDC before using faculty sign-off:
+
+- Set `USIPHU_AUTH_REQUIRED=true`.
+- Set `USIPHU_ADMIN_SUBJECTS` to a comma-separated list of issuer-qualified Auth0 identities (`issuer:subject`) for bootstrap administrators. Keep this configuration in deployment secrets, not source control.
+- Administrators use **Faculty Review → Reviewer access management** to grant or revoke `clinical_reviewer` and `exam_reviewer` roles for authenticated identities.
+- Optionally bootstrap reviewers through `USIPHU_CLINICAL_REVIEWER_SUBJECTS` and `USIPHU_EXAM_REVIEWER_SUBJECTS`. These environment-managed assignments cannot be revoked in the UI; remove them from the environment and restart the app.
+- The legacy `USIPHU_REVIEWER_SUBJECTS` setting is no longer sufficient and should be replaced by stage-specific roles.
+
+Authorization is checked in the faculty-review service as well as the Streamlit UI. Clinical approval requires the clinical reviewer role; examination validation requires the exam reviewer role, follows clinical approval, and must be performed by a different authenticated identity. The administrator role is bootstrapped from deployment configuration and cannot be granted through the reviewer-management screen. Role grants/revocations and question decisions are recorded in SQLite audit tables.
+
+The question workflow retains the two separate approval gates. Editing approved content invalidates both approvals; the clinical reviewer must approve the new version before a second reviewer can validate it for examination use. Only the exact exam-validated snapshot is eligible for trusted scoring. A typed display name is audit metadata, not the source of authorization; the issuer-qualified OIDC subject is the reviewer identity.
+
 ## Review and safety
 
 All generated content is stored as `draft`. The automated validator requires claim-level source IDs from the retrieved evidence packet, checks permitted curriculum references, format-specific structure (including OSCE tasks/marking criteria, viva question sets and EMQ option/stem keys), MCQ option/answer-key consistency, distinct options and duplicate prompts. Every result includes a human review packet assembled from `data/clinical_exam_review_rubric.json` and the specialty safety checks. The packet is stored inside the generated draft payload and displayed in the Generator and saved-drafts views. It does **not** establish clinical truth, guideline currency, safe prescribing, distractor quality, or exam validity.

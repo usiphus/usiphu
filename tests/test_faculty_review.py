@@ -11,6 +11,9 @@ from usiphu.faculty_review import (
     list_pilot_questions,
     record_faculty_decision,
     review_history,
+    reviewer_roles,
+    role_assignment_history,
+    set_reviewer_role,
 )
 
 CLINICAL_CHECKS = {
@@ -29,12 +32,23 @@ EXAM_CHECKS = {
 
 
 @pytest.fixture
-def review_workspace(tmp_path):
+def review_workspace(tmp_path, monkeypatch):
     bank_dir = tmp_path / "banks"
     bank_dir.mkdir()
+    monkeypatch.setenv("USIPHU_ADMIN_SUBJECTS", "test-admin")
     source = DATA_DIR / "question_banks" / "pilot_urology_2026.json"
     shutil.copy(source, bank_dir / source.name)
-    return tmp_path / "faculty.sqlite3", bank_dir, "uro-pilot-0001"
+    db_path = tmp_path / "faculty.sqlite3"
+    for subject, role in [
+        ("clinician-1", "clinical_reviewer"),
+        ("clinician-2", "clinical_reviewer"),
+        ("examiner-1", "exam_reviewer"),
+        ("examiner-2", "exam_reviewer"),
+        ("dual-1", "clinical_reviewer"),
+        ("dual-1", "exam_reviewer"),
+    ]:
+        set_reviewer_role("test-admin", subject, role, enabled=True, path=db_path)
+    return db_path, bank_dir, "uro-pilot-0001"
 
 
 def approve_clinical(db_path, bank_dir, question_id="uro-pilot-0001", reviewer="clinician-1", content=None):
@@ -94,7 +108,7 @@ def test_two_distinct_faculty_members_are_required_for_release(review_workspace)
     assert clinical["faculty_release_status"] == "clinically_reviewed"
 
     with pytest.raises(ValueError, match="different reviewers"):
-        approve_exam(db_path, bank_dir, reviewer="clinician-1")
+        approve_exam(db_path, bank_dir, reviewer="dual-1")
 
     released = approve_exam(db_path, bank_dir, reviewer="examiner-2")
     assert released["faculty_release_status"] == "exam_validated"
@@ -171,3 +185,47 @@ def test_clinical_approval_is_provisional_until_exam_validation():
     )
     assert validated["status"] == "marked"
     assert validated["trusted_key"] is True
+
+
+
+def test_non_admin_cannot_grant_reviewer_roles(review_workspace):
+    db_path, _, _ = review_workspace
+    with pytest.raises(PermissionError, match="Only an administrator"):
+        set_reviewer_role(
+            "clinician-1", "new-reviewer", "exam_reviewer",
+            enabled=True, path=db_path,
+        )
+
+
+def test_reviewer_stage_is_enforced_by_service_not_only_ui(review_workspace):
+    db_path, bank_dir, question_id = review_workspace
+    with pytest.raises(PermissionError, match="clinical_reviewer"):
+        record_faculty_decision(
+            question_id, stage="clinical", decision="request_changes",
+            reviewer_id="examiner-1", reviewer_name="Exam Faculty",
+            comment="Wrong role for this stage.", path=db_path, bank_dir=bank_dir,
+        )
+    with pytest.raises(PermissionError, match="exam_reviewer"):
+        record_faculty_decision(
+            question_id, stage="exam", decision="request_changes",
+            reviewer_id="clinician-1", reviewer_name="Clinical Faculty",
+            comment="Wrong role for this stage.", path=db_path, bank_dir=bank_dir,
+        )
+
+
+
+def test_admin_role_grants_and_revocations_are_audited(review_workspace):
+    db_path, _, _ = review_workspace
+    set_reviewer_role(
+        "test-admin", "new-reviewer", "clinical_reviewer",
+        enabled=True, path=db_path,
+    )
+    assert "clinical_reviewer" in reviewer_roles("new-reviewer", db_path)
+    set_reviewer_role(
+        "test-admin", "new-reviewer", "clinical_reviewer",
+        enabled=False, path=db_path,
+    )
+    assert reviewer_roles("new-reviewer", db_path) == set()
+    events = role_assignment_history("new-reviewer", db_path)
+    assert [event["action"] for event in events] == ["grant", "revoke"]
+    assert all(event["actor_id"] == "test-admin" for event in events)
