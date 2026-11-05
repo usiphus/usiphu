@@ -1961,7 +1961,7 @@ elif page == "Question Bank":
     st.divider()
     st.caption("For detailed MCQ, short-answer and MEQ editing, use the dedicated Review Editor in the sidebar.")
 
-if not AUTH_REQUIRED or admin_access or reviewer_access:
+    if not AUTH_REQUIRED or admin_access or reviewer_access:
         st.subheader("Add examination papers and question sources")
         st.write(
             "Upload past papers whenever you find them. USIPHU keeps the original file and "
@@ -2106,8 +2106,8 @@ if not AUTH_REQUIRED or admin_access or reviewer_access:
         else:
             st.info("No source files yet. Upload your first paper above.")
 
-else:
-    st.info("The Source Inbox is restricted to administrators and faculty reviewers.")
+    else:
+        st.info("The Source Inbox is restricted to administrators and faculty reviewers.")
 
 st.divider()
 st.caption(
