@@ -4,11 +4,11 @@ import re
 from datetime import UTC, datetime
 from pathlib import Path
 
-from usiphu.practice import DATA_DIR
 from usiphu.database import is_postgres
 from usiphu.extraction import load_extraction, save_extraction
-from usiphu.storage import DEFAULT_DB, connect, initialize
+from usiphu.practice import DATA_DIR
 from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.storage import DEFAULT_DB, connect, initialize
 
 ASSESSMENT_BANK_PATH = DATA_DIR / "question_banks" / "reviewed_assessments.json"
 
