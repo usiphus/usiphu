@@ -317,3 +317,56 @@ def test_postgres_durable_json_documents_use_private_object_storage(monkeypatch,
     with pytest.raises(RuntimeError, match="checksum mismatch"):
         durable_documents.load_json_document("question-banks/test.json", path)
 
+
+
+def test_import_legacy_source_preserves_identity_and_refuses_changed_extraction(monkeypatch, tmp_path):
+    from usiphu import source_inbox
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "local")
+    local_dir = tmp_path / "legacy"
+    original = b"1) What is the diagnosis?\nA) One\nB) Two\n"
+    record = source_inbox.save_source(
+        "legacy.txt",
+        original,
+        title="Legacy source",
+        specialty="Urology",
+        uploaded_by="https://auth.example/:faculty-clinical",
+        source_dir=local_dir,
+    )
+    extraction = {
+        "source_id": record["source_id"],
+        "mcq_candidates": [{"candidate_id": "legacy-candidate"}],
+    }
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(source_inbox, "get_object_storage", lambda _root: fake)
+
+    imported = source_inbox.import_source_record(
+        record, original, extraction, source_dir=local_dir
+    )
+    assert imported["source_id"] == record["source_id"]
+    assert imported["uploaded_by"] == record["uploaded_by"]
+    assert source_inbox.list_sources()[0]["source_id"] == record["source_id"]
+    assert source_inbox.read_source_bytes(imported, local_dir) == original
+    assert source_inbox.load_extraction(record["source_id"], local_dir) == extraction
+
+    changed = {**extraction, "mcq_candidates": [{"candidate_id": "edited-remotely"}]}
+    with pytest.raises(ValueError, match="changed since the local snapshot"):
+        source_inbox.import_source_record(
+            record, original, changed, source_dir=local_dir
+        )

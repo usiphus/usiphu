@@ -96,3 +96,24 @@ python scripts/migrate_durable_documents.py --data-root data --apply \
 ```
 
 The importer refuses to replace differing remote documents unless `--replace-existing` is explicitly supplied. It keeps source files unchanged, backs them up before writing, and verifies the canonical JSON checksum after each import. A failed run may have completed earlier documents; inspect its report and resume only after reconciling those keys. This is not a substitute for a full database plus Storage backup/restore drill.
+
+
+## Import an existing local Source Inbox
+
+The `scripts/migrate_source_inbox_to_supabase.py` command preserves legacy source IDs, uploader provenance, original timestamps, metadata and extraction candidate IDs. It validates manifest SHA-256 values and does not delete or rewrite the local source directory.
+
+Start with a dry run:
+
+```bash
+python scripts/migrate_source_inbox_to_supabase.py --source-dir data/source_inbox --report /tmp/usiphu-source-import-dry-run.json
+```
+
+After reviewing the inventory and confirming a protected backup location, apply explicitly:
+
+```bash
+python scripts/migrate_source_inbox_to_supabase.py --source-dir data/source_inbox --apply \\
+  --backup-dir /secure/backups/usiphu-source-inbox-YYYYMMDD \\
+  --report /secure/backups/usiphu-source-import-report.json
+```
+
+If an existing remote extraction differs from the local snapshot, the importer refuses to overwrite it unless `--replace-existing` is supplied. Review that difference first: remote reviewer edits may be newer than the local copy. The import is resumable by source ID and checksum; inspect the report after any partial failure. Keep the local originals and backups until a separate restore drill verifies both PostgreSQL metadata and Storage objects.
