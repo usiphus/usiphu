@@ -136,3 +136,49 @@ def test_postgres_keeps_two_person_faculty_approval_invariant(monkeypatch):
         db.execute("DELETE FROM shared_assessment_reviews WHERE item_id=?", (item_id,))
         db.execute("DELETE FROM faculty_role_events WHERE reviewer_id IN (?,?)", (clinician, examiner))
         db.execute("DELETE FROM faculty_reviewer_roles WHERE reviewer_id IN (?,?)", (clinician, examiner))
+
+
+
+def test_source_inbox_metadata_and_extraction_round_trip_in_postgres(monkeypatch):
+    from usiphu import source_inbox
+
+    source_id_holder = {}
+    object_store = {}
+
+    def fake_upload(object_key, content, filename):
+        object_store[object_key] = content
+
+    def fake_download(object_key):
+        return object_store[object_key]
+
+    monkeypatch.setattr(source_inbox, "_upload_object", fake_upload)
+    monkeypatch.setattr(source_inbox, "_download_object", fake_download)
+
+    record = source_inbox.save_source(
+        "integration-source.txt",
+        b"Question 1. Describe the initial management.",
+        title="Postgres integration source",
+        specialty="Urology",
+    )
+    source_id = record["source_id"]
+    source_id_holder["source_id"] = source_id
+    assert source_inbox.get_source_bytes(source_id) == b"Question 1. Describe the initial management."
+    assert source_inbox.get_source_record(source_id)["object_key"] == record["object_key"]
+
+    updated = source_inbox.update_source_metadata(
+        source_id, {"status": "extracted_pending_review", "question_count": 1}
+    )
+    assert updated["status"] == "extracted_pending_review"
+
+    extraction = {
+        "source_id": source_id,
+        "mcq_candidates": [{"candidate_id": f"candidate-{source_id}", "stem_extracted": "Describe management."}],
+        "summary": {"question_candidates": 1},
+    }
+    source_inbox.save_extraction(source_id, extraction)
+    assert source_inbox.load_extraction(source_id) == extraction
+
+    with source_inbox.connect(source_inbox.DEFAULT_DB) as db:
+        db.execute("DELETE FROM source_extractions WHERE source_id=?", (source_id,))
+        db.execute("DELETE FROM source_documents WHERE source_id=?", (source_id,))
+    object_store.clear()
