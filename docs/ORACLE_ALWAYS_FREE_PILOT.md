@@ -55,6 +55,7 @@ git clone https://github.com/usiphus/usiphu.git
 cd usiphu
 mkdir -p runtime/source_inbox runtime/backups .streamlit
 chmod 700 runtime runtime/source_inbox runtime/backups .streamlit
+sudo chown -R 10001:10001 runtime
 ~~~
 
 The compose stack mounts runtime/ into the app container. Ensure the directory is on the persistent OCI volume and has ownership/permissions compatible with container UID 10001. Do not store runtime data inside the container image.
@@ -80,7 +81,7 @@ client_secret = "YOUR_AUTH0_CLIENT_SECRET"
 server_metadata_url = "https://YOUR_AUTH0_DOMAIN/.well-known/openid-configuration"
 ~~~
 
-Use the exact issuer-qualified Auth0 subject format already used by USIPHU. Add the exact HTTPS callback URL and the app's HTTPS origin to the Auth0 Allowed Callback URLs and Allowed Logout URLs. Add stage reviewer subjects only after verifying each person's identity and role. Keep the secrets file readable only by the deployment administrator and Docker.
+Use the exact issuer-qualified Auth0 subject format already used by USIPHU. Add the exact HTTPS callback URL and the app's HTTPS origin to the Auth0 Allowed Callback URLs and Allowed Logout URLs. Add stage reviewer subjects only after verifying each person's identity and role. Make the secrets file readable by the dedicated container UID only (for example, chown it to UID 10001 and set mode 600); keep the containing directory restricted to the deployment administrator.
 
 ## 4. Start and verify
 
