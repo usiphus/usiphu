@@ -1,10 +1,9 @@
 """SQLite persistence for isolated learner flashcards, reviews, and topic mastery."""
 import json
 import os
-import sqlite3
-from typing import Any
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 from usiphu.database import connect_database
 from usiphu.models import ReviewState
