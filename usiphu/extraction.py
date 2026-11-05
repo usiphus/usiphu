@@ -147,7 +147,7 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
             raise ValueError("No selectable text found. This may be a scanned PDF and needs OCR.")
         payload = parse_question_text(pages, source)
     except Exception as exc:
-        _update_source(source_dir, source_id, {
+        update_source_record(source_dir, source_id, {
             "status": "needs_manual_extraction",
             "extraction_error": str(exc)[:500],
         })
@@ -155,7 +155,7 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
 
     extraction_key = save_extraction(source_id, payload, source_dir)
     question_count = payload["summary"]["question_candidates"] + payload["summary"]["meq_page_candidates"]
-    _update_source(source_dir, source_id, {
+    update_source_record(source_dir, source_id, {
         "status": "extracted_pending_review",
         "question_count": question_count,
         "extraction_file": extraction_key,
