@@ -83,7 +83,7 @@ def initialize(path: Path = DEFAULT_DB) -> None:
         db.execute("""
             INSERT INTO learner_topic_progress
                 (owner_id, topic_id, status, confidence, updated_at)
-            SELECT 'local', topic_id, status, confidence, updated_at FROM topic_progress
+            SELECT 'local', topic_id, status, confidence, updated_at FROM topic_progress WHERE 1=1
             ON CONFLICT(owner_id, topic_id) DO NOTHING
         """)
 
