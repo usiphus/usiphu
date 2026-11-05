@@ -808,6 +808,102 @@ elif page == "Pilot Dashboard":
     )
 
 elif page == "Faculty Review":
+    st.subheader("Generated and extracted assessment review")
+    st.caption(
+        "Shared queue for generated MCQs, OSCE stations, viva items, EMQs, short-answer drafts "
+        "and extracted paper candidates. Items remain drafts until independent clinical and "
+        "examination approvals are recorded."
+    )
+    shared_queue = list_assessment_review_queue(include_released=True)
+    if shared_queue:
+        st.dataframe(
+            [{
+                "Item": row["item_id"], "Type": row["item_type"],
+                "Clinical": row["clinical_status"], "Exam": row["exam_status"],
+                "Release": row["release_status"],
+            } for row in shared_queue],
+            use_container_width=True, hide_index=True,
+        )
+        queue_ids = [row["item_id"] for row in shared_queue]
+        selected_queue_id = st.selectbox(
+            "Select generated or extracted item",
+            queue_ids,
+            format_func=lambda value: next(
+                f"{row['item_type']} · {value}" for row in shared_queue
+                if row["item_id"] == value
+            ),
+            key="shared-assessment-review-item",
+        )
+        queue_item = next(row for row in shared_queue if row["item_id"] == selected_queue_id)
+        with st.expander("Assessment content and provenance", expanded=True):
+            st.json(queue_item["payload"])
+        available_stages = []
+        if AUTH_REQUIRED and "clinical_reviewer" in reviewer_role_set:
+            available_stages.append("Clinical approval")
+        if (
+            AUTH_REQUIRED and "exam_reviewer" in reviewer_role_set
+            and queue_item["clinical_status"] == "approved"
+        ):
+            available_stages.append("Examination validation")
+        if available_stages:
+            with st.form("shared-assessment-decision-" + selected_queue_id):
+                stage_label = st.selectbox("Review stage", available_stages)
+                stage_value = "clinical" if stage_label == "Clinical approval" else "exam"
+                decision_label = st.selectbox("Decision", ["Approve", "Request changes", "Reject"])
+                decision_value = {
+                    "Approve": "approve", "Request changes": "request_changes", "Reject": "reject"
+                }[decision_label]
+                reviewer_display = st.text_input(
+                    "Reviewer display name",
+                    value=(st.user.get("name") or st.user.get("email") or learner_id)
+                    if AUTH_REQUIRED else "",
+                )
+                review_comment = st.text_area("Review comment / rationale")
+                attestations = {}
+                if decision_value == "approve" and stage_value == "clinical":
+                    st.markdown("**Clinical attestations**")
+                    for key, label_text in [
+                        ("answer_verified", "I independently verified the answer."),
+                        ("rationale_verified", "I checked the clinical rationale."),
+                        ("evidence_checked", "I checked the cited evidence and its limitations."),
+                        ("safety_checked", "I checked red flags, contraindications and safety."),
+                    ]:
+                        attestations[key] = st.checkbox(
+                            label_text, key=f"shared-{selected_queue_id}-{key}"
+                        )
+                elif decision_value == "approve":
+                    st.markdown("**Examination attestations**")
+                    for key, label_text in [
+                        ("single_best_answer", "The answer / expected performance is defensible."),
+                        ("stem_clear", "The prompt and instructions are clear."),
+                        ("distractors_or_tasks_reviewed", "Distractors, station tasks or rubric are appropriate."),
+                        ("curriculum_aligned", "Curriculum alignment is appropriate."),
+                        ("level_appropriate", "Difficulty and expected level are appropriate."),
+                    ]:
+                        attestations[key] = st.checkbox(
+                            label_text, key=f"shared-{selected_queue_id}-{key}"
+                        )
+                submitted = st.form_submit_button("Record faculty decision", type="primary")
+            if submitted:
+                try:
+                    record_assessment_review_decision(
+                        selected_queue_id, stage=stage_value, decision=decision_value,
+                        reviewer_id=learner_id, reviewer_name=reviewer_display,
+                        comment=review_comment, attestations=attestations,
+                    )
+                    st.success("Faculty decision recorded in the audit history.")
+                    st.rerun()
+                except (ValueError, PermissionError, KeyError) as exc:
+                    st.error(str(exc))
+        elif not AUTH_REQUIRED:
+            st.warning("Enable Auth0 and assign stage-specific faculty roles before recording decisions.")
+        elif queue_item["clinical_status"] != "approved":
+            st.info("Clinical approval must be completed before examination validation.")
+        else:
+            st.info("This account has no reviewer role for the next stage.")
+    else:
+        st.info("No generated or extracted assessment items are in the shared queue yet.")
+    st.divider()
     if AUTH_REQUIRED and admin_access:
         st.markdown("#### Reviewer access management")
         st.caption("Administrators can grant or revoke clinical and examination reviewer roles. The administrator bootstrap list is controlled by USIPHU_ADMIN_SUBJECTS.")
