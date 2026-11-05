@@ -114,7 +114,7 @@ Important boundaries:
 
 ## Faculty roles and two-stage approval
 
-The first faculty sign-off implementation currently covers the two curated pilot MCQ banks (urology and general surgery). It does not yet route generated OSCE/viva/EMQ cards or all newly extracted source candidates through this queue; those formats remain editorial drafts until their review adapters are implemented.
+The pilot MCQ banks retain their dedicated two-stage sign-off workflow. A shared assessment review queue now also accepts generated assessment drafts (MCQ, OSCE, viva, EMQ, short answer and clinical case formats) and extracted paper candidates (single-best-answer, short-answer and MEQ page candidates). Items are enqueued with their content and available provenance; all remain drafts until independent clinical and examination decisions are recorded. The shared queue uses the same stage-specific reviewer roles, backend authorization, required attestations and two-person separation. It records decisions and immutable content snapshots in SQLite. It does not yet automatically promote every approved generated/extracted assessment format into the learner practice bank.
 
 Enable OIDC before using faculty sign-off:
 
@@ -145,3 +145,17 @@ The expanded blueprint includes 27 medical disciplines, 174 topics and 291 learn
 3. Add specialty-specific checks for medication doses, contraindications, red flags, investigation thresholds, and emergency pathways.
 4. Add educator review queue, audit trail, and explicit role-based approval before any generated draft is promoted to active learner content.
 5. Complete line-by-line official Suez ILO extraction, map every individual objective to specific course outcomes, and obtain the official PHC/ped 2.3.1 Pediatrics outcomes.\n6. Add a role-based faculty review queue, audit trail and controlled approval/promotion workflow.
+
+
+## Shared generated and extracted assessment review
+
+- Saving accepted generated cards adds each card to `shared_assessment_reviews` while retaining the learner-isolated copy in `generated_drafts`.
+- Uploading and extracting a past paper queues each extracted MCQ/short-answer candidate and MEQ page candidate with source ID, title, filename and page information where available.
+- The **Faculty Review** workspace shows the shared queue and allows authorized clinical or examination reviewers to record approve, request-changes or reject decisions.
+- Clinical approval requires traceable source-paper provenance or clinical evidence plus answer, rationale, evidence and safety attestations. Examination approval requires five exam-quality attestations and a different authenticated reviewer after clinical approval.
+- Decisions are appended to `shared_assessment_review_events`; queue state stores the content hash and the current two-stage status. Re-enqueuing changed content resets approvals.
+- The queue is not an automatic learner release path. A separate promotion/release integration and additional acceptance testing are required before generated/extracted assessment items become learner-facing content.
+
+## Deployment readiness
+
+Follow [docs/RELEASE_READINESS.md](RELEASE_READINESS.md) before any shared or production deployment. In particular, configure Auth0, durable SQLite storage, backups, faculty role assignments, and the clinical governance process.
