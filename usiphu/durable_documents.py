@@ -78,3 +78,15 @@ def save_json_document(document_key: str, payload: dict, local_path: Path) -> No
             "updated_at = NOW()",
             (document_key, object_key, digest),
         )
+
+
+def json_document_exists(document_key: str) -> bool:
+    """Return whether a durable document pointer exists in the configured backend."""
+    if not remote_documents_enabled():
+        return False
+    with connect() as db:
+        row = db.execute(
+            "SELECT 1 AS present FROM app_documents WHERE document_key = ?",
+            (document_key,),
+        ).fetchone()
+    return row is not None
