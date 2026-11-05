@@ -48,8 +48,11 @@ def create_backup(output_dir: Path, age_recipient: str) -> Path:
         service_file = write_pg_service_file(
             database_url, root / "pg_service.conf", "usiphu_backup"
         )
-        env = os.environ.copy()
-        env["PGSERVICEFILE"] = str(service_file)
+        env = {
+            "PATH": os.getenv("PATH", ""),
+            "PGSERVICEFILE": str(service_file),
+            "PGCONNECT_TIMEOUT": "15",
+        }
         try:
             subprocess.run(
                 [
@@ -116,6 +119,7 @@ def create_backup(output_dir: Path, age_recipient: str) -> Path:
                 check=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
+                env={"PATH": os.getenv("PATH", "")},
             )
         except FileNotFoundError as exc:
             raise RuntimeError("age is required; install the age encryption utility.") from exc
