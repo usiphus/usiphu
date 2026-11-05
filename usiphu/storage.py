@@ -5,6 +5,7 @@ import sqlite3
 from datetime import date
 from pathlib import Path
 
+from usiphu.database import connect_database
 from usiphu.models import ReviewState
 
 DEFAULT_DB = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
@@ -17,11 +18,11 @@ def _scoped_card_id(card_id: str, learner_id: str) -> str:
 
 
 def connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(path)
-    db.row_factory = sqlite3.Row
-    db.execute("PRAGMA foreign_keys=ON")
-    return db
+    """Open the configured local database through the backend abstraction.
+
+    The optional path remains for isolated tests and explicit SQLite maintenance.
+    """
+    return connect_database(path=path)
 
 
 def initialize(path: Path = DEFAULT_DB) -> None:
