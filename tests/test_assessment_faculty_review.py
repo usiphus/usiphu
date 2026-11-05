@@ -25,6 +25,7 @@ def workspace(tmp_path, monkeypatch):
     monkeypatch.setenv("USIPHU_ADMIN_SUBJECTS", "admin")
     db = tmp_path / "reviews.sqlite3"
     set_reviewer_role("admin", "clinician", "clinical_reviewer", enabled=True, path=db)
+    set_reviewer_role("admin", "clinician", "exam_reviewer", enabled=True, path=db)
     set_reviewer_role("admin", "examiner", "exam_reviewer", enabled=True, path=db)
     payload = {
         "prompt": "Describe the clinical approach.",
