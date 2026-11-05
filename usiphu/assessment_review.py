@@ -4,8 +4,8 @@ import re
 from datetime import UTC, datetime
 from pathlib import Path
 
-from usiphu.practice import DATA_DIR
 from usiphu.durable_documents import load_json_document, save_json_document
+from usiphu.practice import DATA_DIR
 from usiphu.source_inbox import (
     DEFAULT_SOURCE_DIR,
     list_extractions,
