@@ -17,6 +17,8 @@ def digest(data: bytes) -> str:
 
 
 def inventory(source_dir: Path, data_dir: Path) -> tuple[list[dict], list[dict]]:
+    if source_dir.is_symlink():
+        raise ValueError("Source Inbox root cannot be a symlink.")
     if source_dir.exists():
         for path in source_dir.rglob("*"):
             if path.is_symlink():
@@ -62,6 +64,8 @@ def inventory(source_dir: Path, data_dir: Path) -> tuple[list[dict], list[dict]]
     ):
         path = data_dir / rel
         if path.is_file():
+            if path.is_symlink():
+                raise ValueError(f"Document path cannot be a symlink: {path}")
             payload = json.loads(path.read_text(encoding="utf-8"))
             if not isinstance(payload, dict):
                 raise ValueError(f"Expected a JSON object: {path}")
@@ -73,8 +77,10 @@ def inventory(source_dir: Path, data_dir: Path) -> tuple[list[dict], list[dict]]
 
 def backup_local_state(source_dir: Path, data_dir: Path, backup_dir: Path,
                        database: Path) -> tuple[Path, Path]:
+    if database.is_symlink():
+        raise ValueError("SQLite database path cannot be a symlink.")
     backup_dir.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%fZ")
     archive_path = backup_dir / f"usiphu-before-supabase-{stamp}.tar.gz"
     with tarfile.open(archive_path, "w:gz") as archive:
         if source_dir.is_dir():
