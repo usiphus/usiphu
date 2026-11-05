@@ -3,7 +3,7 @@ import sqlite3
 
 import pytest
 
-from usiphu.database import SQLiteBackend, connect_database, get_database_backend
+from usiphu.database import PostgresBackend, SQLiteBackend, connect_database, get_database_backend
 from usiphu.storage import connect as storage_connect
 
 
@@ -47,7 +47,21 @@ def test_storage_connection_compatibility_wrapper(tmp_path):
         ).fetchone()["value"] == "preserved"
 
 
-def test_unsupported_backend_fails_closed(monkeypatch):
+def test_postgres_backend_requires_secret(monkeypatch):
     monkeypatch.setenv("USIPHU_DATABASE_BACKEND", "postgres")
-    with pytest.raises(RuntimeError, match="not implemented yet"):
+    monkeypatch.delenv("SUPABASE_DB_URL", raising=False)
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    with pytest.raises(RuntimeError, match="SUPABASE_DB_URL"):
+        get_database_backend()
+
+
+def test_postgres_backend_is_selected(monkeypatch):
+    monkeypatch.setenv("USIPHU_DATABASE_BACKEND", "postgres")
+    monkeypatch.setenv("SUPABASE_DB_URL", "postgresql://example.invalid/db")
+    assert isinstance(get_database_backend(), PostgresBackend)
+
+
+def test_unknown_backend_fails_closed(monkeypatch):
+    monkeypatch.setenv("USIPHU_DATABASE_BACKEND", "oracle")
+    with pytest.raises(RuntimeError, match="Unsupported"):
         get_database_backend()
