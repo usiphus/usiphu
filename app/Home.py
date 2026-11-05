@@ -17,6 +17,10 @@ for _setting in (
     "USIPHU_ADMIN_SUBJECTS",
     "USIPHU_CLINICAL_REVIEWER_SUBJECTS",
     "USIPHU_EXAM_REVIEWER_SUBJECTS",
+    "USIPHU_DATABASE_URL",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "USIPHU_STORAGE_BUCKET",
 ):
     try:
         _secret_value = st.secrets.get(_setting)
@@ -58,7 +62,7 @@ from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources, save_source
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, get_source_bytes, list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -1265,15 +1269,18 @@ elif page == "Review Editor":
                     None,
                 )
                 if source_record:
-                    original_path = DEFAULT_SOURCE_DIR / source_record["stored_filename"]
-                    if original_path.is_file():
+                    try:
+                        original_bytes = get_source_bytes(source_record["source_id"])
+                        original_suffix = str(source_record.get("original_filename", "")).lower()
                         st.download_button(
                             "Download original source paper",
-                            data=original_path.read_bytes(),
+                            data=original_bytes,
                             file_name=source_record.get("original_filename", "source-paper"),
-                            mime="application/pdf" if original_path.suffix.lower() == ".pdf" else "application/octet-stream",
+                            mime="application/pdf" if original_suffix.endswith(".pdf") else "application/octet-stream",
                             key="download-review-source-" + selected_id,
                         )
+                    except (OSError, RuntimeError, ValueError) as source_error:
+                        st.warning("The original source file could not be loaded: " + str(source_error))
                 if selected.get("original_extracted_stem") is not None:
                     st.caption("First machine-extracted transcription (kept for audit):")
                     st.text(selected.get("original_extracted_stem", ""))
