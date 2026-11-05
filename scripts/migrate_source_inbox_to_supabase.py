@@ -48,7 +48,7 @@ def inventory(source_dir: Path) -> list[tuple[dict, bytes, dict | None, Path, Pa
             extraction = json.loads(extraction_path.read_text(encoding="utf-8"))
             if not isinstance(extraction, dict) or extraction.get("source_id") != source_id:
                 raise ValueError(f"Extraction metadata mismatch for {source_id}")
-        elif record.get("status") == "extracted_pending_review":
+        elif record.get("extraction_file") or record.get("status") == "extracted_pending_review":
             raise FileNotFoundError(f"Manifest says extracted but candidate JSON is missing: {source_id}")
         results.append((record, original_bytes, extraction, original_path, extraction_path if extraction else None))
     return results
@@ -80,7 +80,12 @@ def migrate(
         if backup_root is None:
             raise ValueError("Apply requires --backup-dir before any remote writes.")
         backup_root.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source_dir / "sources.json", backup_root / "sources.json")
+        manifest_backup = backup_root / "sources.json"
+        manifest_source = source_dir / "sources.json"
+        if not manifest_backup.exists():
+            shutil.copy2(manifest_source, manifest_backup)
+        if manifest_backup.read_bytes() != manifest_source.read_bytes():
+            raise RuntimeError("Source manifest backup verification failed.")
 
     for record, original_bytes, extraction, original_path, extraction_path in records:
         source_id = record["source_id"]
