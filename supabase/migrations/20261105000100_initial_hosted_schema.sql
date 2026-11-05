@@ -124,7 +124,7 @@ DO $$ DECLARE t text; BEGIN
     EXECUTE format('GRANT ALL ON TABLE public.%I TO postgres, service_role', t);
   END LOOP;
 END $$;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO postgres, service_role;
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO postgres, service_role;
 
 -- Dedicated application login: BYPASSRLS is required because Auth0 (not Supabase Auth)
 -- is the identity provider. This role is not a superuser and receives only app-table rights.
@@ -136,7 +136,7 @@ END $;
 GRANT CONNECT ON DATABASE postgres TO usiphu_app;
 GRANT USAGE ON SCHEMA public TO usiphu_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO usiphu_app;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO usiphu_app;
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO usiphu_app;
 
 -- The bucket is private. Only the server-side Storage credential should access it.
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
