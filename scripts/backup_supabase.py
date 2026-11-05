@@ -94,10 +94,22 @@ def create_backup(output_dir: Path, recipient: str) -> Path:
     with tempfile.TemporaryDirectory(prefix="usiphu-backup-") as temp_name:
         temp = Path(temp_name)
         dump_path = temp / "public.dump"
-        subprocess.run(
-            ["pg_dump", "--format=custom", "--no-owner", "--no-privileges", "--schema=public", "--file", str(dump_path)],
-            env=environment, check=True,
+        app_tables = (
+            "flashcards", "generated_drafts", "review_states", "review_events",
+            "question_attempts", "topic_progress", "learner_topic_progress",
+            "faculty_question_reviews", "faculty_question_review_events",
+            "faculty_reviewer_roles", "faculty_role_events",
+            "shared_assessment_reviews", "shared_assessment_review_events",
+            "source_documents", "source_extractions",
+            "approved_question_bank", "approved_assessment_bank",
         )
+        dump_command = [
+            "pg_dump", "--format=custom", "--data-only", "--no-owner", "--no-privileges",
+            "--file", str(dump_path),
+        ]
+        for table in app_tables:
+            dump_command.extend(["--table", f"public.{table}"])
+        subprocess.run(dump_command, env=environment, check=True)
         objects_dir = temp / "objects"
         objects_dir.mkdir()
         manifest_objects = []
