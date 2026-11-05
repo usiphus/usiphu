@@ -55,7 +55,11 @@ class SupabaseObjectStorage:
         timeout: int = 30,
     ) -> None:
         self.project_url = (project_url or os.getenv("SUPABASE_URL", "")).rstrip("/")
-        self.secret_key = secret_key or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+        self.secret_key = (
+            secret_key
+            or os.getenv("SUPABASE_SECRET_KEY")
+            or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+        )
         self.bucket = bucket or os.getenv("USIPHU_SUPABASE_STORAGE_BUCKET", "source-inbox")
         self.timeout = timeout
         if not self.project_url.startswith("https://"):
