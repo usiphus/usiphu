@@ -1,30 +1,52 @@
-# Database backend boundary
+# Database backend architecture
 
-USIPHU persistence now opens database connections through `usiphu.database`.
-The current `SQLiteBackend` preserves the existing local behavior and supports
-explicit database paths for isolated tests. `usiphu.storage.connect` remains a
-compatibility wrapper, so current learner and faculty repositories do not need
-a behavior-changing rewrite in this step.
+USIPHU supports SQLite for local development and PostgreSQL for managed hosting.
+The application remains on SQLite unless `USIPHU_DATABASE_BACKEND=postgres` is
+explicitly configured. PostgreSQL connections require `SUPABASE_DB_URL` (preferred)
+or `DATABASE_URL`, supplied through the hosting provider's secret manager.
 
-## Current status
+## PostgreSQL connection requirements
 
-- Supported backend: SQLite only.
-- Default selector: `USIPHU_DATABASE_BACKEND=sqlite` (also the default when unset).
-- Existing `USIPHU_DB_PATH` continues to select the SQLite file.
-- Foreign-key enforcement and `sqlite3.Row` behavior are preserved.
-- Unsupported backend values fail closed; they never silently fall back to a
-  local database.
+- Use a Supabase PostgreSQL connection string; for Streamlit Community Cloud, use
+  the Supabase pooler connection string if direct IPv6 connectivity is unavailable.
+- The driver requires TLS (`sslmode=require`) and disables client-side prepared
+  statements for compatibility with transaction-mode poolers.
+- Keep database credentials server-side. Never use a service-role key as a
+  substitute for the database password, and never commit connection strings.
+- Keep the Supabase database schema private. The app connects directly to Postgres;
+  it does not need to expose these tables through the Supabase Data API.
+- PostgreSQL is not enabled merely by adding a URL: set both the backend selector
+  and the connection secret intentionally after applying the schema migration.
 
-## Deliberate non-goals
+## SQL compatibility
 
-This is the seam for a future PostgreSQL implementation, not that implementation.
-The existing schema initialization and repository SQL still contain SQLite
-features such as `PRAGMA`, `executescript`, `INSERT OR IGNORE`, positional
-question-mark placeholders, and SQLite conflict semantics. A PostgreSQL adapter
-must explicitly address those differences and add PostgreSQL integration tests
-before it can be enabled.
+The adapter translates qmark placeholders to psycopg placeholders and executes
+the existing plain DDL scripts statement-by-statement. It also preserves both
+mapping-style row access (`row["field"]`) and legacy positional access
+(`row[0]`). The repository schema uses identity columns in PostgreSQL in place
+of SQLite's `AUTOINCREMENT`. SQL constructs that are not portable must be
+rewritten explicitly; do not add SQLite-only pragmas or `INSERT OR IGNORE`.
 
-The faculty review and shared assessment review modules currently import
-`connect` from `usiphu.storage`; they therefore inherit this connection
-boundary without changing their approval logic. Source Inbox and extraction
-remain filesystem-backed and are not changed by this database-only step.
+## Schema migration
+
+Apply `migrations/0001_postgresql_schema.sql` once to an empty PostgreSQL
+database before enabling the backend. It creates all 13 learner and faculty
+persistence tables and their indexes. The repositories also retain idempotent
+`CREATE TABLE IF NOT EXISTS` setup for local SQLite use. The migration is
+intended for a fresh PostgreSQL schema; it is not a data migration.
+
+## Remaining work before production use
+
+- Add a reviewed SQLite-to-PostgreSQL import utility with dry-run default,
+  explicit apply, row-count and checksum verification.
+- Move Source Inbox originals, manifests, extraction JSON and derived files to a
+  private Supabase Storage bucket with stable object IDs and authorization.
+- Test PostgreSQL integration against an actual disposable PostgreSQL service,
+  including learner isolation, faculty role checks, clinical-before-exam ordering,
+  two-person separation, audit history and snapshot invalidation.
+- Exercise backup/restore and recovery. Supabase Free is a staging tier, not a
+  production availability guarantee.
+
+Do not switch a live deployment to PostgreSQL until the schema migration and
+integration suite have passed. Keep synthetic data only until privacy, security,
+institutional approval and recovery gates are signed off.
