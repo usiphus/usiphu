@@ -6,11 +6,19 @@ Use Streamlit Community Cloud for the Streamlit runtime and Supabase Free for Po
 
 This is a $0 pilot target only, not an uptime-guaranteed or institutionally approved production environment.
 
-## Deployment blocker: SQLite and local files
+## Repository status (2026-11-05)
 
-USIPHU is not cloud-persistence-ready today. `usiphu/storage.py` uses SQLite; faculty review and role/audit records also use the SQLite connection layer; Source Inbox originals, manifests, extracted candidates and review JSON are stored on the local filesystem. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
+- PR #14 adds a driver-neutral database seam while keeping SQLite as the default.
+- PR #15 adds an opt-in PostgreSQL backend and the initial learner/faculty schema migration; its PostgreSQL integration workflow must be green before merging.
+- PR #16 adds private Supabase Storage for Source Inbox originals and extraction JSON, plus PostgreSQL source metadata. It is still a draft and its current-head CI must pass.
+- These PRs are stacked, open and unmerged. No Supabase project, bucket, Streamlit app or deployment has been provisioned.
+- Promoted question-bank and assessment-bank JSON, pilot-validation reports and the backup/export workflow still need durable cloud persistence.
 
-**Do not deploy with real learner, faculty, patient, or examination-source data until every persistent path is migrated and the restore drill passes.** Supabase credentials alone do not migrate SQLite or make local uploads durable.
+## Deployment blocker: incomplete cloud persistence
+
+USIPHU is not cloud-persistence-ready today. The runtime still defaults to SQLite until explicitly configured; PR #15's PostgreSQL backend is opt-in. PR #16 moves original Source Inbox files and extraction candidate JSON to private Supabase Storage when enabled, but reviewed question-bank/assessment-bank files and other generated reports still use the local filesystem. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
+
+**Do not deploy with real learner, faculty, patient, or examination-source data until every persistent path is migrated, the current-head CI passes, and the restore drill succeeds.** Supabase credentials alone do not migrate SQLite or make local uploads durable.
 
 ## Target architecture
 
@@ -63,7 +71,7 @@ Use versioned SQL migrations, parameterized SQL, explicit transactions, foreign 
 
 ### 2. Durable Source Inbox migration
 
-Move original file bytes to a **private** Supabase Storage bucket. Move manifest and extraction/review metadata to PostgreSQL. Preserve original filename, opaque object key, SHA-256 duplicate detection, upload time, title, specialty, exam year, notes, status, page provenance, original download and candidate JSON export.
+PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). The remaining work is to migrate promoted/reviewed question-bank and assessment-bank JSON, pilot-validation reports and any other mutable file-backed state; build a dry-run-first import for existing local Source Inbox files; and verify upload/download/restore against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance.
 
 Do not create a public bucket or store file bytes as base64 in Postgres. Validate extension and size server-side. Check the caller's application role before upload, download, replacement or deletion.
 
