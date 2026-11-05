@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 import json
 import pytest
+import sqlite3
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -67,7 +68,6 @@ def test_backup_is_checksummed_and_preserves_originals(tmp_path):
     source = make_source(tmp_path)
     data = tmp_path / "data"
     database = tmp_path / "usiphu.sqlite3"
-    import sqlite3
     with sqlite3.connect(database) as connection:
         connection.execute("CREATE TABLE synthetic (id INTEGER PRIMARY KEY)")
         connection.execute("INSERT INTO synthetic DEFAULT VALUES")
