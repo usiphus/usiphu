@@ -46,6 +46,10 @@ class HybridRow(dict):
 
 
 def _hybrid_row_factory(cursor: Any) -> Any:
+    # psycopg asks for a row maker for DDL/DML commands too; those have no
+    # description and never yield rows, so provide a harmless tuple maker.
+    if cursor.description is None:
+        return tuple
     names = [column.name for column in cursor.description]
     return lambda values: HybridRow(names, values)
 
