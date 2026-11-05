@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import argparse
-from datetime import UTC, datetime
 import hashlib
 import json
-from pathlib import Path
 import re
 import shutil
 import sys
+from datetime import UTC, datetime
+from pathlib import Path
 
 from usiphu.durable_documents import remote_documents_enabled
 from usiphu.source_inbox import import_source_record
