@@ -12,6 +12,8 @@ from usiphu.faculty_review import (
     record_faculty_decision,
     review_history,
     set_reviewer_role,
+    role_assignment_history,
+    reviewer_roles,
 )
 
 CLINICAL_CHECKS = {
