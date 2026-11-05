@@ -18,7 +18,10 @@ MAX_FILE_BYTES = 50 * 1024 * 1024
 
 
 def _remote_enabled() -> bool:
-    return os.getenv("USIPHU_FILE_STORAGE_BACKEND", "local").strip().lower() == "supabase"
+    enabled = os.getenv("USIPHU_FILE_STORAGE_BACKEND", "local").strip().lower() == "supabase"
+    if enabled and os.getenv("USIPHU_DATABASE_BACKEND", "sqlite").strip().lower() not in {"postgres", "postgresql"}:
+        raise RuntimeError("Supabase file storage requires USIPHU_DATABASE_BACKEND=postgres.")
+    return enabled
 
 
 def _manifest_path(source_dir: Path) -> Path:
