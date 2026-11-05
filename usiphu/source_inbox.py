@@ -172,7 +172,7 @@ def save_extraction(source_id: str, payload: dict, source_dir: Path = DEFAULT_SO
     encoded = (json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     if _remote_enabled():
         key = f"extractions/{source_id}.json"
-        get_object_storage(source_dir).upload(key, encoded, "application/json")
+        get_object_storage(source_dir).upload(key, encoded, "application/json", upsert=True)
         _update_source(source_dir, source_id, {"extraction_key": key})
         return key
     extraction_dir = source_dir / "extractions"
