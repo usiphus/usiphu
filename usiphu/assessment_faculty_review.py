@@ -169,6 +169,26 @@ def record_assessment_review_decision(
             has_evidence = bool(payload.get("evidence_sources") or payload.get("clinical_sources"))
             if not has_source and not has_evidence:
                 raise ValueError("Clinical approval requires traceable source-paper provenance or clinical evidence.")
+            prompt = payload.get("prompt") or payload.get("stem")
+            has_mcq_key = (
+                len(payload.get("options", [])) >= 2
+                and bool(payload.get("correct_option_id"))
+                and bool(payload.get("explanation"))
+            )
+            has_written_rubric = bool(payload.get("parts")) and all(
+                part.get("prompt") and part.get("marking_points")
+                for part in payload.get("parts", [])
+            )
+            has_structured_answer = bool(
+                payload.get("answer") or payload.get("marking_criteria")
+                or payload.get("station_tasks") and payload.get("marking_criteria")
+                or payload.get("viva_questions") or payload.get("emq_items")
+            )
+            if not prompt or not (has_mcq_key or has_written_rubric or has_structured_answer):
+                raise ValueError(
+                    "Complete the edited prompt and a verified answer, marking rubric, "
+                    "or format-specific assessment structure before clinical approval."
+                )
             required = ("answer_verified", "rationale_verified", "evidence_checked", "safety_checked")
             if not all(checks.get(key) is True for key in required):
                 raise ValueError("Complete all four clinical approval attestations.")
