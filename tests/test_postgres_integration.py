@@ -28,6 +28,7 @@ pytestmark = pytest.mark.skipif(
 MIGRATIONS = [
     Path(__file__).resolve().parents[1] / "migrations" / "0001_postgresql_schema.sql",
     Path(__file__).resolve().parents[1] / "migrations" / "0002_source_documents.sql",
+    Path(__file__).resolve().parents[1] / "migrations" / "0003_app_documents.sql",
 ]
 
 CLINICAL_CHECKS = {
@@ -80,7 +81,7 @@ def clean_postgres(monkeypatch, postgres_schema):
             "faculty_question_review_events, faculty_role_events, faculty_reviewer_roles, "
             "faculty_question_reviews, question_attempts, review_events, review_states, "
             "generated_drafts, learner_topic_progress, topic_progress, flashcards, "
-            "source_documents RESTART IDENTITY CASCADE"
+            "source_documents, app_documents RESTART IDENTITY CASCADE"
         )
 
 
@@ -278,3 +279,46 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
     persisted = source_inbox.load_extraction(record["source_id"])
     assert persisted["mcq_candidates"][0]["stem_extracted"] == "Edited question prompt?"
     assert source_inbox.list_extractions()[0][1] == persisted
+
+
+
+def test_postgres_durable_json_document_round_trip_and_checksum(monkeypatch, tmp_path):
+    from usiphu import durable_documents
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+    path = tmp_path / "past_papers_reviewed.json"
+    payload = {
+        "bank_id": "past-papers-review-bank",
+        "questions": [{"id": "durable-test-question", "review_status": "draft"}],
+    }
+
+    durable_documents.save_json_document(
+        "question-bank:past-papers-reviewed", payload, path
+    )
+    assert durable_documents.load_json_document(
+        "question-bank:past-papers-reviewed", path
+    ) == payload
+
+    with pytest.raises(RuntimeError, match="checksum mismatch"):
+        object_key = next(iter(fake.objects))
+        fake.objects[object_key] = b'{"tampered": true}'
+        durable_documents.load_json_document(
+            "question-bank:past-papers-reviewed", path
+        )
