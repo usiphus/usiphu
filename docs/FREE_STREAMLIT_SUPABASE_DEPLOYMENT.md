@@ -62,9 +62,9 @@ Free-tier terms can change. No paid add-ons, custom domains, IPv4 add-ons, or ov
 
 The hosted connection layer now routes the existing learner storage functions, faculty review decisions/roles/audit events, and shared assessment review queue to Postgres. It retains SQLite when `USIPHU_DATABASE_URL` is absent, so local development and existing SQLite tests remain available.
 
-Apply `supabase/migrations/202611050001_initial_hosted_schema.sql` before enabling Postgres mode. It creates the application tables, indexes, constraints, RLS, the private Storage bucket, and the `usiphu_app` database role. After applying the migration, set the role password interactively from a trusted local `psql` connection and use that role in the app connection string.
+Apply `supabase/migrations/20261105000100_initial_hosted_schema.sql` before enabling Postgres mode. It creates the application tables, indexes, constraints, RLS, the private Storage bucket, and the `usiphu_app` database role. After applying the migration, set the role password interactively from a trusted local `psql` connection and use that role in the app connection string.
 
-The database adapter translates the SQLite placeholder and `INSERT OR IGNORE` patterns used by current modules. This compatibility layer needs full PostgreSQL integration coverage before it is treated as production-grade.
+The database adapter translates the SQLite placeholder and `INSERT OR IGNORE` patterns used by current modules. This compatibility layer needs full PostgreSQL integration coverage before it is treated as production-grade. The migration utility `scripts/migrate_sqlite_to_supabase.py` supports a non-destructive dry run by default and writes only when passed `--apply`; it never deletes the local SQLite database or source files.
 
 Authorization invariants remain in the service layer: issuer-qualified Auth0 identity; admin-only role assignment; clinical approval before exam validation; distinct identities for clinical and exam decisions; server-side authorization; immutable review snapshots; approval invalidation after edits; and no direct promotion of unreviewed drafts.
 
@@ -97,9 +97,11 @@ server_metadata_url = "https://<AUTH0_DOMAIN>/.well-known/openid-configuration"
 ```
 
 Deployment sequence:
-1. Create the Supabase Free project; keep it on the free plan.
-2. Apply the migration in `supabase/migrations` using the Supabase CLI linked to that project.
-3. Enable LOGIN and set a password for `usiphu_app` interactively from trusted local `psql`; use its pooler session-mode connection string for `USIPHU_DATABASE_URL`.
+1. Back up the local SQLite database and Source Inbox directory before migrating.
+2. Create the Supabase Free project; keep it on the free plan.
+3. Apply the migration in `supabase/migrations` using the Supabase CLI linked to that project.
+4. Enable LOGIN and set a password for `usiphu_app` interactively from trusted local `psql`; use its pooler session-mode connection string for `USIPHU_DATABASE_URL`.
+5. Run `python scripts/migrate_sqlite_to_supabase.py` first to inspect the non-destructive migration report, then rerun with `--apply` only after checking the report and confirming the target project is correct.
 4. Copy the project URL and server-side `service_role` key into Community Cloud Secrets. The Storage key is highly privileged and must never be exposed in browser code or logs.
 5. Create the Streamlit app from the feature branch only after PRs are merged in order, entrypoint `app/Home.py`.
 6. Add the actual `https://<app-subdomain>.streamlit.app/oauth2callback` callback URL to Auth0 Allowed Callback URLs and the app base URL to Allowed Logout URLs.
