@@ -41,7 +41,7 @@ Learner/faculty browser --HTTPS--> Streamlit Community Cloud
 
 Keep Auth0 issuer-qualified subject identity as the stable application identity. Store roles in the database and enforce review rules server-side. Never trust user-editable profile metadata for authorization. Keep all database and Storage credentials server-side in Streamlit Secrets; never send them to the browser.
 
-For Streamlit's persistent server process, use Supabase's shared pooler **session mode** (port 5432) if the hosting network is IPv4-only. Do not use transaction mode for this long-running DB-API connection. Require TLS. The migration creates a non-superuser `usiphu_app` role with only application-table privileges and `BYPASSRLS` because Auth0 is the identity provider and the app performs authorization server-side. Enable LOGIN and set its password from a trusted local `psql` session (use the interactive `\\password usiphu_app` command); do not put a password in a committed SQL file.
+For Streamlit's persistent server process, use Supabase's shared pooler **session mode** (port 5432) if the hosting network is IPv4-only. Do not use transaction mode for this long-running DB-API connection. Require TLS. The migration creates a non-superuser `usiphu_app` role with only application-table privileges and `BYPASSRLS` because Auth0 is the identity provider and the app performs authorization server-side. Enable LOGIN and set its password from a trusted local `psql` session (use the interactive `\password usiphu_app` command); do not put a password in a committed SQL file.
 
 ## Free-tier budget and limits
 
