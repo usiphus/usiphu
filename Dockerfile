@@ -23,7 +23,7 @@ COPY scripts ./scripts
 
 RUN pip install --upgrade pip \
     && pip install . \
-    && mkdir -p /var/lib/usiphu/source_inbox /var/lib/usiphu/backups \
+    && mkdir -p /var/lib/usiphu/source_inbox /var/lib/usiphu/backups /app/.streamlit \
     && chown -R usiphu:usiphu /app /var/lib/usiphu
 
 USER usiphu
