@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from usiphu.practice import DATA_DIR
+from usiphu.durable_documents import load_json_document, save_json_document
 from usiphu.source_inbox import (
     DEFAULT_SOURCE_DIR,
     list_extractions,
@@ -172,15 +173,21 @@ def save_non_mcq_review(
     if approve:
         if not rubric_verified:
             raise ValueError("A verified rubric is required before approval.")
-        bank = json.loads(bank_path.read_text(encoding="utf-8")) if bank_path.exists() else {
-            "bank_id": "reviewed-short-answer-meq",
-            "title": "Reviewed Short Answer and MEQ Assessments",
-            "assessments": [],
-        }
+        bank = load_json_document(
+            "assessment-bank:reviewed-assessments",
+            bank_path,
+            {
+                "bank_id": "reviewed-short-answer-meq",
+                "title": "Reviewed Short Answer and MEQ Assessments",
+                "assessments": [],
+            },
+        )
         if any(item.get("candidate_id") == candidate_id for item in bank.get("assessments", [])):
             raise ValueError("This assessment has already been promoted.")
         bank.setdefault("assessments", []).append(assessment)
-        _atomic_json(bank_path, bank)
+        save_json_document(
+            "assessment-bank:reviewed-assessments", bank, bank_path
+        )
         for item in payload.get(collection, []):
             if item.get("candidate_id") == candidate_id:
                 item["review_state"] = "approved"
@@ -192,7 +199,9 @@ def save_non_mcq_review(
 
 
 def load_assessments(path: Path = ASSESSMENT_BANK_PATH) -> list[dict]:
-    if not path.is_file():
-        return []
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = load_json_document(
+        "assessment-bank:reviewed-assessments",
+        path,
+        {"assessments": []},
+    )
     return payload.get("assessments", [])
