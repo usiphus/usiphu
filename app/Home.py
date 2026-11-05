@@ -63,7 +63,7 @@ from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, get_source_bytes, list_sources, save_source
+from usiphu.source_inbox import get_source_bytes, list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
