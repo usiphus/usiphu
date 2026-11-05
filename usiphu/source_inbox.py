@@ -150,7 +150,6 @@ def save_source(
                     (source_id, digest, object_key, json.dumps(record, ensure_ascii=False), record["uploaded_at"]),
                 ).fetchone()
             if not inserted:
-                _delete_object(object_key)
                 raise ValueError("This exact file is already in the source inbox")
         except Exception:
             try:
