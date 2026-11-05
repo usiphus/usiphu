@@ -35,7 +35,7 @@ def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
     specialty_lookup.update({specialty.id.casefold(): specialty.id for specialty in curriculum.specialties})
     candidates = []
     extraction_dir = source_dir / "extractions"
-    if not extraction_dir.exists():
+    if not is_postgres() and not extraction_dir.exists():
         return []
     extraction_rows = (
         [(source["source_id"], load_extraction(source["source_id"], source_dir))
