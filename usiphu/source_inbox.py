@@ -211,3 +211,99 @@ def list_extractions(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[tuple[dict, 
 
 def write_extraction(source_id: str, payload: dict, source_dir: Path = DEFAULT_SOURCE_DIR) -> None:
     save_extraction(source_id, payload, source_dir)
+
+
+def import_source_record(
+    record: dict,
+    original_bytes: bytes,
+    extraction_payload: dict | None = None,
+    *,
+    source_dir: Path = DEFAULT_SOURCE_DIR,
+    replace_existing: bool = False,
+) -> dict:
+    """Import a legacy local source while preserving its identity and provenance."""
+    import re
+
+    if not _remote_enabled():
+        raise RuntimeError("Source Inbox import requires the Supabase/PostgreSQL backend.")
+    source_id = str(record.get("source_id", ""))
+    stored_name = str(record.get("stored_filename", ""))
+    if not re.fullmatch(r"[A-Za-z0-9_-]{1,128}", source_id):
+        raise ValueError("Invalid source ID in legacy manifest.")
+    if Path(stored_name).name != stored_name or Path(stored_name).suffix.lower() not in ALLOWED_EXTENSIONS:
+        raise ValueError("Invalid stored filename in legacy manifest.")
+    if not original_bytes:
+        raise ValueError("Legacy source file is empty.")
+    digest = hashlib.sha256(original_bytes).hexdigest()
+    if digest != record.get("sha256"):
+        raise ValueError(f"Source checksum does not match the legacy manifest: {source_id}")
+    if extraction_payload is not None and extraction_payload.get("source_id") != source_id:
+        raise ValueError(f"Extraction source ID does not match its manifest record: {source_id}")
+
+    object_key = f"sources/{source_id}/{stored_name}"
+    extraction_key = f"extractions/{source_id}.json" if extraction_payload is not None else None
+    imported = dict(record)
+    imported["object_key"] = object_key
+    if extraction_key:
+        imported["extraction_key"] = extraction_key
+
+    storage = get_object_storage(source_dir)
+    with connect() as db:
+        existing = db.execute(
+            "SELECT sha256, object_key, extraction_key, metadata_json "
+            "FROM source_documents WHERE source_id = ?",
+            (source_id,),
+        ).fetchone()
+        duplicate = db.execute(
+            "SELECT source_id FROM source_documents WHERE sha256 = ? AND source_id <> ?",
+            (digest, source_id),
+        ).fetchone()
+        if duplicate:
+            raise ValueError(f"Identical source bytes already belong to source ID {duplicate['source_id']}.")
+        if existing and existing["sha256"] != digest:
+            raise ValueError(f"Remote source ID already exists with different bytes: {source_id}")
+
+        if existing:
+            remote_original = storage.download(existing["object_key"])
+            if hashlib.sha256(remote_original).hexdigest() != digest:
+                raise RuntimeError(f"Remote original checksum mismatch: {source_id}")
+        else:
+            storage.upload(
+                object_key,
+                original_bytes,
+                mimetypes.guess_type(stored_name)[0] or "application/octet-stream",
+            )
+
+        if extraction_payload is not None:
+            encoded_extraction = (
+                json.dumps(extraction_payload, ensure_ascii=False, indent=2) + "\n"
+            ).encode("utf-8")
+            if existing and existing["extraction_key"]:
+                remote_extraction = storage.download(existing["extraction_key"])
+                if remote_extraction != encoded_extraction and not replace_existing:
+                    raise ValueError(
+                        f"Remote extraction has changed since the local snapshot: {source_id}; "
+                        "use --replace-existing only after reviewing the difference."
+                    )
+            if not existing or not existing["extraction_key"] or replace_existing:
+                storage.upload(extraction_key, encoded_extraction, "application/json", upsert=True)
+
+        with connect() as db:
+            db.execute(
+                "INSERT INTO source_documents "
+                "(source_id, sha256, object_key, extraction_key, metadata_json, uploaded_at) "
+                "VALUES (?, ?, ?, ?, ?, ?) "
+                "ON CONFLICT (source_id) DO UPDATE SET "
+                "sha256 = EXCLUDED.sha256, object_key = EXCLUDED.object_key, "
+                "extraction_key = EXCLUDED.extraction_key, metadata_json = EXCLUDED.metadata_json, "
+                "uploaded_at = EXCLUDED.uploaded_at, updated_at = NOW()",
+                (
+                    source_id,
+                    digest,
+                    object_key,
+                    extraction_key or (existing["extraction_key"] if existing else None),
+                    json.dumps(imported, ensure_ascii=False),
+                    record.get("uploaded_at") or datetime.now(UTC).isoformat(),
+                ),
+            )
+    return imported
