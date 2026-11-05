@@ -1,0 +1,17 @@
+.git
+.gitignore
+.venv
+venv
+__pycache__
+.pytest_cache
+.ruff_cache
+.mypy_cache
+*.py[cod]
+*.sqlite3
+*.db
+.env
+.env.*
+.streamlit/secrets.toml
+data/source_inbox
+data/backups
+runtime
