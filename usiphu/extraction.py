@@ -8,14 +8,9 @@ from xml.etree import ElementTree
 
 from pypdf import PdfReader
 
-from usiphu.source_inbox import (
-    DEFAULT_SOURCE_DIR,
-    _update_source as update_source_record,
-    list_sources,
-    load_extraction as load_stored_extraction,
-    read_source_bytes,
-    save_extraction,
-)
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources, read_source_bytes, save_extraction
+from usiphu.source_inbox import _update_source as update_source_record
+from usiphu.source_inbox import load_extraction as load_stored_extraction
 
 QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
 OPTION_LINE = re.compile(r"^\s*([A-E])[.)]\s*(.+?)\s*$", re.M)
