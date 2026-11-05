@@ -57,6 +57,22 @@ The local backend remains the default for development and existing tests. Do not
 set the Supabase backend selectors in a live deployment until PR #15 and this
 PR are reviewed, merged in order, and the migration is applied.
 
+## Import existing local data
+
+After migrations 0001–0003 are applied and both cloud backend selectors are set, run the new import planner from a trusted operator environment:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data
+```
+
+The default is read-only. To apply after reviewing the inventory:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data --apply
+```
+
+The apply path creates and checksum-verifies a local pre-import archive, then copies originals, extraction JSON and supported reviewed/report documents without deleting local files. It refuses conflicting source identities/checksums and refuses to overwrite a different remote document. The archive is not encrypted; keep it on an encrypted, access-restricted disk and create a separately encrypted off-provider copy. Rehearse with synthetic data first.
+
 ## Remaining gaps
 
 - Existing local bank files and prior report exports are not automatically imported. The runtime now writes new promoted bank documents and explicitly downloaded pilot-report snapshots to private Storage when both cloud backend selectors are enabled.
