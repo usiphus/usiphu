@@ -1004,7 +1004,7 @@ elif page == "Faculty Review":
                             )
                             st.success("Clinical decision recorded: " + result["clinical_status"])
                             st.rerun()
-                        except (ValueError, KeyError) as exc:
+                        except (ValueError, KeyError, PermissionError) as exc:
                             st.error(str(exc))
             else:
                 st.caption("Examination reviewer: must be a different authenticated faculty member from the clinical approver. Content is locked for this stage.")
@@ -1038,7 +1038,7 @@ elif page == "Faculty Review":
                             )
                             st.success("Examination decision recorded: " + result["exam_status"])
                             st.rerun()
-                        except (ValueError, KeyError) as exc:
+                        except (ValueError, KeyError, PermissionError) as exc:
                             st.error(str(exc))
             st.markdown("#### Immutable review history")
         events = review_history(selected_id)
