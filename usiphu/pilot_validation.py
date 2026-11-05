@@ -7,10 +7,19 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.database import is_postgres
+from usiphu.source_inbox import (
+    DEFAULT_SOURCE_DIR,
+    list_extractions,
+    list_sources,
+    load_extraction,
+    save_extraction,
+)
 
 
 def _read_extractions(source_dir: Path) -> list[dict[str, Any]]:
+    if is_postgres():
+        return list_extractions(source_dir)
     extraction_dir = source_dir / "extractions"
     if not extraction_dir.is_dir():
         return []
@@ -38,13 +47,23 @@ def record_ai_review(
     source_dir: Path = DEFAULT_SOURCE_DIR,
 ) -> dict[str, Any]:
     """Persist an AI review as an advisory audit event on its source candidate."""
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.is_dir():
-        raise FileNotFoundError("No extracted source candidates are available.")
-    for path in extraction_dir.glob("*.json"):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+    if is_postgres():
+        extraction_rows = [
+            (source["source_id"], load_extraction(source["source_id"], source_dir))
+            for source in list_sources(source_dir)
+        ]
+    else:
+        extraction_dir = source_dir / "extractions"
+        if not extraction_dir.is_dir():
+            raise FileNotFoundError("No extracted source candidates are available.")
+        extraction_rows = []
+        for path in extraction_dir.glob("*.json"):
+            try:
+                extraction_rows.append((path.stem, json.loads(path.read_text(encoding="utf-8"))))
+            except (OSError, json.JSONDecodeError):
+                continue
+    for source_id, payload in extraction_rows:
+        if not payload:
             continue
         for collection in ("mcq_candidates", "meq_page_candidates"):
             for item in payload.get(collection, []):
@@ -63,7 +82,10 @@ def record_ai_review(
                 }
                 history.append(event)
                 item["latest_ai_review_at"] = event["recorded_at"]
-                _write_payload(path, payload)
+                if is_postgres():
+                    save_extraction(source_id, payload, source_dir)
+                else:
+                    _write_payload(source_dir / "extractions" / f"{source_id}.json", payload)
                 return event
     raise KeyError(f"Unknown extracted candidate: {candidate_id}")
 

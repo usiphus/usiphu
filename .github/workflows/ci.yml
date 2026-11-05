@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main", "feat/medical-curriculum-specialty-generator"]
+    branches: ["main", "feat/medical-curriculum-specialty-generator", "feat/supabase-postgres-storage-backend"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "chore/free-streamlit-supabase-deployment"]
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -16,6 +16,19 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,3 +42,21 @@ jobs:
       - run: python -m usiphu.validation
       - run: python -c "import json, pathlib; [json.loads(p.read_text(encoding='utf-8')) for p in pathlib.Path('data').glob('*.json')]"
       - run: pytest -q
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Bootstrap Supabase-compatible PostgreSQL test service
+        env:
+          PGPASSWORD: postgres
+        run: psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -f tests/postgres_bootstrap.sql
+      - name: Apply hosted schema migration
+        env:
+          PGPASSWORD: postgres
+        run: psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -f supabase/migrations/20261105000100_initial_hosted_schema.sql
+      - name: Enable CI application database login
+        env:
+          PGPASSWORD: postgres
+        run: psql -h 127.0.0.1 -U postgres -d postgres -v ON_ERROR_STOP=1 -c "ALTER ROLE usiphu_app LOGIN PASSWORD 'test-password';"
+      - name: Verify learner and faculty workflows against PostgreSQL
+        env:
+          USIPHU_DATABASE_URL: postgresql://usiphu_app:test-password@127.0.0.1:5432/postgres
+        run: pytest -q tests/test_postgres_integration.py

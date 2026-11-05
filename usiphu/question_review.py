@@ -7,9 +7,12 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from usiphu.curriculum import load_curriculum
+from usiphu.database import is_postgres
+from usiphu.extraction import load_extraction, save_extraction
 from usiphu.models import MCQ
 from usiphu.practice import DATA_DIR
 from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.storage import DEFAULT_DB, connect, initialize
 
 QUESTION_BANK_PATH = DATA_DIR / "question_banks" / "past_papers_reviewed.json"
 
@@ -32,11 +35,21 @@ def list_review_candidates(source_dir: Path = DEFAULT_SOURCE_DIR) -> list[dict]:
     specialty_lookup.update({specialty.id.casefold(): specialty.id for specialty in curriculum.specialties})
     candidates = []
     extraction_dir = source_dir / "extractions"
-    if not extraction_dir.exists():
+    if not is_postgres() and not extraction_dir.exists():
         return []
-    for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime, reverse=True):
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        source_id = payload.get("source_id") or path.stem
+    extraction_rows = (
+        [(source["source_id"], load_extraction(source["source_id"], source_dir))
+         for source in records]
+        if is_postgres()
+        else [(path.stem, json.loads(path.read_text(encoding="utf-8")))
+              for path in sorted(extraction_dir.glob("*.json"),
+                                 key=lambda item: item.stat().st_mtime, reverse=True)]
+    )
+    for extraction_id, payload in extraction_rows:
+        if not payload:
+            continue
+        source_id = payload.get("source_id") or extraction_id
+        path = extraction_dir / f"{source_id}.json"
         source = sources.get(source_id, {})
         for item in payload.get("mcq_candidates", []):
             candidates.append({
@@ -89,8 +102,9 @@ def save_candidate_review(
     if answer_verified and not correct_option_id:
         raise ValueError("Select an answer key before marking it as independently verified.")
 
-    path = Path(candidate["extraction_path"])
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload = load_extraction(candidate["source_id"], source_dir)
+    if payload is None:
+        raise FileNotFoundError("The source extraction is no longer available.")
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
             # Keep the first machine extraction immutable as an audit baseline.
@@ -143,7 +157,7 @@ def save_candidate_review(
                 "reviewed_at": datetime.now(UTC).isoformat(),
             })
             break
-    _atomic_json(path, payload)
+    save_extraction(candidate["source_id"], payload, source_dir)
     return get_review_candidate(candidate_id, source_dir) or {}
 
 
@@ -199,26 +213,38 @@ def approve_candidate(
     except ValidationError as exc:
         raise ValueError(f"Question does not meet the bank schema: {exc}") from exc
 
-    if bank_path.exists():
-        bank = json.loads(bank_path.read_text(encoding="utf-8"))
+    if is_postgres():
+        initialize(DEFAULT_DB)
+        with connect(DEFAULT_DB) as db:
+            inserted = db.execute(
+                """INSERT INTO approved_question_bank(question_id,payload_json)
+                   VALUES(?,?) ON CONFLICT(question_id) DO NOTHING RETURNING question_id""",
+                (validated.id, json.dumps(validated.model_dump(), ensure_ascii=False)),
+            ).fetchone()
+        if not inserted:
+            raise ValueError("A question with this ID already exists in the past-paper bank.")
     else:
-        bank = {
-            "bank_id": "past-papers-review-bank",
-            "title": "Reviewed Past-Paper Questions",
-            "questions": [],
-        }
-    if any(item.get("id") == validated.id for item in bank.get("questions", [])):
-        raise ValueError("A question with this ID already exists in the past-paper bank.")
-    bank.setdefault("questions", []).append(validated.model_dump())
-    _atomic_json(bank_path, bank)
+        if bank_path.exists():
+            bank = json.loads(bank_path.read_text(encoding="utf-8"))
+        else:
+            bank = {
+                "bank_id": "past-papers-review-bank",
+                "title": "Reviewed Past-Paper Questions",
+                "questions": [],
+            }
+        if any(item.get("id") == validated.id for item in bank.get("questions", [])):
+            raise ValueError("A question with this ID already exists in the past-paper bank.")
+        bank.setdefault("questions", []).append(validated.model_dump())
+        _atomic_json(bank_path, bank)
 
-    extraction_path = Path(candidate["extraction_path"])
-    payload = json.loads(extraction_path.read_text(encoding="utf-8"))
+    payload = load_extraction(candidate["source_id"], source_dir)
+    if payload is None:
+        raise FileNotFoundError("The source extraction is no longer available.")
     for item in payload.get("mcq_candidates", []):
         if item.get("candidate_id") == candidate_id:
             item["review_state"] = "approved"
             item["approved_question_id"] = validated.id
             item["approved_at"] = datetime.now(UTC).isoformat()
             break
-    _atomic_json(extraction_path, payload)
+    save_extraction(candidate["source_id"], payload, source_dir)
     return validated.model_dump()

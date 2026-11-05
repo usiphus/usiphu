@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
+from usiphu.database import is_postgres
 from usiphu.faculty_review import reviewer_roles
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
@@ -22,6 +23,8 @@ def _now() -> str:
 
 def _ensure_schema(path: Path = DEFAULT_DB) -> None:
     initialize(path)
+    if is_postgres():
+        return  # The hosted schema is installed through versioned Supabase migrations.
     with connect(path) as db:
         db.executescript("""
         CREATE TABLE IF NOT EXISTS shared_assessment_reviews (

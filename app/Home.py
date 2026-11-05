@@ -1,4 +1,5 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
+# ruff: noqa: E402
 import json
 import os
 import random
@@ -17,6 +18,11 @@ for _setting in (
     "USIPHU_ADMIN_SUBJECTS",
     "USIPHU_CLINICAL_REVIEWER_SUBJECTS",
     "USIPHU_EXAM_REVIEWER_SUBJECTS",
+    "USIPHU_DATABASE_URL",
+    "SUPABASE_DATABASE_URL",
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "USIPHU_STORAGE_BUCKET",
 ):
     try:
         _secret_value = st.secrets.get(_setting)
@@ -58,7 +64,7 @@ from usiphu.practice import filter_questions, load_cases, load_questions
 from usiphu.question_review import approve_candidate, list_review_candidates, save_candidate_review
 from usiphu.resources import discover_resources
 from usiphu.scheduler import schedule_review
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources, save_source
+from usiphu.source_inbox import get_source_bytes, list_sources, save_source
 from usiphu.storage import (
     dashboard_stats,
     due_cards,
@@ -1265,15 +1271,18 @@ elif page == "Review Editor":
                     None,
                 )
                 if source_record:
-                    original_path = DEFAULT_SOURCE_DIR / source_record["stored_filename"]
-                    if original_path.is_file():
+                    try:
+                        original_bytes = get_source_bytes(source_record["source_id"])
+                        original_suffix = str(source_record.get("original_filename", "")).lower()
                         st.download_button(
                             "Download original source paper",
-                            data=original_path.read_bytes(),
+                            data=original_bytes,
                             file_name=source_record.get("original_filename", "source-paper"),
-                            mime="application/pdf" if original_path.suffix.lower() == ".pdf" else "application/octet-stream",
+                            mime="application/pdf" if original_suffix.endswith(".pdf") else "application/octet-stream",
                             key="download-review-source-" + selected_id,
                         )
+                    except (OSError, RuntimeError, ValueError) as source_error:
+                        st.warning("The original source file could not be loaded: " + str(source_error))
                 if selected.get("original_extracted_stem") is not None:
                     st.caption("First machine-extracted transcription (kept for audit):")
                     st.text(selected.get("original_extracted_stem", ""))
@@ -1950,149 +1959,152 @@ elif page == "Question Bank":
     st.divider()
     st.caption("For detailed MCQ, short-answer and MEQ editing, use the dedicated Review Editor in the sidebar.")
 
-    st.subheader("Add examination papers and question sources")
-    st.write(
-        "Upload past papers whenever you find them. USIPHU keeps the original file and "
-        "automatically extracts selectable text into a review queue when the format supports it."
-    )
-    st.caption(
-        "Accepted: PDF, DOCX, DOC, TXT, PNG and JPG · Maximum 50 MB per file. "
-        "PDF, DOCX and TXT files are extracted automatically when readable text is available. "
-        "Scanned PDFs and images need OCR/manual extraction. Extracted candidates are never auto-approved."
-    )
-    with st.form("question-source-upload"):
-        source_files = st.file_uploader(
-            "Choose one or more papers / source files",
-            type=["pdf", "docx", "doc", "txt", "png", "jpg", "jpeg"],
-            accept_multiple_files=True,
-            help="You can add several files at once and return later to add more.",
+    if not AUTH_REQUIRED or reviewer_access or admin_access:
+        st.subheader("Add examination papers and question sources")
+        st.write(
+            "Upload past papers whenever you find them. USIPHU keeps the original file and "
+            "automatically extracts selectable text into a review queue when the format supports it."
         )
-        source_title = st.text_input("Collection / paper title (optional)")
-        source_specialty = st.selectbox(
-            "Main specialty",
-            ["Unassigned", "Urology", "Vascular Surgery", "Neurosurgery", "Cardiothoracic Surgery",
-             "General Surgery", "Pediatrics", "Radiology", "Medicine", "Emergency Medicine", "Other"],
+        st.caption(
+            "Accepted: PDF, DOCX, DOC, TXT, PNG and JPG · Maximum 50 MB per file. "
+            "PDF, DOCX and TXT files are extracted automatically when readable text is available. "
+            "Scanned PDFs and images need OCR/manual extraction. Extracted candidates are never auto-approved."
         )
-        source_year = st.text_input("Exam year (if known)", placeholder="e.g. 2024")
-        source_notes = st.text_area(
-            "Notes (optional)", placeholder="University, course, paper number, source/permission details..."
-        )
-        upload_sources = st.form_submit_button(
-            "Save files to source inbox", type="primary", disabled=not source_files
-        )
-    if upload_sources:
-        saved_count = 0
-        for uploaded_file in source_files:
-            try:
-                saved = save_source(
-                    uploaded_file.name,
-                    uploaded_file.getvalue(),
-                    title=source_title or None,
-                    specialty=source_specialty,
-                    exam_year=source_year,
-                    notes=source_notes,
-                )
-                saved_count += 1
+        with st.form("question-source-upload"):
+            source_files = st.file_uploader(
+                "Choose one or more papers / source files",
+                type=["pdf", "docx", "doc", "txt", "png", "jpg", "jpeg"],
+                accept_multiple_files=True,
+                help="You can add several files at once and return later to add more.",
+            )
+            source_title = st.text_input("Collection / paper title (optional)")
+            source_specialty = st.selectbox(
+                "Main specialty",
+                ["Unassigned", "Urology", "Vascular Surgery", "Neurosurgery", "Cardiothoracic Surgery",
+                 "General Surgery", "Pediatrics", "Radiology", "Medicine", "Emergency Medicine", "Other"],
+            )
+            source_year = st.text_input("Exam year (if known)", placeholder="e.g. 2024")
+            source_notes = st.text_area(
+                "Notes (optional)", placeholder="University, course, paper number, source/permission details..."
+            )
+            upload_sources = st.form_submit_button(
+                "Save files to source inbox", type="primary", disabled=not source_files
+            )
+        if upload_sources:
+            saved_count = 0
+            for uploaded_file in source_files:
                 try:
-                    extracted = extract_source(saved["source_id"])
-                    extracted_items = [
-                        *extracted.get("mcq_candidates", []),
-                        *extracted.get("meq_page_candidates", []),
-                    ]
-                    for candidate in extracted_items:
-                        enqueue_assessment_for_review(
-                            candidate["candidate_id"],
-                            candidate.get("question_type", "extracted_candidate"),
-                            {**candidate, "source_id": extracted.get("source_id"),
-                             "source_title": extracted.get("source_title"),
-                             "source_filename": extracted.get("source_filename")},
-                        )
-                    count = extracted["summary"]["question_candidates"] + extracted["summary"]["meq_page_candidates"]
-                    st.success(
-                        f"Saved and extracted {saved['original_filename']}: "
-                        f"{count} candidate(s) awaiting review."
+                    saved = save_source(
+                        uploaded_file.name,
+                        uploaded_file.getvalue(),
+                        title=source_title or None,
+                        specialty=source_specialty,
+                        exam_year=source_year,
+                        notes=source_notes,
                     )
-                except Exception as exc:
-                    st.warning(
-                        f"Saved {saved['original_filename']}, but automatic extraction "
-                        f"needs attention: {exc}"
-                    )
-            except ValueError as exc:
-                st.warning(f"{uploaded_file.name}: {exc}")
-        if saved_count:
-            st.success(f"{saved_count} source file(s) added. Extraction results are saved for review where supported.")
-            st.rerun()
-
-    source_records = list_sources()
-    st.markdown("#### Source inbox")
-    st.caption(f"{len(source_records)} source file(s) stored · newest first")
-    if source_records:
-        st.dataframe(
-            [{
-                "Title": item["title"],
-                "Original file": item["original_filename"],
-                "Specialty": item["specialty"],
-                "Year": item["exam_year"] or "—",
-                "Status": item["status"].replace("_", " ").title(),
-                "Size (MB)": round(item["size_bytes"] / (1024 * 1024), 2),
-                "Added": item["uploaded_at"][:10],
-            } for item in source_records],
-            use_container_width=True,
-            hide_index=True,
-        )
-        for item in source_records:
-            with st.expander(f"{item['title']} · {item['original_filename']}"):
-                st.write(f"**Specialty:** {item['specialty']}")
-                st.write(f"**Exam year:** {item['exam_year'] or 'Not supplied'}")
-                st.write(f"**Status:** {item['status'].replace('_', ' ').title()}")
-                if item.get("notes"):
-                    st.write(item["notes"])
-                st.caption(f"Source ID: {item['source_id']} · SHA-256: {item['sha256']}")
-                extraction = load_extraction(item["source_id"])
-                if extraction:
-                    summary = extraction["summary"]
-                    st.info(
-                        f"{summary['question_candidates']} question candidate(s) · "
-                        f"{summary['meq_page_candidates']} MEQ page(s) · "
-                        "all remain unreviewed"
-                    )
-                    st.download_button(
-                        "Download extracted candidates (JSON)",
-                        data=json.dumps(extraction, ensure_ascii=False, indent=2),
-                        file_name=f"{item['source_id']}-candidates.json",
-                        mime="application/json",
-                        key=f"download-extraction-{item['source_id']}",
-                    )
-                    candidates = [
-                        *extraction.get("mcq_candidates", []),
-                        *extraction.get("meq_page_candidates", []),
-                    ]
-                    for candidate in candidates[:10]:
-                        with st.expander(
-                            f"Page {candidate['source_page']} · "
-                            f"{candidate.get('question_type', 'MEQ').replace('_', ' ').title()} · "
-                            f"{candidate['candidate_id']}"
-                        ):
-                            st.text(candidate.get("raw_text", candidate.get("stem_extracted", "")))
-                            if candidate.get("options"):
-                                for option in candidate["options"]:
-                                    st.write(f"{option['id'].upper()}. {option['text']}")
-                    if len(candidates) > 10:
-                        st.caption(f"Previewing 10 of {len(candidates)} extracted candidates.")
-                if st.button("Run / retry extraction", key=f"extract-source-{item['source_id']}"):
+                    saved_count += 1
                     try:
-                        result = extract_source(item["source_id"])
+                        extracted = extract_source(saved["source_id"])
+                        extracted_items = [
+                            *extracted.get("mcq_candidates", []),
+                            *extracted.get("meq_page_candidates", []),
+                        ]
+                        for candidate in extracted_items:
+                            enqueue_assessment_for_review(
+                                candidate["candidate_id"],
+                                candidate.get("question_type", "extracted_candidate"),
+                                {**candidate, "source_id": extracted.get("source_id"),
+                                 "source_title": extracted.get("source_title"),
+                                 "source_filename": extracted.get("source_filename")},
+                            )
+                        count = extracted["summary"]["question_candidates"] + extracted["summary"]["meq_page_candidates"]
                         st.success(
-                            f"Extraction complete: "
-                            f"{result['summary']['question_candidates'] + result['summary']['meq_page_candidates']} "
-                            "candidate(s) awaiting review."
+                            f"Saved and extracted {saved['original_filename']}: "
+                            f"{count} candidate(s) awaiting review."
                         )
-                        st.rerun()
                     except Exception as exc:
-                        st.error(f"Extraction could not complete: {exc}")
+                        st.warning(
+                            f"Saved {saved['original_filename']}, but automatic extraction "
+                            f"needs attention: {exc}"
+                        )
+                except ValueError as exc:
+                    st.warning(f"{uploaded_file.name}: {exc}")
+            if saved_count:
+                st.success(f"{saved_count} source file(s) added. Extraction results are saved for review where supported.")
+                st.rerun()
+    
+        source_records = list_sources()
+        st.markdown("#### Source inbox")
+        st.caption(f"{len(source_records)} source file(s) stored · newest first")
+        if source_records:
+            st.dataframe(
+                [{
+                    "Title": item["title"],
+                    "Original file": item["original_filename"],
+                    "Specialty": item["specialty"],
+                    "Year": item["exam_year"] or "—",
+                    "Status": item["status"].replace("_", " ").title(),
+                    "Size (MB)": round(item["size_bytes"] / (1024 * 1024), 2),
+                    "Added": item["uploaded_at"][:10],
+                } for item in source_records],
+                use_container_width=True,
+                hide_index=True,
+            )
+            for item in source_records:
+                with st.expander(f"{item['title']} · {item['original_filename']}"):
+                    st.write(f"**Specialty:** {item['specialty']}")
+                    st.write(f"**Exam year:** {item['exam_year'] or 'Not supplied'}")
+                    st.write(f"**Status:** {item['status'].replace('_', ' ').title()}")
+                    if item.get("notes"):
+                        st.write(item["notes"])
+                    st.caption(f"Source ID: {item['source_id']} · SHA-256: {item['sha256']}")
+                    extraction = load_extraction(item["source_id"])
+                    if extraction:
+                        summary = extraction["summary"]
+                        st.info(
+                            f"{summary['question_candidates']} question candidate(s) · "
+                            f"{summary['meq_page_candidates']} MEQ page(s) · "
+                            "all remain unreviewed"
+                        )
+                        st.download_button(
+                            "Download extracted candidates (JSON)",
+                            data=json.dumps(extraction, ensure_ascii=False, indent=2),
+                            file_name=f"{item['source_id']}-candidates.json",
+                            mime="application/json",
+                            key=f"download-extraction-{item['source_id']}",
+                        )
+                        candidates = [
+                            *extraction.get("mcq_candidates", []),
+                            *extraction.get("meq_page_candidates", []),
+                        ]
+                        for candidate in candidates[:10]:
+                            with st.expander(
+                                f"Page {candidate['source_page']} · "
+                                f"{candidate.get('question_type', 'MEQ').replace('_', ' ').title()} · "
+                                f"{candidate['candidate_id']}"
+                            ):
+                                st.text(candidate.get("raw_text", candidate.get("stem_extracted", "")))
+                                if candidate.get("options"):
+                                    for option in candidate["options"]:
+                                        st.write(f"{option['id'].upper()}. {option['text']}")
+                        if len(candidates) > 10:
+                            st.caption(f"Previewing 10 of {len(candidates)} extracted candidates.")
+                    if st.button("Run / retry extraction", key=f"extract-source-{item['source_id']}"):
+                        try:
+                            result = extract_source(item["source_id"])
+                            st.success(
+                                f"Extraction complete: "
+                                f"{result['summary']['question_candidates'] + result['summary']['meq_page_candidates']} "
+                                "candidate(s) awaiting review."
+                            )
+                            st.rerun()
+                        except Exception as exc:
+                            st.error(f"Extraction could not complete: {exc}")
+        else:
+            st.info("No source files yet. Upload your first paper above.")
+    
     else:
-        st.info("No source files yet. Upload your first paper above.")
-
+        st.info("The Source Inbox is restricted to authenticated faculty reviewers and administrators.")
 st.divider()
 st.caption(
     "Educational use only. Verify clinical information against current guidelines and local protocols. "

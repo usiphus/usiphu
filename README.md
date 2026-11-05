@@ -57,12 +57,11 @@ No paid model API key is required for the local Ollama workflow. The first model
 
 ## Where your data is stored
 
-- SQLite learner database: `usiphu_data.sqlite3` in the project directory by default.
-- Uploaded examination papers, source metadata, extraction JSON and review history: `data/source_inbox/` by default.
-- Local backup files: `data/backups/` when using the backup script defaults.
-- OIDC secrets, if you later configure authentication: `.streamlit/secrets.toml` (never commit this file).
+- Local development: SQLite learner database `usiphu_data.sqlite3` and Source Inbox files under `data/source_inbox/`.
+- Hosted pilot: set `USIPHU_DATABASE_URL` to the Supabase PostgreSQL session-pooler URI; Source Inbox originals are stored in the private Supabase Storage bucket and extraction metadata is stored in PostgreSQL.
+- Auth0 and Supabase credentials belong in Streamlit Community Cloud Secrets or a protected local environment, never in Git.
 
-These files remain on the computer running USIPHU. Back them up regularly. Do not expose the local Streamlit port directly to the public internet. See [local setup, backup and restore](docs/DEPLOYMENT.md).
+SQLite remains the default for local development. Hosted persistence is described in [the $0 Streamlit + Supabase runbook](docs/FREE_STREAMLIT_SUPABASE_DEPLOYMENT.md). Do not deploy with real data until the PostgreSQL integration suite, Auth0 authorization tests, and backup/restore drill pass.
 
 ## Curriculum target
 
@@ -84,7 +83,7 @@ The curriculum blueprint contains 27 medical disciplines, 174 topics and 291 lea
 - Specialty-aware PubMed-grounded local Ollama drafting with MCQ, short-answer, clinical-case, OSCE, viva and EMQ formats; source traceability, Suez ILO safeguards and isolated draft review storage.
 - Learner-isolated SQLite flashcards, spaced repetition, topic progress, and analytics.
 - Optional OIDC authentication; FastAPI curriculum, practice, resource, and generation endpoints.
-- Local SQLite and Source Inbox storage with paired backup/restore utilities. The app runs directly under Python without a container runtime.
+- Local SQLite storage for development and a PostgreSQL + private Supabase Storage backend for the hosted pilot; the app runs directly under Python without a container runtime.
 
 ## Evidence-grounded AI generation
 
@@ -94,9 +93,9 @@ The generator retrieves PubMed abstracts and uses a locally hosted Ollama model 
 
 See [generator pipeline](docs/GENERATOR_PIPELINE.md). The runtime retrieves PubMed abstracts, calls the configured local Ollama model, validates source-linked output, and stores accepted cards as isolated drafts. Passing automated validation never means clinical approval. Every accepted draft stores a specialty- and format-specific human review packet with the card; see [the clinical/exam review rubric](data/clinical_exam_review_rubric.json).
 
-## Hosting later
+## Free hosted pilot
 
-USIPHU is local-first at this stage; no remote server or public domain is configured. If you later want access from multiple devices or learners, choose a host with persistent disk or managed database/object storage, HTTPS and an authentication provider. Do not deploy this SQLite/local-file configuration to an ephemeral hosting filesystem or expose it publicly as-is. PostgreSQL is not yet connected to the application storage layer, so do not horizontally scale the app.
+A Streamlit Community Cloud + Supabase Free deployment path is being prepared. The application backend and schema migration are in the hosted-backend PR stack; no live Supabase project or Streamlit app has been provisioned. Follow [the deployment runbook](docs/FREE_STREAMLIT_SUPABASE_DEPLOYMENT.md), and keep the environment on synthetic data until all CI, Auth0, Storage, and recovery acceptance gates pass.
 
 ## Checks
 
