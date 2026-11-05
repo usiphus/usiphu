@@ -13,6 +13,8 @@ def write_pg_service_file(database_url: str, path: Path, service: str) -> Path:
         raise ValueError("SUPABASE_DB_URL must be a valid PostgreSQL connection URL.")
     query = parse_qs(parsed.query)
     sslmode = query.get("sslmode", ["require"])[0]
+    if sslmode not in {"require", "verify-ca", "verify-full"}:
+        raise ValueError("Backup connections must use TLS with sslmode=require or stronger.")
     values = {
         "host": parsed.hostname,
         "port": str(parsed.port or 5432),
