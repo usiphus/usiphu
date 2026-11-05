@@ -2,6 +2,7 @@
 import json
 import os
 import sqlite3
+from typing import Any
 from datetime import date
 from pathlib import Path
 
@@ -17,7 +18,7 @@ def _scoped_card_id(card_id: str, learner_id: str) -> str:
     return f"{learner_id}:{card_id}"
 
 
-def connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
+def connect(path: Path = DEFAULT_DB) -> Any:
     """Open the configured local database through the backend abstraction.
 
     The optional path remains for isolated tests and explicit SQLite maintenance.
