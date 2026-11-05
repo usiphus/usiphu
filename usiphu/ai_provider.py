@@ -334,7 +334,9 @@ def generate_topic_cards(
             notify("generation", index, brief, "No usable evidence for this objective")
             continue
         try:
-            results.append(_author_one(brief, evidence, model, generation_guidance))
+            authored = _author_one(brief, evidence, model, generation_guidance)
+            authored.setdefault("brief_id", brief["brief_id"])
+            results.append(authored)
             notify("generation", index, brief, "Draft validation complete")
         except Exception as exc:
             # Preserve successful objectives when one model response is malformed or times out.
