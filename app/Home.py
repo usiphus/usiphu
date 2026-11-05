@@ -19,7 +19,10 @@ from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, 
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
-from usiphu.faculty_review import (\n    list_pilot_questions, record_faculty_decision, review_history,\n    reviewer_roles, list_reviewer_assignments, set_reviewer_role,\n)
+from usiphu.faculty_review import (
+    list_pilot_questions, record_faculty_decision, review_history,
+    reviewer_roles, list_reviewer_assignments, set_reviewer_role,
+)
 from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
 from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
@@ -914,12 +917,6 @@ elif page == "Faculty Review":
         if "exam_reviewer" in reviewer_role_set and clinical_done:
             available_stage_labels.append("Examination validation")
         if not available_stage_labels:
-            st.info(
-                "Your account does not currently have a review role for an available stage. "
-                "Ask a USIPHU administrator to grant the appropriate role."
-            )
-        else:
-            if not available_stage_labels:
             st.info(
                 "Your account does not currently have a review role for an available stage. "
                 "Ask a USIPHU administrator to grant the appropriate role."
