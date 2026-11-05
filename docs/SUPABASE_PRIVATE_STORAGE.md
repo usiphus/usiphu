@@ -18,7 +18,8 @@ The secret key must never be sent to a browser.
 
 ## Apply database migration
 
-Apply `migrations/0002_source_documents.sql` after
+Apply `migrations/0002_source_documents.sql` and then
+`migrations/0003_app_documents.sql` after
 `migrations/0001_postgresql_schema.sql` to the private PostgreSQL database.
 The migration enables RLS and denies the Supabase `anon` and `authenticated`
 roles access to source metadata. The app uses its server-side PostgreSQL
@@ -49,6 +50,8 @@ publishable key for this server-side adapter. Keep all credentials server-only.
 - Source catalogue, SHA-256 duplicate key and provenance metadata: PostgreSQL
 - Extracted candidate JSON: private Supabase Storage object
 - Candidate edits and review-state changes: written back to the extraction object
+- Promoted MCQ question bank and short-answer/MEQ assessment bank: private Storage objects, with PostgreSQL pointers and SHA-256 checksums
+- Explicitly downloaded pilot-validation report snapshots: private Storage objects, with PostgreSQL pointers and SHA-256 checksums
 
 The local backend remains the default for development and existing tests. Do not
 set the Supabase backend selectors in a live deployment until PR #15 and this
@@ -56,10 +59,8 @@ PR are reviewed, merged in order, and the migration is applied.
 
 ## Remaining gaps
 
-- Promoted question-bank and assessment-bank JSON files still use the local
-  repository data directory and must be migrated before cloud deployment.
-- Existing local Source Inbox files/manifests/extractions are not imported by
-  this change. A separate dry-run-first migration utility is required.
+- Existing local bank files and prior report exports are not automatically imported. The runtime now writes new promoted bank documents and explicitly downloaded pilot-report snapshots to private Storage when both cloud backend selectors are enabled.
+- Existing local Source Inbox files/manifests/extractions, existing promoted banks and historical report snapshots are not imported by this change. A separate dry-run-first migration utility is required.
 - Faculty review authorization remains enforced by the PostgreSQL-backed review
   repositories; Storage itself uses a privileged server-side key. The app must
   authorize each action before requesting any object operation.
