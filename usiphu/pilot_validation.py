@@ -1,7 +1,6 @@
 """Pilot validation metrics and durable audit records for source-question review."""
 from __future__ import annotations
 
-import json
 import re
 from collections import Counter
 from datetime import UTC, datetime
@@ -14,12 +13,6 @@ from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_extractions, list_sourc
 
 def _read_extractions(source_dir: Path) -> list[dict[str, Any]]:
     return [payload for _source, payload in list_extractions(source_dir)]
-
-
-def _write_payload(path: Path, payload: dict[str, Any]) -> None:
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(path)
 
 
 def record_ai_review(
