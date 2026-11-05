@@ -19,7 +19,7 @@ from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, 
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
-from usiphu.faculty_review import list_pilot_questions, record_faculty_decision, review_history
+from usiphu.faculty_review import (\n    list_pilot_questions, record_faculty_decision, review_history,\n    reviewer_roles, list_reviewer_assignments, set_reviewer_role,\n)
 from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
 from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
@@ -58,8 +58,9 @@ if AUTH_REQUIRED:
         st.error("The identity provider did not return a stable subject identifier.")
         st.stop()
     learner_id = f"{st.user.get('iss', 'oidc')}:{subject}"
-    reviewer_subjects = {value.strip() for value in os.getenv("USIPHU_REVIEWER_SUBJECTS", "").split(",") if value.strip()}
-    reviewer_access = learner_id in reviewer_subjects
+    reviewer_role_set = reviewer_roles(learner_id)
+    reviewer_access = bool(reviewer_role_set & {"clinical_reviewer", "exam_reviewer"})
+    admin_access = "admin" in reviewer_role_set
     with st.sidebar:
         st.caption(f"Signed in: {st.user.get('email', 'learner')}")
         st.caption("Your authenticated identity (share with the app administrator to request reviewer access):")
@@ -67,8 +68,10 @@ if AUTH_REQUIRED:
         st.button("Sign out", on_click=st.logout)
 else:
     learner_id = "local"
-    reviewer_access = True
-    st.sidebar.warning("Local single-learner mode. Enable OIDC before deploying for multiple learners.")
+    reviewer_role_set = set()
+    reviewer_access = False
+    admin_access = False
+    st.sidebar.warning("Local single-learner mode. Enable OIDC before faculty review or multi-user deployment.")
 
 initialize()
 st.markdown("""
@@ -792,6 +795,42 @@ elif page == "Pilot Dashboard":
     )
 
 elif page == "Faculty Review":
+    if AUTH_REQUIRED and admin_access:
+        st.markdown("#### Reviewer access management")
+        st.caption("Administrators can grant or revoke clinical and examination reviewer roles. The administrator bootstrap list is controlled by USIPHU_ADMIN_SUBJECTS.")
+        with st.form("faculty-role-management"):
+            target_reviewer = st.text_input(
+                "Authenticated reviewer identity (issuer:subject)",
+                placeholder="https://your-tenant.auth0.com/|auth0|...",
+            )
+            target_role = st.selectbox(
+                "Role to manage",
+                ["clinical_reviewer", "exam_reviewer"],
+                format_func=lambda value: "Clinical reviewer" if value == "clinical_reviewer" else "Examination reviewer",
+            )
+            role_action = st.radio("Permission change", ["Grant", "Revoke"], horizontal=True)
+            role_submit = st.form_submit_button("Apply reviewer permission", type="primary")
+        if role_submit:
+            try:
+                set_reviewer_role(
+                    learner_id, target_reviewer, target_role,
+                    enabled=role_action == "Grant",
+                )
+                st.success(f"{role_action}ed {target_role} permission for {target_reviewer}.")
+                st.rerun()
+            except (ValueError, PermissionError) as exc:
+                st.error(str(exc))
+        assignments = list_reviewer_assignments()
+        if assignments:
+            st.dataframe(
+                [{"Reviewer identity": row["reviewer_id"], "Role": row["role"],
+                  "Granted by": row["granted_by"], "Granted at": row["granted_at"]}
+                 for row in assignments],
+                use_container_width=True, hide_index=True,
+            )
+        else:
+            st.info("No database-managed reviewer roles have been assigned yet.")
+        st.divider()
     st.subheader("Pilot faculty sign-off")
     st.write(
         "Two independent approvals are required before a pilot MCQ becomes eligible for "
@@ -869,9 +908,20 @@ elif page == "Faculty Review":
                 for note in selected["editorial_notes"]:
                     st.write("• " + note)
         clinical_done = selected["clinical_status"] == "approved"
-        stage_label = st.selectbox(
+        available_stage_labels = []
+        if "clinical_reviewer" in reviewer_role_set:
+            available_stage_labels.append("Clinical approval")
+        if "exam_reviewer" in reviewer_role_set and clinical_done:
+            available_stage_labels.append("Examination validation")
+        if not available_stage_labels:
+            st.info(
+                "Your account does not currently have a review role for an available stage. "
+                "Ask a USIPHU administrator to grant the appropriate role."
+            )
+        else:
+            stage_label = st.selectbox(
             "Review stage",
-            ["Clinical approval", "Examination validation"] if clinical_done else ["Clinical approval"],
+            available_stage_labels,
             index=0,
             key="faculty-review-stage-" + selected_id,
         )
@@ -929,8 +979,8 @@ elif page == "Faculty Review":
                 decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
                 submitted = st.form_submit_button("Record clinical decision", type="primary")
             if submitted:
-                if not AUTH_REQUIRED or not reviewer_access:
-                    st.error("Authenticated reviewer access is required. Enable OIDC and add this account to USIPHU_REVIEWER_SUBJECTS.")
+                if not AUTH_REQUIRED or "clinical_reviewer" not in reviewer_role_set:
+                    st.error("An authenticated clinical_reviewer role is required for this decision.")
                 else:
                     try:
                         result = record_faculty_decision(
@@ -968,8 +1018,8 @@ elif page == "Faculty Review":
                 decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
                 submitted = st.form_submit_button("Record examination decision", type="primary")
             if submitted:
-                if not AUTH_REQUIRED or not reviewer_access:
-                    st.error("Authenticated reviewer access is required. Enable OIDC and add this account to USIPHU_REVIEWER_SUBJECTS.")
+                if not AUTH_REQUIRED or "exam_reviewer" not in reviewer_role_set:
+                    st.error("An authenticated exam_reviewer role is required for this decision.")
                 else:
                     try:
                         result = record_faculty_decision(
