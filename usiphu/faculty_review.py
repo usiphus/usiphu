@@ -7,6 +7,7 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
+import os
 
 from usiphu.curriculum import load_curriculum
 from usiphu.storage import DEFAULT_DB, connect, initialize
@@ -15,6 +16,7 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 PILOT_BANK_IDS = {"pilot-urology-2026", "pilot-general-surgery-2026"}
 Decision = Literal["approve", "request_changes", "reject"]
 Stage = Literal["clinical", "exam"]
+ReviewerRole = Literal["clinical_reviewer", "exam_reviewer"]
 
 
 def _now() -> str:
@@ -55,8 +57,128 @@ def _ensure_schema(path: Path = DEFAULT_DB) -> None:
         );
         CREATE INDEX IF NOT EXISTS idx_faculty_review_events_question
           ON faculty_question_review_events(question_id, id);
+        CREATE TABLE IF NOT EXISTS faculty_reviewer_roles (
+          reviewer_id TEXT NOT NULL,
+          role TEXT NOT NULL CHECK(role IN ('admin','clinical_reviewer','exam_reviewer')),
+          granted_by TEXT NOT NULL,
+          granted_at TEXT NOT NULL,
+          PRIMARY KEY(reviewer_id, role)
+        );
+        CREATE TABLE IF NOT EXISTS faculty_role_events (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          reviewer_id TEXT NOT NULL,
+          role TEXT NOT NULL CHECK(role IN ('clinical_reviewer','exam_reviewer')),
+          action TEXT NOT NULL CHECK(action IN ('grant','revoke')),
+          actor_id TEXT NOT NULL,
+          created_at TEXT NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS idx_faculty_role_events_reviewer
+          ON faculty_role_events(reviewer_id, id);
         """)
 
+
+
+def _configured_subjects(variable: str) -> set[str]:
+    return {
+        value.strip()
+        for value in os.getenv(variable, "").split(",")
+        if value.strip()
+    }
+
+
+def _sync_bootstrap_roles(path: Path = DEFAULT_DB) -> None:
+    """Apply environment-managed bootstrap roles without removing database grants."""
+    _ensure_schema(path)
+    configured = {
+        "admin": _configured_subjects("USIPHU_ADMIN_SUBJECTS"),
+        "clinical_reviewer": _configured_subjects("USIPHU_CLINICAL_REVIEWER_SUBJECTS"),
+        "exam_reviewer": _configured_subjects("USIPHU_EXAM_REVIEWER_SUBJECTS"),
+    }
+    now = _now()
+    with connect(path) as db:
+        for role, subjects in configured.items():
+            for subject in subjects:
+                db.execute(
+                    """INSERT INTO faculty_reviewer_roles
+                       (reviewer_id,role,granted_by,granted_at) VALUES(?,?,?,?)
+                       ON CONFLICT(reviewer_id,role) DO NOTHING""",
+                    (subject, role, "environment", now),
+                )
+
+
+def reviewer_roles(reviewer_id: str, path: Path = DEFAULT_DB) -> set[str]:
+    """Return roles for an authenticated issuer-qualified subject identifier."""
+    if not reviewer_id or not reviewer_id.strip():
+        return set()
+    _sync_bootstrap_roles(path)
+    with connect(path) as db:
+        rows = db.execute(
+            "SELECT role FROM faculty_reviewer_roles WHERE reviewer_id=?",
+            (reviewer_id.strip(),),
+        ).fetchall()
+    return {row["role"] for row in rows}
+
+
+def list_reviewer_assignments(path: Path = DEFAULT_DB) -> list[dict]:
+    """List configured faculty roles for the administrator workspace."""
+    _sync_bootstrap_roles(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT reviewer_id,role,granted_by,granted_at
+               FROM faculty_reviewer_roles ORDER BY reviewer_id,role"""
+        ).fetchall()
+    return [dict(row) for row in rows if row["role"] != "admin"]
+
+
+def set_reviewer_role(
+    actor_id: str,
+    reviewer_id: str,
+    role: ReviewerRole,
+    *,
+    enabled: bool,
+    path: Path = DEFAULT_DB,
+) -> None:
+    """Grant/revoke clinical or exam reviewer access; only bootstrap admins may manage roles."""
+    if role not in {"clinical_reviewer", "exam_reviewer"}:
+        raise ValueError("Only clinical and examination reviewer roles can be managed here.")
+    if not actor_id.strip() or not reviewer_id.strip():
+        raise ValueError("Administrator and reviewer identities are required.")
+    if actor_id.strip() == reviewer_id.strip():
+        raise ValueError("Administrators cannot assign reviewer roles to themselves.")
+    if "admin" not in reviewer_roles(actor_id, path):
+        raise PermissionError("Only an administrator configured in USIPHU_ADMIN_SUBJECTS can manage reviewer roles.")
+    _ensure_schema(path)
+    now = _now()
+    action = "grant" if enabled else "revoke"
+    with connect(path) as db:
+        if enabled:
+            db.execute(
+                """INSERT INTO faculty_reviewer_roles
+                   (reviewer_id,role,granted_by,granted_at) VALUES(?,?,?,?)
+                   ON CONFLICT(reviewer_id,role) DO NOTHING""",
+                (reviewer_id.strip(), role, actor_id.strip(), now),
+            )
+        else:
+            db.execute(
+                "DELETE FROM faculty_reviewer_roles WHERE reviewer_id=? AND role=?",
+                (reviewer_id.strip(), role),
+            )
+        db.execute(
+            """INSERT INTO faculty_role_events
+               (reviewer_id,role,action,actor_id,created_at) VALUES(?,?,?,?,?)""",
+            (reviewer_id.strip(), role, action, actor_id.strip(), now),
+        )
+
+
+def role_assignment_history(reviewer_id: str, path: Path = DEFAULT_DB) -> list[dict]:
+    _ensure_schema(path)
+    with connect(path) as db:
+        rows = db.execute(
+            """SELECT role,action,actor_id,created_at FROM faculty_role_events
+               WHERE reviewer_id=? ORDER BY id""",
+            (reviewer_id,),
+        ).fetchall()
+    return [dict(row) for row in rows]
 
 def _pilot_questions(bank_dir: Path | None = None) -> list[dict]:
     directory = bank_dir or DATA_DIR / "question_banks"
@@ -134,6 +256,9 @@ def record_faculty_decision(
         raise ValueError("Invalid review stage or decision.")
     if not reviewer_id.strip() or not reviewer_name.strip() or not comment.strip():
         raise ValueError("A stable reviewer identity, reviewer name and review comment are required.")
+    required_role = "clinical_reviewer" if stage == "clinical" else "exam_reviewer"
+    if required_role not in reviewer_roles(reviewer_id, path):
+        raise PermissionError(f"This authenticated account is not assigned the {required_role} role.")
 
     questions = {item["id"]: item for item in list_pilot_questions(path, bank_dir)}
     if question_id not in questions:
