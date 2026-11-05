@@ -73,7 +73,6 @@ class PostgresConnection:
         finally:
             self._connection.close()
 
-
     def execute(self, statement: str, parameters: Any = None) -> Cursor:
         sql = translate_sql(statement)
         if parameters is None:
