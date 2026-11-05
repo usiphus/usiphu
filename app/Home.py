@@ -1,4 +1,5 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
+# ruff: noqa: E402
 import json
 import os
 import random
