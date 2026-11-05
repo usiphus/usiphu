@@ -5,7 +5,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from usiphu.practice import DATA_DIR
-from usiphu.source_inbox import (\n    DEFAULT_SOURCE_DIR,\n    list_extractions,\n    load_extraction,\n    write_extraction,\n)
+from usiphu.source_inbox import (
+    DEFAULT_SOURCE_DIR,
+    list_extractions,
+    load_extraction,
+    write_extraction,
+)
 
 ASSESSMENT_BANK_PATH = DATA_DIR / "question_banks" / "reviewed_assessments.json"
 
