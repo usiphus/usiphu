@@ -7,6 +7,7 @@ from pathlib import Path
 from pydantic import ValidationError
 
 from usiphu.curriculum import load_curriculum
+from usiphu.durable_documents import load_json_document, save_json_document
 from usiphu.models import MCQ
 from usiphu.practice import DATA_DIR
 from usiphu.source_inbox import (
@@ -198,18 +199,19 @@ def approve_candidate(
     except ValidationError as exc:
         raise ValueError(f"Question does not meet the bank schema: {exc}") from exc
 
-    if bank_path.exists():
-        bank = json.loads(bank_path.read_text(encoding="utf-8"))
-    else:
-        bank = {
+    bank = load_json_document(
+        "question-banks/past-papers-reviewed.json",
+        bank_path,
+        {
             "bank_id": "past-papers-review-bank",
             "title": "Reviewed Past-Paper Questions",
             "questions": [],
-        }
+        },
+    )
     if any(item.get("id") == validated.id for item in bank.get("questions", [])):
         raise ValueError("A question with this ID already exists in the past-paper bank.")
     bank.setdefault("questions", []).append(validated.model_dump())
-    _atomic_json(bank_path, bank)
+    save_json_document("question-banks/past-papers-reviewed.json", bank, bank_path)
 
     payload = load_extraction(candidate["source_id"], source_dir)
     if payload is None:
