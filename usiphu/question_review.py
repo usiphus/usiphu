@@ -9,7 +9,12 @@ from pydantic import ValidationError
 from usiphu.curriculum import load_curriculum
 from usiphu.models import MCQ
 from usiphu.practice import DATA_DIR
-from usiphu.source_inbox import (\n    DEFAULT_SOURCE_DIR,\n    list_extractions,\n    load_extraction,\n    write_extraction,\n)
+from usiphu.source_inbox import (
+    DEFAULT_SOURCE_DIR,
+    list_extractions,
+    load_extraction,
+    write_extraction,
+)
 
 QUESTION_BANK_PATH = DATA_DIR / "question_banks" / "past_papers_reviewed.json"
 
