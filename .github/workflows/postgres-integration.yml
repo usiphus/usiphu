@@ -2,9 +2,9 @@ name: PostgreSQL integration
 
 on:
   push:
-    branches: ["feat/postgres-backend-compatibility", "feat/supabase-private-source-storage", "fix/supabase-storage-ci"]
+    branches: ["feat/postgres-backend-compatibility", "feat/supabase-private-source-storage", "fix/supabase-storage-ci", "feat/durable-bank-and-report-storage-v2"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "fix/supabase-storage-ci"]
 
 permissions:
   contents: read
