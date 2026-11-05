@@ -109,3 +109,33 @@ def test_stage_permissions_are_enforced_in_service(workspace):
             reviewer_id="examiner", reviewer_name="Examiner", comment="Wrong role",
             path=workspace,
         )
+
+
+def test_extracted_candidate_must_be_completed_in_editor_before_approval(workspace):
+    enqueue_assessment_for_review(
+        "extracted-1", "single_best_answer",
+        {"candidate_id": "extracted-1", "source_id": "paper-2", "source_page": 7,
+         "raw_text": "Which investigation is appropriate?"},
+        path=workspace,
+    )
+    with pytest.raises(ValueError, match="Complete the edited prompt"):
+        record_assessment_review_decision(
+            "extracted-1", stage="clinical", decision="approve",
+            reviewer_id="clinician", reviewer_name="Clinician", comment="Checked",
+            attestations=CLINICAL, path=workspace,
+        )
+    enqueue_assessment_for_review(
+        "extracted-1", "single_best_answer",
+        {"candidate_id": "extracted-1", "source_id": "paper-2", "source_page": 7,
+         "prompt": "Which investigation is appropriate?",
+         "options": [{"id": "a", "text": "Ultrasound"}, {"id": "b", "text": "MCUG"}],
+         "correct_option_id": "b", "answer": "MCUG",
+         "explanation": "It demonstrates reflux."},
+        path=workspace,
+    )
+    approved = record_assessment_review_decision(
+        "extracted-1", stage="clinical", decision="approve",
+        reviewer_id="clinician", reviewer_name="Clinician", comment="Checked",
+        attestations=CLINICAL, path=workspace,
+    )
+    assert approved["clinical_status"] == "approved"
