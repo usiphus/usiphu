@@ -28,6 +28,7 @@ pytestmark = pytest.mark.skipif(
 MIGRATIONS = [
     Path(__file__).resolve().parents[1] / "migrations" / "0001_postgresql_schema.sql",
     Path(__file__).resolve().parents[1] / "migrations" / "0002_source_documents.sql",
+    Path(__file__).resolve().parents[1] / "migrations" / "0003_app_documents.sql",
 ]
 
 CLINICAL_CHECKS = {
