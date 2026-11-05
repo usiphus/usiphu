@@ -102,6 +102,9 @@ def create_backup(output_dir: Path, recipient: str) -> Path:
             "shared_assessment_reviews", "shared_assessment_review_events",
             "source_documents", "source_extractions",
             "approved_question_bank", "approved_assessment_bank",
+            "review_events_id_seq", "question_attempts_id_seq",
+            "faculty_question_review_events_id_seq", "faculty_role_events_id_seq",
+            "shared_assessment_review_events_id_seq",
         )
         dump_command = [
             "pg_dump", "--format=custom", "--data-only", "--no-owner", "--no-privileges",
