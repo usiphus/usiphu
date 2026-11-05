@@ -207,3 +207,31 @@ def test_reviewer_stage_is_enforced_by_service_not_only_ui(review_workspace):
             reviewer_id="clinician-1", reviewer_name="Clinical Faculty",
             comment="Wrong role for this stage.", path=db_path, bank_dir=bank_dir,
         )
+
+
+
+def test_admin_role_grants_and_revocations_are_audited(review_workspace):
+    db_path, _, _ = review_workspace
+    set_reviewer_role(
+        "test-admin", "new-reviewer", "clinical_reviewer",
+        enabled=True, path=db_path,
+    )
+    assert "clinical_reviewer" in __import__(
+        "usiphu.faculty_review", fromlist=["reviewer_roles"]
+    ).reviewer_roles("new-reviewer", db_path)
+    set_reviewer_role(
+        "test-admin", "new-reviewer", "clinical_reviewer",
+        enabled=False, path=db_path,
+    )
+    assert role_assignment_history("new-reviewer", db_path) == [
+        {
+            "role": "clinical_reviewer", "action": "grant",
+            "actor_id": "test-admin",
+            "created_at": role_assignment_history("new-reviewer", db_path)[0]["created_at"],
+        },
+        {
+            "role": "clinical_reviewer", "action": "revoke",
+            "actor_id": "test-admin",
+            "created_at": role_assignment_history("new-reviewer", db_path)[1]["created_at"],
+        },
+    ]
