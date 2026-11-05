@@ -7,7 +7,7 @@ from scripts.migrate_durable_documents import migrate
 def test_durable_document_migration_defaults_to_non_destructive_dry_run(tmp_path: Path):
     data_root = tmp_path / "data"
     bank = data_root / "question_banks" / "past_papers_reviewed.json"
-    report = data_root / "source_inbox" / "reports" / "pilot-validation-latest.json"
+    report = data_root / "source_inbox" / "reports" / "pilot-validation" / "latest.json"
     bank.parent.mkdir(parents=True)
     report.parent.mkdir(parents=True)
     bank.write_text(json.dumps({"questions": [{"id": "q-1"}]}), encoding="utf-8")
