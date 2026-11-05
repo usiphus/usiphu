@@ -856,7 +856,7 @@ elif page == "Faculty Review":
     if not AUTH_REQUIRED:
         st.warning(
             "Faculty submission is disabled in local single-user mode. Configure OIDC and "
-            "USIPHU_REVIEWER_SUBJECTS so each reviewer has a stable authenticated identity. "
+            "USIPHU_ADMIN_SUBJECTS and assign stage-specific reviewer roles. "
             "You can inspect the queue here, but a typed name alone is not a secure faculty signature."
         )
     elif not reviewer_access:
