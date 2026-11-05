@@ -12,9 +12,9 @@ from usiphu.source_inbox import (
     DEFAULT_SOURCE_DIR,
     get_source_bytes,
     list_sources,
+    load_extraction,
     save_extraction,
     update_source_metadata,
-    load_extraction,
 )
 
 QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
