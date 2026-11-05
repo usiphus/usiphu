@@ -372,3 +372,84 @@ def test_postgres_remote_banks_and_pilot_report_are_read_and_written(monkeypatch
         "pilot-validation:latest",
         tmp_path / "reports" / "pilot-validation-latest.json",
     ) == report
+
+
+
+def test_supabase_import_is_resumable_and_preserves_source_provenance(monkeypatch, tmp_path):
+    import hashlib
+    import importlib.util
+    import json
+
+    from usiphu import durable_documents, object_storage
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(object_storage, "get_object_storage", lambda _root: fake)
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "migrate_to_supabase", root / "scripts" / "migrate_to_supabase.py"
+    )
+    migration = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(migration)
+
+    source_dir = tmp_path / "source_inbox"
+    (source_dir / "extractions").mkdir(parents=True)
+    original = b"synthetic source paper"
+    (source_dir / "paper.txt").write_bytes(original)
+    source_record = {
+        "source_id": "migration-source-001",
+        "stored_filename": "paper.txt",
+        "sha256": hashlib.sha256(original).hexdigest(),
+        "uploaded_at": "2026-11-05T00:00:00+00:00",
+        "uploaded_by": "https://auth.example/:faculty-a",
+        "title": "Synthetic paper",
+    }
+    (source_dir / "sources.json").write_text(
+        json.dumps([source_record]), encoding="utf-8"
+    )
+    extraction = {"source_id": "migration-source-001", "mcq_candidates": []}
+    (source_dir / "extractions" / "migration-source-001.json").write_text(
+        json.dumps(extraction), encoding="utf-8"
+    )
+
+    data_dir = tmp_path / "data"
+    bank_dir = data_dir / "question_banks"
+    bank_dir.mkdir(parents=True)
+    bank = {"bank_id": "past-papers-review-bank", "questions": []}
+    (bank_dir / "past_papers_reviewed.json").write_text(
+        json.dumps(bank), encoding="utf-8"
+    )
+
+    sources, documents = migration.inventory(source_dir, data_dir)
+    assert migration.apply_import(sources, documents, source_dir) == (2, 0)
+    assert migration.apply_import(sources, documents, source_dir) == (0, 2)
+
+    with connect() as db:
+        row = db.execute(
+            "SELECT sha256, extraction_key, metadata_json FROM source_documents "
+            "WHERE source_id = ?",
+            ("migration-source-001",),
+        ).fetchone()
+        assert row["sha256"] == source_record["sha256"]
+        assert row["extraction_key"] == "extractions/migration-source-001.json"
+        metadata = json.loads(row["metadata_json"])
+        assert metadata["uploaded_by"] == "https://auth.example/:faculty-a"
+    assert fake.download("sources/migration-source-001/paper.txt") == original
