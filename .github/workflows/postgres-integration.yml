@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: postgres-integration-${{ github.workflow }}-${{ github.ref }}
+  group: postgres-integration-${{ github.workflow }}-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
