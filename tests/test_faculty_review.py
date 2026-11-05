@@ -44,6 +44,8 @@ def review_workspace(tmp_path, monkeypatch):
         ("clinician-2", "clinical_reviewer"),
         ("examiner-1", "exam_reviewer"),
         ("examiner-2", "exam_reviewer"),
+        ("dual-1", "clinical_reviewer"),
+        ("dual-1", "exam_reviewer"),
     ]:
         set_reviewer_role("test-admin", subject, role, enabled=True, path=db_path)
     return db_path, bank_dir, "uro-pilot-0001"
@@ -106,7 +108,7 @@ def test_two_distinct_faculty_members_are_required_for_release(review_workspace)
     assert clinical["faculty_release_status"] == "clinically_reviewed"
 
     with pytest.raises(ValueError, match="different reviewers"):
-        approve_exam(db_path, bank_dir, reviewer="clinician-1")
+        approve_exam(db_path, bank_dir, reviewer="dual-1")
 
     released = approve_exam(db_path, bank_dir, reviewer="examiner-2")
     assert released["faculty_release_status"] == "exam_validated"
