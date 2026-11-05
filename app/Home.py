@@ -857,7 +857,7 @@ elif page == "Faculty Review":
             "You can inspect the queue here, but a typed name alone is not a secure faculty signature."
         )
     elif not reviewer_access:
-        st.error("This account is not in USIPHU_REVIEWER_SUBJECTS and cannot submit faculty decisions.")
+        st.error("This account has no clinical_reviewer or exam_reviewer role and cannot submit faculty decisions.")
     if pilot_questions:
         overview = [{
             "Question": item["id"],
@@ -919,125 +919,131 @@ elif page == "Faculty Review":
                 "Ask a USIPHU administrator to grant the appropriate role."
             )
         else:
-            stage_label = st.selectbox(
-            "Review stage",
-            available_stage_labels,
-            index=0,
-            key="faculty-review-stage-" + selected_id,
-        )
-        stage = "exam" if stage_label == "Examination validation" else "clinical"
-        if stage == "clinical":
-            st.caption("Clinical reviewer: verify the medical answer, rationale, evidence and source transcription.")
-            with st.form("faculty-clinical-review-" + selected_id):
-                stem = st.text_area("Edited question stem", value=selected["stem"], height=110)
-                edited_options = []
-                option_columns = st.columns(2)
-                for index, option in enumerate(selected.get("options", [])):
-                    edited_text = option_columns[index % 2].text_input(
-                        f"Option {option['id'].upper()}",
-                        value=option["text"],
-                        key=f"faculty-option-{selected_id}-{option['id']}",
-                    )
-                    edited_options.append({"id": option["id"], "text": edited_text.strip()})
-                answer_ids = [item["id"] for item in edited_options]
-                answer_key = st.selectbox(
-                    "Clinically verified answer",
-                    answer_ids,
-                    index=answer_ids.index(selected["correct_option_id"]),
-                    format_func=lambda value: value.upper(),
-                )
-                rationale = st.text_area("Clinical explanation / rationale", value=selected.get("explanation", ""), height=130)
-                difficulty = st.selectbox(
-                    "Difficulty",
-                    ["easy", "moderate", "hard"],
-                    index=["easy", "moderate", "hard"].index(selected.get("difficulty", "moderate")),
-                )
-                faculty_topic_rows = [
-                    (topic.id, specialty.id, specialty.title, domain.title, topic.title)
-                    for specialty in curriculum.specialties
-                    for domain in specialty.domains
-                    for topic in domain.topics
-                ]
-                current_topic_row = next(
-                    (row for row in faculty_topic_rows
-                     if row[0] == selected.get("topic_id") and row[1] == selected.get("specialty_id")),
-                    faculty_topic_rows[0],
-                )
-                curriculum_choice = st.selectbox(
-                    "Curriculum alignment",
-                    faculty_topic_rows,
-                    index=faculty_topic_rows.index(current_topic_row),
-                    format_func=lambda row: row[2] + " · " + row[3] + " · " + row[4],
-                )
-                st.markdown("**Clinical attestations — all required for approval**")
-                answer_ok = st.checkbox("I independently verified the best answer against reliable clinical evidence.")
-                rationale_ok = st.checkbox("The explanation is accurate, current and clinically safe.")
-                evidence_ok = st.checkbox("I checked the cited evidence and it directly supports the answer.")
-                safety_ok = st.checkbox("I checked important exceptions, contraindications and jurisdictional caveats.")
-                reviewer_name = st.text_input("Faculty name", value=st.user.get("name", "") or st.user.get("email", ""))
-                comment = st.text_area("Review comments (required)", placeholder="Record the clinical reasoning, caveats, or changes required.")
-                decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
-                submitted = st.form_submit_button("Record clinical decision", type="primary")
-            if submitted:
-                if not AUTH_REQUIRED or "clinical_reviewer" not in reviewer_role_set:
-                    st.error("An authenticated clinical_reviewer role is required for this decision.")
-                else:
-                    try:
-                        result = record_faculty_decision(
-                            selected_id, stage="clinical", decision=decision,
-                            reviewer_id=learner_id, reviewer_name=reviewer_name,
-                            comment=comment,
-                            content={
-                                "stem": stem, "options": edited_options,
-                                "correct_option_id": answer_key, "explanation": rationale,
-                                "difficulty": difficulty,
-                                "topic_id": curriculum_choice[0],
-                                "specialty_id": curriculum_choice[1],
-                            },
-                            attestations={
-                                "answer_verified": answer_ok, "rationale_verified": rationale_ok,
-                                "evidence_checked": evidence_ok, "safety_checked": safety_ok,
-                            },
-                        )
-                        st.success("Clinical decision recorded: " + result["clinical_status"])
-                        st.rerun()
-                    except (ValueError, KeyError) as exc:
-                        st.error(str(exc))
+            if not available_stage_labels:
+            st.info(
+                "Your account does not currently have a review role for an available stage. "
+                "Ask a USIPHU administrator to grant the appropriate role."
+            )
         else:
-            st.caption("Examination reviewer: must be a different authenticated faculty member from the clinical approver. Content is locked for this stage.")
-            st.write("Clinical approval recorded by: " + str(selected.get("clinical_reviewer_name") or "—"))
-            st.write("Clinical review date: " + str(selected.get("clinical_reviewed_at") or "—"))
-            with st.form("faculty-exam-review-" + selected_id):
-                clear_stem = st.checkbox("The stem is clear, focused and free of material ambiguity.")
-                single_best = st.checkbox("There is one defensible single best answer.")
-                distractors = st.checkbox("Distractors are plausible, distinct and not misleading.")
-                curriculum_aligned = st.checkbox("The topic and learning objective fit the intended curriculum.")
-                level_ok = st.checkbox("The difficulty and cognitive level are appropriate for this examination.")
-                reviewer_name = st.text_input("Faculty name", value=st.user.get("name", "") or st.user.get("email", ""))
-                comment = st.text_area("Examination review comments (required)", placeholder="Record exam suitability, blueprint fit, or required revisions.")
-                decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
-                submitted = st.form_submit_button("Record examination decision", type="primary")
-            if submitted:
-                if not AUTH_REQUIRED or "exam_reviewer" not in reviewer_role_set:
-                    st.error("An authenticated exam_reviewer role is required for this decision.")
-                else:
-                    try:
-                        result = record_faculty_decision(
-                            selected_id, stage="exam", decision=decision,
-                            reviewer_id=learner_id, reviewer_name=reviewer_name,
-                            comment=comment,
-                            attestations={
-                                "stem_clear": clear_stem, "single_best_answer": single_best,
-                                "distractors_reviewed": distractors,
-                                "curriculum_aligned": curriculum_aligned,
-                                "level_appropriate": level_ok,
-                            },
+            stage_label = st.selectbox(
+                "Review stage",
+                available_stage_labels,
+                index=0,
+                key="faculty-review-stage-" + selected_id,
+            )
+            stage = "exam" if stage_label == "Examination validation" else "clinical"
+            if stage == "clinical":
+                st.caption("Clinical reviewer: verify the medical answer, rationale, evidence and source transcription.")
+                with st.form("faculty-clinical-review-" + selected_id):
+                    stem = st.text_area("Edited question stem", value=selected["stem"], height=110)
+                    edited_options = []
+                    option_columns = st.columns(2)
+                    for index, option in enumerate(selected.get("options", [])):
+                        edited_text = option_columns[index % 2].text_input(
+                            f"Option {option['id'].upper()}",
+                            value=option["text"],
+                            key=f"faculty-option-{selected_id}-{option['id']}",
                         )
-                        st.success("Examination decision recorded: " + result["exam_status"])
-                        st.rerun()
-                    except (ValueError, KeyError) as exc:
-                        st.error(str(exc))
-        st.markdown("#### Immutable review history")
+                        edited_options.append({"id": option["id"], "text": edited_text.strip()})
+                    answer_ids = [item["id"] for item in edited_options]
+                    answer_key = st.selectbox(
+                        "Clinically verified answer",
+                        answer_ids,
+                        index=answer_ids.index(selected["correct_option_id"]),
+                        format_func=lambda value: value.upper(),
+                    )
+                    rationale = st.text_area("Clinical explanation / rationale", value=selected.get("explanation", ""), height=130)
+                    difficulty = st.selectbox(
+                        "Difficulty",
+                        ["easy", "moderate", "hard"],
+                        index=["easy", "moderate", "hard"].index(selected.get("difficulty", "moderate")),
+                    )
+                    faculty_topic_rows = [
+                        (topic.id, specialty.id, specialty.title, domain.title, topic.title)
+                        for specialty in curriculum.specialties
+                        for domain in specialty.domains
+                        for topic in domain.topics
+                    ]
+                    current_topic_row = next(
+                        (row for row in faculty_topic_rows
+                         if row[0] == selected.get("topic_id") and row[1] == selected.get("specialty_id")),
+                        faculty_topic_rows[0],
+                    )
+                    curriculum_choice = st.selectbox(
+                        "Curriculum alignment",
+                        faculty_topic_rows,
+                        index=faculty_topic_rows.index(current_topic_row),
+                        format_func=lambda row: row[2] + " · " + row[3] + " · " + row[4],
+                    )
+                    st.markdown("**Clinical attestations — all required for approval**")
+                    answer_ok = st.checkbox("I independently verified the best answer against reliable clinical evidence.")
+                    rationale_ok = st.checkbox("The explanation is accurate, current and clinically safe.")
+                    evidence_ok = st.checkbox("I checked the cited evidence and it directly supports the answer.")
+                    safety_ok = st.checkbox("I checked important exceptions, contraindications and jurisdictional caveats.")
+                    reviewer_name = st.text_input("Faculty name", value=st.user.get("name", "") or st.user.get("email", ""))
+                    comment = st.text_area("Review comments (required)", placeholder="Record the clinical reasoning, caveats, or changes required.")
+                    decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
+                    submitted = st.form_submit_button("Record clinical decision", type="primary")
+                if submitted:
+                    if not AUTH_REQUIRED or "clinical_reviewer" not in reviewer_role_set:
+                        st.error("An authenticated clinical_reviewer role is required for this decision.")
+                    else:
+                        try:
+                            result = record_faculty_decision(
+                                selected_id, stage="clinical", decision=decision,
+                                reviewer_id=learner_id, reviewer_name=reviewer_name,
+                                comment=comment,
+                                content={
+                                    "stem": stem, "options": edited_options,
+                                    "correct_option_id": answer_key, "explanation": rationale,
+                                    "difficulty": difficulty,
+                                    "topic_id": curriculum_choice[0],
+                                    "specialty_id": curriculum_choice[1],
+                                },
+                                attestations={
+                                    "answer_verified": answer_ok, "rationale_verified": rationale_ok,
+                                    "evidence_checked": evidence_ok, "safety_checked": safety_ok,
+                                },
+                            )
+                            st.success("Clinical decision recorded: " + result["clinical_status"])
+                            st.rerun()
+                        except (ValueError, KeyError) as exc:
+                            st.error(str(exc))
+            else:
+                st.caption("Examination reviewer: must be a different authenticated faculty member from the clinical approver. Content is locked for this stage.")
+                st.write("Clinical approval recorded by: " + str(selected.get("clinical_reviewer_name") or "—"))
+                st.write("Clinical review date: " + str(selected.get("clinical_reviewed_at") or "—"))
+                with st.form("faculty-exam-review-" + selected_id):
+                    clear_stem = st.checkbox("The stem is clear, focused and free of material ambiguity.")
+                    single_best = st.checkbox("There is one defensible single best answer.")
+                    distractors = st.checkbox("Distractors are plausible, distinct and not misleading.")
+                    curriculum_aligned = st.checkbox("The topic and learning objective fit the intended curriculum.")
+                    level_ok = st.checkbox("The difficulty and cognitive level are appropriate for this examination.")
+                    reviewer_name = st.text_input("Faculty name", value=st.user.get("name", "") or st.user.get("email", ""))
+                    comment = st.text_area("Examination review comments (required)", placeholder="Record exam suitability, blueprint fit, or required revisions.")
+                    decision = st.radio("Decision", ["approve", "request_changes", "reject"], horizontal=True)
+                    submitted = st.form_submit_button("Record examination decision", type="primary")
+                if submitted:
+                    if not AUTH_REQUIRED or "exam_reviewer" not in reviewer_role_set:
+                        st.error("An authenticated exam_reviewer role is required for this decision.")
+                    else:
+                        try:
+                            result = record_faculty_decision(
+                                selected_id, stage="exam", decision=decision,
+                                reviewer_id=learner_id, reviewer_name=reviewer_name,
+                                comment=comment,
+                                attestations={
+                                    "stem_clear": clear_stem, "single_best_answer": single_best,
+                                    "distractors_reviewed": distractors,
+                                    "curriculum_aligned": curriculum_aligned,
+                                    "level_appropriate": level_ok,
+                                },
+                            )
+                            st.success("Examination decision recorded: " + result["exam_status"])
+                            st.rerun()
+                        except (ValueError, KeyError) as exc:
+                            st.error(str(exc))
+            st.markdown("#### Immutable review history")
         events = review_history(selected_id)
         if events:
             for event in events:
