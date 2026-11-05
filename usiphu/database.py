@@ -7,11 +7,14 @@ from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
+
 def database_url() -> str | None:
     return os.getenv("USIPHU_DATABASE_URL") or os.getenv("SUPABASE_DATABASE_URL")
 
+
 def is_postgres() -> bool:
     return bool(database_url())
+
 
 class Row(dict):
     """Mapping row that also supports SQLite-style numeric indexing."""
@@ -19,6 +22,7 @@ class Row(dict):
         if isinstance(key, int):
             return tuple(self.values())[key]
         return super().__getitem__(key)
+
 
 class Cursor:
     def __init__(self, cursor: Any):
@@ -39,6 +43,7 @@ class Cursor:
         for row in self._cursor:
             yield Row(row)
 
+
 def translate_sql(statement: str) -> str:
     """Translate the small SQLite SQL subset used by USIPHU into PostgreSQL SQL."""
     sql = statement.strip()
@@ -50,6 +55,7 @@ def translate_sql(statement: str) -> str:
     if ignore_insert and not re.search(r"(?is)\bON\s+CONFLICT\b", sql):
         sql = sql.rstrip(";") + " ON CONFLICT DO NOTHING"
     return sql
+
 
 class PostgresConnection:
     def __init__(self, connection: Any):
@@ -66,6 +72,7 @@ class PostgresConnection:
                 self._connection.rollback()
         finally:
             self._connection.close()
+
 
     def execute(self, statement: str, parameters: Any = None) -> Cursor:
         sql = translate_sql(statement)
@@ -84,6 +91,7 @@ class PostgresConnection:
             if statement.strip():
                 self.execute(statement)
 
+
 def connect_postgres() -> PostgresConnection:
     url = database_url()
     if not url:
@@ -95,6 +103,7 @@ def connect_postgres() -> PostgresConnection:
         raise RuntimeError("PostgreSQL hosting requires the psycopg dependency.") from exc
     connection = psycopg.connect(url, row_factory=dict_row, connect_timeout=10)
     return PostgresConnection(connection)
+
 
 def connect_sqlite(path: Path):
     import sqlite3
