@@ -9,8 +9,12 @@ The generator uses a local Ollama authoring path:
 3. Search PubMed E-utilities for relevant records and retrieve citation metadata, publication types, dates, and abstracts.
 4. Send the objective and bounded evidence packet to the configured local Ollama model.
 5. Require claim-level PMID references and normalize all source URLs/titles/dates from retrieved records; model-invented URLs are not accepted.
-6. Run the generated card through the structural, ILO, evidence-source, and duplicate validation gates.
-7. Store accepted cards only in the learner-isolated `generated_drafts` table. They are not placed in the flashcard review queue and cannot self-approve.
+6. Run each generated card through structural, ILO, evidence-source, and duplicate validation gates.
+7. Revalidate all accepted cards as a batch, catching duplicate prompts across different objectives before the results can be saved.
+8. Report objective-level coverage explicitly: requested objectives, objectives with a valid draft, and objectives that remain uncovered or evidence-gated.
+9. Store accepted cards only in the learner-isolated `generated_drafts` table. They are not placed in the flashcard review queue and cannot self-approve.
+
+The batch gate is a second structural/duplicate check, not a clinical accuracy check. A 100% objective-coverage result means each selected objective produced a structurally accepted draft; it does not mean the topic is clinically complete, guideline-current, or faculty-approved. Evidence retrieval progress is reported as requests finish, while model authoring remains sequential to avoid overloading local Ollama installations.
 
 ## Local setup
 

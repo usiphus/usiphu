@@ -30,9 +30,13 @@ def _model_response(prompt):
         "RETRIEVED PUBMED EVIDENCE", 1
     )[0].strip()
     permitted_refs = json.loads(refs_json)
+    brief_json = prompt.split("CURRICULUM BRIEF:", 1)[1].split(
+        "PERMITTED COURSE OUTCOME REFERENCES:", 1
+    )[0].strip()
+    brief = json.loads(brief_json)
     return json.dumps({
         "card_type": "mcq",
-        "prompt": "Which investigation evaluates vesicoureteral reflux?",
+        "prompt": f"Which investigation evaluates vesicoureteral reflux? ({brief['brief_id']})",
         "answer": "A micturating cystourethrogram evaluates reflux in the appropriate clinical context.",
         "options": [
             {"id": "A", "text": "Renal biopsy"},
@@ -81,6 +85,8 @@ def test_generation_returns_evidence_gate_without_making_a_card(monkeypatch):
     assert result["draft_cards"] == 0
     assert all(item["status"] == "needs_evidence_review" for item in result["results"])
     assert all(item["card"] is None for item in result["results"])
+    assert result["objective_coverage"]["coverage_percent"] == 0
+    assert result["objective_coverage"]["uncovered"] == result["total_objectives"]
 
 
 def test_generation_fails_when_ollama_endpoint_is_not_configured(monkeypatch):
@@ -190,13 +196,15 @@ def test_generation_keeps_successful_objectives_when_one_model_call_fails(
     monkeypatch.setenv("OLLAMA_BASE_URL", "http://localhost:11434")
     monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
     monkeypatch.setattr(ai, "retrieve_pubmed_evidence", lambda query, max_results: [pubmed_record])
+    monkeypatch.setattr(ai, "_ollama_chat", lambda prompt, model: _model_response(prompt))
+    original_author = ai._author_one
     calls = {"count": 0}
 
     def author(brief, evidence, model, guidance=""):
         calls["count"] += 1
         if calls["count"] == 1:
             raise ValueError("malformed model response")
-        return {"valid": True, "status": "draft_ready", "card": {"id": "good-draft"}}
+        return original_author(brief, evidence, model, guidance)
 
     monkeypatch.setattr(ai, "_author_one", author)
     progress = []
@@ -211,4 +219,34 @@ def test_generation_keeps_successful_objectives_when_one_model_call_fails(
     assert result["draft_cards"] == 1
     assert result["results"][0]["status"] == "generation_error"
     assert result["results"][1]["status"] == "draft_ready"
+    assert result["objective_coverage"]["requested"] == 2
+    assert result["objective_coverage"]["covered_by_valid_draft"] == 1
+    assert result["objective_coverage"]["coverage_percent"] == 50
     assert progress
+
+
+def test_batch_gate_rejects_duplicate_prompts_across_objectives(monkeypatch, pubmed_record):
+    monkeypatch.setenv("OLLAMA_BASE_URL", "http://localhost:11434")
+    monkeypatch.setenv("USIPHU_OLLAMA_MODEL", "qwen2.5:7b")
+    monkeypatch.setattr(ai, "_ollama_chat", lambda prompt, model: _model_response(prompt))
+    monkeypatch.setattr(ai, "retrieve_pubmed_evidence", lambda query, max_results: [pubmed_record])
+    original_author = ai._author_one
+
+    def duplicate_author(brief, evidence, model, guidance=""):
+        item = original_author(brief, evidence, model, guidance)
+        if item.get("card"):
+            item["card"]["prompt"] = "Repeated prompt across objectives"
+        return item
+
+    monkeypatch.setattr(ai, "_author_one", duplicate_author)
+    result = generate_topic_cards("urology", "pujo", max_objectives=2)
+
+    assert result["batch_validation"]["total_checked"] == 2
+    assert result["batch_validation"]["accepted_as_draft"] == 1
+    assert result["batch_validation"]["rejected"] == 1
+    assert result["draft_cards"] == 1
+    rejected = [item for item in result["results"] if not item["valid"]]
+    assert len(rejected) == 1
+    assert rejected[0]["status"] == "rejected_by_batch_quality_gate"
+    assert any("Duplicate prompt" in error for error in rejected[0]["errors"])
+    assert result["objective_coverage"]["covered_by_valid_draft"] == 1
