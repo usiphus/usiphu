@@ -101,12 +101,11 @@ Deployment sequence:
 2. Create the Supabase Free project; keep it on the free plan.
 3. Apply the migration in `supabase/migrations` using the Supabase CLI linked to that project.
 4. Enable LOGIN and set a password for `usiphu_app` interactively from trusted local `psql`; use its pooler session-mode connection string for `USIPHU_DATABASE_URL`.
-5. Run `python scripts/migrate_sqlite_to_supabase.py` first to inspect the non-destructive migration report, then rerun with `--apply` only after checking the report and confirming the target project is correct.
-4. Copy the project URL and server-side `service_role` key into Community Cloud Secrets. The Storage key is highly privileged and must never be exposed in browser code or logs.
-5. Create the Streamlit app from the feature branch only after PRs are merged in order, entrypoint `app/Home.py`.
-6. Add the actual `https://<app-subdomain>.streamlit.app/oauth2callback` callback URL to Auth0 Allowed Callback URLs and the app base URL to Allowed Logout URLs.
-7. Confirm `USIPHU_AUTH_REQUIRED=true`.
-8. Verify learner, admin, clinical reviewer and exam reviewer behavior using separate synthetic accounts.
+6. Copy the project URL and server-side `service_role` key into Community Cloud Secrets. The Storage key is highly privileged and must never be exposed in browser code or logs.
+7. Create the Streamlit app from the feature branch only after PRs are merged in order, entrypoint `app/Home.py`.
+8. Add the actual `https://<app-subdomain>.streamlit.app/oauth2callback` callback URL to Auth0 Allowed Callback URLs and the app base URL to Allowed Logout URLs.
+9. Confirm `USIPHU_AUTH_REQUIRED=true`.
+10. Verify learner, admin, clinical reviewer and exam reviewer behavior using separate synthetic accounts.
 
 Never commit credentials, tokens, connection strings or private keys. Never paste them into GitHub issues, PRs or chat.
 
