@@ -8,7 +8,9 @@ from pathlib import Path
 from typing import Any
 
 from usiphu.database import is_postgres
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_extractions, list_sources, load_extraction, save_extraction
+from usiphu.source_inbox import (
+    DEFAULT_SOURCE_DIR, list_extractions, list_sources, load_extraction, save_extraction,
+)
 
 
 def _read_extractions(source_dir: Path) -> list[dict[str, Any]]:
