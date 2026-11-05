@@ -27,5 +27,11 @@ jobs:
       - run: ruff check .
       - run: python -m compileall -q usiphu app tests scripts
       - run: python -m usiphu.validation
+      - name: Validate Oracle Compose and build container image
+        env:
+          USIPHU_DOMAIN: example.invalid
+        run: |
+          docker compose -f docker-compose.oracle.yml config --quiet
+          docker build --pull -t usiphu:ci .
       - run: python -c "import json, pathlib; [json.loads(p.read_text(encoding='utf-8')) for p in pathlib.Path('data').glob('*.json')]"
       - run: pytest -q
