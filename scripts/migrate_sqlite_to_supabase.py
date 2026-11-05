@@ -5,10 +5,9 @@ import argparse
 import json
 import sqlite3
 from pathlib import Path
-from typing import Any
 
 from usiphu.database import is_postgres
-from usiphu.source_inbox import DEFAULT_BUCKET, _upload_object
+from usiphu.source_inbox import _upload_object
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
 ROOT = Path(__file__).resolve().parent.parent
