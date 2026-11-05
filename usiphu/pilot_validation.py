@@ -7,22 +7,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.durable_documents import save_json_document
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_extractions, list_sources, write_extraction
 
 
 def _read_extractions(source_dir: Path) -> list[dict[str, Any]]:
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.is_dir():
-        return []
-    records = []
-    for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        if isinstance(payload, dict):
-            records.append(payload)
-    return records
+    return [payload for _source, payload in list_extractions(source_dir)]
 
 
 def _write_payload(path: Path, payload: dict[str, Any]) -> None:
@@ -38,14 +28,7 @@ def record_ai_review(
     source_dir: Path = DEFAULT_SOURCE_DIR,
 ) -> dict[str, Any]:
     """Persist an AI review as an advisory audit event on its source candidate."""
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.is_dir():
-        raise FileNotFoundError("No extracted source candidates are available.")
-    for path in extraction_dir.glob("*.json"):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
+    for source, payload in list_extractions(source_dir):
         for collection in ("mcq_candidates", "meq_page_candidates"):
             for item in payload.get(collection, []):
                 if item.get("candidate_id") != candidate_id:
@@ -63,7 +46,7 @@ def record_ai_review(
                 }
                 history.append(event)
                 item["latest_ai_review_at"] = event["recorded_at"]
-                _write_payload(path, payload)
+                write_extraction(source["source_id"], payload, source_dir)
                 return event
     raise KeyError(f"Unknown extracted candidate: {candidate_id}")
 
