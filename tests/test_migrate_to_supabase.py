@@ -2,9 +2,10 @@
 import hashlib
 import importlib.util
 import json
-import pytest
 import sqlite3
 from pathlib import Path
+
+import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location(
