@@ -29,7 +29,7 @@ class LocalObjectStorage:
             raise ValueError("Object key escapes the configured storage root")
         return candidate
 
-    def upload(self, key: str, content: bytes, content_type: str) -> None:
+    def upload(self, key: str, content: bytes, content_type: str, upsert: bool = False) -> None:
         path = self._path(key)
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_name(f".{path.name}.tmp")
@@ -68,13 +68,14 @@ class SupabaseObjectStorage:
             raise RuntimeError("USIPHU_SUPABASE_STORAGE_BUCKET must be a bucket name.")
 
     def _request(self, method: str, endpoint: str, *, body: bytes | None = None,
-                 content_type: str | None = None) -> bytes:
+                 content_type: str | None = None, extra_headers: dict | None = None) -> bytes:
         headers = {
             "apikey": self.secret_key,
             "Authorization": f"Bearer {self.secret_key}",
         }
         if content_type:
             headers["Content-Type"] = content_type
+        headers.update(extra_headers or {})
         request = Request(
             f"{self.project_url}/storage/v1/{endpoint}",
             data=body,
@@ -96,13 +97,14 @@ class SupabaseObjectStorage:
             raise ValueError("Invalid object key")
         return "/".join(quote(part, safe="") for part in parts)
 
-    def upload(self, key: str, content: bytes, content_type: str) -> None:
+    def upload(self, key: str, content: bytes, content_type: str, upsert: bool = False) -> None:
         endpoint = f"object/{quote(self.bucket, safe='')}/{self._object_path(key)}"
         self._request(
             "POST",
             endpoint,
             body=content,
             content_type=content_type,
+            extra_headers={"x-upsert": "true" if upsert else "false"},
         )
 
     def download(self, key: str) -> bytes:
