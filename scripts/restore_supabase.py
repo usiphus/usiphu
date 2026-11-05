@@ -12,7 +12,9 @@ import tempfile
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from usiphu.database import is_postgres
 from usiphu.source_inbox import _storage_settings, _upload_object
+from usiphu.storage import DEFAULT_DB, connect, initialize
 
 
 def _connection_environment(database_url: str) -> dict[str, str]:
@@ -42,6 +44,28 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
         raise ValueError("The confirmation value must exactly match the target database hostname.")
     if not shutil.which("age") or not shutil.which("pg_restore"):
         raise RuntimeError("Install age and PostgreSQL client tools (pg_restore) before restoring.")
+    if not is_postgres():
+        raise RuntimeError("Set USIPHU_DATABASE_URL to the target PostgreSQL connection string.")
+    initialize(DEFAULT_DB)
+    app_tables = (
+        "flashcards", "generated_drafts", "review_states", "review_events",
+        "question_attempts", "topic_progress", "learner_topic_progress",
+        "faculty_question_reviews", "faculty_question_review_events",
+        "faculty_reviewer_roles", "faculty_role_events",
+        "shared_assessment_reviews", "shared_assessment_review_events",
+        "source_documents", "source_extractions",
+        "approved_question_bank", "approved_assessment_bank",
+    )
+    with connect(DEFAULT_DB) as db:
+        populated = [
+            table for table in app_tables
+            if db.execute(f"SELECT COUNT(*) FROM public.{table}").fetchone()[0] > 0
+        ]
+    if populated:
+        raise RuntimeError(
+            "Restore target is not empty. Restore only into a fresh project after applying the schema migration; "
+            f"non-empty tables: {', '.join(populated)}"
+        )
     with tempfile.TemporaryDirectory(prefix="usiphu-restore-") as temp_name:
         temp = Path(temp_name)
         archive = temp / "backup.tar.gz"
@@ -53,24 +77,31 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
             members = tar.getmembers()
             for member in members:
                 member_path = Path(member.name)
-                if member_path.is_absolute() or ".." in member_path.parts or member.issym() or member.islnk():
+                if (
+                    member_path.is_absolute()
+                    or ".." in member_path.parts
+                    or member.issym()
+                    or member.islnk()
+                    or not (member.isfile() or member.isdir())
+                ):
                     raise ValueError("Backup archive contains an unsafe path or link.")
             tar.extractall(temp, members=members)
         manifest = json.loads((temp / "manifest.json").read_text(encoding="utf-8"))
         _, _, configured_bucket = _storage_settings()
         if manifest.get("bucket") != configured_bucket:
             raise ValueError("Backup bucket does not match the configured target bucket.")
+        environment = _connection_environment(database_url)
         subprocess.run(
             [
-                "pg_restore", "--clean", "--if-exists", "--no-owner", "--no-privileges",
-                "--schema=public", "--single-transaction", "--exit-on-error",
-                "--host", _connection_environment(database_url)["PGHOST"],
-                "--port", _connection_environment(database_url)["PGPORT"],
-                "--username", _connection_environment(database_url)["PGUSER"],
-                "--dbname", _connection_environment(database_url)["PGDATABASE"],
+                "pg_restore", "--data-only", "--no-owner", "--no-privileges",
+                "--single-transaction", "--exit-on-error",
+                "--host", environment["PGHOST"],
+                "--port", environment["PGPORT"],
+                "--username", environment["PGUSER"],
+                "--dbname", environment["PGDATABASE"],
                 str(temp / "public.dump"),
             ],
-            env=_connection_environment(database_url), check=True,
+            env=environment, check=True,
         )
         objects_dir = temp / "objects"
         for item in manifest.get("objects", []):
