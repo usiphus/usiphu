@@ -1,5 +1,5 @@
 -- Durable JSON document pointers for approved banks and validation reports.
--- Document objects are stored privately; only server-side credentials can read them.
+-- Document objects are stored privately, and only server-side credentials can read them.
 CREATE TABLE IF NOT EXISTS app_documents (
   document_key TEXT PRIMARY KEY,
   object_key TEXT NOT NULL UNIQUE,
