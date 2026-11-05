@@ -114,21 +114,34 @@ def apply_import(sources: list[dict], documents: list[dict], source_dir: Path) -
     with connect() as db:
         for item in sources:
             row = db.execute(
-                "SELECT source_id, sha256, extraction_key, metadata_json "
+                "SELECT source_id, sha256, object_key, extraction_key, metadata_json "
                 "FROM source_documents WHERE source_id = ? OR sha256 = ?",
                 (item["source_id"], item["sha256"]),
             ).fetchone()
             if row and (row["source_id"] != item["source_id"] or row["sha256"] != item["sha256"]):
                 raise ValueError(f"Remote source conflicts with {item['source_id']}.")
             item["present"] = bool(row)
+            if row:
+                if digest(storage.download(row["object_key"])) != item["sha256"]:
+                    raise ValueError(f"Remote original checksum mismatch: {item['source_id']}.")
+                if row["extraction_key"] and item["extraction"]:
+                    if digest(storage.download(row["extraction_key"])) != digest(
+                        item["extraction"].read_bytes()
+                    ):
+                        raise ValueError(
+                            f"Remote extraction differs from local source {item['source_id']}."
+                        )
             item["needs_extraction"] = bool(
                 row and item["extraction"] and not row["extraction_key"]
             )
         for item in documents:
             row = db.execute(
-                "SELECT content_sha256 FROM app_documents WHERE document_key = ?",
+                "SELECT content_sha256, object_key FROM app_documents WHERE document_key = ?",
                 (item["key"],),
             ).fetchone()
+            if row and row["content_sha256"] == item["sha256"]:
+                if digest(storage.download(row["object_key"])) != item["sha256"]:
+                    raise ValueError(f"Remote document checksum mismatch: {item['key']}.")
             if row and row["content_sha256"] != item["sha256"]:
                 raise ValueError(f"Remote document differs: {item['key']}; refusing overwrite.")
             item["present"] = bool(row)
