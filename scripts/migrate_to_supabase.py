@@ -16,6 +16,10 @@ def digest(data: bytes) -> str:
 
 
 def inventory(source_dir: Path, data_dir: Path) -> tuple[list[dict], list[dict]]:
+    if source_dir.exists():
+        for path in source_dir.rglob("*"):
+            if path.is_symlink():
+                raise ValueError(f"Symlinks are not supported in Source Inbox: {path}")
     manifest = source_dir / "sources.json"
     sources = []
     if manifest.is_file():
