@@ -4,8 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import sqlite3
-from typing import Any
 from pathlib import Path
+from typing import Any
 
 from usiphu.database import is_postgres
 from usiphu.source_inbox import _upload_object
