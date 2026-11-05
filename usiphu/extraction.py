@@ -12,10 +12,10 @@ from usiphu.source_inbox import (
     DEFAULT_SOURCE_DIR,
     get_source_bytes,
     list_sources,
-    load_extraction,
     save_extraction,
     update_source_metadata,
 )
+from usiphu.source_inbox import load_extraction as _load_extraction
 
 QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
 OPTION_LINE = re.compile(r"^\s*([A-E])[.)]\s*(.+?)\s*$", re.M)
@@ -163,3 +163,9 @@ def _update_source(source_dir: Path, source_id: str, updates: dict) -> None:
     update_source_metadata(source_id, updates, source_dir)
 
 
+
+
+
+def load_extraction(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict | None:
+    """Public extraction-module entry point retained for existing callers."""
+    return _load_extraction(source_id, source_dir)
