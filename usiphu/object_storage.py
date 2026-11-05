@@ -124,6 +124,30 @@ class SupabaseObjectStorage:
         body = json.dumps({"prefixes": [key]}).encode("utf-8")
         self._request("DELETE", endpoint, body=body, content_type="application/json")
 
+    def list_objects(self, prefix: str = "", limit: int = 1000, offset: int = 0) -> list[dict]:
+        """List one Storage directory page using the authenticated server API."""
+        if not 1 <= limit <= 1000 or offset < 0:
+            raise ValueError("Storage listing limit must be 1-1000 and offset non-negative.")
+        clean_prefix = prefix.strip("/")
+        if clean_prefix and any(part in {".", ".."} for part in clean_prefix.split("/")):
+            raise ValueError("Invalid Storage listing prefix.")
+        body = json.dumps({
+            "prefix": clean_prefix,
+            "limit": limit,
+            "offset": offset,
+            "sortBy": {"column": "name", "order": "asc"},
+        }).encode("utf-8")
+        response = self._request(
+            "POST",
+            f"object/list/{quote(self.bucket, safe='')}",
+            body=body,
+            content_type="application/json",
+        )
+        payload = json.loads(response.decode("utf-8"))
+        if not isinstance(payload, list):
+            raise ObjectStorageError("Supabase Storage returned an invalid object listing.")
+        return payload
+
     def create_signed_download_url(self, key: str, expires_in: int = 300) -> str:
         if not 1 <= expires_in <= 3600:
             raise ValueError("Signed download URLs must expire within one hour.")

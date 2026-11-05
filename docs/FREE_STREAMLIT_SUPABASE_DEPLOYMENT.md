@@ -113,6 +113,10 @@ Supabase Free does not include automatic daily backups. Before storing non-dispo
 - [ ] Free-tier quotas, hibernation, pause behavior and operator responsibilities are accepted.
 - [ ] Only synthetic data is used until institutional privacy/security approval is obtained.
 
+## Backup and recovery
+
+The pending encrypted backup/restore tooling is documented in [BACKUP_AND_RESTORE.md](BACKUP_AND_RESTORE.md). It requires operator-installed PostgreSQL client tools and age, off-provider retention, and a restore drill in a separate disposable Supabase project. Code availability does not count as a passed restore drill.
+
 ## Manual deployment checklist (after code gates pass)
 
 1. Create a Supabase Free project; do not enable paid add-ons.

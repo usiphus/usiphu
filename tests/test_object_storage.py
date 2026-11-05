@@ -132,3 +132,38 @@ def test_file_backend_selection_fails_closed(monkeypatch, tmp_path):
     monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "mystery")
     with pytest.raises(RuntimeError, match="Unsupported"):
         get_object_storage(tmp_path)
+
+
+def test_supabase_list_objects_uses_authenticated_private_api(monkeypatch):
+    seen = {}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self):
+            return b'[{"name":"paper.pdf","id":"object-id","metadata":{"size":12}}]'
+
+    def fake_urlopen(request, timeout):
+        seen["url"] = request.full_url
+        seen["method"] = request.method
+        seen["body"] = request.data
+        seen["api_key"] = request.get_header("Apikey")
+        seen["authorization"] = request.get_header("Authorization")
+        return Response()
+
+    monkeypatch.setattr("usiphu.object_storage.urlopen", fake_urlopen)
+    store = SupabaseObjectStorage(
+        project_url="https://example.supabase.co",
+        secret_key="sb_secret_server-only-secret",
+        bucket="source-inbox",
+    )
+    assert store.list_objects("sources", limit=50, offset=10)[0]["name"] == "paper.pdf"
+    assert seen["url"] == "https://example.supabase.co/storage/v1/object/list/source-inbox"
+    assert seen["method"] == "POST"
+    assert b'"prefix": "sources"' in seen["body"]
+    assert seen["api_key"] == "sb_secret_server-only-secret"
+    assert seen["authorization"] is None
