@@ -76,7 +76,7 @@ The apply path creates and checksum-verifies a local pre-import archive, then co
 ## Remaining gaps
 
 - Existing local bank files and prior report exports are not automatically imported. The runtime now writes new promoted bank documents and explicitly downloaded pilot-report snapshots to private Storage when both cloud backend selectors are enabled.
-- Existing local Source Inbox files/manifests/extractions, existing promoted banks and historical report snapshots are not imported by this change. A separate dry-run-first migration utility is required.
+- The dry-run-first import utility is implemented, but it has not been run against a real Supabase project. Existing local Source Inbox files/manifests/extractions, reviewed banks and the latest report snapshot remain local until an operator reviews the dry-run and explicitly runs `--apply`.
 - Faculty review authorization remains enforced by the PostgreSQL-backed review
   repositories; Storage itself uses a privileged server-side key. The app must
   authorize each action before requesting any object operation.
