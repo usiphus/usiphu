@@ -9,8 +9,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
-from usiphu.faculty_review import reviewer_roles
 from usiphu.database import is_postgres
+from usiphu.faculty_review import reviewer_roles
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
 ReviewStage = Literal["clinical", "exam"]
