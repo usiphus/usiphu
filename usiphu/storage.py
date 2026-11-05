@@ -1,10 +1,10 @@
 """SQLite persistence for isolated learner flashcards, reviews, and topic mastery."""
 import json
 import os
-import sqlite3
 from datetime import date
 from pathlib import Path
 
+from usiphu.database import connect_postgres, connect_sqlite, is_postgres
 from usiphu.models import ReviewState
 
 DEFAULT_DB = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
@@ -16,16 +16,23 @@ def _scoped_card_id(card_id: str, learner_id: str) -> str:
     return f"{learner_id}:{card_id}"
 
 
-def connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(path)
-    db.row_factory = sqlite3.Row
-    db.execute("PRAGMA foreign_keys=ON")
-    return db
+def connect(path: Path = DEFAULT_DB):
+    """Open the configured persistent backend (Postgres in hosted mode, SQLite locally)."""
+    if is_postgres():
+        return connect_postgres()
+    return connect_sqlite(path)
 
 
 def initialize(path: Path = DEFAULT_DB) -> None:
-    """Create the schema and migrate the original single-learner database safely."""
+    """Initialize local SQLite, or verify the hosted Postgres migration is installed."""
+    if is_postgres():
+        with connect(path) as db:
+            row = db.execute("SELECT to_regclass('public.flashcards') AS table_name").fetchone()
+            if not row or not row["table_name"]:
+                raise RuntimeError(
+                    "Supabase schema is missing. Apply the versioned files in supabase/migrations before starting USIPHU."
+                )
+        return
     with connect(path) as db:
         db.executescript("""
         CREATE TABLE IF NOT EXISTS flashcards (
