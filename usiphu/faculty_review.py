@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Literal
 
 from usiphu.curriculum import load_curriculum
+from usiphu.database import is_postgres
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
@@ -25,6 +26,8 @@ def _now() -> str:
 
 def _ensure_schema(path: Path = DEFAULT_DB) -> None:
     initialize(path)
+    if is_postgres():
+        return  # The hosted schema is installed through versioned Supabase migrations.
     with connect(path) as db:
         db.executescript("""
         CREATE TABLE IF NOT EXISTS faculty_question_reviews (
