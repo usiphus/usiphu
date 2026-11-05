@@ -73,10 +73,11 @@ class SupabaseObjectStorage:
 
     def _request(self, method: str, endpoint: str, *, body: bytes | None = None,
                  content_type: str | None = None, extra_headers: dict | None = None) -> bytes:
-        headers = {
-            "apikey": self.secret_key,
-            "Authorization": f"Bearer {self.secret_key}",
-        }
+        headers = {"apikey": self.secret_key}
+        # New sb_secret keys are opaque API keys, not JWTs. They must only be
+        # sent as apikey; legacy service_role JWTs retain the Bearer header.
+        if not self.secret_key.startswith("sb_secret_"):
+            headers["Authorization"] = f"Bearer {self.secret_key}"
         if content_type:
             headers["Content-Type"] = content_type
         headers.update(extra_headers or {})
