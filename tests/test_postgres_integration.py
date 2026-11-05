@@ -254,7 +254,9 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
         "faculty-paper.txt",
         b"1) What is the diagnosis?\n",
         specialty="Urology",
+        uploaded_by="https://auth.example/:faculty-clinical",
     )
+    assert record["uploaded_by"] == "https://auth.example/:faculty-clinical"
     assert source_inbox.list_sources()[0]["source_id"] == record["source_id"]
     assert source_inbox.read_source_bytes(record) == b"1) What is the diagnosis?\n"
     with pytest.raises(ValueError, match="already"):
