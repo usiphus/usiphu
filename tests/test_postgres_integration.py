@@ -52,6 +52,20 @@ EXAM = "https://auth.example/:faculty-exam"
 def postgres_schema():
     """Apply the versioned schema to the disposable CI database once."""
     with psycopg.connect(DATABASE_URL, sslmode=os.getenv("USIPHU_DATABASE_SSLMODE", "disable")) as conn:
+        conn.execute(
+            """
+            DO $
+            BEGIN
+              IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
+                CREATE ROLE anon NOLOGIN;
+              END IF;
+              IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+                CREATE ROLE authenticated NOLOGIN;
+              END IF;
+            END
+            $;
+            """
+        )
         for migration in MIGRATIONS:
             for statement in migration.read_text(encoding="utf-8").split(";"):
                 if statement.strip():
