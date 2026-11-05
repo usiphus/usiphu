@@ -66,6 +66,12 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
             "Restore target is not empty. Restore only into a fresh project after applying the schema migration; "
             f"non-empty tables: {', '.join(populated)}"
         )
+    checksum_file = backup.with_suffix(backup.suffix + ".sha256")
+    if checksum_file.is_file():
+        expected = checksum_file.read_text(encoding="utf-8").split()[0]
+        actual = hashlib.sha256(backup.read_bytes()).hexdigest()
+        if actual != expected:
+            raise ValueError("Encrypted backup checksum does not match its sidecar file.")
     with tempfile.TemporaryDirectory(prefix="usiphu-restore-") as temp_name:
         temp = Path(temp_name)
         archive = temp / "backup.tar.gz"
