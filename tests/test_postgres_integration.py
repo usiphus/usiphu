@@ -256,7 +256,7 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
     original_bytes = b"1) What is the diagnosis?\nA) Option one\nB) Option two\n"
     assert source_inbox.read_source_bytes(record) == original_bytes
     with pytest.raises(ValueError, match="already"):
-        source_inbox.save_source("copy.txt", b"1) What is the diagnosis?\n")
+        source_inbox.save_source("copy.txt", original_bytes)
     from usiphu.extraction import extract_source
     from usiphu.question_review import save_candidate_review
 
