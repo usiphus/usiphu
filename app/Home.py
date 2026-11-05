@@ -20,8 +20,12 @@ from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
 from usiphu.faculty_review import (
-    list_pilot_questions, record_faculty_decision, review_history,
-    reviewer_roles, list_reviewer_assignments, set_reviewer_role,
+    list_pilot_questions,
+    list_reviewer_assignments,
+    record_faculty_decision,
+    review_history,
+    reviewer_roles,
+    set_reviewer_role,
 )
 from usiphu.generator import build_generation_briefs
 from usiphu.models import ReviewState
