@@ -66,6 +66,16 @@ class PostgresConnection:
             statement,
             flags=re.IGNORECASE,
         )
+        # SQLite's INSERT OR IGNORE has no direct PostgreSQL spelling.
+        ignore_insert = bool(re.search(r"\\bINSERT\\s+OR\\s+IGNORE\\s+INTO\\b", statement, re.I))
+        statement = re.sub(
+            r"\\bINSERT\\s+OR\\s+IGNORE\\s+INTO\\b",
+            "INSERT INTO",
+            statement,
+            flags=re.IGNORECASE,
+        )
+        if ignore_insert:
+            statement = statement.rstrip().rstrip(";") + " ON CONFLICT DO NOTHING"
         # Repository statements use qmark placeholders; psycopg uses %s.
         statement = re.sub(
             r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)",
@@ -118,7 +128,7 @@ class PostgresBackend:
             ) from exc
         connection = psycopg.connect(
             self.database_url,
-            sslmode="require",
+            sslmode=os.getenv("USIPHU_DATABASE_SSLMODE", "require"),
             row_factory=_hybrid_row_factory,
             prepare_threshold=None,
             application_name="usiphu",
