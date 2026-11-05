@@ -142,7 +142,6 @@ def test_postgres_keeps_two_person_faculty_approval_invariant(monkeypatch):
 def test_source_inbox_metadata_and_extraction_round_trip_in_postgres(monkeypatch):
     from usiphu import source_inbox
 
-    source_id_holder = {}
     object_store = {}
 
     def fake_upload(object_key, content, filename):
@@ -161,9 +160,10 @@ def test_source_inbox_metadata_and_extraction_round_trip_in_postgres(monkeypatch
         specialty="Urology",
     )
     source_id = record["source_id"]
-    source_id_holder["source_id"] = source_id
     assert source_inbox.get_source_bytes(source_id) == b"Question 1. Describe the initial management."
     assert source_inbox.get_source_record(source_id)["object_key"] == record["object_key"]
+    with pytest.raises(ValueError, match="already in the source inbox"):
+        source_inbox.save_source("duplicate.txt", b"Question 1. Describe the initial management.")
 
     updated = source_inbox.update_source_metadata(
         source_id, {"status": "extracted_pending_review", "question_count": 1}
