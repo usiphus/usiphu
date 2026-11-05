@@ -2,7 +2,7 @@ name: PostgreSQL integration
 
 on:
   push:
-    branches: ["feat/postgres-backend-compatibility"]
+    branches: ["feat/postgres-backend-compatibility", "feat/supabase-private-source-storage"]
   pull_request:
     branches: ["main"]
 
