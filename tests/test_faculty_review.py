@@ -104,7 +104,7 @@ def test_clinical_approval_requires_every_attestation(review_workspace):
 
 def test_two_distinct_faculty_members_are_required_for_release(review_workspace):
     db_path, bank_dir, question_id = review_workspace
-    clinical = approve_clinical(db_path, bank_dir)
+    clinical = approve_clinical(db_path, bank_dir, reviewer="dual-1")
     assert clinical["faculty_release_status"] == "clinically_reviewed"
 
     with pytest.raises(ValueError, match="different reviewers"):
