@@ -55,6 +55,7 @@ def save_source(
     specialty: str = "Unassigned",
     exam_year: str = "",
     notes: str = "",
+    uploaded_by: str | None = None,
     source_dir: Path = DEFAULT_SOURCE_DIR,
 ) -> dict:
     """Store an uploaded paper and provenance metadata without extracting questions."""
@@ -83,6 +84,7 @@ def save_source(
         "size_bytes": len(content),
         "sha256": digest,
         "uploaded_at": datetime.now(UTC).isoformat(),
+        "uploaded_by": uploaded_by,
         "status": "awaiting_extraction",
         "question_count": 0,
     }
