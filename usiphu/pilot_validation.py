@@ -9,7 +9,11 @@ from typing import Any
 
 from usiphu.database import is_postgres
 from usiphu.source_inbox import (
-    DEFAULT_SOURCE_DIR, list_extractions, list_sources, load_extraction, save_extraction,
+    DEFAULT_SOURCE_DIR,
+    list_extractions,
+    list_sources,
+    load_extraction,
+    save_extraction,
 )
 
 
