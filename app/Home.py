@@ -2003,6 +2003,7 @@ if not AUTH_REQUIRED or admin_access or reviewer_access:
                         specialty=source_specialty,
                         exam_year=source_year,
                         notes=source_notes,
+                        uploaded_by=learner_id,
                     )
                     saved_count += 1
                     try:
