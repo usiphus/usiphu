@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 from usiphu.database import is_postgres
-from usiphu.models import ClinicalCase, MCQ
+from usiphu.models import MCQ, ClinicalCase
 from usiphu.storage import DEFAULT_DB, connect, initialize
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
