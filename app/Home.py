@@ -1478,6 +1478,22 @@ elif page == "Review Editor":
                                 explanation=explanation, reviewer=reviewer,
                                 answer_verified=verified,
                             )
+                            enqueue_assessment_for_review(
+                                selected_id,
+                                "single_best_answer",
+                                {
+                                    **selected, "prompt": stem, "stem": stem,
+                                    "options": options,
+                                    "correct_option_id": None if answer == "Not verified" else answer,
+                                    "answer": next(
+                                        (option["text"] for option in options if option["id"] == answer),
+                                        "",
+                                    ),
+                                    "explanation": explanation,
+                                    "source_id": selected.get("source_id"),
+                                    "source_page": selected.get("source_page"),
+                                },
+                            )
                             if action == "Approve into question bank":
                                 promoted = approve_candidate(selected_id)
                                 st.success("Promoted " + promoted["id"] + " as an editorial draft.")
@@ -1598,6 +1614,9 @@ elif page == "Review Editor":
                                 rubric_verified=rubric_verified,
                                 corrected_source_text=corrected_source_text,
                                 approve=action == "Approve assessment",
+                            )
+                            enqueue_assessment_for_review(
+                                selected_id, selected["assessment_type"], saved
                             )
                             st.success(
                                 "Assessment promoted to the practice checker." if action == "Approve assessment"
