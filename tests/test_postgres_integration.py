@@ -322,3 +322,53 @@ def test_postgres_durable_json_document_round_trip_and_checksum(monkeypatch, tmp
         durable_documents.load_json_document(
             "question-bank:past-papers-reviewed", path
         )
+
+
+
+def test_postgres_remote_banks_and_pilot_report_are_read_and_written(monkeypatch, tmp_path):
+    from usiphu import durable_documents
+    from usiphu.assessment_review import load_assessments
+    from usiphu.pilot_validation import save_pilot_validation_report
+    from usiphu.practice import load_questions
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+
+    question = load_questions()[0].model_dump()
+    question["id"] = "remote-past-paper-test"
+    question["bank_id"] = "past-papers-review-bank"
+    durable_documents.save_json_document(
+        "question-bank:past-papers-reviewed",
+        {"bank_id": "past-papers-review-bank", "questions": [question]},
+        tmp_path / "past_papers_reviewed.json",
+    )
+    assert any(item.id == "remote-past-paper-test" for item in load_questions())
+
+    assessment = {"id": "remote-assessment-test", "prompt": "Synthetic test assessment"}
+    durable_documents.save_json_document(
+        "assessment-bank:reviewed-assessments",
+        {"bank_id": "reviewed-short-answer-meq", "assessments": [assessment]},
+        tmp_path / "reviewed_assessments.json",
+    )
+    assert load_assessments()[0]["id"] == "remote-assessment-test"
+
+    report = {"totals": {"source_files": 1}, "synthetic": True}
+    save_pilot_validation_report(report, source_dir=tmp_path / "inbox")
+    assert durable_documents.load_json_document(
+        "pilot-validation:latest",
+        tmp_path / "reports" / "pilot-validation-latest.json",
+    ) == report
