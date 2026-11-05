@@ -181,7 +181,7 @@ def update_source_metadata(source_id: str, updates: dict, source_dir: Path = DEF
         initialize(DEFAULT_DB)
         with connect(DEFAULT_DB) as db:
             row = db.execute(
-                "SELECT metadata_json FROM source_documents WHERE source_id=?", (source_id,)
+                "SELECT metadata_json FROM source_documents WHERE source_id=? FOR UPDATE", (source_id,)
             ).fetchone()
             if row is None:
                 raise KeyError(f"Unknown source ID: {source_id}")
