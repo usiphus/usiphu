@@ -381,6 +381,7 @@ def test_supabase_import_is_resumable_and_preserves_source_provenance(monkeypatc
     import json
 
     from usiphu import durable_documents, object_storage
+    from usiphu.storage import connect
 
     class FakeObjectStorage:
         def __init__(self):
