@@ -26,8 +26,14 @@ def write_pg_service_file(database_url: str, path: Path, service: str) -> Path:
     for key, value in values.items():
         if "\n" in value or "\r" in value:
             raise ValueError("Invalid newline in PostgreSQL connection settings.")
+    def quote_value(value: str) -> str:
+        escaped = value.replace("\\", "\\\\").replace('"', '\\"')
+        return f'"{escaped}"'
+
     path.write_text(
-        f"[{service}]\n" + "".join(f"{key}={value}\n" for key, value in values.items()),
+        f"[{service}]\n" + "".join(
+            f"{key}={quote_value(value)}\n" for key, value in values.items()
+        ),
         encoding="utf-8",
     )
     path.chmod(0o600)
