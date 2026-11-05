@@ -79,8 +79,9 @@ def migrate(
         backup_root.mkdir(parents=True, exist_ok=True)
 
     for key, path in documents:
-        digest = checksum(path)
         payload = json.loads(path.read_text(encoding="utf-8"))
+        canonical = (json.dumps(payload, ensure_ascii=False, indent=2) + "\\n").encode("utf-8")
+        digest = hashlib.sha256(canonical).hexdigest()
         item = {
             "document_key": key,
             "source_path": str(path),
