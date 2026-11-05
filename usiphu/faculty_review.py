@@ -4,10 +4,10 @@ The authored JSON banks remain immutable source material. Decisions and immutabl
 review snapshots live in SQLite; load_questions overlays the current release state.
 """
 import json
+import os
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
-import os
 
 from usiphu.curriculum import load_curriculum
 from usiphu.storage import DEFAULT_DB, connect, initialize
@@ -147,6 +147,15 @@ def set_reviewer_role(
         raise ValueError("Administrators cannot assign reviewer roles to themselves.")
     if "admin" not in reviewer_roles(actor_id, path):
         raise PermissionError("Only an administrator configured in USIPHU_ADMIN_SUBJECTS can manage reviewer roles.")
+    configured_variable = (
+        "USIPHU_CLINICAL_REVIEWER_SUBJECTS"
+        if role == "clinical_reviewer" else "USIPHU_EXAM_REVIEWER_SUBJECTS"
+    )
+    if not enabled and reviewer_id.strip() in _configured_subjects(configured_variable):
+        raise ValueError(
+            f"This role is configured through {configured_variable}; remove the identity "
+            "from that environment variable and restart USIPHU instead."
+        )
     _ensure_schema(path)
     now = _now()
     action = "grant" if enabled else "revoke"
