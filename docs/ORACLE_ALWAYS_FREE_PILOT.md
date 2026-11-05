@@ -128,3 +128,82 @@ This free single-VM arrangement is a pilot only. Before any real institutional p
 - Obtain a funded or institutionally supported fallback if uninterrupted service is required.
 
 Do not describe this free pilot as production-ready. OCI's free compute is reclaimable and has no production uptime commitment. This guide provides a reproducible pilot deployment, not an SLA.
+
+
+## 7. Automated encrypted off-VM backups
+
+The repository includes `scripts/oracle_backup.sh`. It runs the existing SQLite online-backup and Source Inbox archive routine inside the app container, encrypts the database, Source Inbox archive and checksums with `age`, uploads only encrypted `.age` files to an independently configured rclone remote, and compares remote objects with `rclone check --download` before reporting success. It removes the just-created plaintext snapshot only after remote verification. Older local snapshots are pruned by the existing backup script. An optional Healthchecks-compatible ping URL sends success/failure heartbeats.
+
+### Configure backup credentials
+
+Install `age` and `rclone` on the VM. Generate an age keypair and keep the **private key offline**, not on the VM. Configure an rclone remote using a dedicated, least-privilege bucket credential. Keep bucket access private and configure provider-side lifecycle retention.
+
+Create `/etc/usiphu/backup.env` as root, mode 0600:
+
+~~~bash
+sudo install -d -m 700 /etc/usiphu
+sudo install -m 600 /dev/null /etc/usiphu/backup.env
+sudoedit /etc/usiphu/backup.env
+~~~
+
+Contents (placeholders only):
+
+~~~dotenv
+AGE_RECIPIENT=age1yourpublicrecipient
+RCLONE_REMOTE=r2:usiphu-backups
+HEALTHCHECKS_PING_URL=https://hc-ping.com/YOUR-PRIVATE-UUID
+~~~
+
+The ping URL is a secret. Do not commit it or paste it into chat. Configure the rclone remote in a root-only config file (for example `/root/.config/rclone/rclone.conf`) and verify that root can access it.
+
+Run a manual test:
+
+~~~bash
+sudo chmod 700 scripts/oracle_backup.sh
+sudo scripts/oracle_backup.sh
+~~~
+
+Verify a dated folder containing encrypted files appears in the remote bucket. Perform a restore drill on a separate empty test directory: download the encrypted database, archive and checksum objects; decrypt them with the offline age private key; verify hashes; then use `scripts/restore_backup.py` to restore both database and Source Inbox. Never test a restore over the live runtime directory.
+
+### Schedule daily backups
+
+Create `/etc/cron.d/usiphu-backup`:
+
+~~~cron
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+15 2 * * * root /opt/usiphu/scripts/oracle_backup.sh >> /var/log/usiphu-backup.log 2>&1
+~~~
+
+Adjust `/opt/usiphu` if the repository lives elsewhere. Create the log file with restricted permissions and configure log rotation. The script uses a lock to prevent overlapping runs. Alert on missed heartbeats in the external heartbeat service; cron without external alerting can fail silently.
+
+**Cost boundary:** a second backup provider is only free while storage, operations and transfer remain within its free allowance. Set provider-side usage alerts and lifecycle expiry. A billing alert is not a hard spending cap. The VM's local backup folder alone is not an off-site backup.
+
+## 8. Host firewall, patching and external monitoring
+
+After confirming your SSH key works in a second terminal, apply the baseline firewall and host updates:
+
+~~~bash
+sudo USIPHU_SSH_CIDR="YOUR.ADMIN.PUBLIC.IP/32" bash scripts/oracle_host_hardening.sh
+~~~
+
+Do not use `0.0.0.0/0` for SSH. Configure the OCI Network Security Group/security list separately: TCP 22 only from the administrator CIDR; TCP 80/443 from the internet; no public 8501, database or Docker API ports. Docker can manipulate host firewall rules, so OCI network rules are the primary public boundary; verify from an external network that port 8501 is unreachable.
+
+The Compose stack rotates container logs (10 MB × 5 files per service). Review host disk usage and logs regularly; log rotation is not centralized monitoring.
+
+Configure an independent external HTTPS uptime monitor for `https://YOUR-DOMAIN/` and an alert contact. Configure the optional backup heartbeat above. Monitor HTTPS availability and certificate expiry, VM CPU/memory/disk, last successful off-site backup and restore-drill date, OCI usage/billing, failed SSH logins, unattended-upgrade status and Docker health.
+
+The Streamlit container health check only verifies that the local process responds. It does not verify Auth0, database writes, source uploads, backup freshness or end-to-end user journeys.
+
+## 9. Recovery runbook
+
+If the app becomes unavailable:
+1. Check OCI instance state, capacity/account notices and cost/Always Free eligibility.
+2. SSH using the restricted administrator key; inspect Compose status, container logs and disk space.
+3. If the container is unhealthy, inspect logs before restarting. Do not delete the runtime directory or recreate storage volumes.
+4. If the VM or disk is lost, provision a replacement Always Free-eligible VM (if capacity exists), reinstall Docker, restore the repository and protected secrets, and point DNS only after the restore is verified.
+5. Download the latest complete encrypted backup set, decrypt it offline, verify SHA-256 checksums, and restore into empty runtime paths using `scripts/restore_backup.py`.
+6. Verify database integrity, Source Inbox files, Auth0 login, role separation and audit history using synthetic test accounts before reopening access.
+7. Record the incident, recovery time and any data gap. If no verified off-site backup exists, preserve remaining disks/logs and do not overwrite them.
+
+A monthly restore drill is mandatory for confidence in recovery. A single VM, free-tier reclaimability and free external services still provide no uptime or recovery SLA.
