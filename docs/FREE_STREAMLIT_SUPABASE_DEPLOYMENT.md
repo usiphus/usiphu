@@ -72,7 +72,7 @@ Use versioned SQL migrations, parameterized SQL, explicit transactions, foreign 
 
 ### 2. Durable Source Inbox migration
 
-PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). The pending follow-up implements durable storage for promoted/reviewed question-bank and assessment-bank JSON and pilot-validation reports, plus a dry-run-first bank/report importer. Existing local Source Inbox originals/manifests/extractions still need a remote import path, and upload/download/restore must be verified against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance.
+PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). The pending follow-ups implement durable storage for promoted/reviewed question-bank and assessment-bank JSON and pilot-validation reports, plus dry-run-first importers for banks/reports and legacy Source Inbox originals/manifests/extractions. These imports are operator-run and have not been executed. Upload/download/restore must still be verified against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance.
 
 Do not create a public bucket or store file bytes as base64 in Postgres. Validate extension and size server-side. Check the caller's application role before upload, download, replacement or deletion.
 
@@ -103,6 +103,7 @@ Supabase Free does not include automatic daily backups. Before storing non-dispo
 - [ ] Source Inbox uses private Storage and database-backed metadata.
 - [ ] Promoted question and assessment banks and pilot reports use private Storage and PostgreSQL pointers.
 - [ ] Existing local banks/reports are imported with reviewed checksums and backups.
+- [ ] Existing local Source Inbox originals, manifests and extraction candidates are imported with preserved IDs/provenance and backups.
 - [ ] Upload, download, duplicate detection, extraction and restore tests pass.
 - [ ] Existing SQLite data has a tested, non-destructive export/import path if needed.
 - [ ] CI includes PostgreSQL integration tests.
