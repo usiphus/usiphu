@@ -37,7 +37,7 @@ def inventory(data_root: Path) -> list[tuple[str, Path]]:
         path = data_root / relative
         if path.is_file():
             documents.append((key, path))
-    report_root = data_root / "source_inbox" / "reports"
+    report_root = data_root / "source_inbox" / "reports" / "pilot-validation"
     if report_root.is_dir():
         for path in sorted(report_root.rglob("*.json")):
             relative = path.relative_to(report_root).as_posix()
