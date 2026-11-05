@@ -3,7 +3,7 @@ import json
 import os
 from pathlib import Path
 
-from usiphu.models import MCQ, ClinicalCase
+from usiphu.models import ClinicalCase, MCQ
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
