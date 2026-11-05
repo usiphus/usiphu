@@ -11,16 +11,6 @@ CREATE TABLE IF NOT EXISTS source_documents (
 );
 CREATE INDEX IF NOT EXISTS idx_source_documents_uploaded_at
   ON source_documents(uploaded_at DESC);
-DO $
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
-    CREATE ROLE anon NOLOGIN;
-  END IF;
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
-    CREATE ROLE authenticated NOLOGIN;
-  END IF;
-END
-$;
 ALTER TABLE source_documents ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON TABLE source_documents FROM anon, authenticated;
 CREATE POLICY source_documents_server_only ON source_documents
