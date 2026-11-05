@@ -90,7 +90,6 @@ def _sync_bootstrap_roles(path: Path = DEFAULT_DB) -> None:
     """Apply environment-managed bootstrap roles without removing database grants."""
     _ensure_schema(path)
     configured = {
-        "admin": _configured_subjects("USIPHU_ADMIN_SUBJECTS"),
         "clinical_reviewer": _configured_subjects("USIPHU_CLINICAL_REVIEWER_SUBJECTS"),
         "exam_reviewer": _configured_subjects("USIPHU_EXAM_REVIEWER_SUBJECTS"),
     }
@@ -116,7 +115,10 @@ def reviewer_roles(reviewer_id: str, path: Path = DEFAULT_DB) -> set[str]:
             "SELECT role FROM faculty_reviewer_roles WHERE reviewer_id=?",
             (reviewer_id.strip(),),
         ).fetchall()
-    return {row["role"] for row in rows}
+    roles = {row["role"] for row in rows}
+    if reviewer_id.strip() in _configured_subjects("USIPHU_ADMIN_SUBJECTS"):
+        roles.add("admin")
+    return roles
 
 
 def list_reviewer_assignments(path: Path = DEFAULT_DB) -> list[dict]:
