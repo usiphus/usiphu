@@ -54,7 +54,7 @@ def save_pilot_validation_report(
     payload = report or build_pilot_validation_report(source_dir)
     generated_at = str(payload.get("generated_at") or datetime.now(UTC).isoformat())
     stamp = re.sub(r"[^0-9A-Za-z_-]", "-", generated_at)
-    latest_path = source_dir / "reports" / "pilot-validation" / "latest.json
+    latest_path = source_dir / "reports" / "pilot-validation" / "latest.json"
     archive_path = source_dir / "reports" / "pilot-validation" / f"{stamp}.json"
     save_json_document("reports/pilot-validation/latest.json", payload, latest_path)
     save_json_document(f"reports/pilot-validation/{stamp}.json", payload, archive_path)
