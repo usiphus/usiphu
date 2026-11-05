@@ -67,9 +67,9 @@ class PostgresConnection:
             flags=re.IGNORECASE,
         )
         # SQLite's INSERT OR IGNORE has no direct PostgreSQL spelling.
-        ignore_insert = bool(re.search(r"\\bINSERT\\s+OR\\s+IGNORE\\s+INTO\\b", statement, re.I))
+        ignore_insert = bool(re.search(r"\bINSERT\s+OR\s+IGNORE\s+INTO\b", statement, re.I))
         statement = re.sub(
-            r"\\bINSERT\\s+OR\\s+IGNORE\\s+INTO\\b",
+            r"\bINSERT\s+OR\s+IGNORE\s+INTO\b",
             "INSERT INTO",
             statement,
             flags=re.IGNORECASE,
