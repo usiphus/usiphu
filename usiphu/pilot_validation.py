@@ -1,34 +1,18 @@
 """Pilot validation metrics and durable audit records for source-question review."""
 from __future__ import annotations
 
-import json
+import re
 from collections import Counter
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.durable_documents import save_json_document
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_extractions, list_sources, write_extraction
 
 
 def _read_extractions(source_dir: Path) -> list[dict[str, Any]]:
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.is_dir():
-        return []
-    records = []
-    for path in sorted(extraction_dir.glob("*.json"), key=lambda item: item.stat().st_mtime):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
-        if isinstance(payload, dict):
-            records.append(payload)
-    return records
-
-
-def _write_payload(path: Path, payload: dict[str, Any]) -> None:
-    temporary = path.with_suffix(path.suffix + ".tmp")
-    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(path)
+    return [payload for _source, payload in list_extractions(source_dir)]
 
 
 def record_ai_review(
@@ -38,14 +22,7 @@ def record_ai_review(
     source_dir: Path = DEFAULT_SOURCE_DIR,
 ) -> dict[str, Any]:
     """Persist an AI review as an advisory audit event on its source candidate."""
-    extraction_dir = source_dir / "extractions"
-    if not extraction_dir.is_dir():
-        raise FileNotFoundError("No extracted source candidates are available.")
-    for path in extraction_dir.glob("*.json"):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            continue
+    for source, payload in list_extractions(source_dir):
         for collection in ("mcq_candidates", "meq_page_candidates"):
             for item in payload.get(collection, []):
                 if item.get("candidate_id") != candidate_id:
@@ -63,9 +40,28 @@ def record_ai_review(
                 }
                 history.append(event)
                 item["latest_ai_review_at"] = event["recorded_at"]
-                _write_payload(path, payload)
+                write_extraction(source["source_id"], payload, source_dir)
                 return event
     raise KeyError(f"Unknown extracted candidate: {candidate_id}")
+
+
+
+def save_pilot_validation_report(
+    report: dict | None = None,
+    source_dir: Path = DEFAULT_SOURCE_DIR,
+) -> dict[str, str]:
+    """Persist the latest report and an immutable timestamped report snapshot."""
+    payload = report or build_pilot_validation_report(source_dir)
+    generated_at = str(payload.get("generated_at") or datetime.now(UTC).isoformat())
+    stamp = re.sub(r"[^0-9A-Za-z_-]", "-", generated_at)
+    latest_path = source_dir / "reports" / "pilot-validation-latest.json"
+    archive_path = source_dir / "reports" / f"pilot-validation-{stamp}.json"
+    save_json_document("reports/pilot-validation/latest.json", payload, latest_path)
+    save_json_document(f"reports/pilot-validation/{stamp}.json", payload, archive_path)
+    return {
+        "latest": "reports/pilot-validation/latest.json",
+        "archive": f"reports/pilot-validation/{stamp}.json",
+    }
 
 
 def build_pilot_validation_report(
