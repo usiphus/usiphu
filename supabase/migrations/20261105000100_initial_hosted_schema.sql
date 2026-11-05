@@ -128,11 +128,11 @@ GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO postgres, servi
 
 -- Dedicated application login: BYPASSRLS is required because Auth0 (not Supabase Auth)
 -- is the identity provider. This role is not a superuser and receives only app-table rights.
-DO $ BEGIN
+DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'usiphu_app') THEN
     CREATE ROLE usiphu_app NOLOGIN BYPASSRLS;
   END IF;
-END $;
+END $$;
 GRANT CONNECT ON DATABASE postgres TO usiphu_app;
 GRANT USAGE ON SCHEMA public TO usiphu_app;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO usiphu_app;
