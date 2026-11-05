@@ -72,7 +72,10 @@ def clean_postgres(monkeypatch, postgres_schema):
 
 
 def _grant_faculty_roles():
+    # Give the clinical identity both permissions so the test reaches the
+    # separation-of-duties guard rather than failing earlier on role checks.
     set_reviewer_role(ADMIN, CLINICAL, "clinical_reviewer", enabled=True)
+    set_reviewer_role(ADMIN, CLINICAL, "exam_reviewer", enabled=True)
     set_reviewer_role(ADMIN, EXAM, "exam_reviewer", enabled=True)
 
 
