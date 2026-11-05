@@ -52,3 +52,12 @@ def test_pg_service_file_is_private_and_does_not_require_credentials_in_argument
     assert "host=db.example.supabase.co" in content
     assert 'password="very-secret"' in content
     assert "sslmode=require" in content
+
+
+def test_pg_service_file_rejects_insecure_tls_mode(tmp_path: Path):
+    with pytest.raises(ValueError, match="TLS"):
+        write_pg_service_file(
+            "postgresql://backup-user:secret@db.example.supabase.co:5432/postgres?sslmode=disable",
+            tmp_path / "pg_service.conf",
+            "usiphu_backup",
+        )
