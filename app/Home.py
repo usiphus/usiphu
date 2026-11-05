@@ -12,6 +12,9 @@ import streamlit as st
 for _setting in (
     "USIPHU_AUTH_REQUIRED",
     "USIPHU_DB_PATH",
+    "USIPHU_DATABASE_BACKEND",
+    "SUPABASE_DB_URL",
+    "DATABASE_URL",
     "USIPHU_SOURCE_DIR",
     "USIPHU_BACKUP_DIR",
     "USIPHU_ADMIN_SUBJECTS",
