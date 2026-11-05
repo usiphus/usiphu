@@ -216,22 +216,12 @@ def test_admin_role_grants_and_revocations_are_audited(review_workspace):
         "test-admin", "new-reviewer", "clinical_reviewer",
         enabled=True, path=db_path,
     )
-    assert "clinical_reviewer" in __import__(
-        "usiphu.faculty_review", fromlist=["reviewer_roles"]
-    ).reviewer_roles("new-reviewer", db_path)
+    assert "clinical_reviewer" in reviewer_roles("new-reviewer", db_path)
     set_reviewer_role(
         "test-admin", "new-reviewer", "clinical_reviewer",
         enabled=False, path=db_path,
     )
-    assert role_assignment_history("new-reviewer", db_path) == [
-        {
-            "role": "clinical_reviewer", "action": "grant",
-            "actor_id": "test-admin",
-            "created_at": role_assignment_history("new-reviewer", db_path)[0]["created_at"],
-        },
-        {
-            "role": "clinical_reviewer", "action": "revoke",
-            "actor_id": "test-admin",
-            "created_at": role_assignment_history("new-reviewer", db_path)[1]["created_at"],
-        },
-    ]
+    assert reviewer_roles("new-reviewer", db_path) == set()
+    events = role_assignment_history("new-reviewer", db_path)
+    assert [event["action"] for event in events] == ["grant", "revoke"]
+    assert all(event["actor_id"] == "test-admin" for event in events)
