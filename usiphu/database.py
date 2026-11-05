@@ -12,7 +12,7 @@ from __future__ import annotations
 import os
 import sqlite3
 from pathlib import Path
-from typing import Protocol, runtime_checkable
+from typing import Any, Protocol, runtime_checkable
 
 DEFAULT_SQLITE_PATH = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
 
@@ -21,7 +21,7 @@ DEFAULT_SQLITE_PATH = Path(os.getenv("USIPHU_DB_PATH", "usiphu_data.sqlite3"))
 class DatabaseBackend(Protocol):
     """Minimal connection-factory contract shared by persistence backends."""
 
-    def connect(self, path: Path | None = None) -> sqlite3.Connection:
+    def connect(self, path: Path | None = None) -> Any:
         """Return a DB-API connection usable as a context manager."""
 
 
@@ -54,6 +54,6 @@ def get_database_backend() -> DatabaseBackend:
     return SQLiteBackend()
 
 
-def connect_database(path: Path | None = None) -> sqlite3.Connection:
+def connect_database(path: Path | None = None) -> Any:
     """Open a connection through the selected backend."""
     return get_database_backend().connect(path=path)
