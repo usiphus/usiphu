@@ -62,7 +62,7 @@ def test_supabase_upload_uses_authenticated_private_storage_request(monkeypatch)
     monkeypatch.setattr("usiphu.object_storage.urlopen", fake_urlopen)
     store = SupabaseObjectStorage(
         project_url="https://example.supabase.co",
-        secret_key="server-only-secret",
+        secret_key="sb_secret_server-only-secret",
         bucket="source-inbox",
     )
     store.upload("sources/abc/paper.txt", b"paper", "text/plain")
@@ -70,8 +70,8 @@ def test_supabase_upload_uses_authenticated_private_storage_request(monkeypatch)
         "https://example.supabase.co/storage/v1/object/source-inbox/sources/abc/paper.txt"
     )
     assert seen["method"] == "POST"
-    assert seen["authorization"] == "Bearer server-only-secret"
-    assert seen["api_key"] == "server-only-secret"
+    assert seen["authorization"] is None
+    assert seen["api_key"] == "sb_secret_server-only-secret"
     assert seen["upsert"] == "false"
     assert seen["body"] == b"paper"
 
@@ -92,16 +92,18 @@ def test_supabase_download_uses_authenticated_private_endpoint(monkeypatch):
     def fake_urlopen(request, timeout):
         seen["url"] = request.full_url
         seen["authorization"] = request.get_header("Authorization")
+        seen["api_key"] = request.get_header("Apikey")
         return Response()
 
     monkeypatch.setattr("usiphu.object_storage.urlopen", fake_urlopen)
     store = SupabaseObjectStorage(
         project_url="https://example.supabase.co",
-        secret_key="server-only-secret",
+        secret_key="sb_secret_server-only-secret",
     )
     assert store.download("sources/abc/paper.txt") == b"private paper"
     assert "/object/authenticated/source-inbox/" in seen["url"]
-    assert seen["authorization"] == "Bearer server-only-secret"
+    assert seen["authorization"] is None
+    assert seen["api_key"] == "sb_secret_server-only-secret"
 
 
 def test_signed_url_is_short_lived_and_validated(monkeypatch):
@@ -118,7 +120,7 @@ def test_signed_url_is_short_lived_and_validated(monkeypatch):
     monkeypatch.setattr("usiphu.object_storage.urlopen", lambda *_args, **_kwargs: Response())
     store = SupabaseObjectStorage(
         project_url="https://example.supabase.co",
-        secret_key="server-only-secret",
+        secret_key="sb_secret_server-only-secret",
     )
     url = store.create_signed_download_url("sources/a/file", expires_in=300)
     assert url.startswith("https://example.supabase.co/storage/v1/object/sign/")
