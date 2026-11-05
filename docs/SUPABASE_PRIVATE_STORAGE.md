@@ -50,7 +50,9 @@ publishable key for this server-side adapter. Keep all credentials server-only.
 - Extracted candidate JSON: private Supabase Storage object
 - Candidate edits and review-state changes: written back to the extraction object
 
-The local backend remains the default for development and existing tests.
+The local backend remains the default for development and existing tests. Do not
+set the Supabase backend selectors in a live deployment until PR #15 and this
+PR are reviewed, merged in order, and the migration is applied.
 
 ## Remaining gaps
 
