@@ -67,7 +67,11 @@ class PostgresConnection:
             flags=re.IGNORECASE,
         )
         # Repository statements use qmark placeholders; psycopg uses %s.
-        statement = re.sub(r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)", r"%(\\1)s", statement)
+        statement = re.sub(
+            r"(?<!:):([A-Za-z_][A-Za-z0-9_]*)",
+            lambda match: f"%({match.group(1)})s",
+            statement,
+        )
         return statement.replace("?", "%s")
 
     def execute(self, statement: str, parameters: Any = None) -> Any:
