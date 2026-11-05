@@ -115,7 +115,7 @@ def test_signed_url_is_short_lived_and_validated(monkeypatch):
             return None
 
         def read(self):
-            return b'{"signedURL":"/storage/v1/object/sign/source-inbox/sources/a/file?token=x"}'
+            return b'{"signedURL":"/object/sign/source-inbox/sources/a/file?token=x"}'
 
     monkeypatch.setattr("usiphu.object_storage.urlopen", lambda *_args, **_kwargs: Response())
     store = SupabaseObjectStorage(
