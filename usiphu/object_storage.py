@@ -66,7 +66,7 @@ class SupabaseObjectStorage:
             raise RuntimeError("SUPABASE_URL must be an HTTPS project URL.")
         if not self.secret_key:
             raise RuntimeError(
-                "Supabase Storage requires SUPABASE_SERVICE_ROLE_KEY in server secrets."
+                "Supabase Storage requires a server-side secret key (SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY)."
             )
         if not self.bucket or "/" in self.bucket:
             raise RuntimeError("USIPHU_SUPABASE_STORAGE_BUCKET must be a bucket name.")
