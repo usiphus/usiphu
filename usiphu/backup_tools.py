@@ -1,7 +1,6 @@
 """Shared safety helpers for encrypted Supabase backup and restore commands."""
 from __future__ import annotations
 
-import os
 from pathlib import Path
 import re
 from urllib.parse import parse_qs, unquote, urlsplit
@@ -76,7 +75,7 @@ def list_storage_object_keys(storage) -> list[str]:
 
 def validate_archive_member(name: str) -> str:
     """Reject archive paths that could escape the restore staging directory."""
-    normalized = name.replace("\\", "/")
+    normalized = name.replace("\\", "/").rstrip("/")
     if normalized.startswith("/") or re.match(r"^[A-Za-z]:", normalized):
         raise ValueError("Backup archive contains an absolute path.")
     parts = normalized.split("/")
