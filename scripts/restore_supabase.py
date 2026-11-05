@@ -43,7 +43,10 @@ def verify_backup(root: Path) -> dict:
     if manifest.get("format_version") != 1:
         raise ValueError("Unsupported USIPHU backup format.")
     dump_info = manifest["database_dump"]
-    dump_path = root / dump_info["file"]
+    dump_name = validate_archive_member(str(dump_info["file"]))
+    dump_path = root.joinpath(*dump_name.split("/"))
+    if root.resolve() not in dump_path.resolve().parents:
+        raise ValueError("Backup manifest database dump path escapes its root.")
     dump_bytes = dump_path.read_bytes()
     if hashlib.sha256(dump_bytes).hexdigest() != dump_info["sha256"]:
         raise ValueError("PostgreSQL dump checksum mismatch.")
