@@ -245,7 +245,24 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
     assert source_inbox.read_source_bytes(record) == b"1) What is the diagnosis?\n"
     with pytest.raises(ValueError, match="already"):
         source_inbox.save_source("copy.txt", b"1) What is the diagnosis?\n")
-    payload = {"source_id": record["source_id"], "mcq_candidates": []}
-    source_inbox.save_extraction(record["source_id"], payload)
+    from usiphu.extraction import extract_source
+    from usiphu.question_review import save_candidate_review
+
+    payload = extract_source(record["source_id"])
+    assert payload["summary"]["mcq_candidates"] == 1
     assert source_inbox.load_extraction(record["source_id"]) == payload
-    assert source_inbox.list_extractions()[0][1] == payload
+    candidate = payload["mcq_candidates"][0]
+    save_candidate_review(
+        candidate["candidate_id"],
+        stem="Edited question prompt?",
+        options=candidate["options"],
+        specialty_id="urology",
+        topic_id="urinary-obstruction",
+        correct_option_id=None,
+        explanation="",
+        reviewer="Synthetic faculty reviewer",
+        answer_verified=False,
+    )
+    persisted = source_inbox.load_extraction(record["source_id"])
+    assert persisted["mcq_candidates"][0]["stem_extracted"] == "Edited question prompt?"
+    assert source_inbox.list_extractions()[0][1] == persisted
