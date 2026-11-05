@@ -111,7 +111,26 @@ Never commit credentials, tokens, connection strings or private keys. Never past
 
 ### 4. Backup and recovery
 
-Supabase Free does not include automatic daily backups. Before storing non-disposable data, implement scheduled PostgreSQL logical exports, private Storage object exports, encrypted off-provider copies, checksums, and periodic restore into a separate disposable PostgreSQL project or local instance. Measure recovery point and recovery time. A backup is not successful until database rows and sample source objects have been restored and verified.
+Supabase Free does not include automatic daily backups. The repository now includes manual backup/restore utilities:
+
+- `scripts/backup_supabase.py` exports the USIPHU tables and identity sequences, downloads every object from the private Source Inbox bucket, creates a manifest with SHA-256 checksums, and encrypts the archive to an `age` public recipient. Plaintext temporary files are removed when the script exits.
+- `scripts/restore_supabase.py` verifies the encrypted archive checksum, decrypts it with an offline `age` identity, refuses to restore into a database with existing USIPHU rows, restores data into a fresh project with the schema migration already applied, and verifies every object checksum before uploading.
+
+Install PostgreSQL client tools and `age` on a trusted local computer. Create and protect an offline identity with `age-keygen`; use its public recipient as `USIPHU_BACKUP_AGE_RECIPIENT`. Set `USIPHU_DATABASE_URL`, `SUPABASE_URL`, and `SUPABASE_SERVICE_ROLE_KEY` only in the local environment (never in the command line, repository, or chat), then run:
+
+```bash
+python scripts/backup_supabase.py --output-dir ./backups
+```
+
+Copy both the encrypted `.tar.gz.age` archive and its `.sha256` sidecar to a separate protected location. Streamlit Community Cloud does not provide a scheduler, so this is an operator-run backup, not an automatic daily job. Schedule it manually (for example, monthly) and retain the age private identity offline.
+
+For a restore drill, create a separate empty Supabase project, apply the same schema migration, configure its database and Storage secrets locally, then run:
+
+```bash
+python scripts/restore_supabase.py --backup ./backups/FILE.tar.gz.age --identity ./age-identity.txt --confirm-target YOUR_POOLER_HOST --apply
+```
+
+The restore command is intentionally destructive and accepts only an empty application database; it does not delete or overwrite the local SQLite workspace. Measure recovery point and recovery time. A backup is not successful until database rows and sample source objects have been restored and verified.
 
 ## Acceptance gates
 
