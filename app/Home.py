@@ -16,6 +16,7 @@ from usiphu.ai_provider import (
 from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
 from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
+from usiphu.assessment_faculty_review import enqueue_assessment_for_review, list_assessment_review_queue, record_assessment_review_decision
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
@@ -590,7 +591,12 @@ elif page == "Generator":
             type="primary",
         ):
             saved = save_generated_drafts(accepted, learner_id=learner_id)
-            st.success(f"Saved {saved} new draft(s). They are not in your flashcard review queue.")
+            for card in accepted:
+                enqueue_assessment_for_review(card["id"], card.get("card_type", "generated_assessment"), card)
+            st.success(
+                f"Saved {saved} learner-isolated draft(s) and queued {len(accepted)} item(s) "
+                "for independent faculty review. Nothing was approved or released."
+            )
         for item in generated["results"]:
             card = item.get("card")
             heading = card["prompt"] if card else item.get("reason", item.get("status", "Generation result"))
