@@ -96,6 +96,20 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
         _, _, configured_bucket = _storage_settings()
         if manifest.get("bucket") != configured_bucket:
             raise ValueError("Backup bucket does not match the configured target bucket.")
+        objects_dir = temp / "objects"
+        verified_objects = []
+        for item in manifest.get("objects", []):
+            object_key = Path(item["key"])
+            if object_key.is_absolute() or ".." in object_key.parts:
+                raise ValueError("Backup manifest contains an unsafe Storage object key.")
+            source = objects_dir / object_key
+            content = source.read_bytes()
+            if len(content) != item["size"] or hashlib.sha256(content).hexdigest() != item["sha256"]:
+                raise ValueError(f"Backup object checksum failed: {item['key']}")
+            verified_objects.append((item["key"], content))
+        # Upload files first. If a later database restore fails, the empty target DB remains safe to retry.
+        for object_key, content in verified_objects:
+            _upload_object(object_key, content, Path(object_key).name)
         environment = _connection_environment(database_url)
         subprocess.run(
             [
@@ -109,16 +123,6 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
             ],
             env=environment, check=True,
         )
-        objects_dir = temp / "objects"
-        for item in manifest.get("objects", []):
-            object_key = Path(item["key"])
-            if object_key.is_absolute() or ".." in object_key.parts:
-                raise ValueError("Backup manifest contains an unsafe Storage object key.")
-            source = objects_dir / object_key
-            content = source.read_bytes()
-            if len(content) != item["size"] or hashlib.sha256(content).hexdigest() != item["sha256"]:
-                raise ValueError(f"Backup object checksum failed: {item['key']}")
-            _upload_object(item["key"], content, Path(item["key"]).name)
 
 
 def main() -> None:
