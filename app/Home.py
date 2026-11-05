@@ -1857,6 +1857,18 @@ elif page == "Question Bank":
                 saved_count += 1
                 try:
                     extracted = extract_source(saved["source_id"])
+                    extracted_items = [
+                        *extracted.get("mcq_candidates", []),
+                        *extracted.get("meq_page_candidates", []),
+                    ]
+                    for candidate in extracted_items:
+                        enqueue_assessment_for_review(
+                            candidate["candidate_id"],
+                            candidate.get("question_type", "extracted_candidate"),
+                            {**candidate, "source_id": extracted.get("source_id"),
+                             "source_title": extracted.get("source_title"),
+                             "source_filename": extracted.get("source_filename")},
+                        )
                     count = extracted["summary"]["question_candidates"] + extracted["summary"]["meq_page_candidates"]
                     st.success(
                         f"Saved and extracted {saved['original_filename']}: "
