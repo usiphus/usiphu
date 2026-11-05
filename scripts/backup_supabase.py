@@ -6,7 +6,6 @@ import argparse
 from datetime import UTC, datetime
 import hashlib
 import json
-import mimetypes
 import os
 from pathlib import Path
 import shutil
@@ -56,7 +55,7 @@ def create_backup(output_dir: Path, age_recipient: str) -> Path:
             subprocess.run(
                 [
                     "pg_dump",
-                    "--service=usiphu_backup",
+                    "--dbname=service=usiphu_backup",
                     "--no-owner",
                     "--no-acl",
                     "--format=custom",
