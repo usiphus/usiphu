@@ -10,10 +10,27 @@ import subprocess
 import tarfile
 import tempfile
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
-from scripts.backup_supabase import _connection_environment
-from usiphu.source_inbox import DEFAULT_BUCKET, _storage_settings, _upload_object
+from usiphu.source_inbox import _storage_settings, _upload_object
+
+
+def _connection_environment(database_url: str) -> dict[str, str]:
+    parsed = urlsplit(database_url)
+    if parsed.scheme not in {"postgres", "postgresql"} or not parsed.hostname:
+        raise ValueError("USIPHU_DATABASE_URL must be a PostgreSQL connection URI.")
+    environment = os.environ.copy()
+    environment.update({
+        "PGHOST": parsed.hostname,
+        "PGPORT": str(parsed.port or 5432),
+        "PGUSER": unquote(parsed.username or ""),
+        "PGPASSWORD": unquote(parsed.password or ""),
+        "PGDATABASE": unquote(parsed.path.lstrip("/")),
+    })
+    for item in parsed.query.split("&"):
+        if item.startswith("sslmode="):
+            environment["PGSSLMODE"] = item.split("=", 1)[1]
+    return environment
 
 
 def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
@@ -36,8 +53,8 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
             members = tar.getmembers()
             for member in members:
                 member_path = Path(member.name)
-                if member_path.is_absolute() or ".." in member_path.parts:
-                    raise ValueError("Backup archive contains an unsafe path.")
+                if member_path.is_absolute() or ".." in member_path.parts or member.issym() or member.islnk():
+                    raise ValueError("Backup archive contains an unsafe path or link.")
             tar.extractall(temp, members=members)
         manifest = json.loads((temp / "manifest.json").read_text(encoding="utf-8"))
         _, _, configured_bucket = _storage_settings()
@@ -47,7 +64,11 @@ def restore_backup(backup: Path, identity: Path, confirm_target: str) -> None:
             [
                 "pg_restore", "--clean", "--if-exists", "--no-owner", "--no-privileges",
                 "--schema=public", "--single-transaction", "--exit-on-error",
-                "--dbname", database_url, str(temp / "public.dump"),
+                "--host", _connection_environment(database_url)["PGHOST"],
+                "--port", _connection_environment(database_url)["PGPORT"],
+                "--username", _connection_environment(database_url)["PGUSER"],
+                "--dbname", _connection_environment(database_url)["PGDATABASE"],
+                str(temp / "public.dump"),
             ],
             env=_connection_environment(database_url), check=True,
         )
