@@ -51,6 +51,25 @@ def record_ai_review(
     raise KeyError(f"Unknown extracted candidate: {candidate_id}")
 
 
+
+def save_pilot_validation_report(
+    report: dict | None = None,
+    source_dir: Path = DEFAULT_SOURCE_DIR,
+) -> dict[str, str]:
+    """Persist the latest report and an immutable timestamped report snapshot."""
+    payload = report or build_pilot_validation_report(source_dir)
+    generated_at = str(payload.get("generated_at") or datetime.now(UTC).isoformat())
+    stamp = re.sub(r"[^0-9A-Za-z_-]", "-", generated_at)
+    latest_path = source_dir / "reports" / "pilot-validation-latest.json"
+    archive_path = source_dir / "reports" / f"pilot-validation-{stamp}.json"
+    save_json_document("reports/pilot-validation/latest.json", payload, latest_path)
+    save_json_document(f"reports/pilot-validation/{stamp}.json", payload, archive_path)
+    return {
+        "latest": "reports/pilot-validation/latest.json",
+        "archive": f"reports/pilot-validation/{stamp}.json",
+    }
+
+
 def build_pilot_validation_report(
     source_dir: Path = DEFAULT_SOURCE_DIR,
     *,
