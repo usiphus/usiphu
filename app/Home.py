@@ -15,8 +15,12 @@ from usiphu.ai_provider import (
 )
 from usiphu.ai_question_review import QuestionReviewError, review_mcq_candidate
 from usiphu.answer_checker import check_assessment_answers, check_mcq_answer
+from usiphu.assessment_faculty_review import (
+    enqueue_assessment_for_review,
+    list_assessment_review_queue,
+    record_assessment_review_decision,
+)
 from usiphu.assessment_review import list_non_mcq_candidates, load_assessments, save_non_mcq_review
-from usiphu.assessment_faculty_review import enqueue_assessment_for_review, list_assessment_review_queue, record_assessment_review_decision
 from usiphu.coverage import coverage_report, load_coverage_register
 from usiphu.curriculum import coverage_summary, flatten_topics, load_curriculum
 from usiphu.extraction import extract_source, load_extraction
