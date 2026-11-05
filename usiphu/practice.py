@@ -2,7 +2,9 @@
 import json
 from pathlib import Path
 
+from usiphu.database import is_postgres
 from usiphu.models import MCQ, ClinicalCase
+from usiphu.storage import DEFAULT_DB, connect, initialize
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
@@ -41,8 +43,16 @@ def load_questions(
     if directory.exists():
         for bank_path in sorted(directory.glob("*.json")):
             questions.extend(_read_question_file(bank_path, bank_path.stem))
-    # Pilot sign-off is stored in SQLite as an append-only faculty audit trail.
-    # Overlay the latest two-stage release state without mutating source JSON.
+    # Hosted question-bank additions are persisted in Postgres rather than the ephemeral app filesystem.
+    if is_postgres():
+        initialize(DEFAULT_DB)
+        with connect(DEFAULT_DB) as db:
+            approved_rows = db.execute(
+                "SELECT payload_json FROM approved_question_bank ORDER BY created_at, question_id"
+            ).fetchall()
+        questions.extend(MCQ.model_validate(json.loads(row["payload_json"])) for row in approved_rows)
+
+    # Faculty sign-off is an append-only audit trail. Overlay its latest two-stage state.
     from usiphu.faculty_review import faculty_release_statuses
 
     release_states = faculty_release_statuses()
