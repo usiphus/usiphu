@@ -4,11 +4,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import mimetypes
 import os
-from pathlib import Path, PurePosixPath
 import sqlite3
 import tarfile
 from datetime import UTC, datetime
+from pathlib import Path, PurePosixPath
 
 
 def digest(data: bytes) -> str:
@@ -113,12 +114,16 @@ def apply_import(sources: list[dict], documents: list[dict], source_dir: Path) -
     with connect() as db:
         for item in sources:
             row = db.execute(
-                "SELECT source_id, sha256 FROM source_documents WHERE source_id = ? OR sha256 = ?",
+                "SELECT source_id, sha256, extraction_key, metadata_json "
+                "FROM source_documents WHERE source_id = ? OR sha256 = ?",
                 (item["source_id"], item["sha256"]),
             ).fetchone()
             if row and (row["source_id"] != item["source_id"] or row["sha256"] != item["sha256"]):
                 raise ValueError(f"Remote source conflicts with {item['source_id']}.")
             item["present"] = bool(row)
+            item["needs_extraction"] = bool(
+                row and item["extraction"] and not row["extraction_key"]
+            )
         for item in documents:
             row = db.execute(
                 "SELECT content_sha256 FROM app_documents WHERE document_key = ?",
@@ -130,13 +135,38 @@ def apply_import(sources: list[dict], documents: list[dict], source_dir: Path) -
 
     for item in sources:
         if item["present"]:
-            skipped += 1
+            if item["needs_extraction"]:
+                extraction_key = f"extractions/{item['source_id']}.json"
+                storage.upload(
+                    extraction_key,
+                    item["extraction"].read_bytes(),
+                    "application/json",
+                    upsert=True,
+                )
+                with connect() as db:
+                    row = db.execute(
+                        "SELECT metadata_json FROM source_documents WHERE source_id = ?",
+                        (item["source_id"],),
+                    ).fetchone()
+                    metadata = json.loads(row["metadata_json"])
+                    metadata["extraction_key"] = extraction_key
+                    db.execute(
+                        "UPDATE source_documents SET extraction_key = ?, metadata_json = ?, "
+                        "updated_at = NOW() WHERE source_id = ?",
+                        (extraction_key, json.dumps(metadata, ensure_ascii=False), item["source_id"]),
+                    )
+                imported += 1
+            else:
+                skipped += 1
             continue
         record = dict(item["record"])
         source_id = item["source_id"]
         original_key = f"sources/{source_id}/{item['original'].name}"
         extraction_key = f"extractions/{source_id}.json" if item["extraction"] else None
-        storage.upload(original_key, item["original"].read_bytes(), "application/octet-stream")
+        content_type = mimetypes.guess_type(item["original"].name)[0] or "application/octet-stream"
+        storage.upload(
+            original_key, item["original"].read_bytes(), content_type, upsert=True
+        )
         if item["extraction"] and extraction_key:
             storage.upload(extraction_key, item["extraction"].read_bytes(), "application/json", upsert=True)
         record["object_key"] = original_key
