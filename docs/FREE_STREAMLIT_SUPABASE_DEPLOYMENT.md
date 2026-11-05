@@ -77,7 +77,25 @@ PR #16 implements private-bucket storage for original file bytes and extraction 
 
 Do not create a public bucket or store file bytes as base64 in Postgres. Validate extension and size server-side. Check the caller's application role before upload, download, replacement or deletion.
 
-### 3. Auth0 and Streamlit configuration
+### 3. Import existing local content safely
+
+After PR #21 is merged and migrations 0001–0003 are applied, configure the two backend selectors and credentials in the hosting environment secret manager. Run the import utility from a trusted operator environment with access to the local data directory and Supabase project:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data
+```
+
+This is a read-only dry run. Review the validated source counts and JSON documents. Then run:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data --apply
+```
+
+The apply path creates a local pre-import SQLite/Source Inbox/bank/report archive and verifies its SHA-256 before writing. It preserves source IDs and provenance, verifies local source checksums, refuses conflicting remote source IDs/checksums and refuses to overwrite a different remote bank/report document. It is resumable for records already imported and leaves original local data untouched. Store the backup on an encrypted, access-restricted disk and copy an encrypted backup off-provider; the utility local archive is not itself encrypted.
+
+Run the utility first against a disposable Supabase project using synthetic files. Inspect the remote object inventory and PostgreSQL metadata after import. Do not use --apply against a live dataset until the restore procedure has been rehearsed.
+
+### 4. Auth0 and Streamlit configuration
 
 PR #10 adds a Streamlit Secrets-to-environment bridge for existing application settings. Keep that staging-readiness work in its own PR stack and merge it only after its own CI/review. Configure Streamlit Community Cloud secrets only after the PostgreSQL and Storage migrations are merged.
 
@@ -92,7 +110,7 @@ At deployment time:
 
 Never commit credentials, tokens, connection strings or private keys. Never paste them into GitHub issues, PRs or chat.
 
-### 4. Backup and recovery
+### 5. Backup and recovery
 
 Supabase Free does not include automatic daily backups. Before storing non-disposable data, implement scheduled PostgreSQL logical exports, private Storage object exports, encrypted off-provider copies, checksums, and periodic restore into a separate disposable PostgreSQL project or local instance. Measure recovery point and recovery time. A backup is not successful until database rows and sample source objects have been restored and verified.
 
