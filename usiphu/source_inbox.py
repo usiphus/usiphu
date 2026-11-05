@@ -3,6 +3,7 @@ import hashlib
 import json
 import mimetypes
 import os
+import re
 import uuid
 from datetime import UTC, datetime
 from pathlib import Path
@@ -222,7 +223,6 @@ def import_source_record(
     replace_existing: bool = False,
 ) -> dict:
     """Import a legacy local source while preserving its identity and provenance."""
-    import re
 
     if not _remote_enabled():
         raise RuntimeError("Source Inbox import requires the Supabase/PostgreSQL backend.")
@@ -288,8 +288,7 @@ def import_source_record(
             if not existing or not existing["extraction_key"] or replace_existing:
                 storage.upload(extraction_key, encoded_extraction, "application/json", upsert=True)
 
-        with connect() as db:
-            db.execute(
+        db.execute(
                 "INSERT INTO source_documents "
                 "(source_id, sha256, object_key, extraction_key, metadata_json, uploaded_at) "
                 "VALUES (?, ?, ?, ?, ?, ?) "
