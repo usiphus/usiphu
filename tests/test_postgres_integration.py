@@ -14,7 +14,6 @@ from usiphu.assessment_faculty_review import (
     record_assessment_review_decision,
 )
 from usiphu.faculty_review import (
-    DATA_DIR,
     _pilot_questions,
     record_faculty_decision,
     review_history,
