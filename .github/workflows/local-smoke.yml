@@ -2,7 +2,7 @@ name: Local persistence and recovery smoke test
 
 on:
   push:
-    branches: ["feat/medical-curriculum-specialty-generator"]
+    branches: ["main", "feat/medical-curriculum-specialty-generator"]
   workflow_dispatch:
 
 permissions:
