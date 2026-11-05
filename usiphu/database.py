@@ -28,8 +28,10 @@ class DatabaseBackend(Protocol):
 class SQLiteBackend:
     """SQLite implementation preserving the application's current semantics."""
 
-    def __init__(self, default_path: Path = DEFAULT_SQLITE_PATH) -> None:
-        self.default_path = default_path
+    def __init__(self, default_path: Path | None = None) -> None:
+        self.default_path = default_path or Path(
+            os.getenv("USIPHU_DB_PATH", str(DEFAULT_SQLITE_PATH))
+        )
 
     def connect(self, path: Path | None = None) -> sqlite3.Connection:
         database_path = path or self.default_path
