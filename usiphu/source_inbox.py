@@ -239,6 +239,12 @@ def import_source_record(
         raise ValueError(f"Source checksum does not match the legacy manifest: {source_id}")
     if extraction_payload is not None and extraction_payload.get("source_id") != source_id:
         raise ValueError(f"Extraction source ID does not match its manifest record: {source_id}")
+    if (
+        extraction_payload is not None
+        and extraction_payload.get("source_sha256")
+        and extraction_payload["source_sha256"] != digest
+    ):
+        raise ValueError(f"Extraction checksum does not match its original source: {source_id}")
 
     object_key = f"sources/{source_id}/{stored_name}"
     extraction_key = f"extractions/{source_id}.json" if extraction_payload is not None else None
@@ -262,6 +268,8 @@ def import_source_record(
             raise ValueError(f"Identical source bytes already belong to source ID {duplicate['source_id']}.")
         if existing and existing["sha256"] != digest:
             raise ValueError(f"Remote source ID already exists with different bytes: {source_id}")
+        if existing and existing["extraction_key"] and not extraction_key:
+            imported["extraction_key"] = existing["extraction_key"]
 
         if existing:
             remote_original = storage.download(existing["object_key"])
