@@ -34,12 +34,14 @@ USIPHU_DATABASE_BACKEND = "postgres"
 USIPHU_FILE_STORAGE_BACKEND = "supabase"
 SUPABASE_DB_URL = "postgresql://..."
 SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co"
-SUPABASE_SECRET_KEY = "sb_secret_..."
+SUPABASE_SECRET_KEY = "sb_secret_..."  # server-only; apikey header only
 USIPHU_SUPABASE_STORAGE_BUCKET = "source-inbox"
 ```
 
-A legacy `SUPABASE_SERVICE_ROLE_KEY` is also accepted. Never use an `anon`
-or publishable key for this server-side adapter. Keep all credentials server-only.
+A legacy `SUPABASE_SERVICE_ROLE_KEY` is also accepted. New `sb_secret_...`
+keys are sent only in the `apikey` header (they are not JWTs); legacy
+`service_role` JWTs also use the Bearer header. Never use an `anon` or
+publishable key for this server-side adapter. Keep all credentials server-only.
 
 ## What is durable now
 
