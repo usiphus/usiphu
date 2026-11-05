@@ -92,6 +92,7 @@ def restore_backup(backup_path: Path, age_identity: Path, *, confirm_overwrite: 
                 check=True,
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
+                env={"PATH": os.getenv("PATH", "")},
             )
         except FileNotFoundError as exc:
             raise RuntimeError("age is required; install the age encryption utility.") from exc
@@ -115,8 +116,11 @@ def restore_backup(backup_path: Path, age_identity: Path, *, confirm_overwrite: 
         service_file = write_pg_service_file(
             database_url, root / "pg_service.conf", "usiphu_restore"
         )
-        env = os.environ.copy()
-        env["PGSERVICEFILE"] = str(service_file)
+        env = {
+            "PATH": os.getenv("PATH", ""),
+            "PGSERVICEFILE": str(service_file),
+            "PGCONNECT_TIMEOUT": "15",
+        }
         dump_path = backup_root / manifest["database_dump"]["file"]
         try:
             subprocess.run(
