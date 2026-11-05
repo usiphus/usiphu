@@ -1,6 +1,5 @@
 """Extract question candidates from uploaded source documents without inventing answers."""
 import io
-import json
 import re
 import zipfile
 from datetime import UTC, datetime
@@ -9,7 +8,10 @@ from xml.etree import ElementTree
 
 from pypdf import PdfReader
 
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.source_inbox import (
+    DEFAULT_SOURCE_DIR, get_source_bytes, list_sources, load_extraction as _load_extraction,
+    save_extraction, update_source_metadata,
+)
 
 QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
 OPTION_LINE = re.compile(r"^\s*([A-E])[.)]\s*(.+?)\s*$", re.M)
@@ -125,57 +127,37 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
 
 
 def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict:
-    """Extract one inbox source and save a reviewable candidate file."""
-    records = list_sources(source_dir)
-    source = next((item for item in records if item.get("source_id") == source_id), None)
+    """Extract one inbox source and save reviewable candidates in the configured backend."""
+    source = next((item for item in list_sources(source_dir) if item.get("source_id") == source_id), None)
     if source is None:
         raise ValueError(f"Unknown source ID: {source_id}")
-    source_path = source_dir / source["stored_filename"]
-    if not source_path.is_file():
-        raise FileNotFoundError(f"Stored source file is missing: {source['original_filename']}")
     try:
-        pages = _document_pages(source["original_filename"], source_path.read_bytes())
+        pages = _document_pages(source["original_filename"], get_source_bytes(source_id, source_dir))
         if not any(page.strip() for page in pages):
             raise ValueError("No selectable text found. This may be a scanned PDF and needs OCR.")
         payload = parse_question_text(pages, source)
     except Exception as exc:
-        _update_source(source_dir, source_id, {
+        update_source_metadata(source_id, {
             "status": "needs_manual_extraction",
             "extraction_error": str(exc)[:500],
-        })
+        }, source_dir)
         raise
 
-    extraction_dir = source_dir / "extractions"
-    extraction_dir.mkdir(parents=True, exist_ok=True)
-    extraction_path = extraction_dir / f"{source_id}.json"
-    temporary = extraction_path.with_suffix(".json.tmp")
-    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(extraction_path)
+    save_extraction(source_id, payload, source_dir)
     question_count = payload["summary"]["question_candidates"] + payload["summary"]["meq_page_candidates"]
-    _update_source(source_dir, source_id, {
+    update_source_metadata(source_id, {
         "status": "extracted_pending_review",
         "question_count": question_count,
-        "extraction_file": str(extraction_path.relative_to(source_dir)),
+        "extraction_file": f"extractions/{source_id}.json",
         "extracted_at": datetime.now(UTC).isoformat(),
         "extraction_error": None,
-    })
+    }, source_dir)
     return payload
 
 
 def _update_source(source_dir: Path, source_id: str, updates: dict) -> None:
-    manifest = source_dir / "sources.json"
-    records = json.loads(manifest.read_text(encoding="utf-8"))
-    for record in records:
-        if record.get("source_id") == source_id:
-            record.update(updates)
-            break
-    temporary = source_dir / ".sources.json.tmp"
-    temporary.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(manifest)
+    update_source_metadata(source_id, updates, source_dir)
 
 
 def load_extraction(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict | None:
-    path = source_dir / "extractions" / f"{source_id}.json"
-    if not path.is_file():
-        return None
-    return json.loads(path.read_text(encoding="utf-8"))
+    return _load_extraction(source_id, source_dir)
