@@ -62,6 +62,12 @@ def _copy_sqlite_tables(source: sqlite3.Connection) -> dict[str, int]:
                 )
                 copied += max(cursor.rowcount, 0)
         counts[table] = copied
+    with connect(DEFAULT_DB) as target:
+        target.execute(
+            """INSERT INTO learner_topic_progress(owner_id,topic_id,status,confidence,updated_at)
+               SELECT 'local',topic_id,status,confidence,updated_at FROM topic_progress
+               ON CONFLICT(owner_id,topic_id) DO NOTHING"""
+        )
     for table in IDENTITY_TABLES:
         with connect(DEFAULT_DB) as target:
             target.execute(
