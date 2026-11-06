@@ -47,7 +47,7 @@ def test_supabase_upload_uses_authenticated_private_storage_request(monkeypatch)
             return None
 
         def read(self):
-            return b'{"Key":"source-inbox/sources/abc/paper.txt"}'
+            return b'{"Key":"usiphu-source-documents/sources/abc/paper.txt"}'
 
     def fake_urlopen(request, timeout):
         seen["url"] = request.full_url
@@ -63,11 +63,11 @@ def test_supabase_upload_uses_authenticated_private_storage_request(monkeypatch)
     store = SupabaseObjectStorage(
         project_url="https://example.supabase.co",
         secret_key="sb_secret_server-only-secret",
-        bucket="source-inbox",
+        bucket="usiphu-source-documents",
     )
     store.upload("sources/abc/paper.txt", b"paper", "text/plain")
     assert seen["url"] == (
-        "https://example.supabase.co/storage/v1/object/source-inbox/sources/abc/paper.txt"
+        "https://example.supabase.co/storage/v1/object/usiphu-source-documents/sources/abc/paper.txt"
     )
     assert seen["method"] == "POST"
     assert seen["authorization"] is None
@@ -101,7 +101,7 @@ def test_supabase_download_uses_authenticated_private_endpoint(monkeypatch):
         secret_key="sb_secret_server-only-secret",
     )
     assert store.download("sources/abc/paper.txt") == b"private paper"
-    assert "/object/authenticated/source-inbox/" in seen["url"]
+    assert "/object/authenticated/usiphu-source-documents/" in seen["url"]
     assert seen["authorization"] is None
     assert seen["api_key"] == "sb_secret_server-only-secret"
 
@@ -115,7 +115,7 @@ def test_signed_url_is_short_lived_and_validated(monkeypatch):
             return None
 
         def read(self):
-            return b'{"signedURL":"/object/sign/source-inbox/sources/a/file?token=x"}'
+            return b'{"signedURL":"/object/sign/usiphu-source-documents/sources/a/file?token=x"}'
 
     monkeypatch.setattr("usiphu.object_storage.urlopen", lambda *_args, **_kwargs: Response())
     store = SupabaseObjectStorage(
