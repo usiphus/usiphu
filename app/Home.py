@@ -1,4 +1,7 @@
 """Streamlit interface for the Usiphu 2.0 learning workspace."""
+
+# Ruff E402 is intentional: Streamlit secrets must be bridged before app imports.
+# ruff: noqa: E402
 import json
 import os
 import random
@@ -12,6 +15,9 @@ import streamlit as st
 for _setting in (
     "USIPHU_AUTH_REQUIRED",
     "USIPHU_DB_PATH",
+    "USIPHU_DATABASE_BACKEND",
+    "SUPABASE_DB_URL",
+    "DATABASE_URL",
     "USIPHU_SOURCE_DIR",
     "USIPHU_BACKUP_DIR",
     "USIPHU_ADMIN_SUBJECTS",

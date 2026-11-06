@@ -1,0 +1,51 @@
+name: PostgreSQL integration
+
+on:
+  push:
+    branches: ["feat/postgres-backend-compatibility"]
+  pull_request:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: postgres-integration-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  postgres-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: usiphu_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d usiphu_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      USIPHU_TEST_POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/usiphu_test
+      USIPHU_DATABASE_SSLMODE: disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: python -m compileall -q usiphu app tests scripts
+      - run: python -m usiphu.validation
+      - run: pytest -q
+        env:
+          USIPHU_DATABASE_BACKEND: sqlite
+      - name: Test persistence and faculty controls against PostgreSQL
+        run: pytest -q tests/test_postgres_integration.py

@@ -1,9 +1,9 @@
 """SQLite persistence for isolated learner flashcards, reviews, and topic mastery."""
 import json
 import os
-import sqlite3
 from datetime import date
 from pathlib import Path
+from typing import Any
 
 from usiphu.database import connect_database
 from usiphu.models import ReviewState
@@ -17,7 +17,7 @@ def _scoped_card_id(card_id: str, learner_id: str) -> str:
     return f"{learner_id}:{card_id}"
 
 
-def connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
+def connect(path: Path = DEFAULT_DB) -> Any:
     """Open the configured local database through the backend abstraction.
 
     The optional path remains for isolated tests and explicit SQLite maintenance.
@@ -75,14 +75,16 @@ def initialize(path: Path = DEFAULT_DB) -> None:
           PRIMARY KEY(owner_id, topic_id)
         );
         """)
-        columns = {row["name"] for row in db.execute("PRAGMA table_info(flashcards)")}
-        if "owner_id" not in columns:
-            db.execute("ALTER TABLE flashcards ADD COLUMN owner_id TEXT NOT NULL DEFAULT 'local'")
+        if not getattr(db, "is_postgres", False):
+            columns = {row["name"] for row in db.execute("PRAGMA table_info(flashcards)")}
+            if "owner_id" not in columns:
+                db.execute("ALTER TABLE flashcards ADD COLUMN owner_id TEXT NOT NULL DEFAULT 'local'")
         db.execute("CREATE INDEX IF NOT EXISTS idx_flashcards_owner ON flashcards(owner_id)")
         db.execute("""
-            INSERT OR IGNORE INTO learner_topic_progress
+            INSERT INTO learner_topic_progress
                 (owner_id, topic_id, status, confidence, updated_at)
-            SELECT 'local', topic_id, status, confidence, updated_at FROM topic_progress
+            SELECT 'local', topic_id, status, confidence, updated_at FROM topic_progress WHERE 1=1
+            ON CONFLICT(owner_id, topic_id) DO NOTHING
         """)
 
 
@@ -120,9 +122,10 @@ def save_generated_drafts(
             draft_id = _scoped_card_id(card["id"], learner_id)
             cursor = db.execute(
                 """
-                INSERT OR IGNORE INTO generated_drafts
+                INSERT INTO generated_drafts
                     (id, owner_id, specialty_id, topic_id, payload_json, review_status)
                 VALUES (?, ?, ?, ?, ?, 'draft')
+                ON CONFLICT(id) DO NOTHING
                 """,
                 (
                     draft_id,
