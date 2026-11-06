@@ -40,8 +40,11 @@ def _canonical(value: Any) -> Any:
     return value
 
 def _digest(rows: list[tuple[Any, ...]]) -> str:
-    payload = [[_canonical(value) for value in row] for row in rows]
-    encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    encoded_rows = [
+        json.dumps([_canonical(value) for value in row], ensure_ascii=False, separators=(",", ":"), sort_keys=True)
+        for row in rows
+    ]
+    encoded = json.dumps(sorted(encoded_rows), ensure_ascii=False, separators=(",", ":")).encode()
     return hashlib.sha256(encoded).hexdigest()
 
 def inspect_source(database: Path) -> dict[str, Any]:
@@ -58,7 +61,7 @@ def inspect_source(database: Path) -> dict[str, Any]:
                 continue
             columns = [row[1] for row in conn.execute(f'PRAGMA table_info("{table}")')]
             quoted = ", ".join(f'"{name}"' for name in columns)
-            rows = conn.execute(f'SELECT {quoted} FROM "{table}" ORDER BY {quoted}').fetchall()
+            rows = conn.execute(f'SELECT {quoted} FROM "{table}"').fetchall()
             report["tables"][table] = {
                 "present": True, "columns": columns, "rows": len(rows), "sha256": _digest(rows)
             }
@@ -85,6 +88,15 @@ def _target_columns(conn: Any, table: str) -> list[str]:
         (table,),
     ).fetchall()
     return [row[0] for row in rows]
+
+def _identity_columns(conn: Any, table: str) -> set[str]:
+    rows = conn.execute(
+        "SELECT column_name FROM information_schema.columns "
+        "WHERE table_schema='public' AND table_name=%s AND is_identity='YES'",
+        (table,),
+    ).fetchall()
+    return {row[0] for row in rows}
+
 
 def migrate(database: Path, backup_dir: Path, apply: bool = False) -> dict[str, Any]:
     report = inspect_source(database)
@@ -124,9 +136,7 @@ def migrate(database: Path, backup_dir: Path, apply: bool = False) -> dict[str, 
                     f"Column mismatch for {table}: SQLite={columns}, PostgreSQL={target_columns}"
                 )
             quoted = ", ".join(f'"{name}"' for name in columns)
-            rows = source.execute(
-                f'SELECT {quoted} FROM "{table}" ORDER BY {quoted}'
-            ).fetchall()
+            rows = source.execute(f'SELECT {quoted} FROM "{table}"').fetchall()
             statement = sql.SQL("INSERT INTO public.{} ({}) VALUES ({})").format(
                 sql.Identifier(table),
                 sql.SQL(", ").join(sql.Identifier(name) for name in columns),
@@ -137,17 +147,16 @@ def migrate(database: Path, backup_dir: Path, apply: bool = False) -> dict[str, 
                 sql.SQL("SELECT count(*) FROM public.{}").format(sql.Identifier(table))
             ).fetchone()[0]
             target_rows = target.execute(
-                sql.SQL("SELECT {} FROM public.{} ORDER BY {}").format(
+                sql.SQL("SELECT {} FROM public.{}").format(
                     sql.SQL(", ").join(sql.Identifier(name) for name in columns),
                     sql.Identifier(table),
-                    sql.SQL(", ").join(sql.Identifier(name) for name in columns),
                 )
             ).fetchall()
             if inserted != item["rows"] or _digest(target_rows) != item["sha256"]:
                 raise RuntimeError(f"Post-import verification failed for {table}.")
             item["imported"] = inserted
             item["verified_sha256"] = _digest(target_rows)
-            if "id" in columns:
+            if "id" in _identity_columns(target, table):
                 target.execute(
                     "SELECT setval(pg_get_serial_sequence(%s, 'id'), "
                     "GREATEST(COALESCE((SELECT MAX(id) FROM public." + table + "), 1), 1), "
