@@ -454,3 +454,74 @@ def test_supabase_import_is_resumable_and_preserves_source_provenance(monkeypatc
         metadata = json.loads(row["metadata_json"])
         assert metadata["uploaded_by"] == "https://auth.example/:faculty-a"
     assert fake.download("sources/migration-source-001/paper.txt") == original
+
+
+
+def test_sqlite_learner_faculty_import_preserves_identity_and_verifies_rows(
+    monkeypatch, tmp_path
+):
+    import sqlite3
+
+    from scripts.migrate_learner_faculty_data import migrate
+
+    database = tmp_path / "legacy.sqlite3"
+    with sqlite3.connect(database) as legacy:
+        legacy.execute(
+            "CREATE TABLE flashcards (id TEXT PRIMARY KEY, owner_id TEXT NOT NULL, "
+            "specialty_id TEXT NOT NULL, topic_id TEXT NOT NULL, prompt TEXT NOT NULL, "
+            "answer TEXT NOT NULL, source_url TEXT)"
+        )
+        legacy.execute(
+            "INSERT INTO flashcards VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (
+                "legacy-card-001",
+                "https://issuer.example/:learner-42",
+                "urology",
+                "pujo",
+                "Define PUJO",
+                "Pelvi-ureteric junction obstruction",
+                None,
+            ),
+        )
+        legacy.execute(
+            "CREATE TABLE faculty_reviewer_roles (reviewer_id TEXT NOT NULL, "
+            "role TEXT NOT NULL, granted_by TEXT NOT NULL, granted_at TEXT NOT NULL, "
+            "PRIMARY KEY(reviewer_id, role))"
+        )
+        legacy.execute(
+            "INSERT INTO faculty_reviewer_roles VALUES (?, ?, ?, ?)",
+            (
+                "https://issuer.example/:faculty-clinical",
+                "clinical_reviewer",
+                "https://issuer.example/:faculty-admin",
+                "2026-11-06T10:00:00+00:00",
+            ),
+        )
+
+    monkeypatch.setenv("SUPABASE_DB_URL", DATABASE_URL)
+    monkeypatch.setenv(
+        "USIPHU_DATABASE_SSLMODE", os.getenv("USIPHU_DATABASE_SSLMODE", "disable")
+    )
+    result = migrate(database, tmp_path / "migration-backup", apply=True)
+
+    assert result["mode"] == "applied"
+    assert result["verified_total_rows"] == 2
+    with psycopg.connect(
+        DATABASE_URL, sslmode=os.getenv("USIPHU_DATABASE_SSLMODE", "disable")
+    ) as conn:
+        card = conn.execute(
+            "SELECT owner_id, prompt FROM flashcards WHERE id='legacy-card-001'"
+        ).fetchone()
+        role = conn.execute(
+            "SELECT reviewer_id, granted_by FROM faculty_reviewer_roles "
+            "WHERE role='clinical_reviewer'"
+        ).fetchone()
+    assert card == (
+        "https://issuer.example/:learner-42",
+        "Define PUJO",
+    )
+    assert role == (
+        "https://issuer.example/:faculty-clinical",
+        "https://issuer.example/:faculty-admin",
+    )
+    assert Path(result["backup"]).is_file()
