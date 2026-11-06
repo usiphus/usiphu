@@ -18,8 +18,7 @@ The secret key must never be sent to a browser.
 
 ## Apply database migration
 
-Apply `migrations/0002_source_documents.sql` after
-`migrations/0001_postgresql_schema.sql` to the private PostgreSQL database.
+Apply migrations in order: `0001_postgresql_schema.sql`, `0002_source_documents.sql`, then `0003_app_documents.sql` to the private PostgreSQL database.
 The migration enables RLS and denies the Supabase `anon` and `authenticated`
 roles access to source metadata. The app uses its server-side PostgreSQL
 connection. This migration creates metadata only; it does not import any
@@ -48,7 +47,9 @@ publishable key for this server-side adapter. Keep all credentials server-only.
 - Original uploaded file bytes: private Supabase Storage object
 - Source catalogue, SHA-256 duplicate key and provenance metadata: PostgreSQL
 - Extracted candidate JSON: private Supabase Storage object
-- Candidate edits and review-state changes: written back to the extraction object
+- Candidate edits, AI review history and review-state changes: written back to the extraction object
+- Promoted MCQ and written-assessment bank JSON: private Storage objects referenced by PostgreSQL `app_documents`
+- Pilot validation latest report and timestamped snapshots: private Storage objects referenced by PostgreSQL `app_documents`
 
 The local backend remains the default for development and existing tests. Do not
 set the Supabase backend selectors in a live deployment until PR #15 and this
@@ -56,10 +57,8 @@ PR are reviewed, merged in order, and the migration is applied.
 
 ## Remaining gaps
 
-- Promoted question-bank and assessment-bank JSON files still use the local
-  repository data directory and must be migrated before cloud deployment.
-- Existing local Source Inbox files/manifests/extractions are not imported by
-  this change. A separate dry-run-first migration utility is required.
+- The durable bank/report adapter and `scripts/migrate_durable_documents.py` provide a dry-run-first import. Existing local bank/report files are not uploaded automatically; run and review the dry run, then apply with a backup directory.
+- Existing local Source Inbox originals/manifests/extractions are not imported by this change. The existing Source Inbox migration helper is a local directory copy, not a Supabase import; remote import and verification remain outstanding.
 - Faculty review authorization remains enforced by the PostgreSQL-backed review
   repositories; Storage itself uses a privileged server-side key. The app must
   authorize each action before requesting any object operation.
@@ -78,3 +77,22 @@ References:
 - https://supabase.com/docs/guides/storage/serving/downloads
 - https://supabase.com/docs/reference/python/storage-from-upload
 - https://supabase.com/docs/reference/python/storage-from-createsignedurl
+
+
+## Import existing promoted banks and pilot reports
+
+After applying migration `0003_app_documents.sql`, set the server-side Supabase environment in a protected operator shell or deployment environment. First inspect the dry-run inventory:
+
+```bash
+python scripts/migrate_durable_documents.py --data-root data --report /tmp/usiphu-document-dry-run.json
+```
+
+The default mode is non-destructive and does not contact the remote database. Review every listed key, file size and checksum. Then create a protected backup directory and explicitly apply:
+
+```bash
+python scripts/migrate_durable_documents.py --data-root data --apply \
+  --backup-dir /secure/backups/usiphu-documents-YYYYMMDD \
+  --report /secure/backups/usiphu-document-import-report.json
+```
+
+The importer refuses to replace differing remote documents unless `--replace-existing` is explicitly supplied. It keeps source files unchanged, backs them up before writing, and verifies the canonical JSON checksum after each import. A failed run may have completed earlier documents; inspect its report and resume only after reconciling those keys. This is not a substitute for a full database plus Storage backup/restore drill.

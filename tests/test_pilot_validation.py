@@ -1,7 +1,11 @@
 """Tests for pilot dashboard metrics and persistent AI review history."""
 import json
 
-from usiphu.pilot_validation import build_pilot_validation_report, record_ai_review
+from usiphu.pilot_validation import (
+    build_pilot_validation_report,
+    record_ai_review,
+    save_pilot_validation_report,
+)
 from usiphu.source_inbox import save_source
 
 
@@ -134,3 +138,15 @@ def test_empty_inbox_returns_zeroed_report(tmp_path):
     assert report["totals"]["mcq_candidates"] == 0
     assert report["totals"]["ai_review_runs"] == 0
     assert report["transcription"]["mcq_confirmation_rate_percent"] is None
+
+
+def test_save_pilot_validation_report_keeps_latest_and_archive(tmp_path):
+    report = {"generated_at": "2026-11-05T12:00:00+00:00", "totals": {"mcq_candidates": 3}}
+    keys = save_pilot_validation_report(report, source_dir=tmp_path)
+    latest = tmp_path / "reports" / "pilot-validation" / "latest.json"
+    archive = tmp_path / "reports" / "pilot-validation" / "2026-11-05T12-00-00-00-00.json"
+    assert latest.is_file()
+    assert archive.is_file()
+    assert json.loads(latest.read_text(encoding="utf-8")) == report
+    assert json.loads(archive.read_text(encoding="utf-8")) == report
+    assert keys["latest"] == "reports/pilot-validation/latest.json"
