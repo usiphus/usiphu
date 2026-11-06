@@ -12,13 +12,13 @@ This is a $0 pilot target only, not an uptime-guaranteed or institutionally appr
 - PR #15 adds an opt-in PostgreSQL backend and the initial learner/faculty schema migration; its PostgreSQL integration workflow must be green before merging.
 - PR #16 adds private Supabase Storage for Source Inbox originals and extraction JSON, plus PostgreSQL source metadata.
 - PR #17 fixes the Source Inbox integration fixture; its latest CI run passed (165 tests plus PostgreSQL integration).
-- PR #21 adds private document persistence for promoted MCQ/assessment banks and downloaded pilot-validation report snapshots, with SHA-256 verification and PostgreSQL metadata. Its CI is pending.
-- PRs #10, #12, #14, #15, #16 and #17 remain stacked and unmerged; PR #21 is stacked on #17. No Supabase project, bucket, Streamlit app or deployment has been provisioned.
+- PR #18 adds private document persistence for promoted MCQ/assessment banks and downloaded pilot-validation report snapshots, with SHA-256 verification and PostgreSQL metadata. Its CI is pending.
+- PRs #10, #12, #14, #15, #16 and #17 remain stacked and unmerged; PR #18 is stacked on #17. No Supabase project, bucket, Streamlit app or deployment has been provisioned.
 - Existing local data import, backup/export automation and a verified restore drill remain outstanding.
 
 ## Deployment blocker: incomplete cloud persistence
 
-USIPHU is not cloud-persistence-ready today. The runtime still defaults to SQLite until explicitly configured; PR #15's PostgreSQL backend is opt-in. PR #16 moves original Source Inbox files and extraction candidate JSON to private Supabase Storage when enabled. PR #21 adds cloud-backed storage for newly promoted reviewed question/assessment banks and explicitly downloaded pilot-validation report snapshots. The migration does not automatically import existing local files or banks. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
+USIPHU is not cloud-persistence-ready today. The runtime still defaults to SQLite until explicitly configured; PR #15's PostgreSQL backend is opt-in. PR #16 moves original Source Inbox files and extraction candidate JSON to private Supabase Storage when enabled. PR #18 adds cloud-backed storage for newly promoted reviewed question/assessment banks and explicitly downloaded pilot-validation report snapshots. The migration does not automatically import existing local files or banks. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
 
 **Do not deploy with real learner, faculty, patient, or examination-source data until every persistent path is migrated, the current-head CI passes, and the restore drill succeeds.** Supabase credentials alone do not migrate SQLite or make local uploads durable.
 
@@ -73,7 +73,7 @@ Use versioned SQL migrations, parameterized SQL, explicit transactions, foreign 
 
 ### 2. Durable Source Inbox and bank documents
 
-PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). PR #21 adds private document objects and PostgreSQL pointers for promoted MCQ and written-assessment banks and explicitly downloaded pilot-validation report snapshots. The remaining work is a dry-run-first import for existing local Source Inbox files, manifests, extractions, promoted banks and historical reports; backup/restore automation; and verification against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance. Document reads verify SHA-256 before returning content.
+PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). PR #18 adds private document objects and PostgreSQL pointers for promoted MCQ and written-assessment banks and explicitly downloaded pilot-validation report snapshots. The remaining work is a dry-run-first import for existing local Source Inbox files, manifests, extractions, promoted banks and historical reports; backup/restore automation; and verification against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance. Document reads verify SHA-256 before returning content.
 
 Do not create a public bucket or store file bytes as base64 in Postgres. Validate extension and size server-side. Check the caller's application role before upload, download, replacement or deletion.
 
