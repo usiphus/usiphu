@@ -1,6 +1,5 @@
 """Extract question candidates from uploaded source documents without inventing answers."""
 import io
-import json
 import re
 import zipfile
 from datetime import UTC, datetime
@@ -9,7 +8,9 @@ from xml.etree import ElementTree
 
 from pypdf import PdfReader
 
-from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources
+from usiphu.source_inbox import DEFAULT_SOURCE_DIR, list_sources, read_source_bytes, save_extraction
+from usiphu.source_inbox import _update_source as update_source_record
+from usiphu.source_inbox import load_extraction as load_stored_extraction
 
 QUESTION_START = re.compile(r"^\s*(\d{1,3})[).]\s+\S", re.M)
 OPTION_LINE = re.compile(r"^\s*([A-E])[.)]\s*(.+?)\s*$", re.M)
@@ -75,7 +76,6 @@ def parse_question_text(pages: list[str], source: dict) -> dict:
         raw_text = "\n".join(raw_lines).strip()
         if not raw_text:
             continue
-        # Do not treat MEQ sub-questions as MCQs unless they contain actual option lines.
         options = [
             {"id": match.group(1).lower(), "text": match.group(2).strip()}
             for match in OPTION_LINE.finditer(raw_text)
@@ -130,52 +130,36 @@ def extract_source(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dic
     source = next((item for item in records if item.get("source_id") == source_id), None)
     if source is None:
         raise ValueError(f"Unknown source ID: {source_id}")
-    source_path = source_dir / source["stored_filename"]
-    if not source_path.is_file():
-        raise FileNotFoundError(f"Stored source file is missing: {source['original_filename']}")
     try:
-        pages = _document_pages(source["original_filename"], source_path.read_bytes())
+        try:
+            source_bytes = read_source_bytes(source, source_dir)
+        except FileNotFoundError as exc:
+            raise FileNotFoundError(
+                f"Stored source file is missing: {source['original_filename']}"
+            ) from exc
+        pages = _document_pages(source["original_filename"], source_bytes)
         if not any(page.strip() for page in pages):
             raise ValueError("No selectable text found. This may be a scanned PDF and needs OCR.")
         payload = parse_question_text(pages, source)
     except Exception as exc:
-        _update_source(source_dir, source_id, {
+        update_source_record(source_dir, source_id, {
             "status": "needs_manual_extraction",
             "extraction_error": str(exc)[:500],
         })
         raise
 
-    extraction_dir = source_dir / "extractions"
-    extraction_dir.mkdir(parents=True, exist_ok=True)
-    extraction_path = extraction_dir / f"{source_id}.json"
-    temporary = extraction_path.with_suffix(".json.tmp")
-    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(extraction_path)
+    extraction_key = save_extraction(source_id, payload, source_dir)
     question_count = payload["summary"]["question_candidates"] + payload["summary"]["meq_page_candidates"]
-    _update_source(source_dir, source_id, {
+    update_source_record(source_dir, source_id, {
         "status": "extracted_pending_review",
         "question_count": question_count,
-        "extraction_file": str(extraction_path.relative_to(source_dir)),
+        "extraction_file": extraction_key,
         "extracted_at": datetime.now(UTC).isoformat(),
         "extraction_error": None,
     })
     return payload
 
 
-def _update_source(source_dir: Path, source_id: str, updates: dict) -> None:
-    manifest = source_dir / "sources.json"
-    records = json.loads(manifest.read_text(encoding="utf-8"))
-    for record in records:
-        if record.get("source_id") == source_id:
-            record.update(updates)
-            break
-    temporary = source_dir / ".sources.json.tmp"
-    temporary.write_text(json.dumps(records, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    temporary.replace(manifest)
-
-
 def load_extraction(source_id: str, source_dir: Path = DEFAULT_SOURCE_DIR) -> dict | None:
-    path = source_dir / "extractions" / f"{source_id}.json"
-    if not path.is_file():
-        return None
-    return json.loads(path.read_text(encoding="utf-8"))
+    """Load extracted candidates from the configured persistence backend."""
+    return load_stored_extraction(source_id, source_dir)

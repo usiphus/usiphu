@@ -2,7 +2,7 @@ name: PostgreSQL integration
 
 on:
   push:
-    branches: ["feat/postgres-backend-compatibility"]
+    branches: ["feat/postgres-backend-compatibility", "feat/supabase-private-source-storage", "fix/supabase-storage-ci", "feat/durable-bank-and-report-storage-release"]
   pull_request:
     branches: ["main"]
 
@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: postgres-integration-${{ github.workflow }}-${{ github.ref }}
+  group: postgres-integration-${{ github.workflow }}-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
@@ -31,7 +31,6 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      USIPHU_TEST_POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/usiphu_test
       USIPHU_DATABASE_SSLMODE: disable
     steps:
       - uses: actions/checkout@v4
@@ -49,3 +48,5 @@ jobs:
           USIPHU_DATABASE_BACKEND: sqlite
       - name: Test persistence and faculty controls against PostgreSQL
         run: pytest -q tests/test_postgres_integration.py
+        env:
+          USIPHU_TEST_POSTGRES_URL: postgresql://postgres:postgres@localhost:5432/usiphu_test

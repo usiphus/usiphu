@@ -25,7 +25,10 @@ DATABASE_URL = os.getenv("USIPHU_TEST_POSTGRES_URL")
 pytestmark = pytest.mark.skipif(
     not DATABASE_URL, reason="Requires USIPHU_TEST_POSTGRES_URL for a disposable PostgreSQL database"
 )
-MIGRATION = Path(__file__).resolve().parents[1] / "migrations" / "0001_postgresql_schema.sql"
+MIGRATIONS = [
+    Path(__file__).resolve().parents[1] / "migrations" / "0001_postgresql_schema.sql",
+    Path(__file__).resolve().parents[1] / "migrations" / "0002_source_documents.sql",
+]
 
 CLINICAL_CHECKS = {
     "answer_verified": True,
@@ -49,9 +52,19 @@ EXAM = "https://auth.example/:faculty-exam"
 def postgres_schema():
     """Apply the versioned schema to the disposable CI database once."""
     with psycopg.connect(DATABASE_URL, sslmode=os.getenv("USIPHU_DATABASE_SSLMODE", "disable")) as conn:
-        for statement in MIGRATION.read_text(encoding="utf-8").split(";"):
-            if statement.strip():
-                conn.execute(statement)
+        existing_roles = {
+            row[0]
+            for row in conn.execute(
+                "SELECT rolname FROM pg_roles WHERE rolname IN ('anon', 'authenticated')"
+            ).fetchall()
+        }
+        for role in ("anon", "authenticated"):
+            if role not in existing_roles:
+                conn.execute(f"CREATE ROLE {role} NOLOGIN")
+        for migration in MIGRATIONS:
+            for statement in migration.read_text(encoding="utf-8").split(";"):
+                if statement.strip():
+                    conn.execute(statement)
     yield
 
 
@@ -66,8 +79,8 @@ def clean_postgres(monkeypatch, postgres_schema):
             "TRUNCATE TABLE shared_assessment_review_events, shared_assessment_reviews, "
             "faculty_question_review_events, faculty_role_events, faculty_reviewer_roles, "
             "faculty_question_reviews, question_attempts, review_events, review_states, "
-            "generated_drafts, learner_topic_progress, topic_progress, flashcards "
-            "RESTART IDENTITY CASCADE"
+            "generated_drafts, learner_topic_progress, topic_progress, flashcards, "
+            "source_documents RESTART IDENTITY CASCADE"
         )
 
 
@@ -210,3 +223,58 @@ def test_postgres_shared_assessment_queue_requires_independent_reviewers():
         "clinical",
         "exam",
     ]
+
+def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
+    from usiphu import source_inbox
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(source_inbox, "get_object_storage", lambda _root: fake)
+    record = source_inbox.save_source(
+        "faculty-paper.txt",
+        b"1) What is the diagnosis?\nA) Option one\nB) Option two\n",
+        specialty="Urology",
+        uploaded_by="https://auth.example/:faculty-clinical",
+    )
+    assert record["uploaded_by"] == "https://auth.example/:faculty-clinical"
+    assert source_inbox.list_sources()[0]["source_id"] == record["source_id"]
+    original_bytes = b"1) What is the diagnosis?\nA) Option one\nB) Option two\n"
+    assert source_inbox.read_source_bytes(record) == original_bytes
+    with pytest.raises(ValueError, match="already"):
+        source_inbox.save_source("copy.txt", original_bytes)
+    from usiphu.extraction import extract_source
+    from usiphu.question_review import save_candidate_review
+
+    payload = extract_source(record["source_id"])
+    assert payload["summary"]["mcq_candidates"] == 1
+    assert source_inbox.load_extraction(record["source_id"]) == payload
+    candidate = payload["mcq_candidates"][0]
+    save_candidate_review(
+        candidate["candidate_id"],
+        stem="Edited question prompt?",
+        options=candidate["options"],
+        specialty_id="urology",
+        topic_id="urinary-obstruction",
+        correct_option_id=None,
+        explanation="",
+        reviewer="Synthetic faculty reviewer",
+        answer_verified=False,
+    )
+    persisted = source_inbox.load_extraction(record["source_id"])
+    assert persisted["mcq_candidates"][0]["stem_extracted"] == "Edited question prompt?"
+    assert source_inbox.list_extractions()[0][1] == persisted
