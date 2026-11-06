@@ -8,7 +8,7 @@ metadata and object keys are stored in PostgreSQL in `source_documents`.
 
 In Supabase Dashboard → Storage → New bucket:
 
-- Name: `source-inbox` (or set `USIPHU_SUPABASE_STORAGE_BUCKET` to your chosen name)
+- Name: `usiphu-source-documents` (or set `USIPHU_SUPABASE_STORAGE_BUCKET` to your chosen name)
 - **Public bucket: OFF**
 - Maximum file size: 50 MB
 - Allowed MIME types: PDF, DOCX, MS Word, plain text, PNG and JPEG
@@ -35,7 +35,7 @@ USIPHU_FILE_STORAGE_BACKEND = "supabase"
 SUPABASE_DB_URL = "postgresql://..."
 SUPABASE_URL = "https://YOUR_PROJECT_REF.supabase.co"
 SUPABASE_SECRET_KEY = "sb_secret_..."  # server-only; apikey header only
-USIPHU_SUPABASE_STORAGE_BUCKET = "source-inbox"
+USIPHU_SUPABASE_STORAGE_BUCKET = "usiphu-source-documents"
 ```
 
 A legacy `SUPABASE_SERVICE_ROLE_KEY` is also accepted. New `sb_secret_...`
