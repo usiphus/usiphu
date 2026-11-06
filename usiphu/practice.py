@@ -1,5 +1,6 @@
 """Load, validate and filter versioned medical question banks and clinical cases."""
 import json
+import os
 from pathlib import Path
 
 from usiphu.models import MCQ, ClinicalCase
@@ -38,10 +39,25 @@ def load_questions(
         return _read_question_file(path, "custom-bank")
     questions = _read_question_file(DATA_DIR / "questions.json", "starter-medical-bank")
     directory = bank_dir or DATA_DIR / "question_banks"
+    remote_bank_enabled = os.getenv(
+        "USIPHU_FILE_STORAGE_BACKEND", "local"
+    ).strip().lower() == "supabase"
     if directory.exists():
         for bank_path in sorted(directory.glob("*.json")):
+            if remote_bank_enabled and bank_path.name == "past_papers_reviewed.json":
+                continue
             questions.extend(_read_question_file(bank_path, bank_path.stem))
-    # Pilot sign-off is stored in SQLite as an append-only faculty audit trail.
+    from usiphu.durable_documents import load_json_document, remote_documents_enabled
+    if remote_documents_enabled():
+        remote_bank = load_json_document(
+            "question-bank:past-papers-reviewed",
+            directory / "past_papers_reviewed.json",
+            {"questions": []},
+        )
+        questions.extend(
+            MCQ.model_validate(item) for item in remote_bank.get("questions", [])
+        )
+    # Pilot sign-off is stored in PostgreSQL as an append-only faculty audit trail.
     # Overlay the latest two-stage release state without mutating source JSON.
     from usiphu.faculty_review import faculty_release_statuses
 

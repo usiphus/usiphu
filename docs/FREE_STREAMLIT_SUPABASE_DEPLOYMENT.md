@@ -10,13 +10,15 @@ This is a $0 pilot target only, not an uptime-guaranteed or institutionally appr
 
 - PR #14 adds a driver-neutral database seam while keeping SQLite as the default.
 - PR #15 adds an opt-in PostgreSQL backend and the initial learner/faculty schema migration; its PostgreSQL integration workflow must be green before merging.
-- PR #16 adds private Supabase Storage for Source Inbox originals and extraction JSON, plus PostgreSQL source metadata. It is still a draft and its current-head CI must pass.
-- These PRs are stacked, open and unmerged. No Supabase project, bucket, Streamlit app or deployment has been provisioned.
-- Promoted question-bank and assessment-bank JSON, pilot-validation reports and the backup/export workflow still need durable cloud persistence.
+- PR #16 adds private Supabase Storage for Source Inbox originals and extraction JSON, plus PostgreSQL source metadata.
+- PR #17 fixes the Source Inbox integration fixture; its latest CI run passed (165 tests plus PostgreSQL integration).
+- PR #18 adds private document persistence for promoted MCQ/assessment banks and downloaded pilot-validation report snapshots, with SHA-256 verification and PostgreSQL metadata. Its CI is pending.
+- PRs #10, #12, #14, #15, #16 and #17 remain stacked and unmerged; PR #18 is stacked on #17. No Supabase project, bucket, Streamlit app or deployment has been provisioned.
+- Existing local data import, backup/export automation and a verified restore drill remain outstanding.
 
 ## Deployment blocker: incomplete cloud persistence
 
-USIPHU is not cloud-persistence-ready today. The runtime still defaults to SQLite until explicitly configured; PR #15's PostgreSQL backend is opt-in. PR #16 moves original Source Inbox files and extraction candidate JSON to private Supabase Storage when enabled, but reviewed question-bank/assessment-bank files and other generated reports still use the local filesystem. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
+USIPHU is not cloud-persistence-ready today. The runtime still defaults to SQLite until explicitly configured; PR #15's PostgreSQL backend is opt-in. PR #16 moves original Source Inbox files and extraction candidate JSON to private Supabase Storage when enabled. PR #18 adds cloud-backed storage for newly promoted reviewed question/assessment banks and explicitly downloaded pilot-validation report snapshots. The migration does not automatically import existing local files or banks. Streamlit Community Cloud hibernates apps after 12 hours without traffic, and its local filesystem must not be treated as durable storage.
 
 **Do not deploy with real learner, faculty, patient, or examination-source data until every persistent path is migrated, the current-head CI passes, and the restore drill succeeds.** Supabase credentials alone do not migrate SQLite or make local uploads durable.
 
@@ -69,13 +71,33 @@ Preserve the existing authorization invariants: issuer-qualified Auth0 identity;
 
 Use versioned SQL migrations, parameterized SQL, explicit transactions, foreign keys, check constraints, indexes, least-privilege database roles and PostgreSQL integration tests for every persistence method. SQLite-only tests are not sufficient.
 
-### 2. Durable Source Inbox migration
+### 2. Durable Source Inbox and bank documents
 
-PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). The remaining work is to migrate promoted/reviewed question-bank and assessment-bank JSON, pilot-validation reports and any other mutable file-backed state; build a dry-run-first import for existing local Source Inbox files; and verify upload/download/restore against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance.
+PR #16 implements private-bucket storage for original file bytes and extraction candidate JSON, plus PostgreSQL source metadata (including SHA-256 duplicate detection and uploader provenance). PR #18 adds private document objects and PostgreSQL pointers for promoted MCQ and written-assessment banks and explicitly downloaded pilot-validation report snapshots. The remaining work is a dry-run-first import for existing local Source Inbox files, manifests, extractions, promoted banks and historical reports; backup/restore automation; and verification against a real private bucket. Preserve original filename, opaque object key, upload time, title, specialty, exam year, notes, status and page provenance. Document reads verify SHA-256 before returning content.
 
 Do not create a public bucket or store file bytes as base64 in Postgres. Validate extension and size server-side. Check the caller's application role before upload, download, replacement or deletion.
 
-### 3. Auth0 and Streamlit configuration
+### 3. Import existing local content safely
+
+After PR #21 is merged and migrations 0001–0003 are applied, configure the two backend selectors and credentials in the hosting environment secret manager. Run the import utility from a trusted operator environment with access to the local data directory and Supabase project:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data
+```
+
+This is a read-only dry run. Review the validated source counts and JSON documents. Then run:
+
+```bash
+python scripts/migrate_to_supabase.py --source-dir data/source_inbox --data-dir data --apply
+```
+
+The apply path creates a local pre-import SQLite/Source Inbox/bank/report archive and verifies its SHA-256 before writing. It preserves source IDs and provenance, verifies local source checksums, refuses conflicting remote source IDs/checksums and refuses to overwrite a different remote bank/report document. It is resumable for records already imported and leaves original local data untouched. Store the backup on an encrypted, access-restricted disk and copy an encrypted backup off-provider; the utility local archive is not itself encrypted.
+
+Important: this utility imports Source Inbox objects, promoted JSON banks and the latest pilot report only. It does **not** migrate the SQLite learner/faculty tables. If any real learner progress, attempts, flashcards, generated drafts, reviewer roles or audit events exist, a separately reviewed SQLite-to-PostgreSQL data migration and reconciliation must be completed before switching that deployment. The repository may contain more than one SQLite file; identify the authoritative `USIPHU_DB_PATH` before any migration and pass it explicitly with `--database`.
+
+Run the utility first against a disposable Supabase project using synthetic files. Inspect the remote object inventory and PostgreSQL metadata after import. Do not use --apply against a live dataset until the restore procedure has been rehearsed.
+
+### 4. Auth0 and Streamlit configuration
 
 PR #10 adds a Streamlit Secrets-to-environment bridge for existing application settings. Keep that staging-readiness work in its own PR stack and merge it only after its own CI/review. Configure Streamlit Community Cloud secrets only after the PostgreSQL and Storage migrations are merged.
 
@@ -90,7 +112,7 @@ At deployment time:
 
 Never commit credentials, tokens, connection strings or private keys. Never paste them into GitHub issues, PRs or chat.
 
-### 4. Backup and recovery
+### 5. Backup and recovery
 
 Supabase Free does not include automatic daily backups. Before storing non-disposable data, implement scheduled PostgreSQL logical exports, private Storage object exports, encrypted off-provider copies, checksums, and periodic restore into a separate disposable PostgreSQL project or local instance. Measure recovery point and recovery time. A backup is not successful until database rows and sample source objects have been restored and verified.
 
@@ -99,7 +121,7 @@ Supabase Free does not include automatic daily backups. Before storing non-dispo
 - [ ] PostgreSQL replaces every production SQLite persistence path.
 - [ ] Mutable tables have reviewed migrations, constraints and indexes.
 - [ ] Authorization tests prove learner isolation and faculty stage separation against PostgreSQL.
-- [ ] Source Inbox uses private Storage and database-backed metadata.
+- [ ] Source Inbox and mutable promoted banks/reports use private Storage and database-backed metadata.
 - [ ] Upload, download, duplicate detection, extraction and restore tests pass.
 - [ ] Existing SQLite data has a tested, non-destructive export/import path if needed.
 - [ ] CI includes PostgreSQL integration tests.

@@ -28,6 +28,7 @@ pytestmark = pytest.mark.skipif(
 MIGRATIONS = [
     Path(__file__).resolve().parents[1] / "migrations" / "0001_postgresql_schema.sql",
     Path(__file__).resolve().parents[1] / "migrations" / "0002_source_documents.sql",
+    Path(__file__).resolve().parents[1] / "migrations" / "0003_app_documents.sql",
 ]
 
 CLINICAL_CHECKS = {
@@ -80,7 +81,7 @@ def clean_postgres(monkeypatch, postgres_schema):
             "faculty_question_review_events, faculty_role_events, faculty_reviewer_roles, "
             "faculty_question_reviews, question_attempts, review_events, review_states, "
             "generated_drafts, learner_topic_progress, topic_progress, flashcards, "
-            "source_documents RESTART IDENTITY CASCADE"
+            "source_documents, app_documents RESTART IDENTITY CASCADE"
         )
 
 
@@ -278,3 +279,178 @@ def test_postgres_source_metadata_and_private_object_adapter(monkeypatch):
     persisted = source_inbox.load_extraction(record["source_id"])
     assert persisted["mcq_candidates"][0]["stem_extracted"] == "Edited question prompt?"
     assert source_inbox.list_extractions()[0][1] == persisted
+
+
+
+def test_postgres_durable_json_document_round_trip_and_checksum(monkeypatch, tmp_path):
+    from usiphu import durable_documents
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+    path = tmp_path / "past_papers_reviewed.json"
+    payload = {
+        "bank_id": "past-papers-review-bank",
+        "questions": [{"id": "durable-test-question", "review_status": "draft"}],
+    }
+
+    durable_documents.save_json_document(
+        "question-bank:past-papers-reviewed", payload, path
+    )
+    assert durable_documents.load_json_document(
+        "question-bank:past-papers-reviewed", path
+    ) == payload
+
+    with pytest.raises(RuntimeError, match="checksum mismatch"):
+        object_key = next(iter(fake.objects))
+        fake.objects[object_key] = b'{"tampered": true}'
+        durable_documents.load_json_document(
+            "question-bank:past-papers-reviewed", path
+        )
+
+
+
+def test_postgres_remote_banks_and_pilot_report_are_read_and_written(monkeypatch, tmp_path):
+    from usiphu import durable_documents
+    from usiphu.assessment_review import load_assessments
+    from usiphu.pilot_validation import save_pilot_validation_report
+    from usiphu.practice import load_questions
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+
+    question = load_questions()[0].model_dump()
+    question["id"] = "remote-past-paper-test"
+    question["bank_id"] = "past-papers-review-bank"
+    durable_documents.save_json_document(
+        "question-bank:past-papers-reviewed",
+        {"bank_id": "past-papers-review-bank", "questions": [question]},
+        tmp_path / "past_papers_reviewed.json",
+    )
+    assert any(item.id == "remote-past-paper-test" for item in load_questions())
+
+    assessment = {"id": "remote-assessment-test", "prompt": "Synthetic test assessment"}
+    durable_documents.save_json_document(
+        "assessment-bank:reviewed-assessments",
+        {"bank_id": "reviewed-short-answer-meq", "assessments": [assessment]},
+        tmp_path / "reviewed_assessments.json",
+    )
+    assert load_assessments()[0]["id"] == "remote-assessment-test"
+
+    report = {"totals": {"source_files": 1}, "synthetic": True}
+    save_pilot_validation_report(report, source_dir=tmp_path / "inbox")
+    assert durable_documents.load_json_document(
+        "pilot-validation:latest",
+        tmp_path / "reports" / "pilot-validation-latest.json",
+    ) == report
+
+
+
+def test_supabase_import_is_resumable_and_preserves_source_provenance(monkeypatch, tmp_path):
+    import hashlib
+    import importlib.util
+    import json
+
+    from usiphu import durable_documents, object_storage
+    from usiphu.storage import connect
+
+    class FakeObjectStorage:
+        def __init__(self):
+            self.objects = {}
+
+        def upload(self, key, content, content_type, upsert=False):
+            if key in self.objects and not upsert:
+                raise ValueError("Object already exists")
+            self.objects[key] = content
+
+        def download(self, key):
+            return self.objects[key]
+
+        def delete(self, key):
+            self.objects.pop(key, None)
+
+    fake = FakeObjectStorage()
+    monkeypatch.setenv("USIPHU_FILE_STORAGE_BACKEND", "supabase")
+    monkeypatch.setattr(object_storage, "get_object_storage", lambda _root: fake)
+    monkeypatch.setattr(durable_documents, "get_object_storage", lambda _root: fake)
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location(
+        "migrate_to_supabase", root / "scripts" / "migrate_to_supabase.py"
+    )
+    migration = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(migration)
+
+    source_dir = tmp_path / "source_inbox"
+    (source_dir / "extractions").mkdir(parents=True)
+    original = b"synthetic source paper"
+    (source_dir / "paper.txt").write_bytes(original)
+    source_record = {
+        "source_id": "migration-source-001",
+        "stored_filename": "paper.txt",
+        "sha256": hashlib.sha256(original).hexdigest(),
+        "uploaded_at": "2026-11-05T00:00:00+00:00",
+        "uploaded_by": "https://auth.example/:faculty-a",
+        "title": "Synthetic paper",
+    }
+    (source_dir / "sources.json").write_text(
+        json.dumps([source_record]), encoding="utf-8"
+    )
+    extraction = {"source_id": "migration-source-001", "mcq_candidates": []}
+    (source_dir / "extractions" / "migration-source-001.json").write_text(
+        json.dumps(extraction), encoding="utf-8"
+    )
+
+    data_dir = tmp_path / "data"
+    bank_dir = data_dir / "question_banks"
+    bank_dir.mkdir(parents=True)
+    bank = {"bank_id": "past-papers-review-bank", "questions": []}
+    (bank_dir / "past_papers_reviewed.json").write_text(
+        json.dumps(bank), encoding="utf-8"
+    )
+
+    sources, documents = migration.inventory(source_dir, data_dir)
+    assert migration.apply_import(sources, documents, source_dir) == (2, 0)
+    assert migration.apply_import(sources, documents, source_dir) == (0, 2)
+
+    with connect() as db:
+        row = db.execute(
+            "SELECT sha256, extraction_key, metadata_json FROM source_documents "
+            "WHERE source_id = ?",
+            ("migration-source-001",),
+        ).fetchone()
+        assert row["sha256"] == source_record["sha256"]
+        assert row["extraction_key"] == "extractions/migration-source-001.json"
+        metadata = json.loads(row["metadata_json"])
+        assert metadata["uploaded_by"] == "https://auth.example/:faculty-a"
+    assert fake.download("sources/migration-source-001/paper.txt") == original
